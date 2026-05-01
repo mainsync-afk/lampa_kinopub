@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lampa kinopub plugin</title>
+<style>
+  :root { color-scheme: dark; }
+  body { font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+         background: #0e0e10; color: #e6e6e6; max-width: 760px; margin: 0 auto;
+         padding: 1.5rem 1rem 4rem; line-height: 1.55; }
+  h1 { font-size: 1.6rem; margin-top: 0; }
+  h2 { margin-top: 2rem; font-size: 1.15rem; border-bottom: 1px solid #2a2a2e;
+       padding-bottom: .25rem; }
+  code, pre { background: #1c1c20; border-radius: .3rem; }
+  code { padding: .1rem .3rem; }
+  pre { padding: .8rem 1rem; overflow-x: auto; }
+  a { color: #7cc4ff; }
+  .note { background: #1c1c20; border-left: 3px solid #7cc4ff; padding: .7rem 1rem;
+          margin: 1rem 0; border-radius: 0 .3rem .3rem 0; }
+  .ok  { color: #6dd06d; font-weight: 600; }
+  ul li { margin: .25rem 0; }
+</style>
+</head>
+<body>
+
+<h1>kinopub source plugin for Lampa</h1>
+
+<p>
+  Плагин-источник видео <strong>kinopub</strong> для приложения
+  <a href="https://github.com/yumata/lampa" target="_blank" rel="noopener">Lampa</a>.
+  Ориентирован на работу в Smart TV Samsung (Tizen), также работает на webOS, Android и
+  в браузере. Поддерживает встроенный плеер Lampa и Tizen AVPlayer.
+</p>
+
+<div class="note">
+  Прямая ссылка для добавления в Lampa: <br>
+  <code>https://mainsync-afk.github.io/lampa_kinopub/kp.js</code>
+</div>
+
+<h2>Установка</h2>
+<ol>
+  <li>В Lampa откройте <em>Настройки → Расширения</em>.</li>
+  <li>Нажмите <em>Добавить плагин</em>.</li>
+  <li>Введите URL: <code>https://mainsync-afk.github.io/lampa_kinopub/kp.js</code></li>
+  <li>Сохраните и перезапустите Lampa.</li>
+</ol>
+
+<h2>Авторизация</h2>
+<ol>
+  <li>Откройте карточку любого фильма или сериала и нажмите кнопку <strong>KinoPub</strong>.</li>
+  <li>На экране появится 5-значный код. Откройте на телефоне или ПК
+      <a href="https://kino.pub/device" target="_blank" rel="noopener">kino.pub/device</a>
+      и введите этот код.</li>
+  <li>После подтверждения плагин получит токен и автоматически продолжит работу.</li>
+</ol>
+
+<h2>Настройки</h2>
+<p>В <em>Настройки → KinoPub</em> доступны:</p>
+<ul>
+  <li><strong>URL лог-сервера</strong> — для отладки. Если пусто — логи только в browser console.</li>
+  <li><strong>Макс. качество</strong> — потолок битрейта при выборе потока (480p…2160p).</li>
+  <li><strong>Формат потока</strong> — HTTP (mp4), HLS, HLS v2/v4, Авто. На Tizen надёжнее HLS.</li>
+  <li><strong>CORS-прокси</strong> — необязательно. Заполняйте только если упёрлись в CORS.</li>
+  <li><strong>Авторизоваться / Выйти</strong> — управление сессией kinopub.</li>
+</ul>
+
+<h2>Удалённые логи</h2>
+<p>
+  Из-за того что встроенная консоль Lampa на ТВ неудобна для отладки, плагин умеет
+  слать логи на свой простой Node.js-сервер.
+</p>
+<pre><code>git clone https://github.com/mainsync-afk/lampa_kinopub
+cd lampa_kinopub/log-server
+node server.js</code></pre>
+<p>
+  В настройках плагина указать <code>http://&lt;ip-вашего-пк&gt;:8088</code> — и логи
+  плагина начнут падать в stdout сервера и в файл <code>logs/YYYY-MM-DD.log</code>.
+</p>
+
+<h2>Сборка</h2>
+<p>
+  Плагин — один файл <code>kp.js</code>, без транспиляции. Любые правки достаточно
+  закоммитить — GitHub Pages раздаст обновлённую версию по той же ссылке (с учётом кэша
+  браузера/ТВ).
+</p>
+
+<h2>Поддерживаемые платформы</h2>
+<ul>
+  <li><span class="ok">Samsung Tizen</span> — основная цель.</li>
+  <li>LG webOS</li>
+  <li>Android (Lampa + любые Android-плееры через <code>Player.runas('android')</code>)</li>
+  <li>Браузер (Lampa Web)</li>
+</ul>
+
+<h2>Лицензия и оговорка</h2>
+<p>
+  Плагин не аффилирован с kinopub. Используется публичный <code>xbmc</code>-клиент
+  Device Flow OAuth, известный сообществу неофициальных клиентов. Подписка на kinopub —
+  ответственность пользователя.
+</p>
+
+</body>
+</html>
