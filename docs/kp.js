@@ -23,7 +23,7 @@
    *  CONSTANTS                                                   *
    * ============================================================ */
 
-  var PLUGIN_VERSION  = '1.0.2';
+  var PLUGIN_VERSION  = '1.0.5';
   var COMPONENT_NAME  = 'online_kp';
   var BALANSER        = 'kpapi';
 
@@ -43,6 +43,7 @@
   var KEY_MAX_QUAL    = 'kp_max_quality';
   var KEY_FORMAT      = 'kp_format';
   var KEY_PROXY       = 'kp_proxy';
+  var KEY_SUBS        = 'kp_subtitles_enabled';
 
   /* ============================================================ *
    *  LOGGER                                                      *
@@ -371,6 +372,53 @@
       );
     }
 
+    /**
+     * Authenticated POST against /v1/...
+     * Used for settings updates. Body is x-www-form-urlencoded.
+     */
+    function apiPost(network, path, body, success, error, _retried) {
+      var url = API_HOST + '/v1' + path;
+      var t = tokenAccess();
+      if (!t) {
+        Logger.warn('api', 'no token', { path: path });
+        if (error) error({ status: 401 }, 'no_token');
+        return;
+      }
+      var bodyStr = '';
+      if (body && typeof body === 'object') {
+        var parts = [];
+        for (var k in body) {
+          if (body.hasOwnProperty(k) && body[k] !== undefined && body[k] !== null) {
+            parts.push(encodeURIComponent(k) + '=' + encodeURIComponent(body[k]));
+          }
+        }
+        bodyStr = parts.join('&');
+      } else {
+        bodyStr = String(body || '');
+      }
+      Logger.debug('api', 'POST ' + path, body);
+
+      call('POST', url, bodyStr,
+        { 'Authorization': 'Bearer ' + t, 'Content-Type': 'application/x-www-form-urlencoded' },
+        network,
+        function (json) { Logger.debug('api', 'POST ' + path + ' ok'); success(json); },
+        function (xhr, status) {
+          Logger.warn('api', 'POST ' + path + ' err', { http: xhr && xhr.status, status: status });
+          if (xhr && xhr.status === 401 && !_retried) {
+            refresh(network, function () {
+              apiPost(network, path, body, success, error, true);
+            }, function () {
+              clearTokens();
+              if (error) error(xhr, status);
+            });
+          } else {
+            if (error) error(xhr, status);
+          }
+        },
+        15000
+      );
+    }
+
     return {
       tokenAccess:     tokenAccess,
       hasToken:        function () { return !!tokenAccess(); },
@@ -390,6 +438,15 @@
       },
       profile: function (network, ok, err) {
         api(network, '/user', null, ok, err);
+      },
+      deviceInfo: function (network, ok, err) {
+        api(network, '/device/info', null, ok, err);
+      },
+      serverLocations: function (network, ok, err) {
+        api(network, '/references/server-location', null, ok, err);
+      },
+      saveDeviceSettings: function (network, deviceId, settings, ok, err) {
+        apiPost(network, '/device/' + deviceId + '/settings', settings, ok, err);
       }
     };
   })();
@@ -514,6 +571,94 @@
   }
 
   /* ============================================================ *
+   *  REGION SETUP                                                *
+   *  kinopub bakes ?loc=<region> into stream URLs based on the   *
+   *  device's serverLocation setting. Default for the xbmc       *
+   *  client is NL → laggy CDN. We pick a fast region (RU/UA/BY)  *
+   *  once after auth and write it back via POST /device/{id}/    *
+   *  settings.                                                   *
+   * ============================================================ */
+
+  function pickPreferredLocation(items) {
+    if (!items || !items.length) return null;
+    // Prefer Russia → Ukraine → Belarus, but fall back to anything
+    // whose name/location string suggests a CIS host.
+    var order = [/^ru$/i, /^ua$/i, /^by$/i, /russ/i, /росс/i, /europe/i];
+    for (var p = 0; p < order.length; p++) {
+      var rx = order[p];
+      for (var i = 0; i < items.length; i++) {
+        var l = items[i];
+        if (rx.test(l.location || '') || rx.test(l.name || '')) return l;
+      }
+    }
+    return items[0];
+  }
+
+  /**
+   * Run the full region-fixup pipeline. Idempotent.
+   * cb(ok: bool, locationName: string).
+   */
+  function setupRegion(force, cb) {
+    var done = function (ok, name) { try { cb && cb(!!ok, name || ''); } catch (e) {} };
+
+    if (!force && Lampa.Storage.get('kp_region_set', '') === '1') {
+      Logger.debug('region', 'already set, skipping');
+      return done(true, Lampa.Storage.get('kp_region_name', ''));
+    }
+    if (!KP.hasToken()) {
+      Logger.warn('region', 'no token, skipping');
+      return done(false);
+    }
+
+    var net = new Lampa.Reguest();
+    Logger.info('region', 'setup begin' + (force ? ' (forced)' : ''));
+
+    KP.deviceInfo(net, function (info) {
+      // server can return { device: {...} } OR flat { id, hardware, ... }
+      var device = (info && info.device) ? info.device : info;
+      var deviceId = device && (device.id || device.hardware);
+      if (!deviceId) {
+        Logger.error('region', 'no device id in /device/info', info);
+        return done(false);
+      }
+      Logger.info('region', 'device id', { id: deviceId });
+
+      KP.serverLocations(net, function (locs) {
+        var items = (locs && (locs.items || locs.locations)) || (Array.isArray(locs) ? locs : []);
+        if (!items.length) {
+          Logger.warn('region', 'no server locations available', locs);
+          return done(false);
+        }
+        Logger.debug('region', 'available locations', items.map(function (l) {
+          return { id: l.id, location: l.location, name: l.name };
+        }));
+
+        var pick = pickPreferredLocation(items);
+        if (!pick) return done(false);
+
+        Logger.info('region', 'picking location', { id: pick.id, name: pick.name, location: pick.location });
+
+        KP.saveDeviceSettings(net, deviceId, { serverLocation: pick.id }, function () {
+          Lampa.Storage.set('kp_region_set', '1');
+          Lampa.Storage.set('kp_region_name', pick.name || pick.location || '');
+          Lampa.Storage.set('kp_region_id', String(pick.id));
+          Logger.info('region', 'serverLocation applied', { id: pick.id });
+          done(true, pick.name || pick.location || '');
+        }, function (xhr, status) {
+          Logger.error('region', 'saveDeviceSettings failed', { http: xhr && xhr.status, status: status });
+          done(false);
+        });
+      }, function (xhr, status) {
+        Logger.error('region', 'list locations failed', { http: xhr && xhr.status, status: status });
+        done(false);
+      });
+    }, function (xhr, status) {
+      Logger.error('region', 'deviceInfo failed', { http: xhr && xhr.status, status: status });
+      done(false);
+    });
+  }
+
+  /* ============================================================ *
    *  AUTH MODAL                                                  *
    * ============================================================ */
 
@@ -600,6 +745,9 @@
         if (!auth_state.modalOpen) return;
         KP.pollDeviceToken(auth_state.network, device_code, function () {
           closeAuthModal('ok');
+          // Note: we do NOT touch device serverLocation here — kinopub has its
+          // own per-device UI for that. Plugin only offers a manual trigger in
+          // settings as a convenience.
           if (onSuccess) {
             try { onSuccess(); } catch (e) { Logger.error('auth', 'onSuccess threw', String(e)); }
           } else {
@@ -996,15 +1144,23 @@
         timeline: element.timeline,
         callback: element.mark
       };
-      var subs = buildSubtitles(element.kp.subtitles);
-      if (subs.length) {
-        play.subtitles = subs;
-        // Some Lampa builds + Tizen AVPlayer expect a single `subtitle` field for the
-        // initially active external track. We pass the first one as a hint.
-        play.subtitle = subs[0].url;
+
+      var subsAttached = 0;
+      var subsEnabled  = Lampa.Storage.get(KEY_SUBS, false);
+      if (subsEnabled) {
+        var subs = buildSubtitles(element.kp.subtitles);
+        if (subs.length) {
+          play.subtitles = subs;
+          subsAttached = subs.length;
+        }
       }
+
       Logger.debug('player', 'play-element built', {
-        title: play.title, url: play.url, q: stream.currentQuality, subs: subs.length
+        title:  play.title,
+        url:    play.url,
+        q:      stream.currentQuality,
+        subs:   subsAttached,
+        subsAvailable: (element.kp.subtitles || []).length
       });
       return play;
     }
@@ -1639,7 +1795,13 @@
   function addSettings() {
     // ensure default values exist so they appear in storage
     if (Lampa.Storage.get(KEY_MAX_QUAL, '') === '') Lampa.Storage.set(KEY_MAX_QUAL, '1080');
-    if (Lampa.Storage.get(KEY_FORMAT,   '') === '') Lampa.Storage.set(KEY_FORMAT,   'http');
+    // First default was 'http' (progressive MP4) — laggy on Tizen without ABR.
+    // Migrate stored value to 'hls4' once; user-changed values stay as-is via the flag.
+    if (Lampa.Storage.get('kp_format_migrated_v3', '') !== '1') {
+      Lampa.Storage.set(KEY_FORMAT, 'hls4');
+      Lampa.Storage.set('kp_format_migrated_v3', '1');
+    }
+    if (Lampa.Storage.get(KEY_FORMAT, '') === '') Lampa.Storage.set(KEY_FORMAT, 'hls4');
 
     if (!Lampa.SettingsApi) {
       Logger.warn('settings', 'Lampa.SettingsApi unavailable on this build, skipping settings');
@@ -1689,6 +1851,12 @@
 
     Lampa.SettingsApi.addParam({
       component: 'kp',
+      param: { name: KEY_SUBS, type: 'trigger', "default": false },
+      field: { name: Lampa.Lang.translate('kp_set_subs'), description: Lampa.Lang.translate('kp_set_subs_descr') }
+    });
+
+    Lampa.SettingsApi.addParam({
+      component: 'kp',
       param: { name: 'kp_action_logout', type: 'trigger', "default": false },
       field: { name: Lampa.Lang.translate('kp_set_logout'), description: Lampa.Lang.translate('kp_set_logout_descr') },
       onChange: function () {
@@ -1703,6 +1871,20 @@
       param: { name: 'kp_action_login', type: 'trigger', "default": false },
       field: { name: Lampa.Lang.translate('kp_set_login'), description: Lampa.Lang.translate('kp_set_login_descr') },
       onChange: function () { openAuthModal(); }
+    });
+
+    Lampa.SettingsApi.addParam({
+      component: 'kp',
+      param: { name: 'kp_action_region', type: 'trigger', "default": false },
+      field: { name: Lampa.Lang.translate('kp_set_region'), description: Lampa.Lang.translate('kp_set_region_descr') },
+      onChange: function () {
+        Lampa.Noty.show(Lampa.Lang.translate('kp_region_running'));
+        setupRegion(true, function (ok, name) {
+          Lampa.Noty.show(ok
+            ? Lampa.Lang.translate('kp_region_done') + ': ' + name
+            : Lampa.Lang.translate('kp_region_fail'));
+        });
+      }
     });
   }
 
@@ -1835,6 +2017,16 @@
         en: 'Optional. Address of CORS proxy if needed. Leave empty on Tizen.',
         ua: 'Не обовязково. Адреса CORS-проксі якщо потрібно.'
       },
+      kp_set_subs: {
+        ru: 'Внешние субтитры',
+        en: 'External subtitles',
+        ua: 'Зовнішні субтитри'
+      },
+      kp_set_subs_descr: {
+        ru: 'Передавать плееру URL .vtt-субтитров от kinopub. Если плеер виснет на старте — выключите.',
+        en: 'Attach kinopub .vtt subtitle URLs to the player. If playback hangs — turn off.',
+        ua: 'Передавати плеєру URL субтитрів kinopub. Якщо плеєр зависає - вимкніть.'
+      },
       kp_set_logout: {
         ru: 'Выйти из аккаунта',
         en: 'Logout',
@@ -1854,6 +2046,31 @@
         ru: 'Открыть окно с кодом для kino.pub/device',
         en: 'Open the kino.pub/device code dialog',
         ua: 'Відкрити вікно з кодом для kino.pub/device'
+      },
+      kp_set_region: {
+        ru: 'Авто-выбор региона CDN',
+        en: 'Auto-pick CDN region',
+        ua: 'Автовибір регіону CDN'
+      },
+      kp_set_region_descr: {
+        ru: 'Опционально. Полноценное управление настройками устройства доступно на kino.pub в разделе устройств. Эта кнопка - быстрый способ переключить kinopub на ближайший CDN (RU/UA/BY) одним нажатием.',
+        en: 'Optional shortcut. Full device-settings UI is available on kino.pub. This just switches the device to a CIS CDN (RU/UA/BY) in one tap.',
+        ua: 'Опціонально. Повне керування налаштуваннями пристрою доступне на kino.pub. Ця кнопка - швидке перемикання на найближчий CDN (RU/UA/BY).'
+      },
+      kp_region_running: {
+        ru: 'Перенастройка региона...',
+        en: 'Re-configuring region...',
+        ua: 'Переналаштування регіону...'
+      },
+      kp_region_done: {
+        ru: 'Регион',
+        en: 'Region',
+        ua: 'Регіон'
+      },
+      kp_region_fail: {
+        ru: 'Не удалось перенастроить регион (см. лог)',
+        en: 'Failed to re-configure region (see log)',
+        ua: 'Не вдалося переналаштувати регіон (див. лог)'
       },
       online_balanser_dont_work: {
         ru: 'Ничего не нашлось',
