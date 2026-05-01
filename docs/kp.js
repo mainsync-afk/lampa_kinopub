@@ -23,7 +23,7 @@
    *  CONSTANTS                                                   *
    * ============================================================ */
 
-  var PLUGIN_VERSION  = '1.0.1';
+  var PLUGIN_VERSION  = '1.0.2';
   var COMPONENT_NAME  = 'online_kp';
   var BALANSER        = 'kpapi';
 
@@ -378,8 +378,12 @@
       deviceCode:      deviceCode,
       pollDeviceToken: pollDeviceToken,
       refresh:         refresh,
-      search: function (network, query, ok, err) {
-        api(network, '/items', { q: query, perpage: 50 }, ok, err);
+      search: function (network, query, type, ok, err) {
+        // /v1/items/search?q=&field=title is the proper endpoint per kinoapi.com.
+        // /v1/items expects browsing-style filters (genre/year/etc), not a fulltext q.
+        var params = { q: query, field: 'title', perpage: 50 };
+        if (type) params.type = type;
+        api(network, '/items/search', params, ok, err);
       },
       item: function (network, id, ok, err) {
         api(network, '/items/' + id, null, ok, err);
@@ -408,6 +412,17 @@
     // strip latin diacritics ("Léon" -> "Leon") if NFD is supported
     try { s = s.normalize('NFD').replace(/[̀-ͯ]/g, ''); } catch (e) {}
     return s.toLowerCase().replace(/[^a-zЀ-ӿ0-9]/g, '');
+  }
+
+  /**
+   * kinopub stores title as "Русское / Original" (single field, separator " / ").
+   * Returns { rus, orig }; if no separator found, original is empty.
+   */
+  function splitKpTitle(t) {
+    var s = String(t || '');
+    var idx = s.indexOf(' / ');
+    if (idx > 0) return { rus: s.slice(0, idx).trim(), orig: s.slice(idx + 3).trim() };
+    return { rus: s, orig: '' };
   }
 
   function parseFiles(files) {
@@ -650,37 +665,81 @@
       var year = parseInt((object.movie.release_date || object.movie.first_air_date || '0000').slice(0, 4), 10);
       var orig = object.movie.original_name || object.movie.original_title || '';
       var rus  = object.movie.name || object.movie.title || '';
-      Logger.info('source', 'searchByTitle', { query: query, year: year, orig: orig });
+      // imdb id may live on the movie object itself or under external_ids
+      var imdbRaw = object.movie.imdb_id ||
+                    (object.movie.external_ids && object.movie.external_ids.imdb_id) ||
+                    '';
+      var imdbNum = imdbRaw ? parseInt(String(imdbRaw).replace(/^tt/i, ''), 10) : 0;
+      // serial detection: TMDB tv-show carries `name` and `first_air_date`
+      var isSerial = !!(object.movie.name || object.movie.first_air_date || object.movie.number_of_seasons);
+      var typeFilter = isSerial ? 'serial' : 'movie';
+
+      Logger.info('source', 'searchByTitle', {
+        query: query, year: year, orig: orig, rus: rus,
+        imdb: imdbRaw, imdbNum: imdbNum, type: typeFilter
+      });
 
       network.clear();
-      KP.search(network, query, function (json) {
+      KP.search(network, query, typeFilter, function (json) {
         var items = (json && json.items) || [];
         Logger.info('source', 'search ok', { count: items.length });
 
-        // 1) try exact match by year + original title
-        var card = items.find(function (c) {
-          var cy = parseInt((c.year || 0), 10);
-          return cy === year && normalize(c.orig_title || c.title) === normalize(orig || rus);
-        });
-
-        // 2) try year window + title
-        if (!card) {
-          card = items.find(function (c) {
-            var cy = parseInt((c.year || 0), 10);
-            return Math.abs(cy - year) <= 1 &&
-                   (normalize(c.orig_title) === normalize(orig) ||
-                    normalize(c.title) === normalize(rus));
+        if (items.length) {
+          // log top-5 raw candidates so we can see what kinopub actually returned
+          var preview = items.slice(0, 5).map(function (c) {
+            return { id: c.id, title: c.title, year: c.year, type: c.type, imdb: c.imdb };
           });
+          Logger.debug('source', 'top candidates', preview);
         }
 
-        // 3) only one — take it
-        if (!card && items.length === 1) card = items[0];
+        var card = null;
+
+        // 1) IMDB ID exact match — by far the most reliable, skips title noise
+        if (imdbNum) {
+          card = items.find(function (c) {
+            return parseInt(c.imdb || 0, 10) === imdbNum;
+          });
+          if (card) Logger.info('source', 'matched by imdb', { id: card.id, imdb: card.imdb });
+        }
+
+        // 2) type + year(±1) + parsed title match
+        if (!card) {
+          card = items.find(function (c) {
+            var cy = parseInt(c.year || 0, 10);
+            var t = splitKpTitle(c.title);
+            var typeOk = isSerial ? /serial|tvshow/i.test(c.type || '')
+                                  : !/serial|tvshow/i.test(c.type || '');
+            var titleOk = (orig && normalize(t.orig) === normalize(orig)) ||
+                          (rus  && normalize(t.rus)  === normalize(rus));
+            return typeOk && Math.abs(cy - year) <= 1 && titleOk;
+          });
+          if (card) Logger.info('source', 'matched by title+year+type', { id: card.id, year: card.year });
+        }
+
+        // 3) loose title+year (any type) — TMDB and kinopub may disagree on type
+        if (!card) {
+          card = items.find(function (c) {
+            var cy = parseInt(c.year || 0, 10);
+            var t = splitKpTitle(c.title);
+            return Math.abs(cy - year) <= 1 && (
+              (orig && normalize(t.orig) === normalize(orig)) ||
+              (rus  && normalize(t.rus)  === normalize(rus))
+            );
+          });
+          if (card) Logger.info('source', 'matched by title+year (loose)', { id: card.id });
+        }
+
+        // 4) single hit — trust it
+        if (!card && items.length === 1) {
+          card = items[0];
+          Logger.info('source', 'single result, taking it', { id: card.id });
+        }
 
         if (card) {
-          Logger.info('source', 'matched card', { id: card.id, title: card.title, year: card.year });
+          Logger.info('source', 'matched card', { id: card.id, title: card.title, year: card.year, type: card.type });
           self.find(card.id);
         } else if (items.length) {
-          Logger.info('source', 'showing similars', { count: items.length });
+          Logger.warn('source', 'no exact match, showing similars', { count: items.length });
           waitSimilars = true;
           component.similars(items.map(adaptSimilar));
           component.loading(false);
@@ -749,16 +808,17 @@
     /* ---------- internal helpers ---------- */
 
     function adaptSimilar(c) {
-      // map kinopub item summary to the fields filmix-like .similars() expects
+      // kinopub gives us `title` as "Русское / Original"; split for prettier display
+      var t = splitKpTitle(c.title);
       return {
         id:           c.id,
-        title:        c.title,
-        ru_title:     c.title,
-        en_title:     c.orig_title,
-        orig_title:   c.orig_title,
+        title:        t.rus || c.title,
+        ru_title:     t.rus,
+        en_title:     t.orig,
+        orig_title:   t.orig,
         year:         c.year,
         start_date:   c.year,
-        rating:       c.rating || c.imdb_rating || c.kinopoisk_rating,
+        rating:       c.imdb_rating || c.kinopoisk_rating || c.rating,
         countries:    c.countries ? c.countries.map(function (x) { return typeof x === 'string' ? x : (x.title || x.name); }) : [],
         categories:   c.genres ? c.genres.map(function (x) { return typeof x === 'string' ? x : (x.title || x.name); }) : [],
         filmId:       c.id
