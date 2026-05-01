@@ -23,7 +23,7 @@
    *  CONSTANTS                                                   *
    * ============================================================ */
 
-  var PLUGIN_VERSION  = '1.0.0';
+  var PLUGIN_VERSION  = '1.0.1';
   var COMPONENT_NAME  = 'online_kp';
   var BALANSER        = 'kpapi';
 
@@ -543,32 +543,43 @@
 
     var user_code = '';
     var device_code = '';
-    var prevController = (Lampa.Controller.enabled() || {}).name || 'content';
 
-    auth_state.modalOpen = true;
-    Lampa.Modal.open({
-      title: Lampa.Lang.translate('kp_auth_title'),
-      html:  modal,
-      size:  'medium',
-      onBack: function () {
-        closeAuthModal('back');
-        Lampa.Controller.toggle(prevController);
-      },
-      onSelect: function () {
-        if (!user_code) return;
-        Lampa.Utils.copyTextToClipboard(user_code, function () {
-          Lampa.Noty.show(Lampa.Lang.translate('kp_copied'));
-        }, function () {
-          Lampa.Noty.show(Lampa.Lang.translate('kp_copy_fail'));
-        });
+    // Show the Lampa.Modal only AFTER we receive user_code from kinopub.
+    // Opening it synchronously here (during the kpapi constructor) makes
+    // Lampa's activity-toggle close it as a side effect — same trick filmix uses.
+    function showModal() {
+      if ($('.modal').length) {
+        Logger.warn('auth', 'modal already exists, skipping open');
+        return;
       }
-    });
+      var prevController = (Lampa.Controller.enabled() || {}).name || 'content';
+      auth_state.modalOpen = true;
+      Lampa.Modal.open({
+        title: Lampa.Lang.translate('kp_auth_title'),
+        html:  modal,
+        size:  'medium',
+        onBack: function () {
+          closeAuthModal('back');
+          Lampa.Controller.toggle(prevController);
+        },
+        onSelect: function () {
+          if (!user_code) return;
+          Lampa.Utils.copyTextToClipboard(user_code, function () {
+            Lampa.Noty.show(Lampa.Lang.translate('kp_copied'));
+          }, function () {
+            Lampa.Noty.show(Lampa.Lang.translate('kp_copy_fail'));
+          });
+        }
+      });
+    }
 
     KP.deviceCode(auth_state.network, function (json) {
       device_code = json.code;
       user_code = json.user_code;
       var interval = (json.interval || 5) * 1000;
       modal.find('.selector').text(user_code);
+
+      showModal();
 
       auth_state.pingTimer = setInterval(function () {
         if (!auth_state.modalOpen) return;
