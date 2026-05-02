@@ -23,7 +23,7 @@
    *  CONSTANTS                                                   *
    * ============================================================ */
 
-  var PLUGIN_VERSION  = '1.0.5';
+  var PLUGIN_VERSION  = '1.0.6';
   var COMPONENT_NAME  = 'online_kp';
   var BALANSER        = 'kpapi';
 
@@ -167,6 +167,40 @@
       file: ev.filename, line: ev.lineno, col: ev.colno
     });
   });
+
+  // hook console.error so HLS / video / network errors that bubble through
+  // hls.js or Tizen AVPlayer get forwarded to our remote log.
+  (function () {
+    var origError = console.error;
+    var origWarn  = console.warn;
+    function format(args) {
+      try {
+        return Array.prototype.slice.call(args).map(function (a) {
+          if (a == null) return String(a);
+          if (typeof a === 'string') return a;
+          try { return JSON.stringify(a); } catch (e) { return String(a); }
+        }).join(' ');
+      } catch (e) { return ''; }
+    }
+    console.error = function () {
+      try {
+        var m = format(arguments);
+        if (/hls|video|m3u8|cdn|player|tizen|avplay|networkerror/i.test(m)) {
+          Logger.error('console', m.slice(0, 800));
+        }
+      } catch (e) {}
+      return origError.apply(console, arguments);
+    };
+    console.warn = function () {
+      try {
+        var m = format(arguments);
+        if (/hls|video|m3u8|player|tizen|avplay/i.test(m)) {
+          Logger.warn('console', m.slice(0, 800));
+        }
+      } catch (e) {}
+      return origWarn.apply(console, arguments);
+    };
+  })();
 
   Logger.info('boot', 'kp.js v' + PLUGIN_VERSION + ' starting', {
     session: Logger.session(),
@@ -460,8 +494,13 @@
     return q > 0 ? q : 1080;
   }
 
+  // Per-launch override (set from contextmenu "try in different format").
+  // Null means: fall back to user's saved KEY_FORMAT setting.
+  var formatOverride = null;
+
   function preferredFormat() {
-    return Lampa.Storage.get(KEY_FORMAT, 'http'); // http | hls | hls2 | hls4
+    if (formatOverride) return formatOverride;
+    return Lampa.Storage.get(KEY_FORMAT, 'hls4'); // http | hls | hls2 | hls4 | auto
   }
 
   function normalize(s) {
@@ -1582,6 +1621,7 @@
           if (Lampa.Platform.is('android')) menu.push({ title: Lampa.Lang.translate('player_lauch') + ' - Android', player: 'android' });
           menu.push({ title: Lampa.Lang.translate('player_lauch') + ' - Lampa', player: 'lampa' });
           menu.push({ title: Lampa.Lang.translate('online_video'), separator: true });
+          menu.push({ title: Lampa.Lang.translate('kp_try_format'), kpformat: true });
           menu.push({ title: Lampa.Lang.translate('torrent_parser_label_title'),        mark: true });
           menu.push({ title: Lampa.Lang.translate('torrent_parser_label_cancel_title'), unmark: true });
           menu.push({ title: Lampa.Lang.translate('time_reset'),                         timeclear: true });
@@ -1601,6 +1641,27 @@
               if (a.timeclearall) params.onClearAllTime();
               Lampa.Controller.toggle(enabled);
               if (a.player) { Lampa.Player.runas(a.player); params.html.trigger('hover:enter'); }
+              if (a.kpformat) {
+                var formats = [
+                  { title: 'HTTP / mp4',    fmt: 'http' },
+                  { title: 'HLS',           fmt: 'hls' },
+                  { title: 'HLS v2 (TS)',   fmt: 'hls2' },
+                  { title: 'HLS v4 (fMP4)', fmt: 'hls4' },
+                  { title: Lampa.Lang.translate('kp_format_clear'), fmt: null }
+                ];
+                Lampa.Select.show({
+                  title: Lampa.Lang.translate('kp_try_format'),
+                  items: formats,
+                  onBack: function () { Lampa.Controller.toggle(enabled); },
+                  onSelect: function (b) {
+                    formatOverride = b.fmt || null;
+                    Logger.info('format', 'override set', { fmt: formatOverride });
+                    Lampa.Controller.toggle(enabled);
+                    params.html.trigger('hover:enter');
+                  }
+                });
+                return;
+              }
               if (a.copylink) {
                 if (extra && extra.quality) {
                   var qual = [];
@@ -2022,6 +2083,16 @@
         en: 'External subtitles',
         ua: 'Зовнішні субтитри'
       },
+      kp_try_format: {
+        ru: 'Запустить в формате...',
+        en: 'Launch in format...',
+        ua: 'Запустити у форматі...'
+      },
+      kp_format_clear: {
+        ru: 'Сбросить (использовать настройку)',
+        en: 'Reset (use setting)',
+        ua: 'Скинути (використати налаштування)'
+      },
       kp_set_subs_descr: {
         ru: 'Передавать плееру URL .vtt-субтитров от kinopub. Если плеер виснет на старте — выключите.',
         en: 'Attach kinopub .vtt subtitle URLs to the player. If playback hangs — turn off.',
@@ -2133,6 +2204,27 @@
 
     if (Lampa.Manifest.app_digital >= 177) {
       Lampa.Storage.sync('online_choice_' + BALANSER, 'object_object');
+    }
+
+    // Subscribe to Lampa.Player events so we see WHAT the player tries to do
+    // and where it fails. Different Lampa builds expose different events;
+    // we log them all and let the user attach the relevant ones to bug reports.
+    try {
+      Lampa.Listener.follow('player', function (e) {
+        if (!e || !e.type) return;
+        var data = {};
+        if (e.url)      data.url      = String(e.url).slice(0, 200);
+        if (e.code != null)  data.code = e.code;
+        if (e.message)  data.message  = String(e.message).slice(0, 300);
+        if (e.error)    data.error    = String(e.error).slice(0, 300);
+        if (e.time != null)     data.time     = e.time;
+        if (e.duration != null) data.duration = e.duration;
+        // skip the high-frequency time-update event from spamming the log
+        if (e.type === 'timeupdate' || e.type === 'progress') return;
+        Logger.info('player-evt', e.type, Object.keys(data).length ? data : undefined);
+      });
+    } catch (err) {
+      Logger.warn('player-evt', 'cannot follow Lampa player listener', String(err));
     }
 
     Logger.info('boot', 'kp.js initialized');
