@@ -23,7 +23,7 @@
    *  CONSTANTS                                                   *
    * ============================================================ */
 
-  var PLUGIN_VERSION  = '1.0.11';
+  var PLUGIN_VERSION  = '1.0.12';
   var COMPONENT_NAME  = 'online_kp';
   var BALANSER        = 'kpapi';
 
@@ -1362,9 +1362,16 @@
         callback: element.mark
       };
 
-      // populate voice tracks so the player UI shows the audio selector
+      // populate voice tracks so the player UI shows the audio selector.
+      // IMPORTANT: on Tizen native player we DON'T pass voiceovers — letting
+      // AVPlayer auto-detect embedded audio tracks via getTotalTrackInfo()
+      // and switch via setSelectTrack(). Our list with same URL would override
+      // that and cause clicks to restart the stream instead of switching.
+      var player = detectActualPlayer();
       var voices = buildVoiceovers(element.kp.audios, stream.url);
-      if (voices.length) play.voiceovers = voices;
+      if (voices.length && player !== 'tizen') {
+        play.voiceovers = voices;
+      }
 
       var subsAttached = 0;
       var subsEnabled  = Lampa.Storage.get(KEY_SUBS, false);
@@ -1398,6 +1405,8 @@
         url:    play.url,
         q:      stream.currentQuality,
         voices: voices.length,
+        voicesAttached: !!play.voiceovers,
+        player: player || '(default)',
         subs:   subsAttached,
         subsAvailable: (element.kp.subtitles || []).length
       });
