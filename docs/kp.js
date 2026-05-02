@@ -23,7 +23,7 @@
    *  CONSTANTS                                                   *
    * ============================================================ */
 
-  var PLUGIN_VERSION  = '1.0.12';
+  var PLUGIN_VERSION  = '1.0.13';
   var COMPONENT_NAME  = 'online_kp';
   var BALANSER        = 'kpapi';
 
@@ -1363,15 +1363,18 @@
       };
 
       // populate voice tracks so the player UI shows the audio selector.
-      // IMPORTANT: on Tizen native player we DON'T pass voiceovers — letting
-      // AVPlayer auto-detect embedded audio tracks via getTotalTrackInfo()
-      // and switch via setSelectTrack(). Our list with same URL would override
-      // that and cause clicks to restart the stream instead of switching.
+      // We pass voiceovers ALWAYS (including Tizen) — earlier we tried omitting
+      // them on Tizen so AVPlayer's native track detection could take over, but
+      // that broke the player-instance lifecycle: first video plays OK, the
+      // SECOND launch crashes Lampa with no events emitted (process killed by
+      // OS, looks like resource leak — voiceovers UI cleanup path expected the
+      // list to exist). The cost: clicking a voiceover restarts the stream
+      // with the same URL on Tizen, so audio doesn't actually switch — that's
+      // the Phase B work in the backlog (hook AVPlayer.setSelectTrack instead
+      // of restart). Crash is the bigger issue, so we keep voiceovers attached.
       var player = detectActualPlayer();
       var voices = buildVoiceovers(element.kp.audios, stream.url);
-      if (voices.length && player !== 'tizen') {
-        play.voiceovers = voices;
-      }
+      if (voices.length) play.voiceovers = voices;
 
       var subsAttached = 0;
       var subsEnabled  = Lampa.Storage.get(KEY_SUBS, false);
@@ -1405,7 +1408,6 @@
         url:    play.url,
         q:      stream.currentQuality,
         voices: voices.length,
-        voicesAttached: !!play.voiceovers,
         player: player || '(default)',
         subs:   subsAttached,
         subsAvailable: (element.kp.subtitles || []).length
