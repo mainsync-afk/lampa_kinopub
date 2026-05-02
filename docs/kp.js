@@ -23,7 +23,7 @@
    *  CONSTANTS                                                   *
    * ============================================================ */
 
-  var PLUGIN_VERSION  = '1.0.13';
+  var PLUGIN_VERSION  = '1.0.14';
   var COMPONENT_NAME  = 'online_kp';
   var BALANSER        = 'kpapi';
 
@@ -586,6 +586,79 @@
   var formatOverride = null;
   var lastAutoFormatLogKey = null;
 
+  // Voice/audio-track state. When kpapi builds a play-element it sets
+  // pendingVoice = { idx, label }. The PlayerVideo.canplay hook below consumes
+  // it and calls the underlying player API to switch to that audio track,
+  // without restarting the stream. This is what makes voice selection (made in
+  // the source filter) actually take effect on Tizen / hls.js.
+  var pendingVoice = null;
+
+  /**
+   * Applies an audio-track switch on the currently active player. Idempotent —
+   * safe to call multiple times. Returns true if a backend handled it.
+   *
+   * Tizen native: webapis.avplay.setSelectTrack('AUDIO', native_idx)
+   * HTML5 + hls.js: hls.audioTrack = idx (Lampa might not expose hls instance,
+   *   we try a few common attachment patterns)
+   */
+  function applyVoiceTrack(idx) {
+    if (idx == null || idx < 0) return false;
+
+    // ── Tizen native AVPlayer ─────────────────────────────────────────
+    try {
+      if (window.webapis && window.webapis.avplay && typeof window.webapis.avplay.getTotalTrackInfo === 'function') {
+        var tracks = window.webapis.avplay.getTotalTrackInfo() || [];
+        var audios = [];
+        for (var i = 0; i < tracks.length; i++) {
+          if (tracks[i] && (tracks[i].type === 'AUDIO' || tracks[i].type === 1)) {
+            audios.push(tracks[i]);
+          }
+        }
+        if (idx < audios.length) {
+          var nativeIdx = (audios[idx].index != null) ? audios[idx].index : idx;
+          window.webapis.avplay.setSelectTrack('AUDIO', nativeIdx);
+          Logger.info('voice', 'switched via avplay', {
+            idx: idx, nativeIdx: nativeIdx, total: audios.length
+          });
+          return true;
+        }
+        Logger.warn('voice', 'avplay: idx out of range', { idx: idx, total: audios.length });
+      }
+    } catch (e) {
+      Logger.warn('voice', 'avplay setSelectTrack failed', String(e));
+    }
+
+    // ── HTML5 / hls.js ────────────────────────────────────────────────
+    try {
+      var video = document.querySelector('video');
+      if (video) {
+        // Try common attachment patterns. Lampa's bundle may not expose hls,
+        // in which case this fails silently and the stream plays in default
+        // audio track.
+        var hls = video.__hls__ || video._hls || video.hls ||
+                  (window.Lampa && window.Lampa.PlayerVideo && window.Lampa.PlayerVideo.hls);
+        if (hls && typeof hls.audioTrack !== 'undefined') {
+          hls.audioTrack = idx;
+          Logger.info('voice', 'switched via hls.js', { idx: idx });
+          return true;
+        }
+        // Native HTMLMediaElement.audioTracks (rare on TVs but spec'd)
+        if (video.audioTracks && video.audioTracks.length > idx) {
+          for (var t = 0; t < video.audioTracks.length; t++) {
+            video.audioTracks[t].enabled = (t === idx);
+          }
+          Logger.info('voice', 'switched via HTMLMediaElement.audioTracks', { idx: idx });
+          return true;
+        }
+      }
+    } catch (e) {
+      Logger.warn('voice', 'hls.js audioTrack failed', String(e));
+    }
+
+    Logger.warn('voice', 'no track switch backend available, stream stays on default audio');
+    return false;
+  }
+
   /**
    * Returns the active Lampa player choice: 'tizen', 'lampa', 'inner', 'webos',
    * 'android', or '' if not set. Used by `auto` format resolution.
@@ -630,6 +703,17 @@
     // strip latin diacritics ("Léon" -> "Leon") if NFD is supported
     try { s = s.normalize('NFD').replace(/[̀-ͯ]/g, ''); } catch (e) {}
     return s.toLowerCase().replace(/[^a-zЀ-ӿ0-9]/g, '');
+  }
+
+  /**
+   * Stable identifier for a kinopub audio track that survives across episodes
+   * of the same serial: combines language + author/type. We use it as the
+   * canonical "voice" handle persisted in storage / synced via CUB.
+   */
+  function voiceKey(a) {
+    if (!a) return '';
+    var t = (a.type && a.type.title) || '';
+    return (a.lang || '') + '|' + t;
   }
 
   /**
@@ -732,33 +816,6 @@
       if (t.trim()) names.push(t.trim());
     });
     return names.slice(0, 3).join(', ');
-  }
-
-  /**
-   * Build voiceovers array for Lampa.Player. kinopub stores all audio tracks
-   * as embedded variants of the SAME stream URL — so every voiceover entry
-   * points to the same `streamUrl`. Lampa's player UI (PlayerPanel.setTracks)
-   * renders the list as the "voice" button options. Whether selecting one
-   * actually switches the embedded audio depends on the underlying player
-   * (Tizen AVPlayer auto-detects, hls.js handles via internal API).
-   */
-  function buildVoiceovers(audios, streamUrl) {
-    if (!audios || !audios.length) return [];
-    return audios.map(function (a, idx) {
-      var typeTitle = (a.type && a.type.title) || '';
-      var lang      = a.lang || '';
-      var author    = (a.author && a.author.title) || '';
-      var name = typeTitle;
-      if (lang) name += (name ? ' ' : '') + lang;
-      if (author) name += (name ? ' / ' : '') + author;
-      if (!name) name = 'Track ' + (idx + 1);
-      return {
-        name:    name,
-        url:     streamUrl,
-        index:   idx,
-        'default': idx === 0
-      };
-    });
   }
 
   /* ============================================================ *
@@ -1134,7 +1191,11 @@
     this.filter = function (type, a, b) {
       Logger.debug('source', 'filter change', { type: a.stype, index: b.index });
       choice[a.stype] = b.index;
-      if (a.stype === 'voice') choice.voice_name = filterItems.voice[b.index] || '';
+      if (a.stype === 'voice') {
+        choice.voice_name = filterItems.voice[b.index] || '';
+        choice.voice_key  = (filterItems.voice_keys && filterItems.voice_keys[b.index]) || '';
+        Logger.info('voice', 'user picked', { name: choice.voice_name, key: choice.voice_key });
+      }
       component.reset();
       buildFilter();
       append(filtered());
@@ -1187,19 +1248,21 @@
 
       if (hasSeasons) {
         extract.type = 'serial';
-        // Build voices list: kinopub has audios per episode (embedded). We expose
-        // a "voice" filter that lists the union of audios as informational labels;
-        // selecting one doesn't change the URL — switching is handled by player.
+        // Build voices list as the union of audio tracks across all episodes.
+        // Each `voice` is the user-visible filter option; the actual audio
+        // switch happens in applyVoiceTrack() via player API once the stream
+        // is loaded (no URL difference per voice — kinopub embeds tracks).
         var voiceMap = {};
         item.seasons.forEach(function (s) {
           (s.episodes || []).forEach(function (ep) {
             (ep.audios || []).forEach(function (a) {
-              var key = (a.lang || '') + '|' + ((a.type && a.type.title) || '');
+              var key = voiceKey(a);
+              if (voiceMap[key]) return;
               voiceMap[key] = {
                 key:   key,
                 lang:  a.lang || '',
                 type:  (a.type && a.type.title) || '',
-                label: ((a.type && a.type.title) ? a.type.title + ' ' : '') + (a.lang || '')
+                label: ((a.type && a.type.title) ? a.type.title + ' ' : '') + (a.lang || '') || (a.lang || 'Track')
               };
             });
           });
@@ -1238,12 +1301,13 @@
         };
         var voiceMap2 = {};
         (v.audios || []).forEach(function (a) {
-          var key = (a.lang || '') + '|' + ((a.type && a.type.title) || '');
+          var key = voiceKey(a);
+          if (voiceMap2[key]) return;
           voiceMap2[key] = {
             key:   key,
             lang:  a.lang || '',
             type:  (a.type && a.type.title) || '',
-            label: ((a.type && a.type.title) ? a.type.title + ' ' : '') + (a.lang || '')
+            label: ((a.type && a.type.title) ? a.type.title + ' ' : '') + (a.lang || '') || (a.lang || 'Track')
           };
         });
         extract.voices = Object.keys(voiceMap2).map(function (k) { return voiceMap2[k]; });
@@ -1259,7 +1323,7 @@
     }
 
     function buildFilter() {
-      filterItems = { season: [], voice: [], voice_info: [] };
+      filterItems = { season: [], voice: [], voice_keys: [] };
 
       if (extract && extract.type === 'serial') {
         extract.seasons.forEach(function (s, i) {
@@ -1267,16 +1331,27 @@
         });
       }
       if (extract && extract.voices && extract.voices.length) {
-        extract.voices.forEach(function (v, i) {
-          filterItems.voice.push(v.label || v.lang || ('voice ' + (i + 1)));
-          filterItems.voice_info.push({ id: i + 1, key: v.key });
+        extract.voices.forEach(function (v) {
+          filterItems.voice.push(v.label || v.lang || 'Track');
+          filterItems.voice_keys.push(v.key);
         });
       }
 
-      if (choice.voice_name) {
-        var inx = filterItems.voice.map(function (v) { return v.toLowerCase(); }).indexOf(choice.voice_name.toLowerCase());
-        if (inx === -1) choice.voice = 0;
-        else if (inx !== choice.voice) choice.voice = inx;
+      // Restore the previously picked voice — match by stable voice_key first,
+      // fall back to label match (voice_name) for back-compat with old saves.
+      if (filterItems.voice_keys.length) {
+        var inx = -1;
+        if (choice.voice_key) {
+          inx = filterItems.voice_keys.indexOf(choice.voice_key);
+        }
+        if (inx === -1 && choice.voice_name) {
+          inx = filterItems.voice.map(function (v) { return v.toLowerCase(); })
+                                 .indexOf(choice.voice_name.toLowerCase());
+        }
+        if (inx === -1) inx = (choice.voice >= 0 && choice.voice < filterItems.voice.length) ? choice.voice : 0;
+        choice.voice      = inx;
+        choice.voice_key  = filterItems.voice_keys[inx] || '';
+        choice.voice_name = filterItems.voice[inx] || '';
       }
 
       component.filter(filterItems, choice);
@@ -1362,19 +1437,47 @@
         callback: element.mark
       };
 
-      // populate voice tracks so the player UI shows the audio selector.
-      // We pass voiceovers ALWAYS (including Tizen) — earlier we tried omitting
-      // them on Tizen so AVPlayer's native track detection could take over, but
-      // that broke the player-instance lifecycle: first video plays OK, the
-      // SECOND launch crashes Lampa with no events emitted (process killed by
-      // OS, looks like resource leak — voiceovers UI cleanup path expected the
-      // list to exist). The cost: clicking a voiceover restarts the stream
-      // with the same URL on Tizen, so audio doesn't actually switch — that's
-      // the Phase B work in the backlog (hook AVPlayer.setSelectTrack instead
-      // of restart). Crash is the bigger issue, so we keep voiceovers attached.
-      var player = detectActualPlayer();
-      var voices = buildVoiceovers(element.kp.audios, stream.url);
-      if (voices.length) play.voiceovers = voices;
+      // ── Voice selection ────────────────────────────────────────────────
+      // Filter is the canonical UI for picking voice (choice.voice_key).
+      // For each episode we resolve which audio-track index in this episode's
+      // `audios[]` corresponds to the chosen voice, then queue it via
+      // pendingVoice for the PlayerVideo.canplay hook to apply via
+      // setSelectTrack / hls.audioTrack — without restarting the stream.
+      //
+      // We still pass play.voiceovers but with ONE entry (the active voice).
+      // Two reasons to keep at least one entry:
+      //   1. Empty voiceovers on Tizen broke the player lifecycle in v1.0.12.
+      //   2. Single entry keeps player UI showing the active voice as label.
+      var player   = detectActualPlayer();
+      var audios   = element.kp.audios || [];
+      var voiceIdx = -1;
+      var voiceLabel = '';
+      if (choice && choice.voice_key) {
+        for (var ai = 0; ai < audios.length; ai++) {
+          if (voiceKey(audios[ai]) === choice.voice_key) {
+            voiceIdx = ai;
+            break;
+          }
+        }
+      }
+      if (voiceIdx === -1 && audios.length > 0) voiceIdx = 0;
+      if (voiceIdx >= 0 && audios[voiceIdx]) {
+        var aSel = audios[voiceIdx];
+        voiceLabel = (((aSel.type && aSel.type.title) ? aSel.type.title + ' ' : '') + (aSel.lang || '')).trim();
+        if (!voiceLabel) voiceLabel = aSel.lang || ('Track ' + (voiceIdx + 1));
+      }
+      pendingVoice = (voiceIdx >= 0)
+        ? { idx: voiceIdx, label: voiceLabel, key: (choice && choice.voice_key) || '' }
+        : null;
+
+      if (voiceIdx >= 0) {
+        play.voiceovers = [{
+          name:    voiceLabel,
+          url:     stream.url,
+          index:   voiceIdx,
+          'default': true
+        }];
+      }
 
       var subsAttached = 0;
       var subsEnabled  = Lampa.Storage.get(KEY_SUBS, false);
@@ -1404,12 +1507,14 @@
       };
 
       Logger.debug('player', 'play-element built', {
-        title:  play.title,
-        url:    play.url,
-        q:      stream.currentQuality,
-        voices: voices.length,
-        player: player || '(default)',
-        subs:   subsAttached,
+        title:    play.title,
+        url:      play.url,
+        q:        stream.currentQuality,
+        voiceIdx: voiceIdx,
+        voiceLabel: voiceLabel,
+        voicesAvailable: audios.length,
+        player:   player || '(default)',
+        subs:     subsAttached,
         subsAvailable: (element.kp.subtitles || []).length
       });
       return play;
@@ -1540,7 +1645,7 @@
       var data = Lampa.Storage.cache('online_choice_' + (for_balanser || balanser), 3000, {});
       var save = data[selected_id || object.movie.id] || {};
       Lampa.Arrays.extend(save, {
-        season: 0, voice: 0, voice_name: '', voice_id: 0,
+        season: 0, voice: 0, voice_name: '', voice_key: '', voice_id: 0,
         episodes_view: {}, movie_view: ''
       });
       return save;
@@ -2493,6 +2598,26 @@
               });
             });
           });
+
+        // Voice track switching — fired when audio backend has read tracks
+        // and the stream is ready. We try canplay first, then fall back to
+        // tracks event (hls.js fires it after loading), whichever comes first.
+        var voiceApplied = false;
+        function tryApplyPendingVoice(source) {
+          if (voiceApplied || !pendingVoice || pendingVoice.idx < 0) return;
+          Logger.debug('voice', 'apply via ' + source, pendingVoice);
+          if (applyVoiceTrack(pendingVoice.idx)) {
+            voiceApplied = true;
+          }
+        }
+        Lampa.PlayerVideo.listener.follow('canplay',    function () { tryApplyPendingVoice('canplay'); });
+        Lampa.PlayerVideo.listener.follow('loadeddata', function () { tryApplyPendingVoice('loadeddata'); });
+        Lampa.PlayerVideo.listener.follow('tracks',     function () { tryApplyPendingVoice('tracks'); });
+        // reset the one-shot guard when player is destroyed so next launch can apply again
+        Lampa.Player.listener.follow('destroy', function () {
+          voiceApplied = false;
+          pendingVoice = null;
+        });
       } else {
         Logger.warn('player-evt', 'Lampa.PlayerVideo.listener unavailable');
       }
