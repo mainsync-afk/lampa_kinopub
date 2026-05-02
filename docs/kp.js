@@ -23,7 +23,7 @@
    *  CONSTANTS                                                   *
    * ============================================================ */
 
-  var PLUGIN_VERSION  = '1.0.15';
+  var PLUGIN_VERSION  = '1.0.16';
   var COMPONENT_NAME  = 'online_kp';
   var BALANSER        = 'kpapi';
 
@@ -706,34 +706,54 @@
   }
 
   /**
-   * Stable identifier for a kinopub audio track that survives across episodes
-   * of the same serial. Combines language + type + author so that different
-   * studios with the same type (e.g. "Многоголосый LostFilm" vs "Многоголосый
-   * Кубик в Кубе") stay distinct. Used as the canonical "voice" handle
-   * persisted in storage / synced via CUB.
+   * Pull a codec/format string from a kinopub audio entry. Different fields
+   * have shown up across content: `codec`, `format.title`, `audio_codec`.
+   */
+  function audioCodec(a) {
+    if (!a) return '';
+    if (typeof a.codec === 'string') return a.codec;
+    if (a.format && a.format.title)  return a.format.title;
+    if (typeof a.audio_codec === 'string') return a.audio_codec;
+    return '';
+  }
+
+  /**
+   * Stable identifier for a kinopub audio track. Combines lang + type + author
+   * + codec so that AC3 vs AAC variants of the same dub stay distinct.
+   * Used as canonical "voice" handle, persisted in storage / synced via CUB.
    */
   function voiceKey(a) {
     if (!a) return '';
     var t  = (a.type   && a.type.title)   || '';
     var au = (a.author && a.author.title) || '';
-    return (a.lang || '') + '|' + t + '|' + au;
+    var c  = audioCodec(a);
+    return (a.lang || '') + '|' + t + '|' + au + '|' + c;
   }
 
   /**
-   * Pretty label for an audio track. Mirrors kinopub web UI format:
+   * Pretty label for an audio track. Prefer kinopub's pre-formatted display
+   * field if present (`name` / `title`) — those match the kinopub web UI
+   * exactly. Otherwise construct from parts:
    *   "Многоголосый LostFilm [RUS]"
-   *   "Дубляж [RUS]"
+   *   "Многоголосый AlexFilm [RUS] (AC3)"
    *   "Оригинал [ENG]"
-   * Lang is uppercased and bracketed, type and author are joined with spaces.
    */
   function voiceLabel(a) {
     if (!a) return '';
+    // 1) trust kinopub's own display string when API gives one
+    if (typeof a.name  === 'string' && a.name.trim())  return a.name.trim();
+    if (typeof a.title === 'string' && a.title.trim()) return a.title.trim();
+    // 2) construct from parts
     var parts = [];
     if (a.type   && a.type.title)   parts.push(a.type.title);
     if (a.author && a.author.title) parts.push(a.author.title);
     var label = parts.join(' ');
     if (a.lang) {
       label = (label ? label + ' ' : '') + '[' + String(a.lang).toUpperCase() + ']';
+    }
+    var c = audioCodec(a);
+    if (c) {
+      label = (label ? label + ' ' : '') + '(' + String(c).toUpperCase() + ')';
     }
     return label || '';
   }
@@ -1256,6 +1276,22 @@
         seasons: (item.seasons || []).length,
         videos:  (item.videos || []).length
       });
+      // Dump first audio entry verbatim — helps diagnose missing label fields
+      // (e.g. "(AC3)" suffix kinopub UI shows but our parser drops).
+      try {
+        var firstAudios = null;
+        if (item.seasons && item.seasons.length && item.seasons[0].episodes && item.seasons[0].episodes.length) {
+          firstAudios = item.seasons[0].episodes[0].audios;
+        } else if (item.videos && item.videos.length) {
+          firstAudios = item.videos[0].audios;
+        }
+        if (firstAudios && firstAudios.length) {
+          Logger.debug('source', 'sample audio entry [0]', firstAudios[0]);
+          if (firstAudios.length > 1) {
+            Logger.debug('source', 'sample audio entry [1]', firstAudios[1]);
+          }
+        }
+      } catch (e) { Logger.warn('source', 'audio sample dump failed', String(e)); }
       raw = item;
       extractData(item);
       buildFilter();
@@ -1499,6 +1535,11 @@
           index:   voiceIdx,
           'default': true
         }];
+        // also set top-level `translate` — some Lampa builds display this in
+        // the player UI as "current voice" label, separate from the voiceovers
+        // panel. Updates correctly whenever the user re-launches with a new
+        // voice picked from the source filter.
+        play.translate = pickedLabel;
       }
 
       var subsAttached = 0;
