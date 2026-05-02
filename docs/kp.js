@@ -23,7 +23,7 @@
    *  CONSTANTS                                                   *
    * ============================================================ */
 
-  var PLUGIN_VERSION  = '1.0.10';
+  var PLUGIN_VERSION  = '1.0.11';
   var COMPONENT_NAME  = 'online_kp';
   var BALANSER        = 'kpapi';
 
@@ -668,9 +668,12 @@
    */
   function pickStream(files, format, target) {
     if (!files || !files.length) return null;
+    // 'http' (progressive MP4) is intentionally NOT in any fallback list —
+    // it freezes on Tizen players. Real auto resolution happens in
+    // preferredFormat() before we get here, so 'auto' is just a defensive default.
     var fmtList = format === 'auto'
-      ? ['http', 'hls4', 'hls2', 'hls']
-      : [format, 'http', 'hls4', 'hls2', 'hls'];
+      ? ['hls4', 'hls2', 'hls']
+      : [format, 'hls4', 'hls2', 'hls'];
 
     function pickUrl(u) {
       for (var i = 0; i < fmtList.length; i++) {
@@ -1329,7 +1332,9 @@
      * If the chosen format fails (fatal MediaError), fall through this chain
      * looking for any URL we haven't tried yet for the same file.
      */
-    var FALLBACK_CHAIN = ['hls4', 'hls2', 'hls', 'http'];
+    // 'http' is intentionally excluded — kinopub's progressive MP4 freezes on
+    // every Tizen player tested. Falling back to it makes things worse, not better.
+    var FALLBACK_CHAIN = ['hls4', 'hls2', 'hls'];
 
     function nextFallbackUrl(element, triedSet) {
       // pick best file <= maxQ
@@ -1838,10 +1843,9 @@
               if (a.player) { Lampa.Player.runas(a.player); params.html.trigger('hover:enter'); }
               if (a.kpformat) {
                 var formats = [
-                  { title: 'HTTP / mp4',    fmt: 'http' },
-                  { title: 'HLS',           fmt: 'hls' },
-                  { title: 'HLS v2 (TS)',   fmt: 'hls2' },
                   { title: 'HLS v4 (fMP4)', fmt: 'hls4' },
+                  { title: 'HLS v2 (TS)',   fmt: 'hls2' },
+                  { title: 'HLS',           fmt: 'hls' },
                   { title: Lampa.Lang.translate('kp_format_clear'), fmt: null }
                 ];
                 Lampa.Select.show({
@@ -2061,6 +2065,9 @@
       Lampa.Storage.set('kp_format_migrated_v4', '1');
     }
     if (Lampa.Storage.get(KEY_FORMAT, '') === '') Lampa.Storage.set(KEY_FORMAT, 'auto');
+    // 'http' option was removed in v1.0.11 — progressive MP4 freezes on Tizen.
+    // Reset anyone explicitly stuck on it.
+    if (Lampa.Storage.get(KEY_FORMAT, '') === 'http') Lampa.Storage.set(KEY_FORMAT, 'auto');
 
     if (!Lampa.SettingsApi) {
       Logger.warn('settings', 'Lampa.SettingsApi unavailable on this build, skipping settings');
@@ -2100,8 +2107,7 @@
           'auto': Lampa.Lang.translate('kp_set_format_auto'),
           'hls4': 'HLS v4 (fMP4)',
           'hls2': 'HLS v2 (TS)',
-          'hls':  'HLS',
-          'http': 'HTTP / mp4'
+          'hls':  'HLS'
         },
         "default": 'auto'
       },
@@ -2263,8 +2269,8 @@
         ua: 'Формат потоку'
       },
       kp_set_format_descr: {
-        ru: 'Авто = подбирать формат под текущий плеер: HLS4 для нативного Tizen-плеера (4K + полная поддержка озвучек), HLS2 для встроенного плеера Lampa (стабильно, без зависаний на fMP4). HLS4/HLS2/HLS/HTTP — принудительно.',
-        en: 'Auto = pick format by current player: HLS4 for Tizen native player (4K + full audio tracks), HLS2 for Lampa built-in (stable, no fMP4 hangs). HLS4/HLS2/HLS/HTTP = forced.',
+        ru: 'Авто = подбирать формат под текущий плеер: HLS4 для нативного Tizen-плеера (4K + полная поддержка озвучек), HLS2 для встроенного плеера Lampa (стабильно, без зависаний на fMP4). HLS4/HLS2/HLS — принудительно.',
+        en: 'Auto = pick format by current player: HLS4 for Tizen native player (4K + full audio tracks), HLS2 for Lampa built-in (stable, no fMP4 hangs). HLS4/HLS2/HLS = forced.',
         ua: 'Авто = підбирати формат під плеєр: HLS4 для Tizen, HLS2 для вбудованого Lampa.'
       },
       kp_set_format_auto: {
