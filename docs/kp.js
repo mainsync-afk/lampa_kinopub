@@ -23,7 +23,7 @@
    *  CONSTANTS                                                   *
    * ============================================================ */
 
-  var PLUGIN_VERSION  = '1.0.6';
+  var PLUGIN_VERSION  = '1.0.7';
   var COMPONENT_NAME  = 'online_kp';
   var BALANSER        = 'kpapi';
 
@@ -59,7 +59,7 @@
     var endpoint    = '';
     var flushing    = false;
     var flushTimer  = null;
-    var FLUSH_DELAY = 1500;
+    var FLUSH_DELAY = 250; // fast flush so we don't miss player error bursts
 
     function readEndpoint() {
       var v = Lampa.Storage.get(KEY_LOG_URL, '') || '';
@@ -168,37 +168,50 @@
     });
   });
 
-  // hook console.error so HLS / video / network errors that bubble through
-  // hls.js or Tizen AVPlayer get forwarded to our remote log.
+  // hook console.error/warn/log so HLS / video / network errors that bubble
+  // through hls.js or Tizen AVPlayer get forwarded to our remote log.
   (function () {
     var origError = console.error;
     var origWarn  = console.warn;
+    var origLog   = console.log;
+    var KEEP = /hls|video|m3u8|cdn|player|tizen|avplay|networkerror|levelloaderror|fragloaderror|manifestloaderror|mediaerror|bufferappenderror|audiocodec|videocodec|fmp4|fragmented|track|src|fetch|xhr|ajax|cors|origin|kinopub|kp/i;
     function format(args) {
       try {
         return Array.prototype.slice.call(args).map(function (a) {
           if (a == null) return String(a);
           if (typeof a === 'string') return a;
+          if (a instanceof Error) return a.name + ': ' + a.message;
           try { return JSON.stringify(a); } catch (e) { return String(a); }
         }).join(' ');
       } catch (e) { return ''; }
     }
+    // ALL console.error reports (no filter — errors are rare, want every one)
     console.error = function () {
       try {
         var m = format(arguments);
-        if (/hls|video|m3u8|cdn|player|tizen|avplay|networkerror/i.test(m)) {
-          Logger.error('console', m.slice(0, 800));
-        }
+        // skip our own [KP:...] log echoes to avoid feedback
+        if (m.indexOf('[KP:') !== 0) Logger.error('console', m.slice(0, 1000));
       } catch (e) {}
       return origError.apply(console, arguments);
     };
     console.warn = function () {
       try {
         var m = format(arguments);
-        if (/hls|video|m3u8|player|tizen|avplay/i.test(m)) {
-          Logger.warn('console', m.slice(0, 800));
+        if (m.indexOf('[KP:') !== 0 && KEEP.test(m)) {
+          Logger.warn('console', m.slice(0, 1000));
         }
       } catch (e) {}
       return origWarn.apply(console, arguments);
+    };
+    // log filter is strict — too noisy otherwise
+    console.log = function () {
+      try {
+        var m = format(arguments);
+        if (m.indexOf('[KP:') !== 0 && KEEP.test(m)) {
+          Logger.debug('console', m.slice(0, 1000));
+        }
+      } catch (e) {}
+      return origLog.apply(console, arguments);
     };
   })();
 
@@ -607,6 +620,33 @@
       if (t.trim()) names.push(t.trim());
     });
     return names.slice(0, 3).join(', ');
+  }
+
+  /**
+   * Build voiceovers array for Lampa.Player. kinopub stores all audio tracks
+   * as embedded variants of the SAME stream URL — so every voiceover entry
+   * points to the same `streamUrl`. Lampa's player UI (PlayerPanel.setTracks)
+   * renders the list as the "voice" button options. Whether selecting one
+   * actually switches the embedded audio depends on the underlying player
+   * (Tizen AVPlayer auto-detects, hls.js handles via internal API).
+   */
+  function buildVoiceovers(audios, streamUrl) {
+    if (!audios || !audios.length) return [];
+    return audios.map(function (a, idx) {
+      var typeTitle = (a.type && a.type.title) || '';
+      var lang      = a.lang || '';
+      var author    = (a.author && a.author.title) || '';
+      var name = typeTitle;
+      if (lang) name += (name ? ' ' : '') + lang;
+      if (author) name += (name ? ' / ' : '') + author;
+      if (!name) name = 'Track ' + (idx + 1);
+      return {
+        name:    name,
+        url:     streamUrl,
+        index:   idx,
+        'default': idx === 0
+      };
+    });
   }
 
   /* ============================================================ *
@@ -1184,6 +1224,10 @@
         callback: element.mark
       };
 
+      // populate voice tracks so the player UI shows the audio selector
+      var voices = buildVoiceovers(element.kp.audios, stream.url);
+      if (voices.length) play.voiceovers = voices;
+
       var subsAttached = 0;
       var subsEnabled  = Lampa.Storage.get(KEY_SUBS, false);
       if (subsEnabled) {
@@ -1198,6 +1242,7 @@
         title:  play.title,
         url:    play.url,
         q:      stream.currentQuality,
+        voices: voices.length,
         subs:   subsAttached,
         subsAvailable: (element.kp.subtitles || []).length
       });
@@ -2206,25 +2251,57 @@
       Lampa.Storage.sync('online_choice_' + BALANSER, 'object_object');
     }
 
-    // Subscribe to Lampa.Player events so we see WHAT the player tries to do
-    // and where it fails. Different Lampa builds expose different events;
-    // we log them all and let the user attach the relevant ones to bug reports.
+    // Subscribe to several Lampa.Listener channels — different Lampa builds
+    // emit player events under different names. Log everything and filter out
+    // high-frequency events (timeupdate/progress).
+    var DENY_TYPES = { timeupdate: 1, progress: 1, time: 1, tick: 1 };
+    function logEvt(channel, e) {
+      if (!e || !e.type) return;
+      if (DENY_TYPES[e.type]) return;
+      var data = {};
+      if (e.url)               data.url      = String(e.url).slice(0, 200);
+      if (e.code != null)      data.code     = e.code;
+      if (e.message)           data.message  = String(e.message).slice(0, 400);
+      if (e.error)             data.error    = String(e.error).slice(0, 400);
+      if (e.time != null)      data.time     = e.time;
+      if (e.duration != null)  data.duration = e.duration;
+      if (e.status != null)    data.status   = e.status;
+      if (e.networkState != null) data.networkState = e.networkState;
+      if (e.readyState != null)   data.readyState   = e.readyState;
+      Logger.info('lampa-evt', channel + '/' + e.type, Object.keys(data).length ? data : undefined);
+    }
+    ['player', 'app', 'controller', 'activity', 'video'].forEach(function (ch) {
+      try {
+        Lampa.Listener.follow(ch, function (e) { logEvt(ch, e); });
+      } catch (err) {
+        Logger.warn('lampa-evt', 'cannot follow ' + ch, String(err));
+      }
+    });
+
+    // Direct delegate on any <video> element that gets created by Lampa.
+    // Captures HTMLMediaElement errors which often don't reach console.
     try {
-      Lampa.Listener.follow('player', function (e) {
-        if (!e || !e.type) return;
-        var data = {};
-        if (e.url)      data.url      = String(e.url).slice(0, 200);
-        if (e.code != null)  data.code = e.code;
-        if (e.message)  data.message  = String(e.message).slice(0, 300);
-        if (e.error)    data.error    = String(e.error).slice(0, 300);
-        if (e.time != null)     data.time     = e.time;
-        if (e.duration != null) data.duration = e.duration;
-        // skip the high-frequency time-update event from spamming the log
-        if (e.type === 'timeupdate' || e.type === 'progress') return;
-        Logger.info('player-evt', e.type, Object.keys(data).length ? data : undefined);
+      $(document).on('error', 'video', function (e) {
+        var v = e && e.target;
+        var err = v && v.error;
+        Logger.error('video-elem', 'native error', {
+          code: err && err.code,
+          message: err && err.message,
+          src: v && (v.currentSrc || v.src || '').slice(0, 200),
+          networkState: v && v.networkState,
+          readyState: v && v.readyState
+        });
+      });
+      $(document).on('stalled waiting abort', 'video', function (e) {
+        var v = e && e.target;
+        Logger.warn('video-elem', e.type, {
+          src: v && (v.currentSrc || v.src || '').slice(0, 200),
+          networkState: v && v.networkState,
+          readyState: v && v.readyState
+        });
       });
     } catch (err) {
-      Logger.warn('player-evt', 'cannot follow Lampa player listener', String(err));
+      Logger.warn('video-elem', 'delegate error handler failed', String(err));
     }
 
     Logger.info('boot', 'kp.js initialized');
