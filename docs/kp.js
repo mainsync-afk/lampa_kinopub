@@ -23,7 +23,7 @@
    *  CONSTANTS                                                   *
    * ============================================================ */
 
-  var PLUGIN_VERSION  = '1.0.21';
+  var PLUGIN_VERSION  = '1.0.22';
   var COMPONENT_NAME  = 'online_kp';
   var BALANSER        = 'kpapi';
 
@@ -954,6 +954,37 @@
   }
 
   /**
+   * Re-renders voice chips for every visible episode card. Called on
+   * Player/destroy so that episodes which just gained timeline.percent>0
+   * switch from green sidebar-pick chip to faded "watched" chip without
+   * waiting for the user to leave-and-reenter the source view.
+   *
+   * Each rendered card has `$(html).data('kp-card', {element, activeVoiceKey})`
+   * stashed by component.draw() — we use it to know per-card context.
+   */
+  function refreshAllKpVoiceChips() {
+    try {
+      var watchedMap = Lampa.Storage.cache('kp_episode_voice', 5000, {});
+      $('.online-prestige').each(function () {
+        var $card = $(this);
+        var data = $card.data('kp-card');
+        if (!data || !data.element) return;
+        var $voicesEl = $card.find('.kp-voices');
+        if (!$voicesEl.length) return;
+        var element = data.element;
+        var hasProgress = !!(element.timeline && element.timeline.percent > 0);
+        var watchedKey  = watchedMap[element.timeline_hash] || '';
+        $voicesEl.html(voiceChipsHtml(
+          (element.kp && element.kp.audios) || [],
+          data.activeVoiceKey || '',
+          watchedKey,
+          hasProgress
+        ));
+      });
+    } catch (e) { /* swallow — DOM-state-dependent */ }
+  }
+
+  /**
    * Pretty label for an audio track. Prefer kinopub's pre-formatted display
    * field if present (`name` / `title`) — those match the kinopub web UI
    * exactly. Otherwise construct from parts:
@@ -1459,12 +1490,16 @@
       if (a.stype === 'voice') {
         choice.voice_name = filterItems.voice[b.index] || '';
         choice.voice_key  = (filterItems.voice_keys && filterItems.voice_keys[b.index]) || '';
-        // Remember as the global default for any new series the user opens —
-        // saves them from picking same voice on every new card.
+        // Per-season-of-series memory of the picked voice. When the user
+        // returns to this season later, it auto-restores. Other seasons of
+        // the same series can have different defaults.
         if (choice.voice_key) {
-          try { Lampa.Storage.set('kp_last_voice_key', choice.voice_key); } catch (e) {}
+          if (!choice.voices_by_season) choice.voices_by_season = {};
+          if (typeof choice.season !== 'undefined' && choice.season !== null) {
+            choice.voices_by_season[choice.season] = choice.voice_key;
+          }
         }
-        Logger.info('voice', 'user picked', { name: choice.voice_name, key: choice.voice_key });
+        Logger.info('voice', 'user picked', { season: choice.season, name: choice.voice_name, key: choice.voice_key });
       }
       component.reset();
       buildFilter();
@@ -1628,20 +1663,24 @@
         filterItems.voice_keys.push(v.key);
       });
 
+      // Per-season-of-series voice memory. When user changes season, the
+      // voice they had picked for THAT season takes priority over whatever
+      // was saved as "current" voice_key (which was for the previous season).
+      if (choice.voices_by_season && typeof choice.season !== 'undefined' && choice.season !== null) {
+        var savedForSeason = choice.voices_by_season[choice.season];
+        if (savedForSeason) {
+          choice.voice_key = savedForSeason;
+        }
+      }
+
       // Restore the previously picked voice — priority order:
-      //   1. per-series voice_key (saved last time user picked here)
-      //   2. global "last picked across all series" (kp_last_voice_key)
-      //   3. legacy voice_name match (older saves)
-      //   4. last-known index, then 0
+      //   1. per-(series+season) voice_key (already loaded into choice.voice_key above)
+      //   2. legacy voice_name match (older saves)
+      //   3. last-known index, then 0
       if (filterItems.voice_keys.length) {
         var inx = -1;
         if (choice.voice_key) {
           inx = filterItems.voice_keys.indexOf(choice.voice_key);
-        }
-        if (inx === -1) {
-          var globalLast = '';
-          try { globalLast = Lampa.Storage.get('kp_last_voice_key', ''); } catch (e) {}
-          if (globalLast) inx = filterItems.voice_keys.indexOf(globalLast);
         }
         if (inx === -1 && choice.voice_name) {
           inx = filterItems.voice.map(function (v) { return v.toLowerCase(); })
@@ -2005,6 +2044,7 @@
       var save = data[selected_id || object.movie.id] || {};
       Lampa.Arrays.extend(save, {
         season: 0, voice: 0, voice_name: '', voice_key: '', voice_id: 0,
+        voices_by_season: {},
         episodes_view: {}, movie_view: ''
       });
       return save;
@@ -2294,6 +2334,11 @@
             } catch (e) {}
           };
 
+          // Stash element + active voice key on the DOM node so the global
+          // refreshAllKpVoiceChips() (called on Player/destroy) can re-render
+          // chips for cards that gained progress without a full source redraw.
+          html.data('kp-card', { element: element, activeVoiceKey: choice.voice_key || '' });
+
           html.on('hover:enter', function () {
             if (object.movie.id) Lampa.Favorite.add('history', object.movie, 100);
             if (params.onEnter) params.onEnter(element, html, {});
@@ -2523,11 +2568,10 @@
       ".kp-voice-chip.is-active{background:rgba(110,200,110,0.28);" +
         "border-color:rgba(110,200,110,0.6);color:#e6ffe6;font-weight:600}" +
       // is-watched = remembered voice for an in-progress / completed episode.
-      // Subtle gray underline via inset box-shadow — keeps chip shape, doesn't
-      // expand the visual footprint, indicates "watched here".
-      ".kp-voice-chip.is-watched{background:rgba(255,255,255,0.06);" +
-        "color:rgba(255,255,255,0.95);" +
-        "box-shadow:inset 0 -2px 0 rgba(220,220,220,0.6)}" +
+      // Faded gray look — "this track has done its job", muted vs default.
+      ".kp-voice-chip.is-watched{background:rgba(255,255,255,0.04);" +
+        "color:rgba(255,255,255,0.38);" +
+        "border-color:transparent}" +
       "</style>");
     $('body').append(Lampa.Template.get('online_prestige_css', {}, true));
   }
@@ -3001,6 +3045,12 @@
         // DOM injection for next-episode-name override
         Lampa.Player.listener.follow('start',   function () { setupNextEpisodeLabelOverride(); });
         Lampa.Player.listener.follow('destroy', function () { cleanupNextEpisodeLabelOverride(); });
+        // After the player closes, repaint chips on visible cards so episodes
+        // that just gained timeline progress flip from green to faded immediately.
+        Lampa.Player.listener.follow('destroy', function () {
+          // Small delay to let Lampa flush the timeline update before we read it.
+          setTimeout(refreshAllKpVoiceChips, 100);
+        });
       } else {
         Logger.warn('player-evt', 'Lampa.Player.listener unavailable');
       }
