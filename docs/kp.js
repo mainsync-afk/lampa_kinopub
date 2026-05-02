@@ -23,7 +23,7 @@
    *  CONSTANTS                                                   *
    * ============================================================ */
 
-  var PLUGIN_VERSION  = '1.0.16';
+  var PLUGIN_VERSION  = '1.0.17';
   var COMPONENT_NAME  = 'online_kp';
   var BALANSER        = 'kpapi';
 
@@ -593,6 +593,12 @@
   // the source filter) actually take effect on Tizen / hls.js.
   var pendingVoice = null;
 
+  // The currently active voice label, kept fresh whenever toPlayElement runs.
+  // Used by setupNextEpisodeLabelOverride() to repaint the
+  // `.player-panel__next-episode-name` DOM with the voice instead of the
+  // next-episode title (per user request — that hint is more useful here).
+  var currentVoiceLabel = '';
+
   /**
    * Applies an audio-track switch on the currently active player. Idempotent —
    * safe to call multiple times. Returns true if a backend handled it.
@@ -657,6 +663,60 @@
 
     Logger.warn('voice', 'no track switch backend available, stream stays on default audio');
     return false;
+  }
+
+  /**
+   * Replaces the text of `.player-panel__next-episode-name` (where Lampa shows
+   * "next episode title" hint near next/prev buttons) with the current voice
+   * label. Per Eugene's request: that area is more useful for showing which
+   * voice/dub is currently active than for previewing the next episode title
+   * (which is already in the playlist popup).
+   *
+   * Implemented via MutationObserver because Lampa re-sets the text every time
+   * PlayerPlaylist.set() fires — without observing we'd lose the override on
+   * any playlist refresh / next-prev navigation.
+   */
+  var nextLabelObserver = null;
+  function setupNextEpisodeLabelOverride() {
+    cleanupNextEpisodeLabelOverride(); // ensure single instance
+
+    setTimeout(function () {
+      var el = document.querySelector('.player-panel__next-episode-name');
+      if (!el) {
+        Logger.warn('player-ui', '.player-panel__next-episode-name not found in DOM (Lampa version may differ)');
+        return;
+      }
+
+      function applyLabel() {
+        if (!currentVoiceLabel) return;
+        if (el.textContent === currentVoiceLabel) return;
+        el.textContent = currentVoiceLabel;
+        // ensure not hidden — Lampa hides this element when there's no next ep
+        try { el.classList.remove('hide'); } catch (e) {}
+      }
+
+      applyLabel();
+
+      try {
+        nextLabelObserver = new MutationObserver(function () {
+          // defer to let Lampa's update settle, then override
+          setTimeout(applyLabel, 0);
+        });
+        nextLabelObserver.observe(el, {
+          childList: true, characterData: true, subtree: true, attributes: true, attributeFilter: ['class']
+        });
+        Logger.info('player-ui', 'next-episode-name override active', { label: currentVoiceLabel });
+      } catch (e) {
+        Logger.warn('player-ui', 'MutationObserver setup failed', String(e));
+      }
+    }, 150);
+  }
+
+  function cleanupNextEpisodeLabelOverride() {
+    if (nextLabelObserver) {
+      try { nextLabelObserver.disconnect(); } catch (e) {}
+      nextLabelObserver = null;
+    }
   }
 
   /**
@@ -1431,7 +1491,11 @@
             kp:           { kind: 'episode', files: ep.files, audios: ep.audios, subtitles: ep.subtitles },
             episode:      ep.number,
             season:       season.number,
+            // display title for the in-source episode list (filmix-style)
             title:        Lampa.Lang.translate('torrent_serial_episode') + ' ' + ep.number + (ep.title ? ' - ' + ep.title : ''),
+            // raw episode name from kinopub — used by toPlayElement to build
+            // clean player titles like "s1e3 Долгий день уходит в ночь"
+            ep_title:     ep.title || '',
             quality:      stream ? (stream.currentQuality + 'p ') : '',
             translation:  1,
             voice_name:   filterItems.voice[choice.voice] || '',
@@ -1489,8 +1553,24 @@
     function toPlayElement(element) {
       var stream = streamForElement(element, element.quality);
       if (!stream) return null;
+
+      // Title formatting:
+      //   serial episodes → "s1e3 Долгий день уходит в ночь"   (short, used in
+      //                                                          playlist popup)
+      //   movies          → just the movie title
+      // The MAIN player title gets a richer format (with series name) — that
+      // override happens in the onEnter handler below, just before play().
+      var displayTitle;
+      if (element.season && element.episode) {
+        var rawEpTitle = element.ep_title || '';
+        displayTitle = 's' + element.season + 'e' + element.episode +
+                       (rawEpTitle ? ' ' + rawEpTitle : '');
+      } else {
+        displayTitle = element.title || '';
+      }
+
       var play = {
-        title:    element.title,
+        title:    displayTitle,
         url:      stream.url,
         quality:  stream.quality,
         timeline: element.timeline,
@@ -1527,6 +1607,10 @@
       pendingVoice = (voiceIdx >= 0)
         ? { idx: voiceIdx, label: pickedLabel, key: (choice && choice.voice_key) || '' }
         : null;
+
+      // Keep the current-voice label fresh for the DOM override of
+      // .player-panel__next-episode-name (see setupNextEpisodeLabelOverride).
+      if (pickedLabel) currentVoiceLabel = pickedLabel;
 
       if (voiceIdx >= 0) {
         play.voiceovers = [{
@@ -1603,8 +1687,23 @@
           } else {
             playlist.push(play);
           }
+
+          // Override the MAIN player title with the rich format including the
+          // series name. Playlist items keep their short "s1e3 ..." format
+          // (built in toPlayElement) so the playlist popup stays compact.
+          //   Main:     "Извне s1e3 - Долгий день уходит в ночь"
+          //   Playlist: "s1e3 Долгий день уходит в ночь"
+          if (item.season && item.episode) {
+            var seriesName = (object.movie &&
+              (object.movie.name || object.movie.title || object.movie.original_name || object.movie.original_title)) || '';
+            var rawEpTitle = item.ep_title || '';
+            play.title = (seriesName ? seriesName + ' ' : '') +
+                         's' + item.season + 'e' + item.episode +
+                         (rawEpTitle ? ' - ' + rawEpTitle : '');
+          }
+
           if (playlist.length > 1) play.playlist = playlist;
-          Logger.info('player', 'launching', { url: play.url, playlist: playlist.length });
+          Logger.info('player', 'launching', { url: play.url, playlist: playlist.length, title: play.title });
           Lampa.Player.play(play);
           Lampa.Player.playlist(playlist);
           if (item.mark) item.mark();
@@ -2640,6 +2739,9 @@
         ['create', 'start', 'ready', 'destroy', 'external'].forEach(function (evt) {
           Lampa.Player.listener.follow(evt, function (e) { logEvt('Player', { type: evt }); });
         });
+        // DOM injection for next-episode-name override
+        Lampa.Player.listener.follow('start',   function () { setupNextEpisodeLabelOverride(); });
+        Lampa.Player.listener.follow('destroy', function () { cleanupNextEpisodeLabelOverride(); });
       } else {
         Logger.warn('player-evt', 'Lampa.Player.listener unavailable');
       }
