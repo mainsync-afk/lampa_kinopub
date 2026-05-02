@@ -23,7 +23,7 @@
    *  CONSTANTS                                                   *
    * ============================================================ */
 
-  var PLUGIN_VERSION  = '1.0.20';
+  var PLUGIN_VERSION  = '1.0.21';
   var COMPONENT_NAME  = 'online_kp';
   var BALANSER        = 'kpapi';
 
@@ -916,6 +916,44 @@
   }
 
   /**
+   * Build the voice-chips HTML for an episode card.
+   *
+   * Two indicator states (mutually exclusive, controlled by hasProgress):
+   *   hasProgress === false  → chip with `is-active` class for activeKey
+   *                            (soft green fill — "what plays if you click")
+   *   hasProgress === true   → chip with `is-watched` class for watchedKey
+   *                            (gray underline — "you watched this here")
+   *
+   * Dedupes by chipKey so AAC and AC3 variants of the same dub collapse into
+   * one chip; the indicator triggers if EITHER variant matches the relevant
+   * key. Card-level visibility filter applied (Оригинал/Одноголосый/Авторский
+   * hidden on cards but visible in sidebar).
+   */
+  function voiceChipsHtml(audios, activeKey, watchedKey, hasProgress) {
+    if (!audios || !audios.length) return '';
+    var byChip = {};
+    var order  = [];
+    audios.forEach(function (a) {
+      if (!isVoiceVisible(a, 'card')) return;
+      var k = chipKey(a);
+      if (!byChip[k]) {
+        byChip[k] = { audio: a, isActive: false, isWatched: false };
+        order.push(k);
+      }
+      var vk = voiceKey(a);
+      if (vk === activeKey)  byChip[k].isActive  = true;
+      if (vk === watchedKey) byChip[k].isWatched = true;
+    });
+    return order.map(function (k) {
+      var entry = byChip[k];
+      var classes = ['kp-voice-chip'];
+      if (hasProgress && entry.isWatched)        classes.push('is-watched');
+      else if (!hasProgress && entry.isActive)   classes.push('is-active');
+      return '<span class="' + classes.join(' ') + '">' + voiceChipText(entry.audio) + '</span>';
+    }).join('');
+  }
+
+  /**
    * Pretty label for an audio track. Prefer kinopub's pre-formatted display
    * field if present (`name` / `title`) — those match the kinopub web UI
    * exactly. Otherwise construct from parts:
@@ -1421,6 +1459,11 @@
       if (a.stype === 'voice') {
         choice.voice_name = filterItems.voice[b.index] || '';
         choice.voice_key  = (filterItems.voice_keys && filterItems.voice_keys[b.index]) || '';
+        // Remember as the global default for any new series the user opens —
+        // saves them from picking same voice on every new card.
+        if (choice.voice_key) {
+          try { Lampa.Storage.set('kp_last_voice_key', choice.voice_key); } catch (e) {}
+        }
         Logger.info('voice', 'user picked', { name: choice.voice_name, key: choice.voice_key });
       }
       component.reset();
@@ -1505,35 +1548,6 @@
       return order.map(function (k) { return voiceMap[k]; });
     }
 
-    /**
-     * Build the voice-chips HTML for an episode card. Dedupes by chipKey so
-     * AAC and AC3 variants of the same dub collapse into one chip. The chip
-     * is "active" if EITHER underlying voice_key (with any codec) is the
-     * user-picked voice in storage.
-     *
-     * Card-level visibility filter: UKR / Пучков / Одноголосый / Авторский /
-     * Оригинал are hidden here (still pickable in sidebar filter though).
-     */
-    function voiceChipsHtml(audios, activeKey) {
-      if (!audios || !audios.length) return '';
-      var byChip = {};
-      var order  = [];
-      audios.forEach(function (a) {
-        if (!isVoiceVisible(a, 'card')) return;
-        var k = chipKey(a);
-        if (!byChip[k]) {
-          byChip[k] = { audio: a, isActive: false };
-          order.push(k);
-        }
-        if (voiceKey(a) === activeKey) byChip[k].isActive = true;
-      });
-      return order.map(function (k) {
-        var entry = byChip[k];
-        var classes = ['kp-voice-chip'];
-        if (entry.isActive) classes.push('is-active');
-        return '<span class="' + classes.join(' ') + '">' + voiceChipText(entry.audio) + '</span>';
-      }).join('');
-    }
 
     function extractData(item) {
       extract = { type: 'movie', seasons: [], movie: null };
@@ -1614,12 +1628,20 @@
         filterItems.voice_keys.push(v.key);
       });
 
-      // Restore the previously picked voice — match by stable voice_key first,
-      // fall back to label match (voice_name) for back-compat with old saves.
+      // Restore the previously picked voice — priority order:
+      //   1. per-series voice_key (saved last time user picked here)
+      //   2. global "last picked across all series" (kp_last_voice_key)
+      //   3. legacy voice_name match (older saves)
+      //   4. last-known index, then 0
       if (filterItems.voice_keys.length) {
         var inx = -1;
         if (choice.voice_key) {
           inx = filterItems.voice_keys.indexOf(choice.voice_key);
+        }
+        if (inx === -1) {
+          var globalLast = '';
+          try { globalLast = Lampa.Storage.get('kp_last_voice_key', ''); } catch (e) {}
+          if (globalLast) inx = filterItems.voice_keys.indexOf(globalLast);
         }
         if (inx === -1 && choice.voice_name) {
           inx = filterItems.voice.map(function (v) { return v.toLowerCase(); })
@@ -1638,8 +1660,6 @@
       if (!extract) return [];
       var fmt = preferredFormat();
 
-      var activeVoiceKey = (choice && choice.voice_key) || '';
-
       if (extract.type === 'serial') {
         var season = extract.seasons[choice.season];
         if (!season) return [];
@@ -1657,10 +1677,11 @@
             quality:      stream ? (stream.currentQuality + 'p ') : '',
             translation:  1,
             voice_name:   filterItems.voice[choice.voice] || '',
-            // info kept empty here — voice/codec data goes into its own
-            // `voices` row (chips) below, info row remains for rating/year/etc
+            // info row stays for rating/year (set in draw()). voices is built
+            // in component.draw() because it depends on per-episode timeline
+            // progress and the watched-voice memory.
             info:         '',
-            voices:       voiceChipsHtml(ep.audios, activeVoiceKey)
+            voices:       ''
           };
         });
       } else if (extract.type === 'movie' && extract.movie) {
@@ -1672,7 +1693,7 @@
           translation: 1,
           voice_name:  filterItems.voice[choice.voice] || '',
           info:        '',
-          voices:      voiceChipsHtml(extract.movie.audios, activeVoiceKey)
+          voices:      ''
         }];
       }
       return [];
@@ -1863,6 +1884,19 @@
             play.title = (seriesName ? seriesName + ' ' : '') +
                          's' + item.season + 'e' + epPad +
                          (rawEpTitle ? ' - ' + rawEpTitle : '');
+          }
+
+          // Remember voice for this episode so the watched-indicator chip
+          // can show on next visit. Saved per timeline_hash (set in draw()).
+          if (item.season && pendingVoice && pendingVoice.key && item.timeline_hash) {
+            try {
+              var watchedMap = Lampa.Storage.cache('kp_episode_voice', 5000, {});
+              watchedMap[item.timeline_hash] = pendingVoice.key;
+              Lampa.Storage.set('kp_episode_voice', watchedMap);
+              Logger.debug('voice', 'remembered for episode', {
+                hash: item.timeline_hash, key: pendingVoice.key
+              });
+            } catch (e) { Logger.warn('voice', 'remember failed', String(e)); }
           }
 
           if (playlist.length > 1) play.playlist = playlist;
@@ -2134,6 +2168,8 @@
 
           var info = [];
           element.timeline = Lampa.Timeline.view(hash_timeline);
+          // Expose hash so onEnter can save remembered voice keyed by episode
+          element.timeline_hash = hash_timeline;
 
           if (episode) {
             element.title = episode.name;
@@ -2147,6 +2183,20 @@
           if (!serial && object.movie.tagline) info.push(object.movie.tagline);
           if (element.info) info.push(element.info);
           if (info.length) element.info = info.map(function (i) { return '<span>' + i + '</span>'; }).join('<span class="online-prestige-split">●</span>');
+
+          // Build voice chips with full progress + watched-voice context.
+          // Two indicator states (mutually exclusive):
+          //   timeline.percent > 0 → show watched chip (gray underline)
+          //   else                 → show active chip (soft green)
+          var watchedMap   = Lampa.Storage.cache('kp_episode_voice', 5000, {});
+          var watchedKey   = watchedMap[hash_timeline] || '';
+          var hasProgress  = !!(element.timeline && element.timeline.percent > 0);
+          element.voices = voiceChipsHtml(
+            (element.kp && element.kp.audios) || [],
+            (choice && choice.voice_key) || '',
+            watchedKey,
+            hasProgress
+          );
 
           var html  = Lampa.Template.get('online_prestige_full', element);
           var loader = html.find('.online-prestige__loader');
@@ -2220,6 +2270,28 @@
             element.timeline.time = 0;
             element.timeline.duration = 0;
             Lampa.Timeline.update(element.timeline);
+            // Drop the remembered voice for this episode — episode is "fresh" now
+            try {
+              var wmap = Lampa.Storage.cache('kp_episode_voice', 5000, {});
+              if (wmap[hash_timeline]) {
+                delete wmap[hash_timeline];
+                Lampa.Storage.set('kp_episode_voice', wmap);
+              }
+            } catch (e) {}
+            // Repaint chips so the gray underline disappears and the green
+            // sidebar-pick indicator takes over (now hasProgress = false).
+            try {
+              var voicesEl = html.find('.kp-voices');
+              if (voicesEl.length) {
+                var ch = self.getChoice();
+                voicesEl.html(voiceChipsHtml(
+                  (element.kp && element.kp.audios) || [],
+                  (ch && ch.voice_key) || '',
+                  '',
+                  false
+                ));
+              }
+            } catch (e) {}
           };
 
           html.on('hover:enter', function () {
@@ -2446,8 +2518,16 @@
       ".kp-voice-chip{display:inline-block;padding:.2em .55em;background:rgba(255,255,255,0.10);" +
         "border-radius:.3em;border:1px solid transparent;font-size:.78em;white-space:nowrap;" +
         "color:rgba(255,255,255,0.85)}" +
-      ".kp-voice-chip.is-active{background:rgba(255,255,255,0.42);border-color:rgba(255,255,255,0.7);" +
-        "color:#fff;font-weight:600}" +
+      // is-active = sidebar pick on a fresh (zero-progress) episode.
+      // Soft green fill — "this is what plays if you click".
+      ".kp-voice-chip.is-active{background:rgba(110,200,110,0.28);" +
+        "border-color:rgba(110,200,110,0.6);color:#e6ffe6;font-weight:600}" +
+      // is-watched = remembered voice for an in-progress / completed episode.
+      // Subtle gray underline via inset box-shadow — keeps chip shape, doesn't
+      // expand the visual footprint, indicates "watched here".
+      ".kp-voice-chip.is-watched{background:rgba(255,255,255,0.06);" +
+        "color:rgba(255,255,255,0.95);" +
+        "box-shadow:inset 0 -2px 0 rgba(220,220,220,0.6)}" +
       "</style>");
     $('body').append(Lampa.Template.get('online_prestige_css', {}, true));
   }
