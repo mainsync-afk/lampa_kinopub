@@ -23,7 +23,7 @@
    *  CONSTANTS                                                   *
    * ============================================================ */
 
-  var PLUGIN_VERSION  = '1.0.17';
+  var PLUGIN_VERSION  = '1.0.18';
   var COMPONENT_NAME  = 'online_kp';
   var BALANSER        = 'kpapi';
 
@@ -1555,16 +1555,17 @@
       if (!stream) return null;
 
       // Title formatting:
-      //   serial episodes → "s1e3 Долгий день уходит в ночь"   (short, used in
-      //                                                          playlist popup)
+      //   serial episodes → "s1e03 - Долгий день уходит в ночь"  (used in
+      //                                                            playlist popup)
       //   movies          → just the movie title
       // The MAIN player title gets a richer format (with series name) — that
       // override happens in the onEnter handler below, just before play().
       var displayTitle;
       if (element.season && element.episode) {
         var rawEpTitle = element.ep_title || '';
-        displayTitle = 's' + element.season + 'e' + element.episode +
-                       (rawEpTitle ? ' ' + rawEpTitle : '');
+        var epPad = ('0' + element.episode).slice(-2);
+        displayTitle = 's' + element.season + 'e' + epPad +
+                       (rawEpTitle ? ' - ' + rawEpTitle : '');
       } else {
         displayTitle = element.title || '';
       }
@@ -1689,16 +1690,17 @@
           }
 
           // Override the MAIN player title with the rich format including the
-          // series name. Playlist items keep their short "s1e3 ..." format
-          // (built in toPlayElement) so the playlist popup stays compact.
-          //   Main:     "Извне s1e3 - Долгий день уходит в ночь"
-          //   Playlist: "s1e3 Долгий день уходит в ночь"
+          // series name. Playlist items keep the same "sNeMM - title" format
+          // (built in toPlayElement) so the popup stays consistent.
+          //   Main:     "Извне s1e03 - Долгий день уходит в ночь"
+          //   Playlist: "s1e03 - Долгий день уходит в ночь"
           if (item.season && item.episode) {
             var seriesName = (object.movie &&
               (object.movie.name || object.movie.title || object.movie.original_name || object.movie.original_title)) || '';
             var rawEpTitle = item.ep_title || '';
+            var epPad = ('0' + item.episode).slice(-2);
             play.title = (seriesName ? seriesName + ' ' : '') +
-                         's' + item.season + 'e' + item.episode +
+                         's' + item.season + 'e' + epPad +
                          (rawEpTitle ? ' - ' + rawEpTitle : '');
           }
 
