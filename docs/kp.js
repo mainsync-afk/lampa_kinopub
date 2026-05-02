@@ -23,7 +23,7 @@
    *  CONSTANTS                                                   *
    * ============================================================ */
 
-  var PLUGIN_VERSION  = '1.0.8';
+  var PLUGIN_VERSION  = '1.0.9';
   var COMPONENT_NAME  = 'online_kp';
   var BALANSER        = 'kpapi';
 
@@ -494,6 +494,11 @@
       },
       saveDeviceSettings: function (network, deviceId, settings, ok, err) {
         apiPost(network, '/device/' + deviceId + '/settings', settings, ok, err);
+      },
+      deviceNotify: function (network, info, ok, err) {
+        // POST form-encoded title/hardware/software — kinoapi.com docs say
+        // "call after auth and on every plugin start"
+        apiPost(network, '/device/notify', info, ok, err);
       }
     };
   })();
@@ -501,6 +506,75 @@
   /* ============================================================ *
    *  HELPERS                                                     *
    * ============================================================ */
+
+  /**
+   * Build device identification fields for kinopub /v1/device/notify.
+   * Without this call kinopub UI shows three "unknown" lines.
+   */
+  function detectDeviceInfo() {
+    var ua = (typeof navigator !== 'undefined' && navigator.userAgent) || '';
+    var platform = 'browser';
+    var hardware = 'Web Browser';
+    var title    = 'Lampa';
+
+    try {
+      if (Lampa.Platform.is('tizen')) {
+        platform = 'tizen';
+        var mt = ua.match(/Tizen\s+([\d.]+)/i);
+        hardware = 'Samsung Tizen' + (mt ? ' ' + mt[1] : '');
+        title = 'Lampa (Samsung TV)';
+      } else if (Lampa.Platform.is('webos')) {
+        platform = 'webos';
+        var mw = ua.match(/Web0?[Oo]s\D*(\d+(?:\.\d+)?)/i) || ua.match(/webOS\.TV-(\d+)/i);
+        hardware = 'LG webOS' + (mw ? ' ' + mw[1] : '');
+        title = 'Lampa (LG TV)';
+      } else if (Lampa.Platform.is('android')) {
+        platform = 'android';
+        var ma = ua.match(/Android\s+([\d.]+)/i);
+        hardware = 'Android' + (ma ? ' ' + ma[1] : '');
+        title = 'Lampa (Android)';
+      } else if (Lampa.Platform.is('apple_tv')) {
+        platform = 'apple_tv';
+        hardware = 'Apple TV';
+        title = 'Lampa (Apple TV)';
+      } else if (Lampa.Platform.is('apple')) {
+        platform = 'ios';
+        var mi = ua.match(/OS\s+([\d_]+)/i);
+        hardware = 'iOS' + (mi ? ' ' + mi[1].replace(/_/g, '.') : '');
+        title = 'Lampa (iOS)';
+      } else {
+        var br = ua.match(/(Edg|Chrome|Firefox|Safari|Opera)\/([\d.]+)/);
+        hardware = br ? br[1].replace('Edg', 'Edge') + ' ' + br[2] : 'Web Browser';
+        title = 'Lampa (' + hardware + ')';
+      }
+    } catch (e) { /* keep defaults */ }
+
+    var lampaVer = (Lampa.Manifest && Lampa.Manifest.app_digital)
+      ? 'Lampa ' + Lampa.Manifest.app_digital
+      : 'Lampa';
+    var software = 'kp.js ' + PLUGIN_VERSION + ' / ' + lampaVer;
+
+    return { title: title, hardware: hardware, software: software, _platform: platform };
+  }
+
+  /**
+   * Send identity to kinopub. Idempotent — fine to call on every startup.
+   * Failures are logged but never blocked further work.
+   */
+  function notifyDeviceIdentity(network) {
+    if (!KP.hasToken()) return;
+    var info = detectDeviceInfo();
+    Logger.info('identity', 'sending /device/notify', info);
+    KP.deviceNotify(network, {
+      title:    info.title,
+      hardware: info.hardware,
+      software: info.software
+    }, function (resp) {
+      Logger.info('identity', 'notify ok', resp);
+    }, function (xhr, status) {
+      Logger.warn('identity', 'notify failed', { http: xhr && xhr.status, status: status });
+    });
+  }
 
   function maxQuality() {
     var q = parseInt(Lampa.Storage.get(KEY_MAX_QUAL, '1080'), 10);
@@ -827,6 +901,9 @@
           // Note: we do NOT touch device serverLocation here — kinopub has its
           // own per-device UI for that. Plugin only offers a manual trigger in
           // settings as a convenience.
+          // Send device identity once we have token so kinopub UI shows
+          // a friendly name instead of three "unknown".
+          notifyDeviceIdentity(new Lampa.Reguest());
           if (onSuccess) {
             try { onSuccess(); } catch (e) { Logger.error('auth', 'onSuccess threw', String(e)); }
           } else {
@@ -2286,6 +2363,9 @@
       }, function () {
         Logger.warn('auth', 'profile check failed');
       });
+      // Refresh device identity on every startup — kinoapi.com docs recommend
+      // this so kinopub UI keeps device record up-to-date with current OS/build.
+      notifyDeviceIdentity(new Lampa.Reguest());
     } else {
       Logger.info('auth', 'no token at startup');
     }
