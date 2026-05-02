@@ -23,7 +23,7 @@
    *  CONSTANTS                                                   *
    * ============================================================ */
 
-  var PLUGIN_VERSION  = '1.0.18';
+  var PLUGIN_VERSION  = '1.0.19';
   var COMPONENT_NAME  = 'online_kp';
   var BALANSER        = 'kpapi';
 
@@ -791,6 +791,118 @@
   }
 
   /**
+   * Studios → short abbreviations for the chip badges on episode cards.
+   * Unknown studios get an auto-fallback (first letters of words, then
+   * first 4 chars).
+   */
+  var STUDIO_ABBR = {
+    'AlexFilm':       'AF',
+    'TVShows':        'TVS',
+    'LostFilm':       'LF',
+    'LE-Production':  'LE',
+    'Red Head Sound': 'RHS',
+    '1W':             '1W',
+    'Кубик в Кубе':   'КвК',
+    'Selena':         'SLN',
+    'Fox Crime':      'FxC',
+    'Foxlight':       'FxL'
+  };
+
+  /**
+   * Voice TYPE → short label, used when there's no author and kinopub didn't
+   * supply a `short_title` for the type.
+   */
+  var TYPE_SHORT = {
+    'Многоголосый':       'MVO',
+    'Двухголосый':        'DVO',
+    'Одноголосый':        'AVO',
+    'Дубляж':             'Дуб',
+    'Оригинал':           'Orig',
+    'Авторский':          'Авт',
+    'Профессиональный':   'Pro'
+  };
+
+  /**
+   * Voices matching ANY of these patterns are hidden from BOTH the source
+   * filter sidebar AND the per-episode chips. Eugene's preference list.
+   */
+  var VOICE_HIDDEN_GLOBAL = [/UKR/i, /Пучков/i];
+
+  /**
+   * Hidden ONLY on episode cards (still pickable in sidebar filter — user can
+   * select a "single-voice" or "auteur" track if they really want).
+   */
+  var VOICE_HIDDEN_CARDS = [/Одноголосый/i, /Авторский/i];
+
+  function audioCheckString(a) {
+    if (!a) return '';
+    return [
+      a.lang || '',
+      (a.type   && a.type.title)   || '',
+      (a.author && a.author.title) || ''
+    ].join(' ');
+  }
+
+  /**
+   * Returns whether an audio track should appear in given context.
+   * @param context 'sidebar' or 'card'
+   */
+  function isVoiceVisible(a, context) {
+    var s = audioCheckString(a);
+    for (var i = 0; i < VOICE_HIDDEN_GLOBAL.length; i++) {
+      if (VOICE_HIDDEN_GLOBAL[i].test(s)) return false;
+    }
+    if (context === 'card') {
+      for (var j = 0; j < VOICE_HIDDEN_CARDS.length; j++) {
+        if (VOICE_HIDDEN_CARDS[j].test(s)) return false;
+      }
+    }
+    return true;
+  }
+
+  /**
+   * Short author/studio name. Uses STUDIO_ABBR map first, then auto-derives:
+   *   "Red Head Sound" → "RHS" (initials, 2-4 words)
+   *   "MyDubbingStudio" → "MyDu" (first 4 chars, single word)
+   */
+  function studioAbbr(name) {
+    if (!name) return '';
+    if (STUDIO_ABBR[name]) return STUDIO_ABBR[name];
+    var words = String(name).split(/[\s\-.]+/).filter(Boolean);
+    if (words.length >= 2 && words.length <= 4) {
+      return words.map(function (w) { return w.charAt(0).toUpperCase(); }).join('');
+    }
+    return name.substring(0, 4);
+  }
+
+  /**
+   * Build a single voice chip's textual content (just the inner label, no
+   * HTML wrapper). Composition:
+   *   <studio-or-type>[ <LANG>][·AC3]
+   * Examples: "AF", "AF EN", "AF·AC3", "MVO", "Orig EN".
+   */
+  function voiceChipText(a) {
+    if (!a) return '?';
+    var author = (a.author && a.author.title) || '';
+    var typeShort = (a.type && a.type.short_title) || '';
+    var typeFull  = (a.type && a.type.title) || '';
+
+    var primary;
+    if (author) primary = studioAbbr(author);
+    else if (typeShort) primary = typeShort;
+    else if (typeFull)  primary = TYPE_SHORT[typeFull] || typeFull.substring(0, 3);
+    else primary = '?';
+
+    var lang = (a.lang || '').toUpperCase();
+    if (lang && lang !== 'RUS' && lang !== 'RU') {
+      primary += ' ' + lang.substring(0, 3);
+    }
+
+    if (audioCodec(a) === 'ac3') primary += '·AC3';
+    return primary;
+  }
+
+  /**
    * Pretty label for an audio track. Prefer kinopub's pre-formatted display
    * field if present (`name` / `title`) — those match the kinopub web UI
    * exactly. Otherwise construct from parts:
@@ -1361,13 +1473,15 @@
     /**
      * Build a deduped, ordered voice list from a set of audio-track entries
      * (across one or more episodes). Returns [{ key, label }, ...] in
-     * first-seen order.
+     * first-seen order. Applies sidebar visibility filter (UKR / Пучков
+     * are hidden everywhere).
      */
     function voiceListFromAudios(audiosArrays) {
       var voiceMap = {};
       var order = [];
       (audiosArrays || []).forEach(function (audios) {
         (audios || []).forEach(function (a) {
+          if (!isVoiceVisible(a, 'sidebar')) return;
           var key = voiceKey(a);
           if (voiceMap[key]) return;
           var label = voiceLabel(a) || ('Track ' + (order.length + 1));
@@ -1376,6 +1490,23 @@
         });
       });
       return order.map(function (k) { return voiceMap[k]; });
+    }
+
+    /**
+     * Build the voice-chips HTML for an episode card, applying card-level
+     * visibility filter (UKR/Пучков + Одноголосый/Авторский hidden).
+     */
+    function voiceChipsHtml(audios, activeKey) {
+      if (!audios || !audios.length) return '';
+      var chips = [];
+      audios.forEach(function (a) {
+        if (!isVoiceVisible(a, 'card')) return;
+        var classes = ['kp-voice-chip'];
+        if (voiceKey(a) === activeKey) classes.push('is-active');
+        if (audioCodec(a) === 'ac3')   classes.push('has-ac3');
+        chips.push('<span class="' + classes.join(' ') + '">' + voiceChipText(a) + '</span>');
+      });
+      return chips.join('');
     }
 
     function extractData(item) {
@@ -1481,12 +1612,13 @@
       if (!extract) return [];
       var fmt = preferredFormat();
 
+      var activeVoiceKey = (choice && choice.voice_key) || '';
+
       if (extract.type === 'serial') {
         var season = extract.seasons[choice.season];
         if (!season) return [];
         return season.episodes.map(function (ep) {
           var stream = pickStream(ep.files, fmt);
-          var info   = audioInfo(ep.audios);
           return {
             kp:           { kind: 'episode', files: ep.files, audios: ep.audios, subtitles: ep.subtitles },
             episode:      ep.number,
@@ -1499,19 +1631,22 @@
             quality:      stream ? (stream.currentQuality + 'p ') : '',
             translation:  1,
             voice_name:   filterItems.voice[choice.voice] || '',
-            info:         info
+            // info kept empty here — voice/codec data goes into its own
+            // `voices` row (chips) below, info row remains for rating/year/etc
+            info:         '',
+            voices:       voiceChipsHtml(ep.audios, activeVoiceKey)
           };
         });
       } else if (extract.type === 'movie' && extract.movie) {
         var stream2 = pickStream(extract.movie.files, fmt);
-        var info2   = audioInfo(extract.movie.audios);
         return [{
           kp:          { kind: 'movie', files: extract.movie.files, audios: extract.movie.audios, subtitles: extract.movie.subtitles },
           title:       (object.movie && (object.movie.title || object.movie.name)) || '',
           quality:     stream2 ? (stream2.currentQuality + 'p ') : '',
           translation: 1,
           voice_name:  filterItems.voice[choice.voice] || '',
-          info:        info2
+          info:        '',
+          voices:      voiceChipsHtml(extract.movie.audios, activeVoiceKey)
         }];
       }
       return [];
@@ -2272,6 +2407,16 @@
       ".online-empty-template+.online-empty-template{margin-top:1em}" +
       ".online-empty__templates .online-empty-template:nth-child(2){opacity:.5}" +
       ".online-empty__templates .online-empty-template:nth-child(3){opacity:.2}" +
+      // — voice chips (kp.js v1.0.19) ——————————————————————————
+      ".kp-voices{margin-top:.6em;display:flex;flex-wrap:wrap;gap:.3em;line-height:1.2}" +
+      ".kp-voices:empty{display:none}" +
+      ".kp-voice-chip{display:inline-block;padding:.2em .55em;background:rgba(255,255,255,0.10);" +
+        "border-radius:.3em;border:1px solid transparent;font-size:.78em;white-space:nowrap;" +
+        "color:rgba(255,255,255,0.85)}" +
+      ".kp-voice-chip.is-active{background:rgba(255,255,255,0.42);border-color:rgba(255,255,255,0.7);" +
+        "color:#fff;font-weight:600}" +
+      ".kp-voice-chip.has-ac3{background:rgba(100,180,255,0.18);color:#cfe6ff}" +
+      ".kp-voice-chip.has-ac3.is-active{background:rgba(100,180,255,0.55);color:#fff}" +
       "</style>");
     $('body').append(Lampa.Template.get('online_prestige_css', {}, true));
   }
@@ -2290,6 +2435,7 @@
             '<div class="online-prestige__info">{info}</div>' +
             '<div class="online-prestige__quality">{quality}</div>' +
           '</div>' +
+          '<div class="kp-voices">{voices}</div>' +
         '</div>' +
       '</div>');
     Lampa.Template.add('online_does_not_answer',
