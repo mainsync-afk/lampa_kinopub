@@ -23,7 +23,7 @@
    *  CONSTANTS                                                   *
    * ============================================================ */
 
-  var PLUGIN_VERSION  = '1.0.19';
+  var PLUGIN_VERSION  = '1.0.20';
   var COMPONENT_NAME  = 'online_kp';
   var BALANSER        = 'kpapi';
 
@@ -780,7 +780,7 @@
   /**
    * Stable identifier for a kinopub audio track. Combines lang + type + author
    * + codec so that AC3 vs AAC variants of the same dub stay distinct.
-   * Used as canonical "voice" handle, persisted in storage / synced via CUB.
+   * Used as canonical "voice" handle in filter / storage.
    */
   function voiceKey(a) {
     if (!a) return '';
@@ -788,6 +788,19 @@
     var au = (a.author && a.author.title) || '';
     var c  = audioCodec(a);
     return (a.lang || '') + '|' + t + '|' + au + '|' + c;
+  }
+
+  /**
+   * "Chip-level" key — like voiceKey but WITHOUT codec. Used to dedupe chips
+   * on episode cards: AAC and AC3 variants of the same dub collapse into one
+   * chip (cleaner UI), and the chip is "active" if EITHER variant is the
+   * current voice_key in storage.
+   */
+  function chipKey(a) {
+    if (!a) return '';
+    var t  = (a.type   && a.type.title)   || '';
+    var au = (a.author && a.author.title) || '';
+    return (a.lang || '') + '|' + t + '|' + au;
   }
 
   /**
@@ -830,9 +843,9 @@
 
   /**
    * Hidden ONLY on episode cards (still pickable in sidebar filter — user can
-   * select a "single-voice" or "auteur" track if they really want).
+   * select a "single-voice" / "auteur" / "original" track if they really want).
    */
-  var VOICE_HIDDEN_CARDS = [/Одноголосый/i, /Авторский/i];
+  var VOICE_HIDDEN_CARDS = [/Одноголосый/i, /Авторский/i, /Оригинал/i];
 
   function audioCheckString(a) {
     if (!a) return '';
@@ -877,9 +890,10 @@
 
   /**
    * Build a single voice chip's textual content (just the inner label, no
-   * HTML wrapper). Composition:
-   *   <studio-or-type>[ <LANG>][·AC3]
-   * Examples: "AF", "AF EN", "AF·AC3", "MVO", "Orig EN".
+   * HTML wrapper). Codec is INTENTIONALLY not appended — AAC and AC3 variants
+   * of the same dub are grouped into a single chip (deduped by chipKey).
+   *   <studio-or-type>[ <LANG>]
+   * Examples: "AF", "AF EN", "MVO", "Orig EN".
    */
   function voiceChipText(a) {
     if (!a) return '?';
@@ -898,7 +912,6 @@
       primary += ' ' + lang.substring(0, 3);
     }
 
-    if (audioCodec(a) === 'ac3') primary += '·AC3';
     return primary;
   }
 
@@ -1493,20 +1506,33 @@
     }
 
     /**
-     * Build the voice-chips HTML for an episode card, applying card-level
-     * visibility filter (UKR/Пучков + Одноголосый/Авторский hidden).
+     * Build the voice-chips HTML for an episode card. Dedupes by chipKey so
+     * AAC and AC3 variants of the same dub collapse into one chip. The chip
+     * is "active" if EITHER underlying voice_key (with any codec) is the
+     * user-picked voice in storage.
+     *
+     * Card-level visibility filter: UKR / Пучков / Одноголосый / Авторский /
+     * Оригинал are hidden here (still pickable in sidebar filter though).
      */
     function voiceChipsHtml(audios, activeKey) {
       if (!audios || !audios.length) return '';
-      var chips = [];
+      var byChip = {};
+      var order  = [];
       audios.forEach(function (a) {
         if (!isVoiceVisible(a, 'card')) return;
-        var classes = ['kp-voice-chip'];
-        if (voiceKey(a) === activeKey) classes.push('is-active');
-        if (audioCodec(a) === 'ac3')   classes.push('has-ac3');
-        chips.push('<span class="' + classes.join(' ') + '">' + voiceChipText(a) + '</span>');
+        var k = chipKey(a);
+        if (!byChip[k]) {
+          byChip[k] = { audio: a, isActive: false };
+          order.push(k);
+        }
+        if (voiceKey(a) === activeKey) byChip[k].isActive = true;
       });
-      return chips.join('');
+      return order.map(function (k) {
+        var entry = byChip[k];
+        var classes = ['kp-voice-chip'];
+        if (entry.isActive) classes.push('is-active');
+        return '<span class="' + classes.join(' ') + '">' + voiceChipText(entry.audio) + '</span>';
+      }).join('');
     }
 
     function extractData(item) {
@@ -2407,16 +2433,21 @@
       ".online-empty-template+.online-empty-template{margin-top:1em}" +
       ".online-empty__templates .online-empty-template:nth-child(2){opacity:.5}" +
       ".online-empty__templates .online-empty-template:nth-child(3){opacity:.2}" +
-      // — voice chips (kp.js v1.0.19) ——————————————————————————
-      ".kp-voices{margin-top:.6em;display:flex;flex-wrap:wrap;gap:.3em;line-height:1.2}" +
+      // — voice chips inline in footer (kp.js v1.0.20) ————————————
+      // Footer was originally `space-between` — override to `flex-start` so
+      // info / voices / quality line up left-to-right with voices flush
+      // against quality on the right.
+      ".online-prestige__footer{justify-content:flex-start}" +
+      ".online-prestige__info{flex:1 1 auto;min-width:0;overflow:hidden}" +
+      ".kp-voices{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:.3em;" +
+        "margin:0 .8em 0 .5em;flex-shrink:1;line-height:1.2}" +
       ".kp-voices:empty{display:none}" +
+      ".online-prestige__quality{flex-shrink:0;padding-left:0}" +
       ".kp-voice-chip{display:inline-block;padding:.2em .55em;background:rgba(255,255,255,0.10);" +
         "border-radius:.3em;border:1px solid transparent;font-size:.78em;white-space:nowrap;" +
         "color:rgba(255,255,255,0.85)}" +
       ".kp-voice-chip.is-active{background:rgba(255,255,255,0.42);border-color:rgba(255,255,255,0.7);" +
         "color:#fff;font-weight:600}" +
-      ".kp-voice-chip.has-ac3{background:rgba(100,180,255,0.18);color:#cfe6ff}" +
-      ".kp-voice-chip.has-ac3.is-active{background:rgba(100,180,255,0.55);color:#fff}" +
       "</style>");
     $('body').append(Lampa.Template.get('online_prestige_css', {}, true));
   }
@@ -2433,9 +2464,9 @@
           '<div class="online-prestige__timeline"></div>' +
           '<div class="online-prestige__footer">' +
             '<div class="online-prestige__info">{info}</div>' +
+            '<div class="kp-voices">{voices}</div>' +
             '<div class="online-prestige__quality">{quality}</div>' +
           '</div>' +
-          '<div class="kp-voices">{voices}</div>' +
         '</div>' +
       '</div>');
     Lampa.Template.add('online_does_not_answer',
