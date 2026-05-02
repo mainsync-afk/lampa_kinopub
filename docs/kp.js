@@ -23,7 +23,7 @@
    *  CONSTANTS                                                   *
    * ============================================================ */
 
-  var PLUGIN_VERSION  = '1.0.14';
+  var PLUGIN_VERSION  = '1.0.15';
   var COMPONENT_NAME  = 'online_kp';
   var BALANSER        = 'kpapi';
 
@@ -707,13 +707,35 @@
 
   /**
    * Stable identifier for a kinopub audio track that survives across episodes
-   * of the same serial: combines language + author/type. We use it as the
-   * canonical "voice" handle persisted in storage / synced via CUB.
+   * of the same serial. Combines language + type + author so that different
+   * studios with the same type (e.g. "Многоголосый LostFilm" vs "Многоголосый
+   * Кубик в Кубе") stay distinct. Used as the canonical "voice" handle
+   * persisted in storage / synced via CUB.
    */
   function voiceKey(a) {
     if (!a) return '';
-    var t = (a.type && a.type.title) || '';
-    return (a.lang || '') + '|' + t;
+    var t  = (a.type   && a.type.title)   || '';
+    var au = (a.author && a.author.title) || '';
+    return (a.lang || '') + '|' + t + '|' + au;
+  }
+
+  /**
+   * Pretty label for an audio track. Mirrors kinopub web UI format:
+   *   "Многоголосый LostFilm [RUS]"
+   *   "Дубляж [RUS]"
+   *   "Оригинал [ENG]"
+   * Lang is uppercased and bracketed, type and author are joined with spaces.
+   */
+  function voiceLabel(a) {
+    if (!a) return '';
+    var parts = [];
+    if (a.type   && a.type.title)   parts.push(a.type.title);
+    if (a.author && a.author.title) parts.push(a.author.title);
+    var label = parts.join(' ');
+    if (a.lang) {
+      label = (label ? label + ' ' : '') + '[' + String(a.lang).toUpperCase() + ']';
+    }
+    return label || '';
   }
 
   /**
@@ -1240,35 +1262,34 @@
       append(filtered());
     }
 
+    /**
+     * Build a deduped, ordered voice list from a set of audio-track entries
+     * (across one or more episodes). Returns [{ key, label }, ...] in
+     * first-seen order.
+     */
+    function voiceListFromAudios(audiosArrays) {
+      var voiceMap = {};
+      var order = [];
+      (audiosArrays || []).forEach(function (audios) {
+        (audios || []).forEach(function (a) {
+          var key = voiceKey(a);
+          if (voiceMap[key]) return;
+          var label = voiceLabel(a) || ('Track ' + (order.length + 1));
+          voiceMap[key] = { key: key, label: label };
+          order.push(key);
+        });
+      });
+      return order.map(function (k) { return voiceMap[k]; });
+    }
+
     function extractData(item) {
-      extract = { type: 'movie', voices: [], seasons: [], movie: null };
+      extract = { type: 'movie', seasons: [], movie: null };
 
       var hasSeasons = item.seasons && item.seasons.length;
       var hasVideos  = item.videos  && item.videos.length;
 
       if (hasSeasons) {
         extract.type = 'serial';
-        // Build voices list as the union of audio tracks across all episodes.
-        // Each `voice` is the user-visible filter option; the actual audio
-        // switch happens in applyVoiceTrack() via player API once the stream
-        // is loaded (no URL difference per voice — kinopub embeds tracks).
-        var voiceMap = {};
-        item.seasons.forEach(function (s) {
-          (s.episodes || []).forEach(function (ep) {
-            (ep.audios || []).forEach(function (a) {
-              var key = voiceKey(a);
-              if (voiceMap[key]) return;
-              voiceMap[key] = {
-                key:   key,
-                lang:  a.lang || '',
-                type:  (a.type && a.type.title) || '',
-                label: ((a.type && a.type.title) ? a.type.title + ' ' : '') + (a.lang || '') || (a.lang || 'Track')
-              };
-            });
-          });
-        });
-        extract.voices = Object.keys(voiceMap).map(function (k) { return voiceMap[k]; });
-
         extract.seasons = (item.seasons || []).map(function (s) {
           return {
             number:   s.number,
@@ -1286,10 +1307,15 @@
           };
         });
 
+        // Per-season voice count for diagnostics — actual filter list is
+        // computed on demand in buildFilter() based on currently chosen season.
+        var perSeasonVoices = extract.seasons.map(function (s) {
+          return voiceListFromAudios(s.episodes.map(function (ep) { return ep.audios; })).length;
+        });
         Logger.debug('source', 'extracted serial', {
           seasons: extract.seasons.length,
           totalEpisodes: extract.seasons.reduce(function (n, s) { return n + s.episodes.length; }, 0),
-          voices: extract.voices.length
+          voicesPerSeason: perSeasonVoices
         });
       } else if (hasVideos) {
         extract.type = 'movie';
@@ -1299,23 +1325,12 @@
           audios:    v.audios || [],
           subtitles: v.subtitles || []
         };
-        var voiceMap2 = {};
-        (v.audios || []).forEach(function (a) {
-          var key = voiceKey(a);
-          if (voiceMap2[key]) return;
-          voiceMap2[key] = {
-            key:   key,
-            lang:  a.lang || '',
-            type:  (a.type && a.type.title) || '',
-            label: ((a.type && a.type.title) ? a.type.title + ' ' : '') + (a.lang || '') || (a.lang || 'Track')
-          };
-        });
-        extract.voices = Object.keys(voiceMap2).map(function (k) { return voiceMap2[k]; });
 
         Logger.debug('source', 'extracted movie', {
           files: extract.movie.files.length,
           audios: extract.movie.audios.length,
-          subs: extract.movie.subtitles.length
+          subs: extract.movie.subtitles.length,
+          voices: voiceListFromAudios([v.audios]).length
         });
       } else {
         Logger.warn('source', 'no playable structure in item', { id: item.id, type: item.type });
@@ -1325,17 +1340,26 @@
     function buildFilter() {
       filterItems = { season: [], voice: [], voice_keys: [] };
 
+      // Voice list is built per-season for serials (matches kinopub web UI).
+      // For movies it's based on the single video's audios.
+      var voices = [];
       if (extract && extract.type === 'serial') {
         extract.seasons.forEach(function (s, i) {
           filterItems.season.push(Lampa.Lang.translate('torrent_serial_season') + ' ' + (s.number || i + 1));
         });
+        var seasonIdx = (choice.season >= 0 && choice.season < extract.seasons.length) ? choice.season : 0;
+        var season = extract.seasons[seasonIdx];
+        if (season) {
+          voices = voiceListFromAudios(season.episodes.map(function (ep) { return ep.audios; }));
+        }
+      } else if (extract && extract.type === 'movie' && extract.movie) {
+        voices = voiceListFromAudios([extract.movie.audios]);
       }
-      if (extract && extract.voices && extract.voices.length) {
-        extract.voices.forEach(function (v) {
-          filterItems.voice.push(v.label || v.lang || 'Track');
-          filterItems.voice_keys.push(v.key);
-        });
-      }
+
+      voices.forEach(function (v) {
+        filterItems.voice.push(v.label);
+        filterItems.voice_keys.push(v.key);
+      });
 
       // Restore the previously picked voice — match by stable voice_key first,
       // fall back to label match (voice_name) for back-compat with old saves.
@@ -1451,7 +1475,7 @@
       var player   = detectActualPlayer();
       var audios   = element.kp.audios || [];
       var voiceIdx = -1;
-      var voiceLabel = '';
+      var pickedLabel = '';
       if (choice && choice.voice_key) {
         for (var ai = 0; ai < audios.length; ai++) {
           if (voiceKey(audios[ai]) === choice.voice_key) {
@@ -1462,17 +1486,15 @@
       }
       if (voiceIdx === -1 && audios.length > 0) voiceIdx = 0;
       if (voiceIdx >= 0 && audios[voiceIdx]) {
-        var aSel = audios[voiceIdx];
-        voiceLabel = (((aSel.type && aSel.type.title) ? aSel.type.title + ' ' : '') + (aSel.lang || '')).trim();
-        if (!voiceLabel) voiceLabel = aSel.lang || ('Track ' + (voiceIdx + 1));
+        pickedLabel = voiceLabel(audios[voiceIdx]) || ('Track ' + (voiceIdx + 1));
       }
       pendingVoice = (voiceIdx >= 0)
-        ? { idx: voiceIdx, label: voiceLabel, key: (choice && choice.voice_key) || '' }
+        ? { idx: voiceIdx, label: pickedLabel, key: (choice && choice.voice_key) || '' }
         : null;
 
       if (voiceIdx >= 0) {
         play.voiceovers = [{
-          name:    voiceLabel,
+          name:    pickedLabel,
           url:     stream.url,
           index:   voiceIdx,
           'default': true
@@ -1511,7 +1533,7 @@
         url:      play.url,
         q:        stream.currentQuality,
         voiceIdx: voiceIdx,
-        voiceLabel: voiceLabel,
+        voice:    pickedLabel,
         voicesAvailable: audios.length,
         player:   player || '(default)',
         subs:     subsAttached,
