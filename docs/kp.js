@@ -23,7 +23,7 @@
    *  CONSTANTS                                                   *
    * ============================================================ */
 
-  var PLUGIN_VERSION  = '1.0.7';
+  var PLUGIN_VERSION  = '1.0.8';
   var COMPONENT_NAME  = 'online_kp';
   var BALANSER        = 'kpapi';
 
@@ -1213,6 +1213,27 @@
       return stream;
     }
 
+    /**
+     * If the chosen format fails (fatal MediaError), fall through this chain
+     * looking for any URL we haven't tried yet for the same file.
+     */
+    var FALLBACK_CHAIN = ['hls4', 'hls2', 'hls', 'http'];
+
+    function nextFallbackUrl(element, triedSet) {
+      // pick best file <= maxQ
+      var maxQ = maxQuality();
+      var avail = (element.kp.files || []).filter(function (f) { return f.quality <= maxQ; });
+      if (!avail.length) avail = element.kp.files || [];
+      if (!avail.length) return null;
+      var best = avail[0]; // already sorted desc
+      for (var i = 0; i < FALLBACK_CHAIN.length; i++) {
+        var fmt = FALLBACK_CHAIN[i];
+        var url = best.urls && best.urls[fmt];
+        if (url && !triedSet[url]) return { url: url, fmt: fmt, q: best.quality };
+      }
+      return null;
+    }
+
     function toPlayElement(element) {
       var stream = streamForElement(element, element.quality);
       if (!stream) return null;
@@ -1237,6 +1258,23 @@
           subsAttached = subs.length;
         }
       }
+
+      // Lampa calls play.error(work, cb) on fatal MediaError. cb(reserveUrl)
+      // makes the player retry with the new URL. We walk the format chain.
+      var tried = {};
+      tried[stream.url] = true;
+      play.error = function (work, cb) {
+        var nxt = nextFallbackUrl(element, tried);
+        if (!nxt) {
+          Logger.warn('player', 'no fallback URLs left', { tried: Object.keys(tried).length });
+          if (cb) cb(false);
+          return;
+        }
+        tried[nxt.url] = true;
+        Logger.warn('player', 'falling back to ' + nxt.fmt, { url: nxt.url, q: nxt.q });
+        Lampa.Noty.show(Lampa.Lang.translate('kp_fallback') + ': ' + nxt.fmt);
+        if (cb) cb(nxt.url);
+      };
 
       Logger.debug('player', 'play-element built', {
         title:  play.title,
@@ -2138,6 +2176,11 @@
         en: 'Reset (use setting)',
         ua: 'Скинути (використати налаштування)'
       },
+      kp_fallback: {
+        ru: 'Откат на формат',
+        en: 'Falling back to',
+        ua: 'Відкат на формат'
+      },
       kp_set_subs_descr: {
         ru: 'Передавать плееру URL .vtt-субтитров от kinopub. Если плеер виснет на старте — выключите.',
         en: 'Attach kinopub .vtt subtitle URLs to the player. If playback hangs — turn off.',
@@ -2251,9 +2294,8 @@
       Lampa.Storage.sync('online_choice_' + BALANSER, 'object_object');
     }
 
-    // Subscribe to several Lampa.Listener channels — different Lampa builds
-    // emit player events under different names. Log everything and filter out
-    // high-frequency events (timeupdate/progress).
+    // Subscribe to GLOBAL Lampa.Listener channels (only app/activity/controller
+    // actually fire here — `player` and `video` channels DON'T exist globally).
     var DENY_TYPES = { timeupdate: 1, progress: 1, time: 1, tick: 1 };
     function logEvt(channel, e) {
       if (!e || !e.type) return;
@@ -2263,20 +2305,59 @@
       if (e.code != null)      data.code     = e.code;
       if (e.message)           data.message  = String(e.message).slice(0, 400);
       if (e.error)             data.error    = String(e.error).slice(0, 400);
+      if (e.fatal != null)     data.fatal    = e.fatal;
       if (e.time != null)      data.time     = e.time;
       if (e.duration != null)  data.duration = e.duration;
       if (e.status != null)    data.status   = e.status;
+      if (e.down)              data.down     = e.down;
       if (e.networkState != null) data.networkState = e.networkState;
       if (e.readyState != null)   data.readyState   = e.readyState;
       Logger.info('lampa-evt', channel + '/' + e.type, Object.keys(data).length ? data : undefined);
     }
-    ['player', 'app', 'controller', 'activity', 'video'].forEach(function (ch) {
+    ['app', 'activity', 'controller'].forEach(function (ch) {
       try {
         Lampa.Listener.follow(ch, function (e) { logEvt(ch, e); });
       } catch (err) {
         Logger.warn('lampa-evt', 'cannot follow ' + ch, String(err));
       }
     });
+
+    // Lampa keeps player events on LOCAL listeners on its modules, NOT global.
+    // Player.listener: create / start / ready / destroy / external
+    // PlayerVideo.listener: error / canplay / loadeddata / ended / tracks / levels / subs / translate
+    //   error payload: { error: <string>, fatal: <bool> }  ← what we need
+    try {
+      if (Lampa.Player && Lampa.Player.listener) {
+        ['create', 'start', 'ready', 'destroy', 'external'].forEach(function (evt) {
+          Lampa.Player.listener.follow(evt, function (e) { logEvt('Player', { type: evt }); });
+        });
+      } else {
+        Logger.warn('player-evt', 'Lampa.Player.listener unavailable');
+      }
+    } catch (err) {
+      Logger.warn('player-evt', 'Player.listener failed', String(err));
+    }
+    try {
+      if (Lampa.PlayerVideo && Lampa.PlayerVideo.listener) {
+        // every event we care about — error first because that's the diagnosis goal
+        ['error', 'canplay', 'loadeddata', 'ended', 'tracks', 'levels', 'subs', 'translate', 'play', 'pause', 'rewind']
+          .forEach(function (evt) {
+            Lampa.PlayerVideo.listener.follow(evt, function (e) {
+              logEvt('PlayerVideo', { type: evt,
+                error:   e && e.error,
+                fatal:   e && e.fatal,
+                tracks:  e && e.tracks && e.tracks.length,
+                levels:  e && e.levels && e.levels.length,
+                subs:    e && e.subs && e.subs.length
+              });
+            });
+          });
+      } else {
+        Logger.warn('player-evt', 'Lampa.PlayerVideo.listener unavailable');
+      }
+    } catch (err) {
+      Logger.warn('player-evt', 'PlayerVideo.listener failed', String(err));
+    }
 
     // Direct delegate on any <video> element that gets created by Lampa.
     // Captures HTMLMediaElement errors which often don't reach console.
