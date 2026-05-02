@@ -23,7 +23,7 @@
    *  CONSTANTS                                                   *
    * ============================================================ */
 
-  var PLUGIN_VERSION  = '1.0.9';
+  var PLUGIN_VERSION  = '1.0.10';
   var COMPONENT_NAME  = 'online_kp';
   var BALANSER        = 'kpapi';
 
@@ -584,10 +584,45 @@
   // Per-launch override (set from contextmenu "try in different format").
   // Null means: fall back to user's saved KEY_FORMAT setting.
   var formatOverride = null;
+  var lastAutoFormatLogKey = null;
 
+  /**
+   * Returns the active Lampa player choice: 'tizen', 'lampa', 'inner', 'webos',
+   * 'android', or '' if not set. Used by `auto` format resolution.
+   */
+  function detectActualPlayer() {
+    try {
+      var v = '';
+      if (typeof Lampa.Storage.field === 'function') v = Lampa.Storage.field('player');
+      if (!v) v = Lampa.Storage.get('player', '');
+      return String(v || '').toLowerCase();
+    } catch (e) { return ''; }
+  }
+
+  /**
+   * Resolves the URL field key (http|hls|hls2|hls4) to use when picking a stream.
+   *
+   * The `auto` mode is a smart default that picks based on which player the user
+   * has chosen in Lampa settings:
+   *   - Tizen native AVPlayer handles HLS4 / fMP4 perfectly + exposes embedded
+   *     audio tracks via webapis.avplay → use `hls4` (full 4K + voice support)
+   *   - Lampa built-in HTML5 player uses an old hls.js bundled with Lampa that
+   *     chokes on fMP4 segments regardless of codec → use `hls2` (TS) which
+   *     hls.js handles reliably
+   */
   function preferredFormat() {
     if (formatOverride) return formatOverride;
-    return Lampa.Storage.get(KEY_FORMAT, 'hls4'); // http | hls | hls2 | hls4 | auto
+    var setting = Lampa.Storage.get(KEY_FORMAT, 'auto');
+    if (setting && setting !== 'auto') return setting;
+
+    var player = detectActualPlayer();
+    var resolved = (player === 'tizen') ? 'hls4' : 'hls2';
+    var key = player + '|' + resolved;
+    if (lastAutoFormatLogKey !== key) {
+      Logger.info('format', 'auto resolved', { player: player || '(default)', format: resolved });
+      lastAutoFormatLogKey = key;
+    }
+    return resolved;
   }
 
   function normalize(s) {
@@ -2016,13 +2051,16 @@
   function addSettings() {
     // ensure default values exist so they appear in storage
     if (Lampa.Storage.get(KEY_MAX_QUAL, '') === '') Lampa.Storage.set(KEY_MAX_QUAL, '1080');
-    // First default was 'http' (progressive MP4) — laggy on Tizen without ABR.
-    // Migrate stored value to 'hls4' once; user-changed values stay as-is via the flag.
-    if (Lampa.Storage.get('kp_format_migrated_v3', '') !== '1') {
-      Lampa.Storage.set(KEY_FORMAT, 'hls4');
-      Lampa.Storage.set('kp_format_migrated_v3', '1');
+    // Default migration history:
+    //   v1: '' → no value
+    //   v2: '' → 'http' (was wrong — laggy on Tizen)
+    //   v3: → 'hls4' (still wrong — broken on Lampa-built-in player)
+    //   v4: → 'auto'  (current — smart pick by player type)
+    if (Lampa.Storage.get('kp_format_migrated_v4', '') !== '1') {
+      Lampa.Storage.set(KEY_FORMAT, 'auto');
+      Lampa.Storage.set('kp_format_migrated_v4', '1');
     }
-    if (Lampa.Storage.get(KEY_FORMAT, '') === '') Lampa.Storage.set(KEY_FORMAT, 'hls4');
+    if (Lampa.Storage.get(KEY_FORMAT, '') === '') Lampa.Storage.set(KEY_FORMAT, 'auto');
 
     if (!Lampa.SettingsApi) {
       Logger.warn('settings', 'Lampa.SettingsApi unavailable on this build, skipping settings');
@@ -2058,8 +2096,14 @@
       component: 'kp',
       param: {
         name: KEY_FORMAT, type: 'select',
-        values: { 'http': 'HTTP / mp4', 'hls4': 'HLS v4', 'hls2': 'HLS v2', 'hls': 'HLS', 'auto': Lampa.Lang.translate('kp_set_format_auto') },
-        "default": 'http'
+        values: {
+          'auto': Lampa.Lang.translate('kp_set_format_auto'),
+          'hls4': 'HLS v4 (fMP4)',
+          'hls2': 'HLS v2 (TS)',
+          'hls':  'HLS',
+          'http': 'HTTP / mp4'
+        },
+        "default": 'auto'
       },
       field: { name: Lampa.Lang.translate('kp_set_format'), description: Lampa.Lang.translate('kp_set_format_descr') }
     });
@@ -2219,14 +2263,14 @@
         ua: 'Формат потоку'
       },
       kp_set_format_descr: {
-        ru: 'Что брать из url-полей kinopub. http = mp4, hls = m3u8',
-        en: 'Which url-field to use. http = mp4, hls = m3u8',
-        ua: 'Яке поле url використовувати. http = mp4, hls = m3u8'
+        ru: 'Авто = подбирать формат под текущий плеер: HLS4 для нативного Tizen-плеера (4K + полная поддержка озвучек), HLS2 для встроенного плеера Lampa (стабильно, без зависаний на fMP4). HLS4/HLS2/HLS/HTTP — принудительно.',
+        en: 'Auto = pick format by current player: HLS4 for Tizen native player (4K + full audio tracks), HLS2 for Lampa built-in (stable, no fMP4 hangs). HLS4/HLS2/HLS/HTTP = forced.',
+        ua: 'Авто = підбирати формат під плеєр: HLS4 для Tizen, HLS2 для вбудованого Lampa.'
       },
       kp_set_format_auto: {
-        ru: 'Авто',
-        en: 'Auto',
-        ua: 'Авто'
+        ru: 'Авто (по плееру)',
+        en: 'Auto (by player)',
+        ua: 'Авто (за плеєром)'
       },
       kp_set_proxy: {
         ru: 'CORS-прокси',
