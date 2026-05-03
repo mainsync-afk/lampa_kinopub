@@ -23,7 +23,7 @@
    *  CONSTANTS                                                   *
    * ============================================================ */
 
-  var PLUGIN_VERSION  = '1.0.23';
+  var PLUGIN_VERSION  = '1.0.24';
   var COMPONENT_NAME  = 'online_kp';
   var BALANSER        = 'kpapi';
 
@@ -670,28 +670,20 @@
    *                                                              *
    *  Lets the user pick a different audio track from the player  *
    *  UI itself (Lampa's voice button), without restarting the    *
-   *  stream. Mechanics:                                          *
+   *  stream.                                                     *
    *                                                              *
-   *  1. toPlayElement now puts ALL visible audios in             *
-   *     play.voiceovers[], each with a unique URL of the form    *
-   *     "<stream>#kp_voice=N". Hash fragment is ignored over the *
-   *     wire so the actual stream stays one and the same.        *
+   *  Mechanics: each voiceover entry in play.voiceovers[] gets   *
+   *  an `onSelect(item)` callback. When user clicks it, Lampa's  *
+   *  PlayerPanel calls our onSelect (see L7855 in Lampa source). *
+   *  Inside the callback we call applyVoiceTrack(idx) — direct   *
+   *  webapis.avplay.setSelectTrack — and sync source state via   *
+   *  syncVoiceToSource. No URL trick / monkey-patch needed.      *
    *                                                              *
-   *  2. setupKpPlayerPatch() monkey-patches Lampa.Player.play.   *
-   *     When called with a "#kp_voice=N" URL on the same stream  *
-   *     we already track, it calls applyVoiceTrack(N) directly   *
-   *     and returns — Lampa never restarts. If anything fails it *
-   *     falls through to original Player.play (graceful          *
-   *     degradation: behaviour reverts to a normal restart).     *
-   *                                                              *
-   *  3. Source kpapi exposes applyExternalVoiceChange(key,label) *
-   *     so the patch can sync the filter sidebar + DOM chips     *
-   *     after the in-player switch. window._kpCurrentSource is   *
-   *     set/cleared by source create/destroy.                    *
+   *  Source kpapi exposes applyExternalVoiceChange(key,label) so *
+   *  the callback can update the filter sidebar + DOM chips.     *
+   *  window._kpCurrentSource is set/cleared by source on         *
+   *  create/destroy.                                             *
    * ============================================================ */
-
-  var lastKpStream  = null;     // { baseUrl, audios } — current playing stream
-  var kpPlayerPatched = false;
 
   function syncVoiceToSource(key, label) {
     try {
@@ -704,73 +696,6 @@
     }
     // Fallback: just refresh visible chip DOM with forced active key
     try { refreshAllKpVoiceChips(key); } catch (e) {}
-  }
-
-  function setupKpPlayerPatch() {
-    if (kpPlayerPatched) return;
-    if (!Lampa.Player || typeof Lampa.Player.play !== 'function') {
-      Logger.warn('phase-b', 'Lampa.Player.play unavailable, patch skipped');
-      return;
-    }
-    if (Lampa.Player._kp_patched) {
-      Logger.info('phase-b', 'Lampa.Player.play already patched');
-      kpPlayerPatched = true;
-      return;
-    }
-
-    var origPlay = Lampa.Player.play;
-
-    Lampa.Player.play = function (data) {
-      try {
-        if (data && data.url) {
-          var url = String(data.url);
-          var m   = url.match(/#kp_voice=(\d+)$/);
-
-          if (m) {
-            var idx     = parseInt(m[1], 10);
-            var baseUrl = url.replace(/#kp_voice=\d+$/, '');
-            var audios  = (lastKpStream && baseUrl === lastKpStream.baseUrl) ? lastKpStream.audios : null;
-
-            if (audios && audios[idx]) {
-              var newAudio = audios[idx];
-              var newKey   = voiceKey(newAudio);
-              var newLabel = voiceLabel(newAudio);
-              Logger.info('phase-b', 'in-player voice click', { idx: idx, key: newKey });
-
-              // Fast path — switch audio track on running stream, no restart.
-              if (applyVoiceTrack(idx)) {
-                syncVoiceToSource(newKey, newLabel);
-                return;
-              }
-
-              // Fast switch failed → fall back to restart with hash stripped.
-              Logger.warn('phase-b', 'fast switch failed, falling back to restart');
-              data.url = baseUrl;
-              syncVoiceToSource(newKey, newLabel);
-              // Set pendingVoice so the canplay hook re-applies after restart
-              pendingVoice = { idx: idx, label: newLabel, key: newKey };
-            } else {
-              // Audios for this stream unknown — strip hash, let original play
-              // treat it as a fresh stream load.
-              data.url = baseUrl;
-            }
-          }
-
-          // Track current stream's base URL + audios for future hash-based picks
-          var newBase = String(data.url).replace(/#.*$/, '');
-          if (data._kp_audios) {
-            lastKpStream = { baseUrl: newBase, audios: data._kp_audios };
-          }
-        }
-      } catch (e) {
-        Logger.error('phase-b', 'play patch threw, falling through', String(e));
-      }
-      return origPlay.call(this, data);
-    };
-
-    Lampa.Player._kp_patched = true;
-    kpPlayerPatched = true;
-    Logger.info('phase-b', 'Lampa.Player.play patched for in-player voice switching');
   }
 
   /**
@@ -1980,10 +1905,10 @@
       if (pickedLabel) currentVoiceLabel = pickedLabel;
 
       // Build full multi-entry voiceovers list for in-player switching.
-      // Each entry has a unique URL "<stream>#kp_voice=N" so Lampa treats
-      // them as distinct (otherwise duplicate URLs cause the menu to
-      // collapse). The patched Lampa.Player.play (see setupKpPlayerPatch)
-      // intercepts these URLs and switches audio track in-place.
+      // Each entry includes an `onSelect(item)` callback — Lampa calls it
+      // when user clicks the voice in the player tracks menu (see Lampa
+      // source ~L7855: `if (a.onSelect) a.onSelect(a);`). Inside we call
+      // applyVoiceTrack(idx) directly + sync source state, no restart.
       // Card-level filters (Original/Authoring/etc) DON'T apply here —
       // user can still pick those from the player if they want.
       if (audios.length) {
@@ -1993,15 +1918,27 @@
           var lbl = voiceLabel(audios[ai2]) || ('Track ' + (ai2 + 1));
           voiceovers.push({
             name:    lbl,
-            url:     stream.url + '#kp_voice=' + ai2,
+            url:     stream.url,         // same URL — onSelect handles switching
             index:   ai2,
-            'default': ai2 === voiceIdx
+            'default': ai2 === voiceIdx,
+            onSelect: (function (idx, audiosRef) {
+              return function (a) {
+                var audio = audiosRef[idx];
+                if (!audio) {
+                  Logger.warn('phase-b', 'audio missing at idx', { idx: idx });
+                  return;
+                }
+                var key   = voiceKey(audio);
+                var label = voiceLabel(audio);
+                Logger.info('phase-b', 'voice onSelect', { idx: idx, key: key });
+                var ok = applyVoiceTrack(idx);
+                Logger.info('phase-b', 'switch result', { idx: idx, ok: !!ok });
+                syncVoiceToSource(key, label);
+              };
+            })(ai2, audios)
           });
         }
         if (voiceovers.length) play.voiceovers = voiceovers;
-        // Attach raw audios array — picked up by the Player.play patch to
-        // map a clicked voiceover URL back to the actual audio descriptor.
-        play._kp_audios = audios;
         // also set top-level `translate` — some Lampa builds display this in
         // the player UI as "current voice" label
         play.translate = pickedLabel;
@@ -3204,10 +3141,6 @@
         // DOM injection for next-episode-name override
         Lampa.Player.listener.follow('start',   function () { setupNextEpisodeLabelOverride(); });
         Lampa.Player.listener.follow('destroy', function () { cleanupNextEpisodeLabelOverride(); });
-
-        // Phase B — patch Lampa.Player.play once so in-player voice picks
-        // switch tracks in-place instead of restarting the stream.
-        setupKpPlayerPatch();
         // After the player closes, repaint chips on visible cards so episodes
         // that just gained timeline progress flip from green to faded immediately.
         Lampa.Player.listener.follow('destroy', function () {
