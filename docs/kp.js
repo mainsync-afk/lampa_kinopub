@@ -23,7 +23,7 @@
    *  CONSTANTS                                                   *
    * ============================================================ */
 
-  var PLUGIN_VERSION  = '1.0.30';
+  var PLUGIN_VERSION  = '1.0.31';
   // Public manifest-proxy URL — set near KP_PROXY_URL declaration below.
   var COMPONENT_NAME  = 'online_kp';
   var BALANSER        = 'kpapi';
@@ -771,6 +771,73 @@
     return base + '/manifest-proxy?master=' +
            encodeURIComponent(masterUrl) +
            '&voice=' + voiceIndex;
+  }
+
+  /**
+   * Build the onSelect callback fired by Lampa when user picks a voice in
+   * the in-player track picker. Performs a Lampa-native soft URL swap —
+   * same mechanism Lampa itself uses for quality switching:
+   *
+   *   1. Lampa.Player.playdata().url = newUrl       (sync work.url)
+   *   2. Lampa.PlayerVideo.destroy(true)            (partial — keeps overlay)
+   *   3. Lampa.PlayerVideo.url(newUrl, true)        (change_quality=true skips
+   *                                                  hls audio-tracks parser)
+   *   4. work.timeline.continued = false            (re-arm auto-resume)
+   *
+   * Lampa's own timeupdate listener will then seekTo the saved position on
+   * the next tick. Player overlay (panel, controls, playlist popup) does
+   * not get destroyed → no Player/destroy event → smooth transition.
+   *
+   * Closes over (label, key, url, element, choice) for chip refresh + voice
+   * memory persistence per-(series, season).
+   */
+  function buildVoiceSwapCallback(label, key, url, element, choice) {
+    return function (item) {
+      var swapUrl = (item && item.url) || url;
+      Logger.info('voice', 'in-player switch', {
+        label: label, key: key, url: (swapUrl || '').slice(0, 80) + '...'
+      });
+
+      // Persist voice choice per-(series, season) so next launch picks it.
+      try {
+        if (choice) {
+          choice.voice_key  = key;
+          choice.voice_name = label;
+          if (typeof choice.season !== 'undefined' && choice.season !== null) {
+            if (!choice.voices_by_season) choice.voices_by_season = {};
+            choice.voices_by_season[choice.season] = key;
+          }
+        }
+      } catch (e) { Logger.warn('voice', 'persist choice failed', String(e)); }
+
+      // Update the .player-panel__next-episode-name DOM override label so
+      // user sees the new voice name immediately even if Lampa didn't.
+      try { currentVoiceLabel = label; } catch (e) {}
+
+      // Soft swap (Lampa-native quality-change pattern).
+      try {
+        var work = (Lampa.Player && typeof Lampa.Player.playdata === 'function')
+                   ? Lampa.Player.playdata() : null;
+        if (work) work.url = swapUrl;
+        if (Lampa.PlayerVideo && typeof Lampa.PlayerVideo.destroy === 'function') {
+          Lampa.PlayerVideo.destroy(true);
+        }
+        if (Lampa.PlayerVideo && typeof Lampa.PlayerVideo.url === 'function') {
+          Lampa.PlayerVideo.url(swapUrl, true);
+        }
+        if (work && work.timeline) {
+          work.timeline.continued = false;
+          work.timeline.continued_bloc = false;
+        }
+        Logger.info('voice', 'soft-swap fired', { url: (swapUrl || '').slice(0, 80) + '...' });
+      } catch (e) {
+        Logger.warn('voice', 'soft-swap failed, falling back to full restart', String(e));
+        // Fallback: ask Lampa to relaunch from scratch with this URL
+        try {
+          Lampa.Player.play({ url: swapUrl, title: (work && work.title) || '' });
+        } catch (ee) { Logger.warn('voice', 'fallback play failed', String(ee)); }
+      }
+    };
   }
 
   /**
@@ -2265,17 +2332,41 @@
         if (pickedLabel) currentVoiceLabel = pickedLabel;
 
         if (voiceIdx >= 0) {
-          play.voiceovers = [{
-            name:    pickedLabel,
-            url:     stream.url,
-            index:   voiceIdx,
-            'default': true
-          }];
-          // also set top-level `translate` — some Lampa builds display this in
-          // the player UI as "current voice" label, separate from the voiceovers
-          // panel. Updates correctly whenever the user re-launches with a new
-          // voice picked from the source filter.
-          play.translate = pickedLabel;
+          if (kpProxyAvailable === true && audios.length > 0) {
+            // v1.0.31: Multi-entry voiceovers with onSelect callback.
+            // Each voice is a different proxy URL (same kinopub master,
+            // different voice query param). On click, Lampa runs onSelect
+            // — we do a Lampa-native soft URL swap: destroy(true) +
+            // url(newUrl, true) + reset timeline.continued. AVPlayer
+            // reopens with the new audio rendition while the player
+            // overlay persists. Brief flash, no full restart.
+            play.voiceovers = audios.map(function (audio, idx) {
+              var label    = voiceLabel(audio) || ('Track ' + (idx + 1));
+              var proxyUrl = proxyUrlFor(stream.url, idx + 1);
+              var akey     = voiceKey(audio);
+              return {
+                name:      label,
+                url:       proxyUrl,
+                index:     idx,
+                voice_key: akey,
+                'default': idx === voiceIdx,
+                selected:  idx === voiceIdx,
+                onSelect:  buildVoiceSwapCallback(label, akey, proxyUrl, element, choice)
+              };
+            });
+            play.translate = pickedLabel;
+          } else {
+            // Proxy unreachable (or no audios): fall back to single-entry
+            // (legacy behaviour from v1.0.28). Voice picker shows just the
+            // active voice as a static label, switching is via filter only.
+            play.voiceovers = [{
+              name:    pickedLabel,
+              url:     stream.url,
+              index:   voiceIdx,
+              'default': true
+            }];
+            play.translate = pickedLabel;
+          }
         }
       }
 
