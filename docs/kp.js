@@ -23,7 +23,7 @@
    *  CONSTANTS                                                   *
    * ============================================================ */
 
-  var PLUGIN_VERSION  = '1.0.36-debug';
+  var PLUGIN_VERSION  = '1.0.37-debug';
   // Public manifest-proxy URL — set near KP_PROXY_URL declaration below.
   var COMPONENT_NAME  = 'online_kp';
   var BALANSER        = 'kpapi';
@@ -893,13 +893,15 @@
       } catch (e) { Logger.warn('voice', 'voiceovers selected sync failed', String(e)); }
 
       // ── Soft swap (Lampa-native quality-change pattern) ────────────────
-      // v1.0.35: split destroy and url(newUrl) with a small delay. On Tizen
-      // AVPlayer, webapis.avplay.close() is asynchronous under the hood —
-      // the function returns synchronously but the HEVC main10 hardware
-      // decoder takes time to release resources. Calling avplay.open()
-      // immediately afterwards with another HEVC stream crashes the player
-      // (verified with kinopub HEVC=ON on Fargo, log 165621.577.txt).
-      // 200 ms gap is empirically sufficient.
+      // v1.0.35/36 evolution: split destroy and url(newUrl) with a delay.
+      // On Tizen AVPlayer, webapis.avplay.close() is asynchronous under the
+      // hood — the function returns synchronously but the HEVC main10
+      // hardware decoder takes time to release resources. Calling
+      // avplay.open() immediately afterwards with another HEVC stream
+      // crashes the Tizen app (verified Fargo HEVC log 165621/171502).
+      // 200ms wasn't enough; v1.0.37 bumps to 500ms which gives the HEVC
+      // decoder more headroom. AVC content unaffected (releases instantly).
+      var KP_SOFTSWAP_GAP_MS = 500;
       var work = null;
       try {
         work = (Lampa.Player && typeof Lampa.Player.playdata === 'function')
@@ -908,7 +910,7 @@
         if (Lampa.PlayerVideo && typeof Lampa.PlayerVideo.destroy === 'function') {
           Lampa.PlayerVideo.destroy(true);
         }
-        Logger.info('voice', 'soft-swap destroy done, deferring url()', { gapMs: 200 });
+        Logger.info('voice', 'soft-swap destroy done, deferring url()', { gapMs: KP_SOFTSWAP_GAP_MS });
         setTimeout(function () {
           try {
             if (Lampa.PlayerVideo && typeof Lampa.PlayerVideo.url === 'function') {
@@ -922,7 +924,7 @@
           } catch (ee) {
             Logger.warn('voice', 'deferred url() failed', String(ee));
           }
-        }, 200);
+        }, KP_SOFTSWAP_GAP_MS);
       } catch (e) {
         Logger.warn('voice', 'soft-swap failed, falling back to full restart', String(e));
         try {
