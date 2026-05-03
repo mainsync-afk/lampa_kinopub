@@ -23,7 +23,7 @@
    *  CONSTANTS                                                   *
    * ============================================================ */
 
-  var PLUGIN_VERSION  = '1.0.29-blob-test2';
+  var PLUGIN_VERSION  = '1.0.29-data-test';
   var COMPONENT_NAME  = 'online_kp';
   var BALANSER        = 'kpapi';
 
@@ -802,49 +802,62 @@
    * (the chosen voice) + all video stream-infs. No subtitles, no I-FRAME.
    * Returns text suitable for blob: or data: URL wrapping.
    *
+   * v1.0.29-data-test: simpler variant — only 1 stream-inf for the highest
+   * available resolution (no ABR), 1 audio MEDIA, ASCII-only NAME (no Cyrillic),
+   * to rule out parser quirks in Tizen AVPlayer.
+   *
    * @param {Object} parsed     - output of parseHls4Master
    * @param {Number} voiceIndex - 1-based voice number to keep (matches '01.', '02.' prefix in NAME)
    */
   function buildReducedMaster(parsed, voiceIndex) {
     var out = ['#EXTM3U', '#EXT-X-VERSION:4', '#EXT-X-INDEPENDENT-SEGMENTS'];
-    // For each audio group, find the entry whose NAME starts with "<voiceIndex>."
-    Object.keys(parsed.audioGroups).forEach(function (groupId) {
-      var entries = parsed.audioGroups[groupId];
-      var pickedEntry = null;
-      var prefix = (voiceIndex < 10 ? '0' : '') + voiceIndex + '.';
-      for (var k = 0; k < entries.length; k++) {
-        if (entries[k].name && entries[k].name.indexOf(prefix) === 0) {
-          pickedEntry = entries[k];
-          break;
-        }
-      }
-      // fallback: first DEFAULT=YES, then first
-      if (!pickedEntry) {
-        for (var k2 = 0; k2 < entries.length; k2++) {
-          if (entries[k2].deflt) { pickedEntry = entries[k2]; break; }
-        }
-      }
-      if (!pickedEntry && entries.length) pickedEntry = entries[0];
-      if (!pickedEntry) return;
-      out.push('#EXT-X-MEDIA:TYPE=AUDIO,GROUP-ID="' + groupId + '",NAME="' +
-               pickedEntry.name.replace(/"/g, "'") +
-               '",LANGUAGE="' + pickedEntry.lang +
-               '",DEFAULT=YES,AUTOSELECT=YES,URI="' + pickedEntry.uri + '"');
-    });
-    // All video stream-infs unchanged. Drop SUBTITLES group reference.
+
+    // Pick best (highest-bandwidth) stream-inf only — strip ABR.
+    var bestStreamInf = null;
     parsed.streamInfs.forEach(function (s) {
       if (!s.videoUri) return;
-      var line = '#EXT-X-STREAM-INF:';
-      var parts = [];
-      if (s.bandwidth)   parts.push('BANDWIDTH=' + s.bandwidth);
-      if (s.resolution)  parts.push('RESOLUTION=' + s.resolution);
-      if (s.codecs)      parts.push('CODECS="' + s.codecs + '"');
-      if (s.attrs['FRAME-RATE']) parts.push('FRAME-RATE=' + s.attrs['FRAME-RATE']);
-      if (s.audioGroup)  parts.push('AUDIO="' + s.audioGroup + '"');
-      // intentionally drop SUBTITLES, HDCP-LEVEL, VIDEO-RANGE
-      out.push(line + parts.join(','));
-      out.push(s.videoUri);
+      if (!bestStreamInf || s.bandwidth > bestStreamInf.bandwidth) bestStreamInf = s;
     });
+    if (!bestStreamInf) return out.join('\n') + '\n'; // nothing to emit
+
+    // Pick the audio entry from the matching audioGroup of the best stream-inf.
+    var groupId = bestStreamInf.audioGroup;
+    var entries = parsed.audioGroups[groupId] || [];
+    var pickedEntry = null;
+    var prefix = (voiceIndex < 10 ? '0' : '') + voiceIndex + '.';
+    for (var k = 0; k < entries.length; k++) {
+      if (entries[k].name && entries[k].name.indexOf(prefix) === 0) {
+        pickedEntry = entries[k];
+        break;
+      }
+    }
+    if (!pickedEntry) {
+      for (var k2 = 0; k2 < entries.length; k2++) {
+        if (entries[k2].deflt) { pickedEntry = entries[k2]; break; }
+      }
+    }
+    if (!pickedEntry && entries.length) pickedEntry = entries[0];
+    if (!pickedEntry) return out.join('\n') + '\n';
+
+    // Use ASCII-only constants for GROUP-ID/NAME/LANGUAGE to keep parser happy
+    // (some Tizen AVPlayer revisions choke on non-ASCII attribute values).
+    var simpleGroupId = 'aud';
+    var simpleName    = 'Voice ' + voiceIndex;
+    out.push('#EXT-X-MEDIA:TYPE=AUDIO,GROUP-ID="' + simpleGroupId +
+             '",NAME="' + simpleName +
+             '",LANGUAGE="' + (pickedEntry.lang || 'und') +
+             '",DEFAULT=YES,AUTOSELECT=YES,URI="' + pickedEntry.uri + '"');
+
+    // Single stream-inf referencing the audio group above.
+    var parts = [];
+    if (bestStreamInf.bandwidth)  parts.push('BANDWIDTH=' + bestStreamInf.bandwidth);
+    if (bestStreamInf.resolution) parts.push('RESOLUTION=' + bestStreamInf.resolution);
+    if (bestStreamInf.codecs)     parts.push('CODECS="' + bestStreamInf.codecs + '"');
+    if (bestStreamInf.attrs['FRAME-RATE']) parts.push('FRAME-RATE=' + bestStreamInf.attrs['FRAME-RATE']);
+    parts.push('AUDIO="' + simpleGroupId + '"');
+    out.push('#EXT-X-STREAM-INF:' + parts.join(','));
+    out.push(bestStreamInf.videoUri);
+
     return out.join('\n') + '\n';
   }
 
@@ -875,9 +888,11 @@
             subtitleGroups: Object.keys(parsed.subtitlesGroups).length
           });
           var reduced = buildReducedMaster(parsed, voiceIndex);
+          // Log full reduced master content (it's small now — single stream-inf,
+          // single audio rendition). Helps verify syntactic validity.
           Logger.info('blob-test', 'built reduced master', {
             length: reduced.length,
-            preview: reduced.slice(0, 600)
+            full: reduced
           });
           var blobUrl = null;
           var dataUrl = null;
@@ -889,9 +904,17 @@
             Logger.warn('blob-test', 'blob creation failed', String(e));
           }
           try {
-            // data: URL with URL-encoded text (avoids base64 size penalty)
-            dataUrl = 'data:application/vnd.apple.mpegurl,' + encodeURIComponent(reduced);
-            Logger.info('blob-test', 'data URL ready', { length: dataUrl.length });
+            // v1.0.29-data-test: try base64 form — some players are pickier.
+            // Use unescape(encodeURIComponent(...)) → btoa to handle non-ASCII safely.
+            var b64 = '';
+            try { b64 = btoa(unescape(encodeURIComponent(reduced))); } catch (e) {}
+            if (b64) {
+              dataUrl = 'data:application/vnd.apple.mpegurl;base64,' + b64;
+              Logger.info('blob-test', 'data URL ready (base64)', { length: dataUrl.length });
+            } else {
+              dataUrl = 'data:application/vnd.apple.mpegurl,' + encodeURIComponent(reduced);
+              Logger.info('blob-test', 'data URL ready (urlencoded)', { length: dataUrl.length });
+            }
           } catch (e) {
             Logger.warn('blob-test', 'data URL failed', String(e));
           }
@@ -2294,18 +2317,18 @@
               // and our blob/data URL is never opened). For the test we drop
               // ABR support entirely — single resolution (the picked one).
               delete play.quality;
-              // Also clear the playlist[] play elements' quality dicts and
-              // override their .url to blob, otherwise next-episode in playlist
-              // would also fall back to kinopub master. Skip for now — this
-              // is just a probe; we don't need cross-episode swap to work.
-              if (blobUrl) {
-                play.url = blobUrl;
-                Logger.info('blob-test', 'launching with blob URL', { blob: blobUrl });
-              } else if (dataUrl) {
+              // v1.0.29-data-test: prefer data: URL over blob:. Previous test
+              // showed blob:file:///UUID never reached canplay on Tizen — most
+              // likely AVPlayer can't fetch blob: scheme natively. data: URL
+              // embeds content directly and doesn't need network fetch.
+              if (dataUrl) {
                 play.url = dataUrl;
-                Logger.info('blob-test', 'launching with data URL (blob unavailable)', { length: dataUrl.length });
+                Logger.info('blob-test', 'launching with data URL', { length: dataUrl.length });
+              } else if (blobUrl) {
+                play.url = blobUrl;
+                Logger.info('blob-test', 'launching with blob URL (data unavailable)', { blob: blobUrl });
               } else {
-                Logger.warn('blob-test', 'no blob/data URL — falling back to original kinopub URL');
+                Logger.warn('blob-test', 'no data/blob URL — falling back to original kinopub URL');
                 play.url = originalUrl;
               }
               Lampa.Player.play(play);
