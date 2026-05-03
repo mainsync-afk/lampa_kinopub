@@ -38,8 +38,13 @@ const VERSION  = '1.0.0';
 const STARTED  = Date.now();
 
 const ALLOWED_HOSTS = [
+  // Master.m3u8 hosts (kinopub rotates between these on each request).
   'cdn2cdn.com',
+  'cdn2site.com',
   'digital-cdn.net',
+  // Variant playlists + segments host (referenced from inside masters).
+  // Plugin doesn't proxy these (player fetches direct), but listing here
+  // for completeness in case kinopub returns a master URL on this host.
   'cdntogo.net'
 ];
 
