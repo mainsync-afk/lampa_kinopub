@@ -23,7 +23,7 @@
    *  CONSTANTS                                                   *
    * ============================================================ */
 
-  var PLUGIN_VERSION  = '1.0.38-debug';
+  var PLUGIN_VERSION  = '1.0.39-debug';
   // Public manifest-proxy URL — set near KP_PROXY_URL declaration below.
   var COMPONENT_NAME  = 'online_kp';
   var BALANSER        = 'kpapi';
@@ -893,15 +893,20 @@
       } catch (e) { Logger.warn('voice', 'voiceovers selected sync failed', String(e)); }
 
       // ── Soft swap (Lampa-native quality-change pattern) ────────────────
-      // Direct PlayerVideo.url(newUrl, true) — change_quality=true tells
-      // Lampa to reuse the existing player overlay and just call AVPlayer
-      // close()+open() with the new URL. No DOM rebuild, no flash beyond
-      // the brief loading spinner during open.
+      // destroy(true) + url(newUrl, true) called synchronously — same as
+      // the v1.0.31 working pattern. destroy(true) keeps the overlay but
+      // closes AVPlayer; url(newUrl, true) reopens it with the new URL.
+      // No setTimeout gap (was added in v1.0.35/36 for HEVC headroom but
+      // caused visible flash on AVC; HEVC stability handled separately if
+      // re-enabled).
       var work = null;
       try {
         work = (Lampa.Player && typeof Lampa.Player.playdata === 'function')
                ? Lampa.Player.playdata() : null;
         if (work) work.url = swapUrl;
+        if (Lampa.PlayerVideo && typeof Lampa.PlayerVideo.destroy === 'function') {
+          Lampa.PlayerVideo.destroy(true);
+        }
         if (Lampa.PlayerVideo && typeof Lampa.PlayerVideo.url === 'function') {
           Lampa.PlayerVideo.url(swapUrl, true);
         }

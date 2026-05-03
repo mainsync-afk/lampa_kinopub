@@ -1,0 +1,518 @@
+18:12:37.486 Xc73IKcm INFO  [boot] kp.js v1.0.38-debug starting {"session":"Xc73IKcm","app":318,"ua":"Mozilla/5.0 (SMART-TV; LINUX; Tizen 9.0) AppleWebKit/537.36 (KHTML, like Gecko) 120.0.6099.5/9.0 TV Safari/537.36"}
+18:12:37.497 Xc73IKcm DEBUG [api] GET /user null
+18:12:37.503 Xc73IKcm INFO  [identity] sending /device/notify {"title":"Lampa (Samsung TV)","hardware":"Samsung Tizen 9.0","software":"kp.js 1.0.38-debug / Lampa 318","_platform":"tizen"}
+18:12:37.506 Xc73IKcm DEBUG [api] POST /device/notify {"title":"Lampa (Samsung TV)","hardware":"Samsung Tizen 9.0","software":"kp.js 1.0.38-debug / Lampa 318"}
+18:12:37.512 Xc73IKcm DEBUG [console] StorageWorker online_choice_kpapi start follow
+18:12:37.518 Xc73IKcm INFO  [player] PlayerVideo.url monkey-patched
+18:12:37.521 Xc73IKcm INFO  [boot] kp.js initialized
+18:12:37.525 Xc73IKcm DEBUG [console] Extensions include: https://mainsync-afk.github.io/lampa_kinopub/kp.js
+18:12:37.653 Xc73IKcm DEBUG [console] Plugins update plugin cache: https://mainsync-afk.github.io/lampa_kinopub/kp.js
+18:12:38.150 Xc73IKcm INFO  [proxy] available {"url":"https://kinopub.fastcdn.pics","info":"lampa-kinopub-proxy v1.0.0"}
+18:12:38.280 Xc73IKcm DEBUG [console] Extensions include: https://s.fastcdn.pics/s.js
+18:12:38.294 Xc73IKcm INFO  [lampa-evt] app/start
+18:12:38.466 Xc73IKcm DEBUG [console] Tizen start pick
+18:12:38.514 Xc73IKcm DEBUG [console] Tizen current id 0SG81L944v.Lampa
+18:12:38.519 Xc73IKcm DEBUG [console] LoadingProgress status: Tizen init
+18:12:38.546 Xc73IKcm DEBUG [console] LoadingProgress status: Player init
+18:12:38.620 Xc73IKcm DEBUG [console] App user agent: Mozilla/5.0 (SMART-TV; LINUX; Tizen 9.0) AppleWebKit/537.36 (KHTML, like Gecko) 120.0.6099.5/9.0 TV Safari/537.36
+18:12:38.633 Xc73IKcm DEBUG [console] App platform: tizen
+18:12:38.689 Xc73IKcm DEBUG [console] Script create: http://lampa.mx/vender/hls/hls.js
+18:12:38.781 Xc73IKcm INFO  [lampa-evt] app/ready
+18:12:38.824 Xc73IKcm DEBUG [api] POST /device/notify ok
+18:12:38.827 Xc73IKcm INFO  [identity] notify ok {"status":200}
+18:12:38.877 Xc73IKcm DEBUG [api] GET /user ok
+18:12:38.880 Xc73IKcm INFO  [auth] profile ok {"name":"eugenestraw","subscribed":{"active":true,"end_time":1792246646,"days":166.8}}
+18:12:38.970 Xc73IKcm INFO  [lampa-evt] activity/init
+18:12:39.021 Xc73IKcm INFO  [lampa-evt] activity/create
+18:12:39.086 Xc73IKcm INFO  [lampa-evt] activity/start
+18:12:39.311 Xc73IKcm DEBUG [console] Script include: http://lampa.mx/vender/hls/hls.js
+18:12:39.406 Xc73IKcm DEBUG [console] Plugins update plugin cache: https://s.fastcdn.pics/s.js
+18:12:48.946 Xc73IKcm INFO  [lampa-evt] activity/init
+18:12:48.957 Xc73IKcm INFO  [lampa-evt] activity/create
+18:12:48.972 Xc73IKcm INFO  [lampa-evt] activity/start
+18:12:57.504 Xc73IKcm INFO  [launch] open activity {"id":60622,"title":"Фарго","orig":"Fargo"}
+18:12:57.525 Xc73IKcm INFO  [lampa-evt] activity/init
+18:12:57.527 Xc73IKcm INFO  [lampa-evt] activity/create
+18:12:57.555 Xc73IKcm INFO  [component] find query=Фарго
+18:12:57.557 Xc73IKcm INFO  [source] searchByTitle {"query":"Фарго","year":2014,"orig":"Fargo","rus":"Фарго","imdb":"tt2802850","imdbNum":2802850,"type":"serial"}
+18:12:57.559 Xc73IKcm DEBUG [api] GET /items/search {"q":"Фарго","field":"title","perpage":50,"type":"serial"}
+18:12:57.576 Xc73IKcm INFO  [lampa-evt] activity/start
+18:12:57.955 Xc73IKcm DEBUG [api] GET /items/search ok
+18:12:57.958 Xc73IKcm INFO  [source] search ok {"count":1}
+18:12:57.961 Xc73IKcm DEBUG [source] top candidates [{"id":8636,"title":"Фарго / Fargo","year":2014,"type":"serial","imdb":2802850}]
+18:12:57.964 Xc73IKcm INFO  [source] matched by imdb {"id":8636,"imdb":2802850}
+18:12:57.966 Xc73IKcm INFO  [source] matched card {"id":8636,"title":"Фарго / Fargo","year":2014,"type":"serial"}
+18:12:57.969 Xc73IKcm INFO  [source] find() id=8636
+18:12:57.972 Xc73IKcm DEBUG [api] GET /items/8636 null
+18:12:58.298 Xc73IKcm DEBUG [api] GET /items/8636 ok
+18:12:58.301 Xc73IKcm INFO  [source] item loaded {"id":8636,"type":"serial","seasons":5,"videos":0}
+18:12:58.304 Xc73IKcm DEBUG [source] sample audio entry [0] {"id":2093344,"index":1,"codec":"aac","channels":6,"lang":"rus","type":{"id":2,"title":"Многоголосый","short_title":"MVO"},"author":{"id":10,"title":"LostFilm","short_title":null}}
+18:12:58.306 Xc73IKcm DEBUG [source] sample audio entry [1] {"id":2093347,"index":2,"codec":"aac","channels":6,"lang":"rus","type":{"id":3,"title":"Двухголосый","short_title":"DVO"},"author":{"id":13,"title":"Кубик в Кубе","short_title":null}}
+18:12:58.315 Xc73IKcm DEBUG [source] extracted serial {"seasons":5,"totalEpisodes":51,"voicesPerSeason":[11,6,4,7,14]}
+18:12:58.327 Xc73IKcm DEBUG [source] append items {"count":10}
+18:13:02.132 Xc73IKcm DEBUG [player] play-element built {"title":"s5e01 - Трагедия общин","url":"https://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDcwNjEyMTs5ODEyNDc7MTc3NzgzMTk3OSZoPUoyNXZVUlFRaHpabEdyMUdiWUd6SWcmZT0xNzc3OTE4Mzc5/981247.m3u8?loc=nl","q":2160,"voiceIdx":3,"voice":"04.MVO.rus","voicesAvailable":12,"player":"tizen","subs":0,"subsAvailable":2}
+18:13:02.135 Xc73IKcm DEBUG [player] play-element built {"title":"s5e01 - Трагедия общин","url":"https://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDcwNjEyMTs5ODEyNDc7MTc3NzgzMTk3OSZoPUoyNXZVUlFRaHpabEdyMUdiWUd6SWcmZT0xNzc3OTE4Mzc5/981247.m3u8?loc=nl","q":2160,"voiceIdx":3,"voice":"04.MVO.rus","voicesAvailable":12,"player":"tizen","subs":0,"subsAvailable":2}
+18:13:02.137 Xc73IKcm DEBUG [player] play-element built {"title":"s5e02 - Испытания и потрясения","url":"https://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDcwNjEyMTs5ODE0MjE7MTc3NzgzMTk3OSZoPUNuWTVBVWtGOEFGb1hCbTYxQzg1dFEmZT0xNzc3OTE4Mzc5/981421.m3u8?loc=nl","q":2160,"voiceIdx":3,"voice":"04.MVO.rus","voicesAvailable":12,"player":"tizen","subs":0,"subsAvailable":0}
+18:13:02.139 Xc73IKcm DEBUG [player] play-element built {"title":"s5e03 - Парадокс посреднических сделок","url":"https://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDcwNjEyMTs5ODMyMTI7MTc3NzgzMTk3OSZoPXIxTXRtX2ZpNXp0WG5CaDdIX2pybHcmZT0xNzc3OTE4Mzc5/983212.m3u8?loc=nl","q":2160,"voiceIdx":3,"voice":"04.MVO.rus","voicesAvailable":12,"player":"tizen","subs":0,"subsAvailable":0}
+18:13:02.142 Xc73IKcm DEBUG [player] play-element built {"title":"s5e04 - Нерастворимость","url":"https://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDcwNjEyMTs5ODUwNzU7MTc3NzgzMTk3OSZoPXU3X2FfYU9sdTlRSGQ1X2tIQll3MHcmZT0xNzc3OTE4Mzc5/985075.m3u8?loc=nl","q":2160,"voiceIdx":3,"voice":"04.MVO.rus","voicesAvailable":12,"player":"tizen","subs":0,"subsAvailable":0}
+18:13:02.144 Xc73IKcm DEBUG [player] play-element built {"title":"s5e05 - Тигр","url":"https://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDcwNjEyMTs5ODYzODk7MTc3NzgzMTk3OSZoPUZGTFlCYW5WQjBqaHUtbDlpQlZHX2cmZT0xNzc3OTE4Mzc5/986389.m3u8?loc=nl","q":2160,"voiceIdx":3,"voice":"04.MVO.rus","voicesAvailable":12,"player":"tizen","subs":0,"subsAvailable":0}
+18:13:02.146 Xc73IKcm DEBUG [player] play-element built {"title":"s5e06 - Трепетный капкан","url":"https://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDcwNjEyMTs5ODc3MDM7MTc3NzgzMTk3OSZoPVI0SlUzVzZSQnhWZVA5Skswcjl0RXcmZT0xNzc3OTE4Mzc5/987703.m3u8?loc=nl","q":2160,"voiceIdx":3,"voice":"04.MVO.rus","voicesAvailable":12,"player":"tizen","subs":0,"subsAvailable":0}
+18:13:02.148 Xc73IKcm DEBUG [player] play-element built {"title":"s5e07 - Линда","url":"https://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDcwNjEyMTs5ODk1Njk7MTc3NzgzMTk3OSZoPUdXc0hxZ3hweURMaXQ3R09IeGZjaFEmZT0xNzc3OTE4Mzc5/989569.m3u8?loc=nl","q":2160,"voiceIdx":3,"voice":"04.MVO.rus","voicesAvailable":12,"player":"tizen","subs":0,"subsAvailable":0}
+18:13:02.151 Xc73IKcm DEBUG [player] play-element built {"title":"s5e08 - Одеяло","url":"https://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDcwNjEyMTs5OTA3NzI7MTc3NzgzMTk3OSZoPTA1dWV5aVJPT2V1ZzV1dWJLbDcwY0EmZT0xNzc3OTE4Mzc5/990772.m3u8?loc=nl","q":2160,"voiceIdx":3,"voice":"04.MVO.rus","voicesAvailable":12,"player":"tizen","subs":0,"subsAvailable":0}
+18:13:02.152 Xc73IKcm DEBUG [player] play-element built {"title":"s5e09 - Бесполезная рука","url":"https://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDcwNjEyMTs5OTE5NjA7MTc3NzgzMTk3OSZoPTFKZ0l4eVlpQUxRRE45dGQ1a2VlTmcmZT0xNzc3OTE4Mzc5/991960.m3u8?loc=nl","q":2160,"voiceIdx":3,"voice":"04.MVO.rus","voicesAvailable":12,"player":"tizen","subs":0,"subsAvailable":0}
+18:13:02.154 Xc73IKcm DEBUG [player] play-element built {"title":"s5e10 - Бисквит","url":"https://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDcwNjEyMTs5OTMwNDY7MTc3NzgzMTk3OSZoPW9Ya0NkZ1UzTTVJcWJVWjZrUDhjZEEmZT0xNzc3OTE4Mzc5/993046.m3u8?loc=nl","q":2160,"voiceIdx":3,"voice":"04.MVO.rus","voicesAvailable":12,"player":"tizen","subs":0,"subsAvailable":0}
+18:13:02.157 Xc73IKcm DEBUG [voice] remembered for episode {"hash":"1263532291","key":"rus|Многоголосый|NewStudio|aac|4"}
+18:13:02.158 Xc73IKcm INFO  [player] launching {"url":"https://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDcwNjEyMTs5ODEyNDc7MTc3NzgzMTk3OSZoPUoyNXZVUlFRaHpabEdyMUdiWUd6SWcmZT0xNzc3OTE4Mzc5/981247.m3u8?loc=nl","playlist":10,"title":"Фарго s5e01 - Трагедия общин"}
+18:13:02.161 Xc73IKcm INFO  [proxy] launching via manifest-proxy {"voice":4,"proxyHost":"https://kinopub.fastcdn.pics","originalHost":"cdn2cdn.com"}
+18:13:02.164 Xc73IKcm DEBUG [proxy] playlist wrapped {"count":10,"voice":4}
+18:13:02.166 Xc73IKcm INFO  [lampa-evt] Player/create
+18:13:02.186 Xc73IKcm INFO  [lampa-evt] Player/start
+18:13:02.192 Xc73IKcm INFO  [player] forcing change_quality=true for proxy URL (skip hls.js parse)
+18:13:02.822 Xc73IKcm INFO  [lampa-evt] PlayerVideo/play
+18:13:02.876 Xc73IKcm INFO  [lampa-evt] Player/ready
+18:13:02.928 Xc73IKcm INFO  [player-ui] next-episode-name override active {"label":"04.MVO.rus"}
+18:13:03.086 Xc73IKcm INFO  [manifest] master.m3u8 {"url":"https://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDcwNjEyMTs5ODEyNDc7MTc3NzgzMTk3OSZoPUoyNXZVUlFRaHpabEdyMUdiWUd6SWcmZT0xNzc3OTE4Mzc5/981247.m3u8?loc=nl","length":21693,"lineCount":79,"keep":["#EXTM3U","#EXT-X-VERSION:4","#EXT-X-INDEPENDENT-SEGMENTS","#EXT-X-MEDIA:TYPE=SUBTITLES,GROUP-ID=\"sub\",NAME=\"RUS #01\",LANGUAGE=\"rus\",URI=\"/hls/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDcwNjEyMTs5ODEyNDc7MTc3NzgzMTk3OSZoPUoyNXZVUlFRaHpabEdyMUdiWUd6SWcmZT0xNzc3OTE4Mzc5/subtitles/c/ee/1468171.srt/index.m3u8?loc=nl\"","#EXT-X-MEDIA:TYPE=SUBTITLES,GROUP-ID=\"sub\",NAME=\"RUS #02\",LANGUAGE=\"rus\",URI=\"/hls/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDcwNjEyMTs5ODEyNDc7MTc3NzgzMTk3OSZoPUoyNXZVUlFRaHpabEdyMUdiWUd6SWcmZT0xNzc3OTE4Mzc5/subtitles/5/a3/1475101.srt/index.m3u8?loc=nl\"","#EXT-X-MEDIA:TYPE=SUBTITLES,GROUP-ID=\"sub\",NAME=\"RUS #03\",LANGUAGE=\"rus\",URI=\"/hls/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDcwNjEyMTs5ODEyNDc7MTc3NzgzMTk3OSZoPUoyNXZVUlFRaHpabEdyMUdiWUd6SWcmZT0xNzc3OTE4Mzc5/subtitles/d/c3/1550332.srt/index.m3u8?loc=nl\"","#EXT-X-MEDIA:TYPE=SUBTITLES,GROUP-ID=\"sub\",NAME=\"JPN #04\",LANGUAGE=\"jpn\",URI=\"/hls/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDcwNjEyMTs5ODEyNDc7MTc3NzgzMTk3OSZoPUoyNXZVUlFRaHpabEdyMUdiWUd6SWcmZT0xNzc3OTE4Mzc5/subtitles/7/92/1466332.srt/index.m3u8?loc=nl\"","#EXT-X-MEDIA:TYPE=SUBTITLES,GROUP-ID=\"sub\",NAME=\"FRE #05\",LANGUAGE=\"fre\",URI=\"/hls/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDcwNjEyMTs5ODEyNDc7MTc3NzgzMTk3OSZoPUoyNXZVUlFRaHpabEdyMUdiWUd6SWcmZT0xNzc3OTE4Mzc5/subtitles/d/ec/1529872.srt/index.m3u8?loc=nl\"","#EXT-X-MEDIA:TYPE=SUBTITLES,GROUP-ID=\"sub\",NAME=\"ENG #06\",LANGUAGE=\"eng\",URI=\"/hls/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDcwNjEyMTs5ODEyNDc7MTc3NzgzMTk3OSZoPUoyNXZVUlFRaHpabEdyMUdiWUd6SWcmZT0xNzc3OTE4Mzc5/subtitles/4/01/1566928.srt/index.m3u8?loc=nl\"","#EXT-X-MEDIA:TYPE=SUBTITLES,GROUP-ID=\"sub\",NAME=\"ENG #07\",LANGUAGE=\"eng\",URI=\"/hls/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDcwNjEyMTs5ODEyNDc7MTc3NzgzMTk3OSZoPUoyNXZVUlFRaHpabEdyMUdiWUd6SWcmZT0xNzc3OTE4Mzc5/subtitles/c/e0/1566931.srt/index.m3u8?loc=nl\"","#EXT-X-MEDIA:TYPE=AUDIO,GROUP-ID=\"audio2160\",NAME=\"01. Авторский. Ю. Сербин (RUS)\",LANGUAGE=\"rus\",DEFAULT=YES,URI=\"https://3ca02ace-9c82-11eb-9ce3-04d4c439219f.ams-static-03.cdntogo.net/hls/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDcwNjEyMTs5ODEyNDc7MTc3NzgzMTk3OSZoPUoyNXZVUlFRaHpabEdyMUdiWUd6SWcmZT0xNzc3OTE4Mzc5/3/0d/XUY3mQjbhIleGAgRJ.mp4/index-a1.m3u8?loc=nl\"","#EXT-X-MEDIA:TYPE=AUDIO,GROUP-ID=\"audio2160\",NAME=\"02. Многоголосый. LostFilm (RUS)\",LANGUAGE=\"rus\",DEFAULT=NO,URI=\"https://3ca02ace-9c82-11eb-9ce3-04d4c439219f.ams-static-03.cdntogo.net/hls/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDcwNjEyMTs5ODEyNDc7MTc3NzgzMTk3OSZoPUoyNXZVUlFRaHpabEdyMUdiWUd6SWcmZT0xNzc3OTE4Mzc5/3/0d/XUY3mQjbhIleGAgRJ.mp4/index-a2.m3u8?loc=nl\"","#EXT-X-MEDIA:TYPE=AUDIO,GROUP-ID=\"audio2160\",NAME=\"03. Двухголосый. Кубик в Кубе (RUS)\",LANGUAGE=\"rus\",DEFAULT=NO,URI=\"https://3ca02ace-9c82-11eb-9ce3-04d4c439219f.ams-static-03.cdntogo.net/hls/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDcwNjEyMTs5ODEyNDc7MTc3NzgzMTk3OSZoPUoyNXZVUlFRaHpabEdyMUdiWUd6SWcmZT0xNzc3OTE4Mzc5/3/0d/XUY3mQjbhIleGAgRJ.mp4/index-a3.m3u8?loc=nl\"","#EXT-X-MEDIA:TYPE=AUDIO,GROUP-ID=\"audio2160\",NAME=\"04. Многоголосый. NewStudio (RUS)\",LANGUAGE=\"rus\",DEFAULT=NO,URI=\"https://3ca02ace-9c82-11eb-9ce3-04d4c439219f.ams-static-03.cdntogo.net/hls/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDcwNjEyMTs5ODEyNDc7MTc3NzgzMTk3OSZoPUoyNXZVUlFRaHpabEdyMUdiWUd6SWcmZT0xNzc3OTE4Mzc5/3/0d/XUY3mQjbhIleGAgRJ.mp4/index-a4.m3u8?loc=nl\"","#EXT-X-MEDIA:TYPE=AUDIO,GROUP-ID=\"audio2160\",NAME=\"05. Дубляж (RUS)\",LANGUAGE=\"rus\",DEFAULT=NO,URI=\"https://3ca02ace-9c82-11eb-9ce3-04d4c439219f.ams-static-03.cdntogo.net/hls/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDcwNjEyMTs5ODEyNDc7MTc3NzgzMTk3OSZoPUoyNXZVUlFRaHpabEdyMUdiWUd6SWcmZT0xNzc3OTE4Mzc5/3/0d/XUY3mQjbhIleGAgRJ.mp4/index-a5.m3u8?loc=nl\"","#EXT-X-MEDIA:TYPE=AUDIO,GROUP-ID=\"audio2160\",NAME=\"06. Многоголосый (RUS)\",LANGUAGE=\"rus\",DEFAULT=NO,URI=\"https://3ca02ace-9c82-11eb-9ce3-04d4c439219f.ams-static-03.cdntogo.net/hls/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDcwNjEyMTs5ODEyNDc7MTc3NzgzMTk3OSZoPUoyNXZVUlFRaHpabEdyMUdiWUd6SWcmZT0xNzc3OTE4Mzc5/3/0d/XUY3mQjbhIleGAgRJ.mp4/index-a6.m3u8?loc=nl\"","#EXT-X-MEDIA:TYPE=AUDIO,GROUP-ID=\"audio2160\",NAME=\"07. Многоголосый. TVShows (RUS)\",LANGUAGE=\"rus\",DEFAULT=NO,URI=\"https://3ca02ace-9c82-11eb-9ce3-04d4c439219f.ams-static-03.cdntogo.net/hls/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDcwNjEyMTs5ODEyNDc7MTc3NzgzMTk3OSZoPUoyNXZVUlFRaHpabEdyMUdiWUd6SWcmZT0xNzc3OTE4Mzc5/3/0d/XUY3mQjbhIleGAgRJ.mp4/index-a7.m3u8?loc=nl\"","#EXT-X-MEDIA:TYPE=AUDIO,GROUP-ID=\"audio2160\",NAME=\"08. Дубляж (UKR)\",LANGUAGE=\"ukr\",DEFAULT=NO,URI=\"https://3ca02ace-9c82-11eb-9ce3-04d4c439219f.ams-static-03.cdntogo.net/hls/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDcwNjEyMTs5ODEyNDc7MTc3NzgzMTk3OSZoPUoyNXZVUlFRaHpabEdyMUdiWUd6SWcmZT0xNzc3OTE4Mzc5/3/0d/XUY3mQjbhIleGAgRJ.mp4/index-a8.m3u8?loc=nl\"","#EXT-X-MEDIA:TYPE=AUDIO,GROUP-ID=\"audio2160\",NAME=\"09. Многоголосый. DniproFilm (UKR)\",LANGUAGE=\"ukr\",DEFAULT=NO,URI=\"https://3ca02ace-9c82-11eb-9ce3-04d4c439219f.ams-static-03.cdntogo.net/hls/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDcwNjEyMTs5ODEyNDc7MTc3NzgzMTk3OSZoPUoyNXZVUlFRaHpabEdyMUdiWUd6SWcmZT0xNzc3OTE4Mzc5/3/0d/XUY3mQjbhIleGAgRJ.mp4/index-a9.m3u8?loc=nl\"","#EXT-X-MEDIA:TYPE=AUDIO,GROUP-ID=\"audio2160\",NAME=\"10. Многоголосый. BaibaKo (UKR)\",LANGUAGE=\"ukr\",DEFAULT=NO,URI=\"https://3ca02ace-9c82-11eb-9ce3-04d4c439219f.ams-static-03.cdntogo.net/hls/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDcwNjEyMTs5ODEyNDc7MTc3NzgzMTk3OSZoPUoyNXZVUlFRaHpabEdyMUdiWUd6SWcmZT0xNzc3OTE4Mzc5/3/0d/XUY3mQjbhIleGAgRJ.mp4/index-a10.m3u8?loc=nl\"","#EXT-X-MEDIA:TYPE=AUDIO,GROUP-ID=\"audio2160\",NAME=\"11. Оригинал (ENG)\",LANGUAGE=\"eng\",DEFAULT=NO,URI=\"https://3ca02ace-9c82-11eb-9ce3-04d4c439219f.ams-static-03.cdntogo.net/hls/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDcwNjEyMTs5ODEyNDc7MTc3NzgzMTk3OSZoPUoyNXZVUlFRaHpabEdyMUdiWUd6SWcmZT0xNzc3OTE4Mzc5/3/0d/XUY3mQjbhIleGAgRJ.mp4/index-a11.m3u8?loc=nl\"","#EXT-X-MEDIA:TYPE=AUDIO,GROUP-ID=\"audio2160\",NAME=\"12. Авторский. Ю. Сербин (RUS) AC3\",LANGUAGE=\"rus\",DEFAULT=NO,URI=\"https://3ca02ace-9c82-11eb-9ce3-04d4c439219f.ams-static-03.cdntogo.net/hls/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDcwNjEyMTs5ODEyNDc7MTc3NzgzMTk3OSZoPUoyNXZVUlFRaHpabEdyMUdiWUd6SWcmZT0xNzc3OTE4Mzc5/3/0d/XUY3mQjbhIleGAgRJ.mp4/index-a12.m3u8?loc=nl\"","#EXT-X-MEDIA:TYPE=AUDIO,GROUP-ID=\"audio1080\",NAME=\"01. Авторский. Ю. Сербин (RUS)\",LANGUAGE=\"rus\",DEFAULT=YES,URI=\"https://3ca02ace-9c82-11eb-9ce3-04d4c439219f.ams-static-15.cdntogo.net/hls/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDcwNjEyMTs5ODEyNDc7MTc3NzgzMTk3OSZoPUoyNXZVUlFRaHpabEdyMUdiWUd6SWcmZT0xNzc3OTE4Mzc5/1/bf/7oe1MNyACorzPMbgm.mp4/index-a1.m3u8?loc=nl\"","#EXT-X-MEDIA:TYPE=AUDIO,GROUP-ID=\"audio1080\",NAME=\"02. Многоголосый. LostFilm (RUS)\",LANGUAGE=\"rus\",DEFAULT=NO,URI=\"https://3ca02ace-9c82-11eb-9ce3-04d4c439219f.ams-static-15.cdntogo.net/hls/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDcwNjEyMTs5ODEyNDc7MTc3NzgzMTk3OSZoPUoyNXZVUlFRaHpabEdyMUdiWUd6SWcmZT0xNzc3OTE4Mzc5/1/bf/7oe1MNyACorzPMbgm.mp4/index-a2.m3u8?loc=nl\"","#EXT-X-MEDIA:TYPE=AUDIO,GROUP-ID=\"audio1080\",NAME=\"03. Двухголосый. Кубик в Кубе (RUS)\",LANGUAGE=\"rus\",DEFAULT=NO,URI=\"https://3ca02ace-9c82-11eb-9ce3-04d4c439219f.ams-static-15.cdntogo.net/hls/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDcwNjEyMTs5ODEyNDc7MTc3NzgzMTk3OSZoPUoyNXZVUlFRaHpabEdyMUdiWUd6SWcmZT0xNzc3OTE4Mzc5/1/bf/7oe1MNyACorzPMbgm.mp4/index-a3.m3u8?loc=nl\"","#EXT-X-MEDIA:TYPE=AUDIO,GROUP-ID=\"audio1080\",NAME=\"04. Многоголосый. NewStudio (RUS)\",LANGUAGE=\"rus\",DEFAULT=NO,URI=\"https://3ca02ace-9c82-11eb-9ce3-04d4c439219f.ams-static-15.cdntogo.net/hls/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDcwNjEyMTs5ODEyNDc7MTc3NzgzMTk3OSZoPUoyNXZVUlFRaHpabEdyMUdiWUd6SWcmZT0xNzc3OTE4Mzc5/1/bf/7oe1MNyACorzPMbgm.mp4/index-a4.m3u8?loc=nl\"","#EXT-X-MEDIA:TYPE=AUDIO,GROUP-ID=\"audio1080\",NAME=\"05. Дубляж (RUS)\",LANGUAGE=\"rus\",DEFAULT=NO,URI=\"https://3ca02ace-9c82-11eb-9ce3-04d4c439219f.ams-static-15.cdntogo.net/hls/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDcwNjEyMTs5ODEyNDc7MTc3NzgzMTk3OSZoPUoyNXZVUlFRaHpabEdyMUdiWUd6SWcmZT0xNzc3OTE4Mzc5/1/bf/7oe1MNyACorzPMbgm.mp4/index-a5.m3u8?loc=nl\"","#EXT-X-MEDIA:TYPE=AUDIO,GROUP-ID=\"audio1080\",NAME=\"06. Многоголосый (RUS)\",LANGUAGE=\"rus\",DEFAULT=NO,URI=\"https://3ca02ace-9c82-11eb-9ce3-04d4c439219f.ams-static-15.cdntogo.net/hls/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDcwNjEyMTs5ODEyNDc7MTc3NzgzMTk3OSZoPUoyNXZVUlFRaHpabEdyMUdiWUd6SWcmZT0xNzc3OTE4Mzc5/1/bf/7oe1MNyACorzPMbgm.mp4/index-a6.m3u8?loc=nl\"","#EXT-X-MEDIA:TYPE=AUDIO,GROUP-ID=\"audio1080\",NAME=\"07. Многоголосый. TVShows (RUS)\",LANGUAGE=\"rus\",DEFAULT=NO,URI=\"https://3ca02ace-9c82-11eb-9ce3-04d4c439219f.ams-static-15.cdntogo.net/hls/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDcwNjEyMTs5ODEyNDc7MTc3NzgzMTk3OSZoPUoyNXZVUlFRaHpabEdyMUdiWUd6SWcmZT0xNzc3OTE4Mzc5/1/bf/7oe1MNyACorzPMbgm.mp4/index-a7.m3u8?loc=nl\"","#EXT-X-MEDIA:TYPE=AUDIO,GROUP-ID=\"audio1080\",NAME=\"08. Дубляж (UKR)\",LANGUAGE=\"ukr\",DEFAULT=NO,URI=\"https://3ca02ace-9c82-11eb-9ce3-04d4c439219f.ams-static-15.cdntogo.net/hls/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDcwNjEyMTs5ODEyNDc7MTc3NzgzMTk3OSZoPUoyNXZVUlFRaHpabEdyMUdiWUd6SWcmZT0xNzc3OTE4Mzc5/1/bf/7oe1MNyACorzPMbgm.mp4/index-a8.m3u8?loc=nl\"","#EXT-X-MEDIA:TYPE=AUDIO,GROUP-ID=\"audio1080\",NAME=\"09. Многоголосый. DniproFilm (UKR)\",LANGUAGE=\"ukr\",DEFAULT=NO,URI=\"https://3ca02ace-9c82-11eb-9ce3-04d4c439219f.ams-static-15.cdntogo.net/hls/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDcwNjEyMTs5ODEyNDc7MTc3NzgzMTk3OSZoPUoyNXZVUlFRaHpabEdyMUdiWUd6SWcmZT0xNzc3OTE4Mzc5/1/bf/7oe1MNyACorzPMbgm.mp4/index-a9.m3u8?loc=nl\"","#EXT-X-MEDIA:TYPE=AUDIO,GROUP-ID=\"audio1080\",NAME=\"10. Многоголосый. BaibaKo (UKR)\",LANGUAGE=\"ukr\",DEFAULT=NO,URI=\"https://3ca02ace-9c82-11eb-9ce3-04d4c439219f.ams-static-15.cdntogo.net/hls/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDcwNjEyMTs5ODEyNDc7MTc3NzgzMTk3OSZoPUoyNXZVUlFRaHpabEdyMUdiWUd6SWcmZT0xNzc3OTE4Mzc5/1/bf/7oe1MNyACorzPMbgm.mp4/index-a10.m3u8?loc=nl\"","#EXT-X-MEDIA:TYPE=AUDIO,GROUP-ID=\"audio1080\",NAME=\"11. Оригинал (ENG)\",LANGUAGE=\"eng\",DEFAULT=NO,URI=\"https://3ca02ace-9c82-11eb-9ce3-04d4c439219f.ams-static-15.cdntogo.net/hls/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDcwNjEyMTs5ODEyNDc7MTc3NzgzMTk3OSZoPUoyNXZVUlFRaHpabEdyMUdiWUd6SWcmZT0xNzc3OTE4Mzc5/1/bf/7oe1MNyACorzPMbgm.mp4/index-a11.m3u8?loc=nl\"","#EXT-X-MEDIA:TYPE=AUDIO,GROUP-ID=\"audio1080\",NAME=\"12. Авторский. Ю. Сербин (RUS) AC3\",LANGUAGE=\"rus\",DEFAULT=NO,URI=\"https://3ca02ace-9c82-11eb-9ce3-04d4c439219f.ams-static-15.cdntogo.net/hls/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDcwNjEyMTs5ODEyNDc7MTc3NzgzMTk3OSZoPUoyNXZVUlFRaHpabEdyMUdiWUd6SWcmZT0xNzc3OTE4Mzc5/1/bf/7oe1MNyACorzPMbgm.mp4/index-a12.m3u8?loc=nl\"","#EXT-X-MEDIA:TYPE=AUDIO,GROUP-ID=\"audio720\",NAME=\"01. Авторский. Ю. Сербин (RUS)\",LANGUAGE=\"rus\",DEFAULT=YES,URI=\"https://3ca02ace-9c82-11eb-9ce3-04d4c439219f.ams-static-01.cdntogo.net/hls/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDcwNjEyMTs5ODEyNDc7MTc3NzgzMTk3OSZoPUoyNXZVUlFRaHpabEdyMUdiWUd6SWcmZT0xNzc3OTE4Mzc5/f/52/sr8dQxovQsfrTJvCn.mp4/index-a1.m3u8?loc=nl\"","#EXT-X-MEDIA:TYPE=AUDIO,GROUP-ID=\"audio720\",NAME=\"02. Многоголосый. LostFilm (RUS)\",LANGUAGE=\"rus\",DEFAULT=NO,URI=\"https://3ca02ace-9c82-11eb-9ce3-04d4c439219f.ams-static-01.cdntogo.net/hls/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDcwNjEyMTs5ODEyNDc7MTc3NzgzMTk3OSZoPUoyNXZVUlFRaHpabEdyMUdiWUd6SWcmZT0xNzc3OTE4Mzc5/f/52/sr8dQxovQsfrTJvCn.mp4/index-a2.m3u8?loc=nl\"","#EXT-X-MEDIA:TYPE=AUDIO,GROUP-ID=\"audio720\",NAME=\"03. Двухголосый. Кубик в Кубе (RUS)\",LANGUAGE=\"rus\",DEFAULT=NO,URI=\"https://3ca02ace-9c82-11eb-9ce3-04d4c439219f.ams-static-01.cdntogo.net/hls/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDcwNjEyMTs5ODEyNDc7MTc3NzgzMTk3OSZoPUoyNXZVUlFRaHpabEdyMUdiWUd6SWcmZT0xNzc3OTE4Mzc5/f/52/sr8dQxovQsfrTJvCn.mp4/index-a3.m3u8?loc=nl\"","#EXT-X-MEDIA:TYPE=AUDIO,GROUP-ID=\"audio720\",NAME=\"04. Многоголосый. NewStudio (RUS)\",LANGUAGE=\"rus\",DEFAULT=NO,URI=\"https://3ca02ace-9c82-11eb-9ce3-04d4c439219f.ams-static-01.cdntogo.net/hls/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDcwNjEyMTs5ODEyNDc7MTc3NzgzMTk3OSZoPUoyNXZVUlFRaHpabEdyMUdiWUd6SWcmZT0xNzc3OTE4Mzc5/f/52/sr8dQxovQsfrTJvCn.mp4/index-a4.m3u8?loc=nl\"","#EXT-X-MEDIA:TYPE=AUDIO,GROUP-ID=\"audio720\",NAME=\"05. Дубляж (RUS)\",LANGUAGE=\"rus\",DEFAULT=NO,URI=\"https://3ca02ace-9c82-11eb-9ce3-04d4c439219f.ams-static-01.cdntogo.net/hls/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDcwNjEyMTs5ODEyNDc7MTc3NzgzMTk3OSZoPUoyNXZVUlFRaHpabEdyMUdiWUd6SWcmZT0xNzc3OTE4Mzc5/f/52/sr8dQxovQsfrTJvCn.mp4/index-a5.m3u8?loc=nl\"","#EXT-X-MEDIA:TYPE=AUDIO,GROUP-ID=\"audio720\",NAME=\"06. Многоголосый (RUS)\",LANGUAGE=\"rus\",DEFAULT=NO,URI=\"https://3ca02ace-9c82-11eb-9ce3-04d4c439219f.ams-static-01.cdntogo.net/hls/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDcwNjEyMTs5ODEyNDc7MTc3NzgzMTk3OSZoPUoyNXZVUlFRaHpabEdyMUdiWUd6SWcmZT0xNzc3OTE4Mzc5/f/52/sr8dQxovQsfrTJvCn.mp4/index-a6.m3u8?loc=nl\"","#EXT-X-MEDIA:TYPE=AUDIO,GROUP-ID=\"audio720\",NAME=\"07. Многоголосый. TVShows (RUS)\",LANGUAGE=\"rus\",DEFAULT=NO,URI=\"https://3ca02ace-9c82-11eb-9ce3-04d4c439219f.ams-static-01.cdntogo.net/hls/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDcwNjEyMTs5ODEyNDc7MTc3NzgzMTk3OSZoPUoyNXZVUlFRaHpabEdyMUdiWUd6SWcmZT0xNzc3OTE4Mzc5/f/52/sr8dQxovQsfrTJvCn.mp4/index-a7.m3u8?loc=nl\"","#EXT-X-MEDIA:TYPE=AUDIO,GROUP-ID=\"audio720\",NAME=\"08. Дубляж (UKR)\",LANGUAGE=\"ukr\",DEFAULT=NO,URI=\"https://3ca02ace-9c82-11eb-9ce3-04d4c439219f.ams-static-01.cdntogo.net/hls/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDcwNjEyMTs5ODEyNDc7MTc3NzgzMTk3OSZoPUoyNXZVUlFRaHpabEdyMUdiWUd6SWcmZT0xNzc3OTE4Mzc5/f/52/sr8dQxovQsfrTJvCn.mp4/index-a8.m3u8?loc=nl\"","#EXT-X-MEDIA:TYPE=AUDIO,GROUP-ID=\"audio720\",NAME=\"09. Многоголосый. DniproFilm (UKR)\",LANGUAGE=\"ukr\",DEFAULT=NO,URI=\"https://3ca02ace-9c82-11eb-9ce3-04d4c439219f.ams-static-01.cdntogo.net/hls/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDcwNjEyMTs5ODEyNDc7MTc3NzgzMTk3OSZoPUoyNXZVUlFRaHpabEdyMUdiWUd6SWcmZT0xNzc3OTE4Mzc5/f/52/sr8dQxovQsfrTJvCn.mp4/index-a9.m3u8?loc=nl\"","#EXT-X-MEDIA:TYPE=AUDIO,GROUP-ID=\"audio720\",NAME=\"10. Многоголосый. BaibaKo (UKR)\",LANGUAGE=\"ukr\",DEFAULT=NO,URI=\"https://3ca02ace-9c82-11eb-9ce3-04d4c439219f.ams-static-01.cdntogo.net/hls/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDcwNjEyMTs5ODEyNDc7MTc3NzgzMTk3OSZoPUoyNXZVUlFRaHpabEdyMUdiWUd6SWcmZT0xNzc3OTE4Mzc5/f/52/sr8dQxovQsfrTJvCn.mp4/index-a10.m3u8?loc=nl\"","#EXT-X-MEDIA:TYPE=AUDIO,GROUP-ID=\"audio720\",NAME=\"11. Оригинал (ENG)\",LANGUAGE=\"eng\",DEFAULT=NO,URI=\"https://3ca02ace-9c82-11eb-9ce3-04d4c439219f.ams-static-01.cdntogo.net/hls/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDcwNjEyMTs5ODEyNDc7MTc3NzgzMTk3OSZoPUoyNXZVUlFRaHpabEdyMUdiWUd6SWcmZT0xNzc3OTE4Mzc5/f/52/sr8dQxovQsfrTJvCn.mp4/index-a11.m3u8?loc=nl\"","#EXT-X-MEDIA:TYPE=AUDIO,GROUP-ID=\"audio720\",NAME=\"12. Авторский. Ю. Сербин (RUS) AC3\",LANGUAGE=\"rus\",DEFAULT=NO,URI=\"https://3ca02ace-9c82-11eb-9ce3-04d4c439219f.ams-static-01.cdntogo.net/hls/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDcwNjEyMTs5ODEyNDc7MTc3NzgzMTk3OSZoPUoyNXZVUlFRaHpabEdyMUdiWUd6SWcmZT0xNzc3OTE4Mzc5/f/52/sr8dQxovQsfrTJvCn.mp4/index-a12.m3u8?loc=nl\"","#EXT-X-MEDIA:TYPE=AUDIO,GROUP-ID=\"audio480\",NAME=\"01. Авторский. Ю. Сербин (RUS)\",LANGUAGE=\"rus\",DEFAULT=YES,URI=\"https://3ca02ace-9c82-11eb-9ce3-04d4c439219f.ams-static-01.cdntogo.net/hls/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDcwNjEyMTs5ODEyNDc7MTc3NzgzMTk3OSZoPUoyNXZVUlFRaHpabEdyMUdiWUd6SWcmZT0xNzc3OTE4Mzc5/a/32/aTlG2tgvmTeTtEThj.mp4/index-a1.m3u8?loc=nl\"","#EXT-X-MEDIA:TYPE=AUDIO,GROUP-ID=\"audio480\",NAME=\"02. Многоголосый. LostFilm (RUS)\",LANGUAGE=\"rus\",DEFAULT=NO,URI=\"https://3ca02ace-9c82-11eb-9ce3-04d4c439219f.ams-static-01.cdntogo.net/hls/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDcwNjEyMTs5ODEyNDc7MTc3NzgzMTk3OSZoPUoyNXZVUlFRaHpabEdyMUdiWUd6SWcmZT0xNzc3OTE4Mzc5/a/32/aTlG2tgvmTeTtEThj.mp4/index-a2.m3u8?loc=nl\"","#EXT-X-MEDIA:TYPE=AUDIO,GROUP-ID=\"audio480\",NAME=\"03. Двухголосый. Кубик в Кубе (RUS)\",LANGUAGE=\"rus\",DEFAULT=NO,URI=\"https://3ca02ace-9c82-11eb-9ce3-04d4c439219f.ams-static-01.cdntogo.net/hls/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDcwNjEyMTs5ODEyNDc7MTc3NzgzMTk3OSZoPUoyNXZVUlFRaHpabEdyMUdiWUd6SWcmZT0xNzc3OTE4Mzc5/a/32/aTlG2tgvmTeTtEThj.mp4/index-a3.m3u8?loc=nl\"","#EXT-X-MEDIA:TYPE=AUDIO,GROUP-ID=\"audio480\",NAME=\"04. Многоголосый. NewStudio (RUS)\",LANGUAGE=\"rus\",DEFAULT=NO,URI=\"https://3ca02ace-9c82-11eb-9ce3-04d4c439219f.ams-static-01.cdntogo.net/hls/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDcwNjEyMTs5ODEyNDc7MTc3NzgzMTk3OSZoPUoyNXZVUlFRaHpabEdyMUdiWUd6SWcmZT0xNzc3OTE4Mzc5/a/32/aTlG2tgvmTeTtEThj.mp4/index-a4.m3u8?loc=nl\"","#EXT-X-MEDIA:TYPE=AUDIO,GROUP-ID=\"audio480\",NAME=\"05. Дубляж (RUS)\",LANGUAGE=\"rus\",DEFAULT=NO,URI=\"https://3ca02ace-9c82-11eb-9ce3-04d4c439219f.ams-static-01.cdntogo.net/hls/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDcwNjEyMTs5ODEyNDc7MTc3NzgzMTk3OSZoPUoyNXZVUlFRaHpabEdyMUdiWUd6SWcmZT0xNzc3OTE4Mzc5/a/32/aTlG2tgvmTeTtEThj.mp4/index-a5.m3u8?loc=nl\"","#EXT-X-MEDIA:TYPE=AUDIO,GROUP-ID=\"audio480\",NAME=\"06. Многоголосый (RUS)\",LANGUAGE=\"rus\",DEFAULT=NO,URI=\"https://3ca02ace-9c82-11eb-9ce3-04d4c439219f.ams-static-01.cdntogo.net/hls/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDcwNjEyMTs5ODEyNDc7MTc3NzgzMTk3OSZoPUoyNXZVUlFRaHpabEdyMUdiWUd6SWcmZT0xNzc3OTE4Mzc5/a/32/aTlG2tgvmTeTtEThj.mp4/index-a6.m3u8?loc=nl\"","#EXT-X-MEDIA:TYPE=AUDIO,GROUP-ID=\"audio480\",NAME=\"07. Многоголосый. TVShows (RUS)\",LANGUAGE=\"rus\",DEFAULT=NO,URI=\"https://3ca02ace-9c82-11eb-9ce3-04d4c439219f.ams-static-01.cdntogo.net/hls/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDcwNjEyMTs5ODEyNDc7MTc3NzgzMTk3OSZoPUoyNXZVUlFRaHpabEdyMUdiWUd6SWcmZT0xNzc3OTE4Mzc5/a/32/aTlG2tgvmTeTtEThj.mp4/index-a7.m3u8?loc=nl\"","#EXT-X-MEDIA:TYPE=AUDIO,GROUP-ID=\"audio480\",NAME=\"08. Дубляж (UKR)\",LANGUAGE=\"ukr\",DEFAULT=NO,URI=\"https://3ca02ace-9c82-11eb-9ce3-04d4c439219f.ams-static-01.cdntogo.net/hls/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDcwNjEyMTs5ODEyNDc7MTc3NzgzMTk3OSZoPUoyNXZVUlFRaHpabEdyMUdiWUd6SWcmZT0xNzc3OTE4Mzc5/a/32/aTlG2tgvmTeTtEThj.mp4/index-a8.m3u8?loc=nl\"","#EXT-X-MEDIA:TYPE=AUDIO,GROUP-ID=\"audio480\",NAME=\"09. Многоголосый. DniproFilm (UKR)\",LANGUAGE=\"ukr\",DEFAULT=NO,URI=\"https://3ca02ace-9c82-11eb-9ce3-04d4c439219f.ams-static-01.cdntogo.net/hls/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDcwNjEyMTs5ODEyNDc7MTc3NzgzMTk3OSZoPUoyNXZVUlFRaHpabEdyMUdiWUd6SWcmZT0xNzc3OTE4Mzc5/a/32/aTlG2tgvmTeTtEThj.mp4/index-a9.m3u8?loc=nl\"","#EXT-X-MEDIA:TYPE=AUDIO,GROUP-ID=\"audio480\",NAME=\"10. Многоголосый. BaibaKo (UKR)\",LANGUAGE=\"ukr\",DEFAULT=NO,URI=\"https://3ca02ace-9c82-11eb-9ce3-04d4c439219f.ams-static-01.cdntogo.net/hls/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDcwNjEyMTs5ODEyNDc7MTc3NzgzMTk3OSZoPUoyNXZVUlFRaHpabEdyMUdiWUd6SWcmZT0xNzc3OTE4Mzc5/a/32/aTlG2tgvmTeTtEThj.mp4/index-a10.m3u8?loc=nl\"","#EXT-X-MEDIA:TYPE=AUDIO,GROUP-ID=\"audio480\",NAME=\"11. Оригинал (ENG)\",LANGUAGE=\"eng\",DEFAULT=NO,URI=\"https://3ca02ace-9c82-11eb-9ce3-04d4c439219f.ams-static-01.cdntogo.net/hls/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDcwNjEyMTs5ODEyNDc7MTc3NzgzMTk3OSZoPUoyNXZVUlFRaHpabEdyMUdiWUd6SWcmZT0xNzc3OTE4Mzc5/a/32/aTlG2tgvmTeTtEThj.mp4/index-a11.m3u8?loc=nl\"","#EXT-X-MEDIA:TYPE=AUDIO,GROUP-ID=\"audio480\",NAME=\"12. Авторский. Ю. Сербин (RUS) AC3\",LANGUAGE=\"rus\",DEFAULT=NO,URI=\"https://3ca02ace-9c82-11eb-9ce3-04d4c439219f.ams-static-01.cdntogo.net/hls/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDcwNjEyMTs5ODEyNDc7MTc3NzgzMTk3OSZoPUoyNXZVUlFRaHpabEdyMUdiWUd6SWcmZT0xNzc3OTE4Mzc5/a/32/aTlG2tgvmTeTtEThj.mp4/index-a12.m3u8?loc=nl\"","#EXT-X-STREAM-INF:PROGRAM-ID=1,BANDWIDTH=11009931,VIDEO-RANGE=SDR,RESOLUTION=3840x2160,CODECS=\"avc1.640028,mp4a.40.2\",FRAME-RATE=23.976,HDCP-LEVEL=NONE,AUDIO=\"audio2160\",SUBTITLES=\"sub\"","https://3ca02ace-9c82-11eb-9ce3-04d4c439219f.ams-static-03.cdntogo.net/hls/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDcwNjEyMTs5ODEyNDc7MTc3NzgzMTk3OSZoPUoyNXZVUlFRaHpabEdyMUdiWUd6SWcmZT0xNzc3OTE4Mzc5/3/0d/XUY3mQjbhIleGAgRJ.mp4/index-v1.m3u8?loc=nl","#EXT-X-STREAM-INF:PROGRAM-ID=1,BANDWIDTH=2448824,VIDEO-RANGE=SDR,RESOLUTION=1920x1080,CODECS=\"avc1.640028,mp4a.40.2\",FRAME-RATE=23.976,HDCP-LEVEL=NONE,AUDIO=\"audio1080\",SUBTITLES=\"sub\"","https://3ca02ace-9c82-11eb-9ce3-04d4c439219f.ams-static-15.cdntogo.net/hls/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDcwNjEyMTs5ODEyNDc7MTc3NzgzMTk3OSZoPUoyNXZVUlFRaHpabEdyMUdiWUd6SWcmZT0xNzc3OTE4Mzc5/1/bf/7oe1MNyACorzPMbgm.mp4/index-v1.m3u8?loc=nl","#EXT-X-STREAM-INF:PROGRAM-ID=1,BANDWIDTH=698230,VIDEO-RANGE=SDR,RESOLUTION=1280x720,CODECS=\"avc1.640028,mp4a.40.2\",FRAME-RATE=23.976,HDCP-LEVEL=NONE,AUDIO=\"audio720\",SUBTITLES=\"sub\"","https://3ca02ace-9c82-11eb-9ce3-04d4c439219f.ams-static-01.cdntogo.net/hls/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDcwNjEyMTs5ODEyNDc7MTc3NzgzMTk3OSZoPUoyNXZVUlFRaHpabEdyMUdiWUd6SWcmZT0xNzc3OTE4Mzc5/f/52/sr8dQxovQsfrTJvCn.mp4/index-v1.m3u8?loc=nl","#EXT-X-STREAM-INF:PROGRAM-ID=1,BANDWIDTH=299178,VIDEO-RANGE=SDR,RESOLUTION=720x406,CODECS=\"avc1.640028,mp4a.40.2\",FRAME-RATE=23.976,HDCP-LEVEL=NONE,AUDIO=\"audio480\",SUBTITLES=\"sub\"","https://3ca02ace-9c82-11eb-9ce3-04d4c439219f.ams-static-01.cdntogo.net/hls/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDcwNjEyMTs5ODEyNDc7MTc3NzgzMTk3OSZoPUoyNXZVUlFRaHpabEdyMUdiWUd6SWcmZT0xNzc3OTE4Mzc5/a/32/aTlG2tgvmTeTtEThj.mp4/index-v1.m3u8?loc=nl"]}
+18:13:06.158 Xc73IKcm INFO  [lampa-evt] PlayerVideo/canplay
+18:13:06.167 Xc73IKcm INFO  [avplay] canplay {"state":"PLAYING","tracks":[{"index":0,"type":"VIDEO","extra":{"fourCC":"video/x-h264","Width":"3840","Height":"2160","Bit_rate":"11009931"}},{"index":1,"type":"AUDIO","extra":{"language":"rus","channels":"6","sample_rate":"48000","bit_rate":"26114","fourCC":"audio/mpeg"}}]}
+18:13:06.170 Xc73IKcm DEBUG [voice] apply via canplay {"idx":3,"label":"04.MVO.rus","key":"rus|Многоголосый|NewStudio|aac|4"}
+18:13:06.174 Xc73IKcm WARN  [voice] avplay: idx out of range {"idx":3,"total":1}
+18:13:06.178 Xc73IKcm WARN  [voice] no track switch backend available, stream stays on default audio
+18:13:06.185 Xc73IKcm INFO  [lampa-evt] PlayerVideo/loadeddata
+18:13:06.188 Xc73IKcm DEBUG [voice] apply via loadeddata {"idx":3,"label":"04.MVO.rus","key":"rus|Многоголосый|NewStudio|aac|4"}
+18:13:06.192 Xc73IKcm WARN  [voice] avplay: idx out of range {"idx":3,"total":1}
+18:13:06.196 Xc73IKcm WARN  [voice] no track switch backend available, stream stays on default audio
+18:13:06.225 Xc73IKcm INFO  [lampa-evt] PlayerVideo/tracks
+18:13:06.228 Xc73IKcm DEBUG [voice] apply via tracks {"idx":3,"label":"04.MVO.rus","key":"rus|Многоголосый|NewStudio|aac|4"}
+18:13:06.231 Xc73IKcm WARN  [voice] avplay: idx out of range {"idx":3,"total":1}
+18:13:06.236 Xc73IKcm WARN  [voice] no track switch backend available, stream stays on default audio
+18:13:06.259 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:13:06.490 Xc73IKcm INFO  [lampa-evt] PlayerVideo/play
+18:13:12.745 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:13:13.015 Xc73IKcm INFO  [lampa-evt] Player/destroy
+18:13:13.018 Xc73IKcm INFO  [lampa-evt] Player/create
+18:13:13.026 Xc73IKcm INFO  [lampa-evt] Player/start
+18:13:13.031 Xc73IKcm INFO  [player] forcing change_quality=true for proxy URL (skip hls.js parse)
+18:13:13.058 Xc73IKcm INFO  [lampa-evt] PlayerVideo/play
+18:13:13.078 Xc73IKcm INFO  [lampa-evt] Player/ready
+18:13:13.128 Xc73IKcm DEBUG [source] append items {"count":10}
+18:13:13.260 Xc73IKcm INFO  [player-ui] next-episode-name override active {"label":"04.MVO.rus"}
+18:13:15.526 Xc73IKcm INFO  [lampa-evt] PlayerVideo/canplay
+18:13:15.530 Xc73IKcm INFO  [avplay] canplay {"state":"PLAYING","tracks":[{"index":0,"type":"VIDEO","extra":{"fourCC":"video/x-h264","Width":"3840","Height":"2160","Bit_rate":"12869747"}},{"index":1,"type":"AUDIO","extra":{"language":"rus","channels":"6","sample_rate":"48000","bit_rate":"26114","fourCC":"audio/mpeg"}}]}
+18:13:15.535 Xc73IKcm INFO  [lampa-evt] PlayerVideo/loadeddata
+18:13:15.560 Xc73IKcm INFO  [lampa-evt] PlayerVideo/tracks
+18:13:15.585 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:13:15.794 Xc73IKcm INFO  [lampa-evt] PlayerVideo/play
+18:13:21.748 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:13:21.984 Xc73IKcm INFO  [lampa-evt] Player/destroy
+18:13:21.986 Xc73IKcm INFO  [lampa-evt] Player/create
+18:13:21.993 Xc73IKcm INFO  [lampa-evt] Player/start
+18:13:21.997 Xc73IKcm INFO  [player] forcing change_quality=true for proxy URL (skip hls.js parse)
+18:13:22.024 Xc73IKcm INFO  [lampa-evt] PlayerVideo/play
+18:13:22.044 Xc73IKcm INFO  [lampa-evt] Player/ready
+18:13:22.091 Xc73IKcm DEBUG [source] append items {"count":10}
+18:13:22.229 Xc73IKcm INFO  [player-ui] next-episode-name override active {"label":"04.MVO.rus"}
+18:13:24.514 Xc73IKcm INFO  [lampa-evt] PlayerVideo/canplay
+18:13:24.519 Xc73IKcm INFO  [avplay] canplay {"state":"PLAYING","tracks":[{"index":0,"type":"VIDEO","extra":{"fourCC":"video/x-h264","Width":"3840","Height":"2160","Bit_rate":"10260380"}},{"index":1,"type":"AUDIO","extra":{"language":"rus","channels":"6","sample_rate":"48000","bit_rate":"26114","fourCC":"audio/mpeg"}}]}
+18:13:24.525 Xc73IKcm INFO  [lampa-evt] PlayerVideo/loadeddata
+18:13:24.549 Xc73IKcm INFO  [lampa-evt] PlayerVideo/tracks
+18:13:24.563 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:13:24.785 Xc73IKcm INFO  [lampa-evt] PlayerVideo/play
+18:13:30.447 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:13:30.454 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:13:30.796 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:13:30.799 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:13:30.902 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:13:30.906 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:13:31.010 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:13:31.014 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:13:31.119 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:13:31.122 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:13:31.227 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:13:31.230 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:13:31.335 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:13:31.339 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:13:32.569 Xc73IKcm INFO  [lampa-evt] PlayerVideo/play
+18:13:36.425 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:13:36.701 Xc73IKcm INFO  [lampa-evt] Player/destroy
+18:13:36.703 Xc73IKcm INFO  [lampa-evt] Player/create
+18:13:36.710 Xc73IKcm INFO  [lampa-evt] Player/start
+18:13:36.715 Xc73IKcm INFO  [player] forcing change_quality=true for proxy URL (skip hls.js parse)
+18:13:36.742 Xc73IKcm INFO  [lampa-evt] PlayerVideo/play
+18:13:36.761 Xc73IKcm INFO  [lampa-evt] Player/ready
+18:13:36.808 Xc73IKcm DEBUG [source] append items {"count":10}
+18:13:36.936 Xc73IKcm INFO  [player-ui] next-episode-name override active {"label":"04.MVO.rus"}
+18:13:39.241 Xc73IKcm INFO  [lampa-evt] PlayerVideo/canplay
+18:13:39.247 Xc73IKcm INFO  [avplay] canplay {"state":"PLAYING","tracks":[{"index":0,"type":"VIDEO","extra":{"fourCC":"video/x-h264","Width":"3840","Height":"2160","Bit_rate":"4196484"}},{"index":1,"type":"AUDIO","extra":{"language":"rus","channels":"6","sample_rate":"48000","bit_rate":"26114","fourCC":"audio/mpeg"}}]}
+18:13:39.252 Xc73IKcm INFO  [lampa-evt] PlayerVideo/loadeddata
+18:13:39.276 Xc73IKcm INFO  [lampa-evt] PlayerVideo/tracks
+18:13:43.726 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:13:44.034 Xc73IKcm INFO  [lampa-evt] Player/destroy
+18:13:44.036 Xc73IKcm INFO  [lampa-evt] Player/create
+18:13:44.044 Xc73IKcm INFO  [lampa-evt] Player/start
+18:13:44.048 Xc73IKcm INFO  [player] forcing change_quality=true for proxy URL (skip hls.js parse)
+18:13:44.086 Xc73IKcm INFO  [lampa-evt] PlayerVideo/play
+18:13:44.109 Xc73IKcm INFO  [lampa-evt] Player/ready
+18:13:44.174 Xc73IKcm DEBUG [source] append items {"count":10}
+18:13:44.332 Xc73IKcm INFO  [player-ui] next-episode-name override active {"label":"04.MVO.rus"}
+18:13:46.461 Xc73IKcm INFO  [lampa-evt] PlayerVideo/canplay
+18:13:46.466 Xc73IKcm INFO  [avplay] canplay {"state":"PLAYING","tracks":[{"index":0,"type":"VIDEO","extra":{"fourCC":"video/x-h264","Width":"3840","Height":"2160","Bit_rate":"7554867"}},{"index":1,"type":"AUDIO","extra":{"language":"rus","channels":"6","sample_rate":"48000","bit_rate":"26114","fourCC":"audio/mpeg"}}]}
+18:13:46.473 Xc73IKcm INFO  [lampa-evt] PlayerVideo/loadeddata
+18:13:46.502 Xc73IKcm INFO  [lampa-evt] PlayerVideo/tracks
+18:13:50.110 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:13:50.144 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:13:50.455 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:13:50.459 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:13:50.562 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:13:50.566 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:13:50.670 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:13:50.673 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:13:50.778 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:13:50.781 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:13:50.886 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:13:50.889 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:13:50.995 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:13:50.998 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:13:51.102 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:13:51.106 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:13:51.211 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:13:51.214 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:13:51.318 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:13:51.322 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:13:52.516 Xc73IKcm INFO  [lampa-evt] PlayerVideo/play
+18:14:00.966 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:14:01.000 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:14:01.316 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:14:01.320 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:14:01.424 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:14:01.428 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:14:01.531 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:14:01.535 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:14:01.639 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:14:01.643 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:14:01.747 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:14:01.751 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:14:01.854 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:14:01.858 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:14:01.963 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:14:01.967 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:14:02.071 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:14:02.075 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:14:02.179 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:14:02.183 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:14:02.287 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:14:02.291 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:14:02.397 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:14:02.400 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:14:02.503 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:14:02.507 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:14:02.612 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:14:02.616 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:14:02.719 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:14:02.723 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:14:02.829 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:14:02.832 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:14:02.934 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:14:02.938 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:14:03.043 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:14:03.047 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:14:03.150 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:14:03.154 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:14:03.260 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:14:03.264 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:14:03.367 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:14:03.370 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:14:03.476 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:14:03.479 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:14:03.583 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:14:03.586 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:14:03.692 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:14:03.696 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:14:03.800 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:14:03.803 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:14:03.907 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:14:03.911 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:14:04.015 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:14:04.018 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:14:04.123 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:14:04.127 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:14:05.134 Xc73IKcm INFO  [lampa-evt] PlayerVideo/play
+18:14:07.627 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:14:07.659 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:14:08.666 Xc73IKcm INFO  [lampa-evt] PlayerVideo/play
+18:14:09.628 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:14:09.635 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:14:10.245 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:14:10.250 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:14:11.257 Xc73IKcm INFO  [lampa-evt] PlayerVideo/play
+18:14:20.503 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:14:20.702 Xc73IKcm INFO  [lampa-evt] Player/destroy
+18:14:20.705 Xc73IKcm INFO  [lampa-evt] Player/create
+18:14:20.713 Xc73IKcm INFO  [lampa-evt] Player/start
+18:14:20.717 Xc73IKcm INFO  [player] forcing change_quality=true for proxy URL (skip hls.js parse)
+18:14:20.746 Xc73IKcm INFO  [lampa-evt] PlayerVideo/play
+18:14:20.766 Xc73IKcm INFO  [lampa-evt] Player/ready
+18:14:20.817 Xc73IKcm DEBUG [source] append items {"count":10}
+18:14:20.960 Xc73IKcm INFO  [player-ui] next-episode-name override active {"label":"04.MVO.rus"}
+18:14:22.992 Xc73IKcm INFO  [lampa-evt] PlayerVideo/canplay
+18:14:22.998 Xc73IKcm INFO  [avplay] canplay {"state":"PLAYING","tracks":[{"index":0,"type":"VIDEO","extra":{"fourCC":"video/x-h264","Width":"3840","Height":"2160","Bit_rate":"5986945"}},{"index":1,"type":"AUDIO","extra":{"language":"rus","channels":"6","sample_rate":"48000","bit_rate":"26114","fourCC":"audio/mpeg"}}]}
+18:14:23.004 Xc73IKcm INFO  [lampa-evt] PlayerVideo/loadeddata
+18:14:23.025 Xc73IKcm INFO  [lampa-evt] PlayerVideo/tracks
+18:14:29.508 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:14:29.905 Xc73IKcm INFO  [lampa-evt] Player/destroy
+18:14:29.907 Xc73IKcm INFO  [lampa-evt] Player/create
+18:14:29.914 Xc73IKcm INFO  [lampa-evt] Player/start
+18:14:29.918 Xc73IKcm INFO  [player] forcing change_quality=true for proxy URL (skip hls.js parse)
+18:14:29.944 Xc73IKcm INFO  [lampa-evt] PlayerVideo/play
+18:14:29.963 Xc73IKcm INFO  [lampa-evt] Player/ready
+18:14:30.016 Xc73IKcm DEBUG [source] append items {"count":10}
+18:14:30.144 Xc73IKcm INFO  [player-ui] next-episode-name override active {"label":"04.MVO.rus"}
+18:14:32.301 Xc73IKcm INFO  [lampa-evt] PlayerVideo/canplay
+18:14:32.305 Xc73IKcm INFO  [avplay] canplay {"state":"PLAYING","tracks":[{"index":0,"type":"VIDEO","extra":{"fourCC":"video/x-h264","Width":"3840","Height":"2160","Bit_rate":"8092122"}},{"index":1,"type":"AUDIO","extra":{"language":"rus","channels":"6","sample_rate":"48000","bit_rate":"26114","fourCC":"audio/mpeg"}}]}
+18:14:32.311 Xc73IKcm INFO  [lampa-evt] PlayerVideo/loadeddata
+18:14:32.342 Xc73IKcm INFO  [lampa-evt] PlayerVideo/tracks
+18:14:38.047 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:14:38.054 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:14:38.394 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:14:38.397 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:14:38.502 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:14:38.505 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:14:38.610 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:14:38.613 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:14:38.718 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:14:38.721 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:14:38.826 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:14:38.829 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:14:38.933 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:14:38.937 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:14:39.043 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:14:39.046 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:14:39.150 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:14:39.153 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:14:39.258 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:14:39.261 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:14:39.366 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:14:39.369 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:14:39.474 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:14:39.477 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:14:39.582 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:14:39.586 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:14:39.690 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:14:39.693 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:14:39.798 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:14:39.803 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:14:39.906 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:14:39.910 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:14:40.014 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:14:40.017 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:14:40.122 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:14:40.125 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:14:40.229 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:14:40.232 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:14:40.340 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:14:40.347 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:14:40.446 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:14:40.450 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:14:40.553 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:14:40.556 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:14:40.662 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:14:40.665 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:14:40.769 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:14:40.773 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:14:40.878 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:14:40.881 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:14:40.986 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:14:40.989 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:14:41.094 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:14:41.097 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:14:41.202 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:14:41.206 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:14:41.309 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:14:41.313 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:14:41.419 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:14:41.422 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:14:41.525 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:14:41.529 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:14:41.634 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:14:41.637 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:14:42.931 Xc73IKcm INFO  [lampa-evt] PlayerVideo/play
+18:14:51.110 Xc73IKcm INFO  [voice] in-player switch {"label":"02.MVO.rus","key":"rus|Многоголосый|LostFilm|aac|2","url":"https://kinopub.fastcdn.pics/manifest-proxy?master=https%3A%2F%2Fcdn2cdn.com%2Fh..."}
+18:14:51.149 Xc73IKcm INFO  [lampa-evt] PlayerVideo/play
+18:14:51.151 Xc73IKcm INFO  [voice] soft-swap fired {"url":"https://kinopub.fastcdn.pics/manifest-proxy?master=https%3A%2F%2Fcdn2cdn.com%2Fh..."}
+18:14:51.350 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:14:51.560 Xc73IKcm INFO  [lampa-evt] PlayerVideo/play
+18:14:59.682 Xc73IKcm INFO  [voice] in-player switch {"label":"04.MVO.rus","key":"rus|Многоголосый|NewStudio|aac|4","url":"https://kinopub.fastcdn.pics/manifest-proxy?master=https%3A%2F%2Fcdn2cdn.com%2Fh..."}
+18:14:59.721 Xc73IKcm INFO  [lampa-evt] PlayerVideo/play
+18:14:59.723 Xc73IKcm INFO  [voice] soft-swap fired {"url":"https://kinopub.fastcdn.pics/manifest-proxy?master=https%3A%2F%2Fcdn2cdn.com%2Fh..."}
+18:14:59.831 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:15:00.004 Xc73IKcm INFO  [lampa-evt] PlayerVideo/play
+18:15:05.322 Xc73IKcm INFO  [voice] in-player switch {"label":"05.DUB.rus","key":"rus|Дубляж||aac|5","url":"https://kinopub.fastcdn.pics/manifest-proxy?master=https%3A%2F%2Fcdn2cdn.com%2Fh..."}
+18:15:05.386 Xc73IKcm INFO  [lampa-evt] PlayerVideo/play
+18:15:05.388 Xc73IKcm INFO  [voice] soft-swap fired {"url":"https://kinopub.fastcdn.pics/manifest-proxy?master=https%3A%2F%2Fcdn2cdn.com%2Fh..."}
+18:15:05.427 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:15:05.605 Xc73IKcm INFO  [lampa-evt] PlayerVideo/play
+18:15:13.422 Xc73IKcm INFO  [voice] in-player switch {"label":"06.MVO.rus","key":"rus|Многоголосый||aac|6","url":"https://kinopub.fastcdn.pics/manifest-proxy?master=https%3A%2F%2Fcdn2cdn.com%2Fh..."}
+18:15:13.460 Xc73IKcm INFO  [lampa-evt] PlayerVideo/play
+18:15:13.462 Xc73IKcm INFO  [voice] soft-swap fired {"url":"https://kinopub.fastcdn.pics/manifest-proxy?master=https%3A%2F%2Fcdn2cdn.com%2Fh..."}
+18:15:13.843 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:15:14.019 Xc73IKcm INFO  [lampa-evt] PlayerVideo/play
+18:15:23.021 Xc73IKcm INFO  [voice] in-player switch {"label":"07.MVO.rus","key":"rus|Многоголосый|TVShows|aac|7","url":"https://kinopub.fastcdn.pics/manifest-proxy?master=https%3A%2F%2Fcdn2cdn.com%2Fh..."}
+18:15:23.088 Xc73IKcm INFO  [lampa-evt] PlayerVideo/play
+18:15:23.090 Xc73IKcm INFO  [voice] soft-swap fired {"url":"https://kinopub.fastcdn.pics/manifest-proxy?master=https%3A%2F%2Fcdn2cdn.com%2Fh..."}
+18:15:23.375 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:15:23.558 Xc73IKcm INFO  [lampa-evt] PlayerVideo/play
+18:15:30.421 Xc73IKcm INFO  [voice] in-player switch {"label":"11.Orig.eng","key":"eng|Оригинал||aac|11","url":"https://kinopub.fastcdn.pics/manifest-proxy?master=https%3A%2F%2Fcdn2cdn.com%2Fh..."}
+18:15:30.463 Xc73IKcm INFO  [lampa-evt] PlayerVideo/play
+18:15:30.465 Xc73IKcm INFO  [voice] soft-swap fired {"url":"https://kinopub.fastcdn.pics/manifest-proxy?master=https%3A%2F%2Fcdn2cdn.com%2Fh..."}
+18:15:30.886 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:15:31.114 Xc73IKcm INFO  [lampa-evt] PlayerVideo/play
+18:15:37.344 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:15:37.379 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:15:37.693 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:15:37.697 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:15:37.802 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:15:37.805 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:15:37.909 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:15:37.912 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:15:38.019 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:15:38.023 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:15:38.125 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:15:38.129 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:15:38.233 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:15:38.236 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:15:38.342 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:15:38.345 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:15:38.450 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:15:38.454 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:15:38.558 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:15:38.562 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:15:38.665 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:15:38.669 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:15:38.773 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:15:38.776 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:15:39.971 Xc73IKcm INFO  [lampa-evt] PlayerVideo/play
+18:15:43.204 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:15:43.212 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:15:43.557 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:15:43.560 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:15:43.661 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:15:43.664 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:15:43.769 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:15:43.773 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:15:43.877 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:15:43.880 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:15:43.985 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:15:43.989 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:15:44.095 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:15:44.098 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:15:44.201 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:15:44.204 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:15:44.309 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:15:44.313 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:15:44.417 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:15:44.420 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:15:44.527 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:15:44.530 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:15:44.634 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:15:44.638 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:15:44.742 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:15:44.745 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:15:44.849 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:15:44.853 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:15:44.957 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:15:44.960 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:15:45.065 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:15:45.069 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:15:45.173 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:15:45.179 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:15:45.282 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:15:45.285 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:15:45.394 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:15:45.398 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:15:45.498 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:15:45.510 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:15:45.606 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:15:45.610 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:15:45.713 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:15:45.716 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:15:45.821 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:15:45.825 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:15:45.932 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:15:45.936 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:15:46.037 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:15:46.040 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:15:46.145 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:15:46.149 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:15:46.253 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:15:46.256 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:15:46.367 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:15:46.370 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:15:46.470 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:15:46.473 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:15:46.577 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:15:46.580 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:15:46.686 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:15:46.689 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:15:46.793 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:15:46.796 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:15:46.903 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:15:46.907 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:15:47.009 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:15:47.014 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:15:47.117 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:15:47.120 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:15:47.227 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:15:47.230 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:15:47.334 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:15:47.338 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:15:47.441 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:15:47.445 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:15:47.550 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:15:47.555 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:15:47.658 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:15:47.661 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:15:47.767 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:15:47.771 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:15:47.874 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:15:47.877 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:15:47.981 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:15:47.985 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:15:48.090 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:15:48.093 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:15:48.197 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:15:48.201 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:15:49.427 Xc73IKcm INFO  [lampa-evt] PlayerVideo/play
+18:15:53.245 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:15:53.279 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:15:53.595 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:15:53.599 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:15:53.702 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:15:53.706 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:15:53.809 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:15:53.814 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:15:53.918 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:15:53.922 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:15:54.026 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:15:54.029 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:15:54.133 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:15:54.136 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:15:54.241 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:15:54.245 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:15:54.349 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:15:54.353 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:15:54.457 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:15:54.460 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:15:54.567 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:15:54.572 Xc73IKcm INFO  [lampa-evt] PlayerVideo/rewind
+18:15:55.926 Xc73IKcm INFO  [lampa-evt] PlayerVideo/play
+18:16:06.722 Xc73IKcm INFO  [voice] in-player switch {"label":"04.MVO.rus","key":"rus|Многоголосый|NewStudio|aac|4","url":"https://kinopub.fastcdn.pics/manifest-proxy?master=https%3A%2F%2Fcdn2cdn.com%2Fh..."}
+18:16:06.786 Xc73IKcm INFO  [lampa-evt] PlayerVideo/play
+18:16:06.788 Xc73IKcm INFO  [voice] soft-swap fired {"url":"https://kinopub.fastcdn.pics/manifest-proxy?master=https%3A%2F%2Fcdn2cdn.com%2Fh..."}
+18:16:06.915 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:16:07.108 Xc73IKcm INFO  [lampa-evt] PlayerVideo/play
+18:16:13.181 Xc73IKcm INFO  [voice] in-player switch {"label":"05.DUB.rus","key":"rus|Дубляж||aac|5","url":"https://kinopub.fastcdn.pics/manifest-proxy?master=https%3A%2F%2Fcdn2cdn.com%2Fh..."}
+18:16:13.242 Xc73IKcm INFO  [lampa-evt] PlayerVideo/play
+18:16:13.244 Xc73IKcm INFO  [voice] soft-swap fired {"url":"https://kinopub.fastcdn.pics/manifest-proxy?master=https%3A%2F%2Fcdn2cdn.com%2Fh..."}
+18:16:13.436 Xc73IKcm INFO  [lampa-evt] PlayerVideo/pause
+18:16:13.582 Xc73IKcm INFO  [lampa-evt] PlayerVideo/play
+18:16:17.372 Xc73IKcm INFO  [lampa-evt] Player/destroy
+18:16:17.538 Xc73IKcm DEBUG [source] append items {"count":10}
