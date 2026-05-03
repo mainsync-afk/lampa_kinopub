@@ -23,7 +23,7 @@
    *  CONSTANTS                                                   *
    * ============================================================ */
 
-  var PLUGIN_VERSION  = '1.0.44-debug';
+  var PLUGIN_VERSION  = '1.0.45-debug';
   // Public manifest-proxy URL — set near KP_PROXY_URL declaration below.
   var COMPONENT_NAME  = 'online_kp';
   var BALANSER        = 'kpapi';
@@ -1412,14 +1412,13 @@
    */
   function chipKey(a) {
     if (!a) return '';
-    // v1.0.32-debug: include audio.index so each of the 12 voices renders
-    // as its own chip even if studio/lang/type collide (so we can verify
-    // index-to-name mapping visually). Restore name-based dedup when
-    // debug mode ends.
+    // v1.0.45: production dedup — codec-twins (same lang|type|author with
+    // different codec or index) collapse into one chip per Eugene's spec.
+    // voiceKey() retains codec+index so the filter sidebar / player tracks
+    // list still show them separately.
     var t  = (a.type   && a.type.title)   || '';
     var au = (a.author && a.author.title) || '';
-    var idx = (typeof a.index === 'number') ? a.index : '?';
-    return idx + '|' + (a.lang || '') + '|' + t + '|' + au;
+    return (a.lang || '') + '|' + t + '|' + au;
   }
 
   /**
@@ -1479,11 +1478,17 @@
    * Returns whether an audio track should appear in given context.
    * @param context 'sidebar' or 'card'
    *
-   * v1.0.32-debug: filtering disabled to expose all voices for visual
-   * verification of voice index mapping. Restore VOICE_HIDDEN_GLOBAL /
-   * VOICE_HIDDEN_CARDS checks when debug mode ends.
+   * v1.0.45: lang-based filter (per Eugene's spec).
+   *   card    → lang === 'rus' only
+   *   sidebar → lang === 'rus' OR type.short_title === 'Orig' (keep original
+   *             so user can pick the source-language audio in the player)
    */
   function isVoiceVisible(a, context) {
+    if (!a) return false;
+    var lang = (a.lang || '').toLowerCase();
+    var isRus = (lang === 'rus' || lang === 'ru');
+    if (context === 'card')    return isRus;
+    if (context === 'sidebar') return isRus || ((a.type && a.type.short_title) === 'Orig');
     return true;
   }
 
@@ -1510,13 +1515,7 @@
    * Examples: "AF", "AF EN", "MVO", "Orig EN".
    */
   function voiceChipText(a) {
-    // v1.0.32-debug: same NN.short_title.lang as voiceLabel for visual
-    // mapping verification. Restore production text when debug ends.
-    if (!a) return '?';
-    return voiceLabel(a);
-  }
-  function _voiceChipText_disabled(a) {
-    if (!a) return '?';
+    if (!a) return 'UNK';
     var author = (a.author && a.author.title) || '';
     var typeShort = (a.type && a.type.short_title) || '';
     var typeFull  = (a.type && a.type.title) || '';
@@ -1525,8 +1524,11 @@
     if (author) primary = studioAbbr(author);
     else if (typeShort) primary = typeShort;
     else if (typeFull)  primary = TYPE_SHORT[typeFull] || typeFull.substring(0, 3);
-    else primary = '?';
+    else primary = 'UNK';
 
+    // Cards already filter to lang === 'rus' (isVoiceVisible 'card'), so the
+    // "non-rus suffix" branch below is effectively dead — kept for safety
+    // if isVoiceVisible policy changes.
     var lang = (a.lang || '').toUpperCase();
     if (lang && lang !== 'RUS' && lang !== 'RU') {
       primary += ' ' + lang.substring(0, 3);
@@ -1613,25 +1615,26 @@
    *   "Оригинал [ENG]"
    */
   /**
-   * v1.0.32-debug: voice label format = "NN.short_title.lang"
-   *   NN          — kinopub audio.index (1-based, padded to 2 digits)
-   *   short_title — type.short_title || author.short_title || type.title || '?'
-   *   lang        — audio.lang or '?'
-   * Examples: "01.MVO.rus", "11.Orig.eng", "12.AVO.rus".
-   * When debug mode ends, restore the production label builder.
+   * v1.0.45: production voice label format (used in BOTH the filter sidebar
+   * AND the in-player tracks list).
+   *   "{NN} - {type.short_title|UNK} - {author.title|unknown}[ ({codec})]"
+   *   - NN: audio.index padded to 2 digits with leading zero (or '??')
+   *   - codec part: omitted when codec === 'aac' (it's the default)
+   * Examples:
+   *   "01 - AVO - Ю. Сербин"
+   *   "12 - AVO - Ю. Сербин (ac3)"
+   *   "11 - Orig - unknown"
    */
   function voiceLabel(a) {
     if (!a) return '';
     var idx = (typeof a.index === 'number' && a.index > 0)
               ? (a.index < 10 ? '0' + a.index : '' + a.index)
               : '??';
-    var sht = (a.type && a.type.short_title)
-            || (a.author && a.author.short_title)
-            || (a.type && a.type.title)
-            || (a.author && a.author.title)
-            || '?';
-    var lng = a.lang || '?';
-    return idx + '.' + sht + '.' + lng;
+    var sht = (a.type && a.type.short_title) || 'UNK';
+    var aut = (a.author && a.author.title) || 'unknown';
+    var c   = audioCodec(a);
+    var codecPart = (c && c.toLowerCase() !== 'aac') ? ' (' + c + ')' : '';
+    return idx + ' - ' + sht + ' - ' + aut + codecPart;
   }
 
   /**
@@ -3222,25 +3225,6 @@
         else if (scroll_to_mark)    last = scroll_to_mark[0];
 
         Lampa.Controller.enable('content');
-
-        // v1.0.44: Force focus to the freshly-set `last` element. The
-        // getEpisodes network callback resolves AFTER Select.close has
-        // fired its previous-controller restore, so without this explicit
-        // re-set, focus is stuck on whatever was active before (often the
-        // filter button — pressing left then jumps to the series list).
-        // Use 50ms delay to ensure Select-close DOM transitions settle.
-        try {
-          setTimeout(function () {
-            try {
-              if (Lampa.Activity.active().activity !== self.activity) return;
-              if (last) {
-                Lampa.Controller.collectionSet(scroll.render(), files.render());
-                Lampa.Controller.collectionFocus(last, scroll.render());
-                try { scroll.update($(last), true); } catch (ee) {}
-              }
-            } catch (e) {}
-          }, 50);
-        } catch (e) {}
       });
     };
 
@@ -3442,10 +3426,11 @@
       ".kp-voice-chip.is-active{background:rgba(110,200,110,0.28);" +
         "border-color:rgba(110,200,110,0.6);color:#e6ffe6;font-weight:600}" +
       // is-watched = remembered voice for an in-progress / completed episode.
-      // Faded gray look — "this track has done its job", muted vs default.
-      ".kp-voice-chip.is-watched{background:rgba(255,255,255,0.04);" +
-        "color:rgba(255,255,255,0.38);" +
-        "border-color:transparent}" +
+      // v1.0.45: same shape as is-active (filled, bordered, bold) but in a
+      // light-gray palette instead of green — visually parallel marker.
+      ".kp-voice-chip.is-watched{background:rgba(200,200,200,0.18);" +
+        "border-color:rgba(200,200,200,0.5);" +
+        "color:#e8e8e8;font-weight:600}" +
       // — v1.0.42: widen "Filter" button on the season page ~3× ─────────
       // Default Lampa filter-button is sized for short chosen text; with
       // longer "Сезон: Сезон N" labels it gets visibly truncated. We
