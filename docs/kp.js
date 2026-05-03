@@ -23,22 +23,17 @@
    *  CONSTANTS                                                   *
    * ============================================================ */
 
-  var PLUGIN_VERSION  = '1.0.22-bare';
+  var PLUGIN_VERSION  = '1.0.28';
   var COMPONENT_NAME  = 'online_kp';
   var BALANSER        = 'kpapi';
 
   // ── DIAGNOSTIC: BARE PLAYBACK MODE ────────────────────────────────────
-  // When true, the plugin strips ALL post-1.0.21 player-touching layers:
-  //   - no play.voiceovers (single-entry or otherwise)
-  //   - no pendingVoice / currentVoiceLabel
-  //   - no webapis.avplay.setSelectTrack on canplay/loadeddata/tracks
-  //   - no MutationObserver on .player-panel__next-episode-name
-  //   - no play.translate
-  // Goal: isolate whether 4K crashes / black screens come from our hooks
-  //   or from Tizen AVPlayer + the stream itself. Lampa receives ONLY
-  //   url + title + playlist + timeline + callback + error-fallback.
-  // Flip back to false once diagnosis is complete.
-  var KP_BARE_MODE = true;
+  // When true, strips voice-track manipulation (applyVoiceTrack, MutationObserver
+  // on player-panel, play.voiceovers single entry, pendingVoice, play.translate).
+  // Used in v1.0.22-bare to isolate the cause of 4K crashes — diagnosis
+  // confirmed the issue was HLS4 multi-track demux on Tizen AVPlayer, not
+  // our hooks. Flag kept for future diagnostic use; default false in production.
+  var KP_BARE_MODE = false;
 
   // OAuth credentials of the public xbmc/Kodi-style client used by
   // virtually every unofficial kinopub client. Documented in many
@@ -834,21 +829,26 @@
   /**
    * Resolves the URL field key (http|hls|hls2|hls4) to use when picking a stream.
    *
-   * The `auto` mode is a smart default that picks based on which player the user
-   * has chosen in Lampa settings:
-   *   - Tizen native AVPlayer handles HLS4 / fMP4 perfectly + exposes embedded
-   *     audio tracks via webapis.avplay → use `hls4` (full 4K + voice support)
-   *   - Lampa built-in HTML5 player uses an old hls.js bundled with Lampa that
-   *     chokes on fMP4 segments regardless of codec → use `hls2` (TS) which
-   *     hls.js handles reliably
+   * Auto mode resolves to HLS2 universally as of v1.0.28, after diagnosis
+   * showed HLS4 (fMP4 with multi-audio master playlists — 12 voices × 4
+   * resolutions = 48 audio entries + subs) overloads the Tizen 9.0 AVPlayer
+   * demuxer at 4K. Symptom was state=PLAYING with no video frames — looks
+   * like a black screen with infinite loading. HLS2 (TS, single-audio per
+   * stream → 2 tracks total) plays reliably including HEVC main10 4K.
+   *
+   * The Lampa built-in HTML5 player has always required HLS2 because Lampa
+   * bundles an old hls.js that doesn't parse fMP4 segments.
+   *
+   * Both player paths therefore land on HLS2.
    */
   function preferredFormat() {
     if (formatOverride) return formatOverride;
     var setting = Lampa.Storage.get(KEY_FORMAT, 'auto');
     if (setting && setting !== 'auto') return setting;
 
+    // Auto: HLS2 for both Tizen native and Lampa-built-in.
     var player = detectActualPlayer();
-    var resolved = (player === 'tizen') ? 'hls4' : 'hls2';
+    var resolved = 'hls2';
     var key = player + '|' + resolved;
     if (lastAutoFormatLogKey !== key) {
       Logger.info('format', 'auto resolved', { player: player || '(default)', format: resolved });
@@ -2750,10 +2750,21 @@
     //   v1: '' → no value
     //   v2: '' → 'http' (was wrong — laggy on Tizen)
     //   v3: → 'hls4' (still wrong — broken on Lampa-built-in player)
-    //   v4: → 'auto'  (current — smart pick by player type)
+    //   v4: → 'auto'  (smart pick by player type: tizen → hls4, else → hls2)
+    //   v5: → 'auto'  (auto now resolves to hls2 universally — see v1.0.28
+    //         diagnosis. HLS4 multi-track demux overloads Tizen AVPlayer at 4K.)
     if (Lampa.Storage.get('kp_format_migrated_v4', '') !== '1') {
       Lampa.Storage.set(KEY_FORMAT, 'auto');
       Lampa.Storage.set('kp_format_migrated_v4', '1');
+    }
+    if (Lampa.Storage.get('kp_format_migrated_v5', '') !== '1') {
+      // Force-reset anyone explicitly on 'hls4' (or stuck on 'auto' which
+      // previously meant hls4 on Tizen) back to 'auto'. The previous explicit
+      // hls4 choice was based on plugin guidance that turned out to be wrong.
+      if (Lampa.Storage.get(KEY_FORMAT, '') === 'hls4') {
+        Lampa.Storage.set(KEY_FORMAT, 'auto');
+      }
+      Lampa.Storage.set('kp_format_migrated_v5', '1');
     }
     if (Lampa.Storage.get(KEY_FORMAT, '') === '') Lampa.Storage.set(KEY_FORMAT, 'auto');
     // 'http' option was removed in v1.0.11 — progressive MP4 freezes on Tizen.
