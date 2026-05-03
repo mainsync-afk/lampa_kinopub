@@ -23,7 +23,7 @@
    *  CONSTANTS                                                   *
    * ============================================================ */
 
-  var PLUGIN_VERSION  = '1.0.45-debug';
+  var PLUGIN_VERSION  = '1.0.46';
   // Public manifest-proxy URL — set near KP_PROXY_URL declaration below.
   var COMPONENT_NAME  = 'online_kp';
   var BALANSER        = 'kpapi';
@@ -3426,11 +3426,12 @@
       ".kp-voice-chip.is-active{background:rgba(110,200,110,0.28);" +
         "border-color:rgba(110,200,110,0.6);color:#e6ffe6;font-weight:600}" +
       // is-watched = remembered voice for an in-progress / completed episode.
-      // v1.0.45: same shape as is-active (filled, bordered, bold) but in a
-      // light-gray palette instead of green — visually parallel marker.
-      ".kp-voice-chip.is-watched{background:rgba(200,200,200,0.18);" +
-        "border-color:rgba(200,200,200,0.5);" +
-        "color:#e8e8e8;font-weight:600}" +
+      // v1.0.46: solid medium-gray pill with dark text — same visual weight
+      // as the green is-active chip, just in a neutral palette so the eye
+      // can spot watched/active at a glance.
+      ".kp-voice-chip.is-watched{background:#b0b0b0;" +
+        "border-color:#b0b0b0;" +
+        "color:#1a1a1a;font-weight:500}" +
       // — v1.0.42: widen "Filter" button on the season page ~3× ─────────
       // Default Lampa filter-button is sized for short chosen text; with
       // longer "Сезон: Сезон N" labels it gets visibly truncated. We
