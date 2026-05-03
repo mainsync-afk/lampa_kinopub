@@ -23,7 +23,7 @@
    *  CONSTANTS                                                   *
    * ============================================================ */
 
-  var PLUGIN_VERSION  = '1.0.32-debug';
+  var PLUGIN_VERSION  = '1.0.33-debug';
   // Public manifest-proxy URL — set near KP_PROXY_URL declaration below.
   var COMPONENT_NAME  = 'online_kp';
   var BALANSER        = 'kpapi';
@@ -788,17 +788,24 @@
    * the next tick. Player overlay (panel, controls, playlist popup) does
    * not get destroyed → no Player/destroy event → smooth transition.
    *
-   * Closes over (label, key, url, element, choice) for chip refresh + voice
-   * memory persistence per-(series, season).
+   * v1.0.32: also updates UI side-effects which Lampa misses on soft swap:
+   *   • kp_episode_voice[timeline_hash] = key   (so card chips reflect new
+   *                                              "watched-with-voice" state)
+   *   • re-render .player-panel__next-episode-name DOM (we own this label)
+   *   • mutate voiceoversRef[].selected so re-opening tracks list shows the
+   *     correct current voice highlighted
+   *   • Controller.toggle('player_panel') to restore focus on tracks button
+   *
+   * Closes over (label, key, url, element, choice, voiceoversRef).
    */
-  function buildVoiceSwapCallback(label, key, url, element, choice) {
+  function buildVoiceSwapCallback(label, key, url, element, choice, voiceoversRef) {
     return function (item) {
       var swapUrl = (item && item.url) || url;
       Logger.info('voice', 'in-player switch', {
         label: label, key: key, url: (swapUrl || '').slice(0, 80) + '...'
       });
 
-      // Persist voice choice per-(series, season) so next launch picks it.
+      // ── Persist voice choice per-(series, season) ──────────────────────
       try {
         if (choice) {
           choice.voice_key  = key;
@@ -810,14 +817,39 @@
         }
       } catch (e) { Logger.warn('voice', 'persist choice failed', String(e)); }
 
-      // Update the .player-panel__next-episode-name DOM override label so
-      // user sees the new voice name immediately even if Lampa didn't.
+      // ── Update kp_episode_voice (per-episode watched-voice memory) so the
+      // chip on the card behind the player flips to reflect the new voice ─
+      try {
+        if (element && element.timeline_hash) {
+          var watchedMap = Lampa.Storage.cache('kp_episode_voice', 5000, {});
+          watchedMap[element.timeline_hash] = key;
+          Lampa.Storage.set('kp_episode_voice', watchedMap);
+        }
+      } catch (e) { Logger.warn('voice', 'episode-voice persist failed', String(e)); }
+
+      // ── Update the in-DOM next-episode-name label (we own this) ────────
       try { currentVoiceLabel = label; } catch (e) {}
 
-      // Soft swap (Lampa-native quality-change pattern).
+      // ── Update .selected flag on voiceovers[] so re-opening the tracks
+      // list shows the new voice as highlighted (Lampa Select.show reads
+      // .selected from the tracks reference passed via setTracks) ────────
       try {
-        var work = (Lampa.Player && typeof Lampa.Player.playdata === 'function')
-                   ? Lampa.Player.playdata() : null;
+        if (voiceoversRef && voiceoversRef.length) {
+          for (var i = 0; i < voiceoversRef.length; i++) {
+            var vo = voiceoversRef[i];
+            var match = (vo.voice_key === key) || (vo.url === swapUrl);
+            vo.selected = match;
+            vo['default'] = match;
+            vo.enabled = match;
+          }
+        }
+      } catch (e) { Logger.warn('voice', 'voiceovers selected sync failed', String(e)); }
+
+      // ── Soft swap (Lampa-native quality-change pattern) ────────────────
+      var work = null;
+      try {
+        work = (Lampa.Player && typeof Lampa.Player.playdata === 'function')
+               ? Lampa.Player.playdata() : null;
         if (work) work.url = swapUrl;
         if (Lampa.PlayerVideo && typeof Lampa.PlayerVideo.destroy === 'function') {
           Lampa.PlayerVideo.destroy(true);
@@ -832,11 +864,32 @@
         Logger.info('voice', 'soft-swap fired', { url: (swapUrl || '').slice(0, 80) + '...' });
       } catch (e) {
         Logger.warn('voice', 'soft-swap failed, falling back to full restart', String(e));
-        // Fallback: ask Lampa to relaunch from scratch with this URL
         try {
           Lampa.Player.play({ url: swapUrl, title: (work && work.title) || '' });
         } catch (ee) { Logger.warn('voice', 'fallback play failed', String(ee)); }
       }
+
+      // ── Force-update the .player-panel__next-episode-name DOM. Lampa
+      // doesn't re-render this on soft swap, and our MutationObserver only
+      // fires on Lampa-driven changes, not on currentVoiceLabel changes ───
+      try {
+        var labelEl = document.querySelector('.player-panel__next-episode-name');
+        if (labelEl && labelEl.textContent !== label) {
+          labelEl.textContent = label;
+          try { labelEl.classList.remove('hide'); } catch (ee) {}
+        }
+      } catch (e) {}
+
+      // ── Restore focus to the tracks button on the player panel ─────────
+      try {
+        if (Lampa.Controller && typeof Lampa.Controller.toggle === 'function') {
+          setTimeout(function () { Lampa.Controller.toggle('player_panel'); }, 0);
+        }
+      } catch (e) {}
+
+      // ── Refresh chips on episode cards behind the player. Delay lets
+      // Lampa.Storage.set settle and any DOM mutations finalize. ─────────
+      try { setTimeout(refreshAllKpVoiceChips, 150); } catch (e) {}
     };
   }
 
@@ -2353,7 +2406,12 @@
             // NAME prefix "0N." in the master), NOT array position. kinopub
             // sometimes reorders audios[] (e.g. by user's account default
             // language) and array position drifts from master ordering.
-            play.voiceovers = audios.map(function (audio, idx) {
+            //
+            // Two-pass build: first allocate plain entries, then attach
+            // onSelect callbacks closing over the SHARED voiceovers array
+            // ref so the callback can mutate .selected on all entries when
+            // user picks a new voice in player UI.
+            var vovers = audios.map(function (audio, idx) {
               var label    = voiceLabel(audio) || ('Track ' + (idx + 1));
               var kpIndex  = (typeof audio.index === 'number' && audio.index > 0) ? audio.index : (idx + 1);
               var proxyUrl = proxyUrlFor(stream.url, kpIndex);
@@ -2365,9 +2423,17 @@
                 voice_key: akey,
                 'default': idx === voiceIdx,
                 selected:  idx === voiceIdx,
-                onSelect:  buildVoiceSwapCallback(label, akey, proxyUrl, element, choice)
+                enabled:   idx === voiceIdx,
+                _label:    label,
+                _key:      akey
               };
             });
+            // Second pass: attach onSelect closing over the array reference.
+            vovers.forEach(function (vo) {
+              vo.onSelect = buildVoiceSwapCallback(vo._label, vo._key, vo.url, element, choice, vovers);
+              delete vo._label; delete vo._key;
+            });
+            play.voiceovers = vovers;
             play.translate = pickedLabel;
           } else {
             // Proxy unreachable (or no audios): fall back to single-entry
