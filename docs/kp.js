@@ -23,7 +23,7 @@
    *  CONSTANTS                                                   *
    * ============================================================ */
 
-  var PLUGIN_VERSION  = '1.0.28';
+  var PLUGIN_VERSION  = '1.0.29-diag';
   var COMPONENT_NAME  = 'online_kp';
   var BALANSER        = 'kpapi';
 
@@ -2049,7 +2049,10 @@
 
           if (playlist.length > 1) play.playlist = playlist;
           Logger.info('player', 'launching', { url: play.url, playlist: playlist.length, title: play.title });
-          if (KP_BARE_MODE) dumpStreamManifest(play.url);
+          // v1.0.29-diag: always dump manifest (was BARE-only). Need to see HLS2
+          // master content — if it has #EXT-X-MEDIA AUDIO entries we can use
+          // setSelectTrack/hls.audioTrack (Phase B on HLS2) without restart.
+          dumpStreamManifest(play.url);
           Lampa.Player.play(play);
           Lampa.Player.playlist(playlist);
           if (item.mark) item.mark();
@@ -3196,6 +3199,22 @@
             });
           });
 
+        // v1.0.29-diag: always log AVPlayer track info on canplay.
+        // Need to compare HLS2 vs HLS4 enumerated tracks to know whether
+        // setSelectTrack can switch among kinopub's 12 audio renditions.
+        var avplayDumped = false;
+        Lampa.PlayerVideo.listener.follow('canplay', function () {
+          if (avplayDumped) return;
+          avplayDumped = true;
+          dumpAvplayTracks('canplay');
+        });
+        Lampa.PlayerVideo.listener.follow('tracks', function () {
+          if (avplayDumped) return;
+          avplayDumped = true;
+          dumpAvplayTracks('tracks-event');
+        });
+        Lampa.Player.listener.follow('destroy', function () { avplayDumped = false; });
+
         if (!KP_BARE_MODE) {
           // Voice track switching — fired when audio backend has read tracks
           // and the stream is ready. We try canplay first, then fall back to
@@ -3216,22 +3235,6 @@
             voiceApplied = false;
             pendingVoice = null;
           });
-        } else {
-          // BARE-mode read-only diagnostic: log AVPlayer track info once on
-          // canplay (codec strings, bitrate, resolution per track). Helps
-          // identify what the hardware decoder actually accepted.
-          var avplayDumped = false;
-          Lampa.PlayerVideo.listener.follow('canplay', function () {
-            if (avplayDumped) return;
-            avplayDumped = true;
-            dumpAvplayTracks('canplay');
-          });
-          Lampa.PlayerVideo.listener.follow('tracks', function () {
-            if (avplayDumped) return;
-            avplayDumped = true;
-            dumpAvplayTracks('tracks-event');
-          });
-          Lampa.Player.listener.follow('destroy', function () { avplayDumped = false; });
         }
       } else {
         Logger.warn('player-evt', 'Lampa.PlayerVideo.listener unavailable');
