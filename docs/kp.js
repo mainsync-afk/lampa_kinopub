@@ -23,7 +23,7 @@
    *  CONSTANTS                                                   *
    * ============================================================ */
 
-  var PLUGIN_VERSION  = '1.0.35-debug';
+  var PLUGIN_VERSION  = '1.0.36-debug';
   // Public manifest-proxy URL — set near KP_PROXY_URL declaration below.
   var COMPONENT_NAME  = 'online_kp';
   var BALANSER        = 'kpapi';
@@ -724,6 +724,48 @@
     } catch (e) {
       Logger.warn('avplay', 'dump failed', String(e));
     }
+  }
+
+  /**
+   * Monkey-patch Lampa.PlayerVideo.url() to force change_quality=true for our
+   * proxy URLs.
+   *
+   * Why: our proxy URL contains the kinopub master encoded inside ?master=...
+   * The encoded URL still has the literal substring ".m3u8" because encodeURI-
+   * Component doesn't encode dots. Lampa's url$4(src) sees that substring and
+   * treats the URL as HLS, which on Tizen native player path triggers a
+   * separate hls.js *parser* fork (hls_parser = new Hls(); loadSource(src))
+   * just to extract audio-track names for the player-panel "translate" UI.
+   *
+   * That bundled hls.js is OLD and chokes on fMP4 segments (HEVC variant
+   * playlists), AND it fetches kinopub variant URLs in parallel with AVPlayer,
+   * starving the network. On HEVC 4K this race intermittently kills the
+   * Tizen app (no PlayerVideo/error event — process just dies, log truncates).
+   *
+   * Setting change_quality=true skips the hls_parser fork entirely (Lampa
+   * source url$4 line ~12865: `} else if (!change_quality && !PlayerIPTV...`).
+   * AVPlayer gets the URL directly via load$4(src). Single fetch, no race.
+   *
+   * Safe because: (a) we set play.voiceovers ourselves so the missing
+   * "translate" event doesn't matter for UI, (b) change_quality=true is
+   * what Lampa's own quality picker uses on every quality switch, well-tested.
+   */
+  function setupKpPlayerPatch() {
+    if (!window.Lampa || !Lampa.PlayerVideo) return;
+    if (Lampa.PlayerVideo._kp_patched) return;
+    if (typeof Lampa.PlayerVideo.url !== 'function') return;
+
+    var origUrl = Lampa.PlayerVideo.url;
+    Lampa.PlayerVideo.url = function (src, change_quality) {
+      if (!change_quality && typeof src === 'string' &&
+          KP_PROXY_URL && src.indexOf(KP_PROXY_URL) === 0) {
+        Logger.info('player', 'forcing change_quality=true for proxy URL (skip hls.js parse)');
+        return origUrl.call(this, src, true);
+      }
+      return origUrl.apply(this, arguments);
+    };
+    Lampa.PlayerVideo._kp_patched = true;
+    Logger.info('player', 'PlayerVideo.url monkey-patched');
   }
 
   /**
@@ -3864,6 +3906,12 @@
     } catch (err) {
       Logger.warn('video-elem', 'delegate error handler failed', String(err));
     }
+
+    // v1.0.36: monkey-patch Lampa.PlayerVideo.url to skip Lampa's bundled
+    // hls.js parser fork on our proxy URLs. Bundled hls.js chokes on fMP4
+    // (HEVC) variants and races with AVPlayer fetch, causing intermittent
+    // Tizen app crash on HEVC 4K initial play. See setupKpPlayerPatch().
+    setupKpPlayerPatch();
 
     // Probe public manifest-proxy. If reachable, kpProxyAvailable=true and
     // future launches will route HLS4 master through it (gives stable 4K +
