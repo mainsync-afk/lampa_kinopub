@@ -23,7 +23,7 @@
    *  CONSTANTS                                                   *
    * ============================================================ */
 
-  var PLUGIN_VERSION  = '1.0.25';
+  var PLUGIN_VERSION  = '1.0.26';
   var COMPONENT_NAME  = 'online_kp';
   var BALANSER        = 'kpapi';
 
@@ -1810,6 +1810,40 @@
       return null;
     }
 
+    /**
+     * Resolve `pendingVoice` and `currentVoiceLabel` for a specific element
+     * based on the user-selected voice_key. Sets the globals so the canplay
+     * hook + next-episode-name override pick up the correct audio for THIS
+     * item (independent of any other items toPlayElement was called on).
+     */
+    function setPlayContextForItem(element) {
+      var audios = (element && element.kp && element.kp.audios) || [];
+      var voiceIdx = -1;
+      if (choice && choice.voice_key) {
+        for (var i = 0; i < audios.length; i++) {
+          if (voiceKey(audios[i]) === choice.voice_key) { voiceIdx = i; break; }
+        }
+      }
+      if (voiceIdx === -1 && audios.length > 0) voiceIdx = 0;
+      if (voiceIdx >= 0 && audios[voiceIdx]) {
+        var label = voiceLabel(audios[voiceIdx]) || ('Track ' + (voiceIdx + 1));
+        pendingVoice = {
+          idx:   voiceIdx,
+          label: label,
+          key:   voiceKey(audios[voiceIdx])
+        };
+        currentVoiceLabel = label;
+        Logger.debug('voice', 'context resolved for item', {
+          season:   element.season,
+          episode:  element.episode,
+          voiceIdx: voiceIdx,
+          label:    label
+        });
+      } else {
+        pendingVoice = null;
+      }
+    }
+
     function toPlayElement(element) {
       var stream = streamForElement(element, element.quality);
       if (!stream) return null;
@@ -1865,13 +1899,12 @@
       if (voiceIdx >= 0 && audios[voiceIdx]) {
         pickedLabel = voiceLabel(audios[voiceIdx]) || ('Track ' + (voiceIdx + 1));
       }
-      pendingVoice = (voiceIdx >= 0)
-        ? { idx: voiceIdx, label: pickedLabel, key: (choice && choice.voice_key) || '' }
-        : null;
-
-      // Keep the current-voice label fresh for the DOM override of
-      // .player-panel__next-episode-name (see setupNextEpisodeLabelOverride).
-      if (pickedLabel) currentVoiceLabel = pickedLabel;
+      // NOTE: pendingVoice and currentVoiceLabel are NOT set here. toPlayElement
+      // is called once for the clicked item AND once per playlist item — if we
+      // wrote globals here, the last playlist iteration would clobber the
+      // clicked item's voice (different episodes have different audio orders!).
+      // The onEnter handler sets these globals once, explicitly, for the
+      // clicked item, before launching the player.
 
       // Build full multi-entry voiceovers list for in-player switching.
       // Each entry includes an `onSelect(item)` callback — Lampa calls it
@@ -1989,6 +2022,12 @@
                          's' + item.season + 'e' + epPad +
                          (rawEpTitle ? ' - ' + rawEpTitle : '');
           }
+
+          // Resolve voice context for the clicked item AFTER the playlist
+          // loop — toPlayElement() is called for every item to build playlist,
+          // but we don't want side-effects from those calls to leak; only
+          // the clicked item's voice should drive pendingVoice.
+          setPlayContextForItem(item);
 
           // Remember voice for this episode so the watched-indicator chip
           // can show on next visit. Saved per timeline_hash (set in draw()).
