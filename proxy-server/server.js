@@ -159,6 +159,10 @@ function parseHls4Master(text) {
  * Build a reduced master: 1 audio MEDIA entry + best (highest-bandwidth)
  * video stream-inf. ASCII-only attribute values for AVPlayer parser
  * compatibility.
+ *
+ * Returns { text, pickedName } where pickedName is the ORIGINAL kinopub
+ * NAME of the chosen audio (e.g. "04. Многоголосый. NewStudio (RUS)") so
+ * the caller can log it for diagnostics.
  */
 function buildReducedMaster(parsed, voiceIndex) {
   const out = ['#EXTM3U', '#EXT-X-VERSION:4', '#EXT-X-INDEPENDENT-SEGMENTS'];
@@ -168,7 +172,7 @@ function buildReducedMaster(parsed, voiceIndex) {
     if (!s.videoUri) return;
     if (!bestStreamInf || s.bandwidth > bestStreamInf.bandwidth) bestStreamInf = s;
   });
-  if (!bestStreamInf) return out.join('\n') + '\n';
+  if (!bestStreamInf) return { text: out.join('\n') + '\n', pickedName: null };
 
   const groupId = bestStreamInf.audioGroup;
   const entries = parsed.audioGroups[groupId] || [];
@@ -188,7 +192,7 @@ function buildReducedMaster(parsed, voiceIndex) {
     }
   }
   if (!pickedEntry && entries.length) pickedEntry = entries[0];
-  if (!pickedEntry) return out.join('\n') + '\n';
+  if (!pickedEntry) return { text: out.join('\n') + '\n', pickedName: null };
 
   out.push('#EXT-X-MEDIA:TYPE=AUDIO,GROUP-ID="aud",NAME="Voice ' + voiceIndex +
            '",LANGUAGE="' + (pickedEntry.lang || 'und') +
@@ -203,7 +207,7 @@ function buildReducedMaster(parsed, voiceIndex) {
   out.push('#EXT-X-STREAM-INF:' + parts.join(','));
   out.push(bestStreamInf.videoUri);
 
-  return out.join('\n') + '\n';
+  return { text: out.join('\n') + '\n', pickedName: pickedEntry.name };
 }
 
 /* ──────────────────────────────────────────────────────────────────── *
@@ -318,9 +322,10 @@ async function handleManifestProxy(req, res) {
     const text = await httpsGet(master, FETCH_TIMEOUT_MS);
     const parsed = parseHls4Master(text);
     const audioGroupCount = Object.keys(parsed.audioGroups).length;
-    const reduced = buildReducedMaster(parsed, voice);
+    const result = buildReducedMaster(parsed, voice);
+    const reduced = result.text;
     cacheSet(cacheKey, reduced);
-    logLine(req, 200, `voice=${voice} groups=${audioGroupCount} reduced=${reduced.length}`);
+    logLine(req, 200, `voice=${voice} picked="${result.pickedName || '?'}" groups=${audioGroupCount} reduced=${reduced.length}`);
     res.writeHead(200, {
       'Content-Type': 'application/vnd.apple.mpegurl; charset=utf-8',
       'Cache-Control': 'no-store',

@@ -23,7 +23,7 @@
    *  CONSTANTS                                                   *
    * ============================================================ */
 
-  var PLUGIN_VERSION  = '1.0.31';
+  var PLUGIN_VERSION  = '1.0.32-debug';
   // Public manifest-proxy URL — set near KP_PROXY_URL declaration below.
   var COMPONENT_NAME  = 'online_kp';
   var BALANSER        = 'kpapi';
@@ -1282,9 +1282,14 @@
    */
   function chipKey(a) {
     if (!a) return '';
+    // v1.0.32-debug: include audio.index so each of the 12 voices renders
+    // as its own chip even if studio/lang/type collide (so we can verify
+    // index-to-name mapping visually). Restore name-based dedup when
+    // debug mode ends.
     var t  = (a.type   && a.type.title)   || '';
     var au = (a.author && a.author.title) || '';
-    return (a.lang || '') + '|' + t + '|' + au;
+    var idx = (typeof a.index === 'number') ? a.index : '?';
+    return idx + '|' + (a.lang || '') + '|' + t + '|' + au;
   }
 
   /**
@@ -1343,17 +1348,12 @@
   /**
    * Returns whether an audio track should appear in given context.
    * @param context 'sidebar' or 'card'
+   *
+   * v1.0.32-debug: filtering disabled to expose all voices for visual
+   * verification of voice index mapping. Restore VOICE_HIDDEN_GLOBAL /
+   * VOICE_HIDDEN_CARDS checks when debug mode ends.
    */
   function isVoiceVisible(a, context) {
-    var s = audioCheckString(a);
-    for (var i = 0; i < VOICE_HIDDEN_GLOBAL.length; i++) {
-      if (VOICE_HIDDEN_GLOBAL[i].test(s)) return false;
-    }
-    if (context === 'card') {
-      for (var j = 0; j < VOICE_HIDDEN_CARDS.length; j++) {
-        if (VOICE_HIDDEN_CARDS[j].test(s)) return false;
-      }
-    }
     return true;
   }
 
@@ -1380,6 +1380,12 @@
    * Examples: "AF", "AF EN", "MVO", "Orig EN".
    */
   function voiceChipText(a) {
+    // v1.0.32-debug: same NN.short_title.lang as voiceLabel for visual
+    // mapping verification. Restore production text when debug ends.
+    if (!a) return '?';
+    return voiceLabel(a);
+  }
+  function _voiceChipText_disabled(a) {
     if (!a) return '?';
     var author = (a.author && a.author.title) || '';
     var typeShort = (a.type && a.type.short_title) || '';
@@ -1476,24 +1482,26 @@
    *   "Многоголосый AlexFilm [RUS] (AC3)"
    *   "Оригинал [ENG]"
    */
+  /**
+   * v1.0.32-debug: voice label format = "NN.short_title.lang"
+   *   NN          — kinopub audio.index (1-based, padded to 2 digits)
+   *   short_title — type.short_title || author.short_title || type.title || '?'
+   *   lang        — audio.lang or '?'
+   * Examples: "01.MVO.rus", "11.Orig.eng", "12.AVO.rus".
+   * When debug mode ends, restore the production label builder.
+   */
   function voiceLabel(a) {
     if (!a) return '';
-    // 1) trust kinopub's own display string when API gives one
-    if (typeof a.name  === 'string' && a.name.trim())  return a.name.trim();
-    if (typeof a.title === 'string' && a.title.trim()) return a.title.trim();
-    // 2) construct from parts
-    var parts = [];
-    if (a.type   && a.type.title)   parts.push(a.type.title);
-    if (a.author && a.author.title) parts.push(a.author.title);
-    var label = parts.join(' ');
-    if (a.lang) {
-      label = (label ? label + ' ' : '') + '[' + String(a.lang).toUpperCase() + ']';
-    }
-    var c = audioCodec(a);
-    if (c) {
-      label = (label ? label + ' ' : '') + '(' + String(c).toUpperCase() + ')';
-    }
-    return label || '';
+    var idx = (typeof a.index === 'number' && a.index > 0)
+              ? (a.index < 10 ? '0' + a.index : '' + a.index)
+              : '??';
+    var sht = (a.type && a.type.short_title)
+            || (a.author && a.author.short_title)
+            || (a.type && a.type.title)
+            || (a.author && a.author.title)
+            || '?';
+    var lng = a.lang || '?';
+    return idx + '.' + sht + '.' + lng;
   }
 
   /**
@@ -2340,9 +2348,15 @@
             // url(newUrl, true) + reset timeline.continued. AVPlayer
             // reopens with the new audio rendition while the player
             // overlay persists. Brief flash, no full restart.
+            //
+            // v1.0.32: send kinopub `audio.index` to the proxy (matches the
+            // NAME prefix "0N." in the master), NOT array position. kinopub
+            // sometimes reorders audios[] (e.g. by user's account default
+            // language) and array position drifts from master ordering.
             play.voiceovers = audios.map(function (audio, idx) {
               var label    = voiceLabel(audio) || ('Track ' + (idx + 1));
-              var proxyUrl = proxyUrlFor(stream.url, idx + 1);
+              var kpIndex  = (typeof audio.index === 'number' && audio.index > 0) ? audio.index : (idx + 1);
+              var proxyUrl = proxyUrlFor(stream.url, kpIndex);
               var akey     = voiceKey(audio);
               return {
                 name:      label,
@@ -2471,8 +2485,18 @@
             // Proxy is reachable — route the kinopub HLS4 master through it.
             // Proxy returns a reduced master (1 audio + best video stream-inf)
             // that Tizen AVPlayer demuxes in 2 tracks, no multi-audio crash.
+            //
+            // v1.0.32: send kinopub `audio.index` (1-based, matches master
+            // NAME prefix "0N.") instead of array position + 1. Array order
+            // may not match master order if kinopub returned audios[] sorted
+            // by user's preferred language.
             var clickedVoiceIdx = (play && typeof play._voiceIdx === 'number') ? play._voiceIdx : -1;
-            var voiceOneBased = (clickedVoiceIdx >= 0) ? (clickedVoiceIdx + 1) : 1;
+            var clickedAudios   = (item && item.kp && item.kp.audios) || [];
+            var clickedAudio    = (clickedVoiceIdx >= 0) ? clickedAudios[clickedVoiceIdx] : null;
+            var voiceOneBased   =
+                  (clickedAudio && typeof clickedAudio.index === 'number' && clickedAudio.index > 0)
+                  ? clickedAudio.index
+                  : (clickedVoiceIdx >= 0 ? (clickedVoiceIdx + 1) : 1);
             var originalUrl = play.url;
             var proxyUrl = proxyUrlFor(originalUrl, voiceOneBased);
             // CRITICAL: Lampa.Player.play() overrides data.url with
