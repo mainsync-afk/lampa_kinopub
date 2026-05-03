@@ -23,7 +23,7 @@
    *  CONSTANTS                                                   *
    * ============================================================ */
 
-  var PLUGIN_VERSION  = '1.0.29-diag';
+  var PLUGIN_VERSION  = '1.0.29-blob-test';
   var COMPONENT_NAME  = 'online_kp';
   var BALANSER        = 'kpapi';
 
@@ -34,6 +34,17 @@
   // confirmed the issue was HLS4 multi-track demux on Tizen AVPlayer, not
   // our hooks. Flag kept for future diagnostic use; default false in production.
   var KP_BARE_MODE = false;
+
+  // ── DIAGNOSTIC: BLOB-MANIFEST TEST MODE ───────────────────────────────
+  // When true, plugin fetches HLS4 master itself, builds a REDUCED master
+  // (1 audio per group + all 4 video stream-inf, no subtitles/iframe),
+  // wraps it in blob: and data: URLs, and feeds blob URL to Lampa.Player.
+  // Goal: verify if Tizen AVPlayer accepts blob: scheme for HLS manifests.
+  // If yes → unblocks v1.0.30 (in-player voice switch via manifest-rewrite).
+  // If no → fallback to data: URL or HTTP proxy via log-server.
+  // ALSO forces format → 'hls4' regardless of user setting (we need the
+  // multi-audio master for this experiment).
+  var KP_BLOB_TEST = true;
 
   // OAuth credentials of the public xbmc/Kodi-style client used by
   // virtually every unofficial kinopub client. Documented in many
@@ -693,6 +704,212 @@
     }
   }
 
+  /**
+   * BLOB-TEST: Parse a kinopub HLS4 master.m3u8 into structured pieces.
+   * Returns { audioGroups: { groupId: [{name,lang,deflt,uri,attrs}] },
+   *           subtitlesGroups: { groupId: [...] },
+   *           streamInfs: [{attrs, audioGroup, subsGroup, videoUri}] }
+   */
+  function parseHls4Master(text) {
+    var lines = text.split(/\r?\n/);
+    var audioGroups = {};
+    var subtitlesGroups = {};
+    var streamInfs = [];
+    for (var i = 0; i < lines.length; i++) {
+      var l = lines[i];
+      if (!l) continue;
+      if (l.indexOf('#EXT-X-MEDIA:') === 0) {
+        var attrs = parseAttrs(l.substring('#EXT-X-MEDIA:'.length));
+        var entry = {
+          name: attrs.NAME || '',
+          lang: attrs.LANGUAGE || '',
+          deflt: attrs.DEFAULT === 'YES',
+          uri: attrs.URI || '',
+          attrs: attrs
+        };
+        if (attrs.TYPE === 'AUDIO') {
+          var g = attrs['GROUP-ID'] || 'audio';
+          (audioGroups[g] = audioGroups[g] || []).push(entry);
+        } else if (attrs.TYPE === 'SUBTITLES') {
+          var sg = attrs['GROUP-ID'] || 'sub';
+          (subtitlesGroups[sg] = subtitlesGroups[sg] || []).push(entry);
+        }
+      } else if (l.indexOf('#EXT-X-STREAM-INF:') === 0) {
+        var sattrs = parseAttrs(l.substring('#EXT-X-STREAM-INF:'.length));
+        // next non-empty non-comment line is the variant URI
+        var uri = '';
+        for (var j = i + 1; j < lines.length; j++) {
+          var n = (lines[j] || '').trim();
+          if (n && n.charAt(0) !== '#') { uri = n; break; }
+        }
+        streamInfs.push({
+          attrs: sattrs,
+          audioGroup: sattrs.AUDIO || '',
+          subsGroup: sattrs.SUBTITLES || '',
+          videoUri: uri,
+          resolution: sattrs.RESOLUTION || '',
+          bandwidth: parseInt(sattrs.BANDWIDTH || '0', 10) || 0,
+          codecs: sattrs.CODECS || ''
+        });
+      }
+    }
+    return {
+      audioGroups: audioGroups,
+      subtitlesGroups: subtitlesGroups,
+      streamInfs: streamInfs
+    };
+  }
+
+  /**
+   * Parse a #EXT-X-MEDIA / #EXT-X-STREAM-INF attribute line:
+   *   "TYPE=AUDIO,GROUP-ID=\"audio2160\",NAME=\"foo\",LANGUAGE=\"rus\",..."
+   * into { TYPE: 'AUDIO', 'GROUP-ID': 'audio2160', NAME: 'foo', ... }.
+   * Handles quoted strings (which may contain commas) correctly.
+   */
+  function parseAttrs(s) {
+    var out = {};
+    var i = 0;
+    var n = s.length;
+    while (i < n) {
+      // read key
+      var keyStart = i;
+      while (i < n && s.charAt(i) !== '=') i++;
+      var key = s.substring(keyStart, i).trim();
+      if (i >= n) break;
+      i++; // skip '='
+      // read value (quoted or until comma)
+      var valStart, valEnd;
+      if (s.charAt(i) === '"') {
+        i++;
+        valStart = i;
+        while (i < n && s.charAt(i) !== '"') i++;
+        valEnd = i;
+        if (i < n) i++; // skip closing "
+      } else {
+        valStart = i;
+        while (i < n && s.charAt(i) !== ',') i++;
+        valEnd = i;
+      }
+      out[key] = s.substring(valStart, valEnd);
+      // skip ','
+      while (i < n && (s.charAt(i) === ',' || s.charAt(i) === ' ')) i++;
+    }
+    return out;
+  }
+
+  /**
+   * BLOB-TEST: Build a reduced master.m3u8 with just one audio per group
+   * (the chosen voice) + all video stream-infs. No subtitles, no I-FRAME.
+   * Returns text suitable for blob: or data: URL wrapping.
+   *
+   * @param {Object} parsed     - output of parseHls4Master
+   * @param {Number} voiceIndex - 1-based voice number to keep (matches '01.', '02.' prefix in NAME)
+   */
+  function buildReducedMaster(parsed, voiceIndex) {
+    var out = ['#EXTM3U', '#EXT-X-VERSION:4', '#EXT-X-INDEPENDENT-SEGMENTS'];
+    // For each audio group, find the entry whose NAME starts with "<voiceIndex>."
+    Object.keys(parsed.audioGroups).forEach(function (groupId) {
+      var entries = parsed.audioGroups[groupId];
+      var pickedEntry = null;
+      var prefix = (voiceIndex < 10 ? '0' : '') + voiceIndex + '.';
+      for (var k = 0; k < entries.length; k++) {
+        if (entries[k].name && entries[k].name.indexOf(prefix) === 0) {
+          pickedEntry = entries[k];
+          break;
+        }
+      }
+      // fallback: first DEFAULT=YES, then first
+      if (!pickedEntry) {
+        for (var k2 = 0; k2 < entries.length; k2++) {
+          if (entries[k2].deflt) { pickedEntry = entries[k2]; break; }
+        }
+      }
+      if (!pickedEntry && entries.length) pickedEntry = entries[0];
+      if (!pickedEntry) return;
+      out.push('#EXT-X-MEDIA:TYPE=AUDIO,GROUP-ID="' + groupId + '",NAME="' +
+               pickedEntry.name.replace(/"/g, "'") +
+               '",LANGUAGE="' + pickedEntry.lang +
+               '",DEFAULT=YES,AUTOSELECT=YES,URI="' + pickedEntry.uri + '"');
+    });
+    // All video stream-infs unchanged. Drop SUBTITLES group reference.
+    parsed.streamInfs.forEach(function (s) {
+      if (!s.videoUri) return;
+      var line = '#EXT-X-STREAM-INF:';
+      var parts = [];
+      if (s.bandwidth)   parts.push('BANDWIDTH=' + s.bandwidth);
+      if (s.resolution)  parts.push('RESOLUTION=' + s.resolution);
+      if (s.codecs)      parts.push('CODECS="' + s.codecs + '"');
+      if (s.attrs['FRAME-RATE']) parts.push('FRAME-RATE=' + s.attrs['FRAME-RATE']);
+      if (s.audioGroup)  parts.push('AUDIO="' + s.audioGroup + '"');
+      // intentionally drop SUBTITLES, HDCP-LEVEL, VIDEO-RANGE
+      out.push(line + parts.join(','));
+      out.push(s.videoUri);
+    });
+    return out.join('\n') + '\n';
+  }
+
+  /**
+   * BLOB-TEST: Fetch master.m3u8, build reduced manifest, wrap in blob: URL.
+   * Calls cb(blobUrl, dataUrl, reducedText) on success, cb(null, null, null) on failure.
+   */
+  function fetchAndReduceMaster(masterUrl, voiceIndex, cb) {
+    Logger.info('blob-test', 'fetching master', { url: masterUrl, voiceIndex: voiceIndex });
+    try {
+      var xhr = new XMLHttpRequest();
+      xhr.open('GET', masterUrl, true);
+      xhr.timeout = 8000;
+      xhr.onload = function () {
+        if (xhr.status < 200 || xhr.status >= 300) {
+          Logger.warn('blob-test', 'fetch non-2xx', { status: xhr.status });
+          cb(null, null, null);
+          return;
+        }
+        try {
+          var parsed = parseHls4Master(xhr.responseText || '');
+          var audioGroupCount = Object.keys(parsed.audioGroups).length;
+          var firstGroupSize = audioGroupCount ? parsed.audioGroups[Object.keys(parsed.audioGroups)[0]].length : 0;
+          Logger.info('blob-test', 'parsed master', {
+            audioGroups: audioGroupCount,
+            voicesPerGroup: firstGroupSize,
+            streamInfs: parsed.streamInfs.length,
+            subtitleGroups: Object.keys(parsed.subtitlesGroups).length
+          });
+          var reduced = buildReducedMaster(parsed, voiceIndex);
+          Logger.info('blob-test', 'built reduced master', {
+            length: reduced.length,
+            preview: reduced.slice(0, 600)
+          });
+          var blobUrl = null;
+          var dataUrl = null;
+          try {
+            var blob = new Blob([reduced], { type: 'application/vnd.apple.mpegurl' });
+            blobUrl = URL.createObjectURL(blob);
+            Logger.info('blob-test', 'blob URL created', { blobUrl: blobUrl });
+          } catch (e) {
+            Logger.warn('blob-test', 'blob creation failed', String(e));
+          }
+          try {
+            // data: URL with URL-encoded text (avoids base64 size penalty)
+            dataUrl = 'data:application/vnd.apple.mpegurl,' + encodeURIComponent(reduced);
+            Logger.info('blob-test', 'data URL ready', { length: dataUrl.length });
+          } catch (e) {
+            Logger.warn('blob-test', 'data URL failed', String(e));
+          }
+          cb(blobUrl, dataUrl, reduced);
+        } catch (e) {
+          Logger.warn('blob-test', 'parse/build failed', String(e));
+          cb(null, null, null);
+        }
+      };
+      xhr.onerror   = function () { Logger.warn('blob-test', 'xhr error'); cb(null, null, null); };
+      xhr.ontimeout = function () { Logger.warn('blob-test', 'xhr timeout'); cb(null, null, null); };
+      xhr.send();
+    } catch (e) {
+      Logger.warn('blob-test', 'fetch setup failed', String(e));
+      cb(null, null, null);
+    }
+  }
+
   function applyVoiceTrack(idx) {
     if (KP_BARE_MODE) {
       Logger.info('voice', 'BARE mode — skipping applyVoiceTrack');
@@ -842,6 +1059,10 @@
    * Both player paths therefore land on HLS2.
    */
   function preferredFormat() {
+    if (KP_BLOB_TEST) {
+      // Force HLS4 — we need the multi-audio master for blob-test reduction.
+      return 'hls4';
+    }
     if (formatOverride) return formatOverride;
     var setting = Lampa.Storage.get(KEY_FORMAT, 'auto');
     if (setting && setting !== 'auto') return setting;
@@ -1925,6 +2146,10 @@
       if (voiceIdx >= 0 && audios[voiceIdx]) {
         pickedLabel = voiceLabel(audios[voiceIdx]) || ('Track ' + (voiceIdx + 1));
       }
+      // Stash voice index on play element so onEnter (which sees this play
+      // before the playlist loop overwrites pendingVoice) can read the
+      // CLICKED item's voice index without depending on pendingVoice.
+      play._voiceIdx = voiceIdx;
       if (KP_BARE_MODE) {
         // BARE mode: do NOT set play.voiceovers, play.translate, pendingVoice
         // or currentVoiceLabel. Lampa receives a vanilla play-element. Voice
@@ -2053,6 +2278,32 @@
           // master content — if it has #EXT-X-MEDIA AUDIO entries we can use
           // setSelectTrack/hls.audioTrack (Phase B on HLS2) without restart.
           dumpStreamManifest(play.url);
+
+          if (KP_BLOB_TEST) {
+            // BLOB-TEST: fetch master ourselves, build reduced (1 audio per
+            // group + all video stream-infs, no subs/iframe), wrap in blob:.
+            // Voice index is 1-based per kinopub naming convention ("01.", "02.", ...).
+            var clickedVoiceIdx = (play && typeof play._voiceIdx === 'number') ? play._voiceIdx : -1;
+            var voiceOneBased = (clickedVoiceIdx >= 0) ? (clickedVoiceIdx + 1) : 1;
+            var originalUrl = play.url;
+            fetchAndReduceMaster(originalUrl, voiceOneBased, function (blobUrl, dataUrl, reduced) {
+              if (blobUrl) {
+                play.url = blobUrl;
+                Logger.info('blob-test', 'launching with blob URL', { blob: blobUrl });
+              } else if (dataUrl) {
+                play.url = dataUrl;
+                Logger.info('blob-test', 'launching with data URL (blob unavailable)', { length: dataUrl.length });
+              } else {
+                Logger.warn('blob-test', 'no blob/data URL — falling back to original kinopub URL');
+                play.url = originalUrl;
+              }
+              Lampa.Player.play(play);
+              Lampa.Player.playlist(playlist);
+              if (item.mark) item.mark();
+            });
+            return;
+          }
+
           Lampa.Player.play(play);
           Lampa.Player.playlist(playlist);
           if (item.mark) item.mark();
