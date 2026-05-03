@@ -23,7 +23,7 @@
    *  CONSTANTS                                                   *
    * ============================================================ */
 
-  var PLUGIN_VERSION  = '1.0.43-debug';
+  var PLUGIN_VERSION  = '1.0.44-debug';
   // Public manifest-proxy URL — set near KP_PROXY_URL declaration below.
   var COMPONENT_NAME  = 'online_kp';
   var BALANSER        = 'kpapi';
@@ -3004,11 +3004,10 @@
         var fully  = window.innerWidth > 480;
         var scroll_to_element = false;
         var scroll_to_mark = false;
-        // v1.0.43: track first unfinished episode for focus on season switch.
-        // Priority: in-progress (continue watching) > unwatched (start fresh).
-        // Falls back to scroll_to_element/scroll_to_mark below.
-        var first_in_progress = false;
-        var first_unwatched   = false;
+        // v1.0.44: collect each rendered html by index for the post-loop
+        // focus algorithm (walk backwards to find the "current point").
+        var htmlByIdx = [];
+        var pctByIdx  = [];
 
         items.forEach(function (element, index) {
           var episode = serial && episodes.length && !params.similars
@@ -3071,13 +3070,11 @@
             scroll_to_element = html;
           }
 
-          // v1.0.43: track first in-progress and first unwatched episodes
-          // for season-switch focus. timeline.percent comes from Lampa.Timeline
-          // which reads localStorage records keyed by hash_timeline.
+          // v1.0.44: stash per-index html + progress pct for the post-loop
+          // "current point" focus algorithm.
           if (serial) {
-            var pct = (element.timeline && element.timeline.percent) || 0;
-            if (pct > 0 && pct < 90 && !first_in_progress) first_in_progress = html;
-            if (pct === 0 && !first_unwatched) first_unwatched = html;
+            htmlByIdx[index] = html;
+            pctByIdx[index]  = (element.timeline && element.timeline.percent) || 0;
           }
 
           if (serial && !episode) {
@@ -3195,35 +3192,54 @@
           scroll.append(html);
         });
 
-        // v1.0.43: prefer "first unfinished" over the legacy last-watched
-        // / last-marked anchors. UX intent: when the user opens or switches
-        // to a season, focus should land on the next thing to watch.
-        //   1. first in-progress  (continue watching)
-        //   2. first unwatched    (start fresh)
-        //   3. last clicked       (everything watched — back to last)
-        //   4. most-recent marked
-        if (first_in_progress)      last = first_in_progress[0];
-        else if (first_unwatched)   last = first_unwatched[0];
+        // v1.0.44: "Current point" focus algorithm — walk backwards through
+        // episodes to find the most recent one with progress, then decide
+        // whether to focus there (in-progress, continue) or on the next
+        // unwatched episode (last one fully done — start the next).
+        // pct >= 90 ≈ effectively finished; 0 < pct < 90 = in-progress;
+        // pct === 0 = not started ("непросмотренная").
+        var focus_html = null;
+        if (serial && htmlByIdx.length) {
+          for (var bi = htmlByIdx.length - 1; bi >= 0; bi--) {
+            var bp = pctByIdx[bi] || 0;
+            if (bp >= 90) {
+              // last fully-watched found → focus on the next unwatched if any.
+              focus_html = htmlByIdx[bi + 1] || htmlByIdx[bi];
+              break;
+            } else if (bp > 0) {
+              // last in-progress → continue watching here.
+              focus_html = htmlByIdx[bi];
+              break;
+            }
+            // pct === 0 keeps walking back.
+          }
+          // All zeros (nothing started yet) → focus on first episode.
+          if (!focus_html) focus_html = htmlByIdx[0];
+        }
+
+        if (focus_html)             last = focus_html[0];
         else if (scroll_to_element) last = scroll_to_element[0];
         else if (scroll_to_mark)    last = scroll_to_mark[0];
 
         Lampa.Controller.enable('content');
 
-        // v1.0.43: Re-toggle 'content' so the freshly-set `last` actually
-        // gets focus. Lampa.Filter.show closes its Select modal as soon as
-        // user picks a season, which restores the previous controller and
-        // fires its toggle()→collectionFocus() BEFORE this getEpisodes
-        // network callback resolves — meaning focus would otherwise land
-        // on whatever stale `last` had (or the first DOM element).
+        // v1.0.44: Force focus to the freshly-set `last` element. The
+        // getEpisodes network callback resolves AFTER Select.close has
+        // fired its previous-controller restore, so without this explicit
+        // re-set, focus is stuck on whatever was active before (often the
+        // filter button — pressing left then jumps to the series list).
+        // Use 50ms delay to ensure Select-close DOM transitions settle.
         try {
           setTimeout(function () {
             try {
               if (Lampa.Activity.active().activity !== self.activity) return;
-              if (Lampa.Controller.enabled().name === 'content') {
-                Lampa.Controller.toggle('content');
+              if (last) {
+                Lampa.Controller.collectionSet(scroll.render(), files.render());
+                Lampa.Controller.collectionFocus(last, scroll.render());
+                try { scroll.update($(last), true); } catch (ee) {}
               }
             } catch (e) {}
-          }, 0);
+          }, 50);
         } catch (e) {}
       });
     };
