@@ -23,7 +23,7 @@
    *  CONSTANTS                                                   *
    * ============================================================ */
 
-  var PLUGIN_VERSION  = '1.0.39-debug';
+  var PLUGIN_VERSION  = '1.0.40-debug';
   // Public manifest-proxy URL — set near KP_PROXY_URL declaration below.
   var COMPONENT_NAME  = 'online_kp';
   var BALANSER        = 'kpapi';
@@ -914,6 +914,13 @@
           work.timeline.continued = false;
           work.timeline.continued_bloc = false;
         }
+        // v1.0.40: Suppress canplay-time setSelectTrack attempts after the
+        // swap. The proxy already serves the chosen voice as the only audio
+        // track, so applyVoiceTrack would only call avplay.setSelectTrack
+        // with a stale/out-of-range index (3 times — on canplay, loadeddata,
+        // tracks) — Tizen briefly re-inits audio path on each, producing a
+        // second spinner cycle ~1 sec after canplay.
+        pendingVoice = null;
         Logger.info('voice', 'soft-swap fired', { url: (swapUrl || '').slice(0, 80) + '...' });
       } catch (e) {
         Logger.warn('voice', 'soft-swap failed, falling back to full restart', String(e));
@@ -934,9 +941,12 @@
       } catch (e) {}
 
       // ── Restore focus to the tracks button on the player panel ─────────
+      // v1.0.40: deferred to 100ms so AVPlayer.open() gets a clear runway
+      // before any controller/DOM work — was setTimeout 0 which could
+      // overlap with player UI re-show during the open() phase.
       try {
         if (Lampa.Controller && typeof Lampa.Controller.toggle === 'function') {
-          setTimeout(function () { Lampa.Controller.toggle('player_panel'); }, 0);
+          setTimeout(function () { Lampa.Controller.toggle('player_panel'); }, 100);
         }
       } catch (e) {}
 
