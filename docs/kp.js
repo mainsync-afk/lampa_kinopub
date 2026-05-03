@@ -23,7 +23,7 @@
    *  CONSTANTS                                                   *
    * ============================================================ */
 
-  var PLUGIN_VERSION  = '1.0.33-debug';
+  var PLUGIN_VERSION  = '1.0.34-debug';
   // Public manifest-proxy URL — set near KP_PROXY_URL declaration below.
   var COMPONENT_NAME  = 'online_kp';
   var BALANSER        = 'kpapi';
@@ -832,12 +832,17 @@
 
       // ── Update .selected flag on voiceovers[] so re-opening the tracks
       // list shows the new voice as highlighted (Lampa Select.show reads
-      // .selected from the tracks reference passed via setTracks) ────────
+      // .selected from the tracks reference passed via setTracks).
+      //
+      // v1.0.33: match by URL ONLY. voice_key collides for codec-twins
+      // (same lang|type|author|codec, different kinopub index) — picking
+      // one would mark BOTH selected. URL is unique because the proxy
+      // query string includes voice=<index>. ─────────────────────────────
       try {
         if (voiceoversRef && voiceoversRef.length) {
           for (var i = 0; i < voiceoversRef.length; i++) {
             var vo = voiceoversRef[i];
-            var match = (vo.voice_key === key) || (vo.url === swapUrl);
+            var match = (vo.url === swapUrl);
             vo.selected = match;
             vo['default'] = match;
             vo.enabled = match;
@@ -1324,7 +1329,13 @@
     var t  = (a.type   && a.type.title)   || '';
     var au = (a.author && a.author.title) || '';
     var c  = audioCodec(a);
-    return (a.lang || '') + '|' + t + '|' + au + '|' + c;
+    // v1.0.33-debug: include audio.index so codec-twins (same lang|type|
+    // author|codec but different kinopub index — e.g. DOC s1e04 has audio
+    // 03 and 04 both "Многоголосый 1W (RUS) AAC") stay DISTINCT in filter
+    // sidebar + storage. When debug ends, restore production behaviour
+    // (drop the index suffix → codec-twins collapse into a single entry).
+    var idx = (typeof a.index === 'number') ? a.index : '';
+    return (a.lang || '') + '|' + t + '|' + au + '|' + c + '|' + idx;
   }
 
   /**
@@ -2238,6 +2249,16 @@
       }
 
       component.filter(filterItems, choice);
+
+      // v1.0.33: expose a refresh hook so Player/destroy listener can rebuild
+      // the filter sidebar (and re-render episode chips) after an in-player
+      // voice switch. Without this, the sidebar shows stale "Озвучка: ..."
+      // because choice.voice_key was mutated externally by buildVoiceSwapCallback.
+      window._kpRefreshFilterAndChips = function () {
+        try { buildFilter(); } catch (e) { Logger.warn('voice', 'refresh buildFilter failed', String(e)); }
+        try { append(filtered()); } catch (e) { Logger.warn('voice', 'refresh append failed', String(e)); }
+        try { setTimeout(refreshAllKpVoiceChips, 50); } catch (e) {}
+      };
     }
 
     function filtered() {
@@ -3724,9 +3745,19 @@
         }
         // After the player closes, repaint chips on visible cards so episodes
         // that just gained timeline progress flip from green to faded immediately.
+        // v1.0.33: also refresh the filter sidebar so the "Озвучка: ..." label
+        // reflects the voice picked in-player. window._kpRefreshFilterAndChips
+        // is exposed by the source's buildFilter() and rebuilds both filter
+        // and chips together. Falls back to chips-only refresh if not present.
         Lampa.Player.listener.follow('destroy', function () {
-          // Small delay to let Lampa flush the timeline update before we read it.
-          setTimeout(refreshAllKpVoiceChips, 100);
+          setTimeout(function () {
+            if (typeof window._kpRefreshFilterAndChips === 'function') {
+              try { window._kpRefreshFilterAndChips(); }
+              catch (e) { Logger.warn('voice', 'refresh hook failed', String(e)); refreshAllKpVoiceChips(); }
+            } else {
+              refreshAllKpVoiceChips();
+            }
+          }, 100);
         });
       } else {
         Logger.warn('player-evt', 'Lampa.Player.listener unavailable');
