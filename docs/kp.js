@@ -23,7 +23,7 @@
    *  CONSTANTS                                                   *
    * ============================================================ */
 
-  var PLUGIN_VERSION  = '1.0.41-debug';
+  var PLUGIN_VERSION  = '1.0.42-debug';
   // Public manifest-proxy URL — set near KP_PROXY_URL declaration below.
   var COMPONENT_NAME  = 'online_kp';
   var BALANSER        = 'kpapi';
@@ -2795,6 +2795,11 @@
           if (a.reset) {
             if (extended) source.reset();
             else self.start();
+          } else if (a.season_pick) {
+            // v1.0.42: flat-list season entry (no submenu) — Lampa Filter
+            // calls onSelect with just (type, a) and undefined b, so we
+            // synthesize the b={index} expected by source.filter.
+            source.filter(type, { stype: 'season' }, { index: a.season_idx });
           } else {
             source.filter(type, a, b);
           }
@@ -2913,34 +2918,44 @@
     this.filter = function (filter_items, choice) {
       var self = this;
       var select = [];
-      var add = function (type, title) {
-        var need  = self.getChoice();
-        var items = filter_items[type];
-        var subitems = [];
-        var value = need[type];
-        items.forEach(function (name, i) {
-          subitems.push({ title: name, selected: value === i, index: i });
-        });
-        select.push({ title: title, subtitle: items[value], items: subitems, stype: type });
-      };
-      select.push({ title: Lampa.Lang.translate('torrent_parser_reset'), reset: true });
+      // v1.0.42: removed "Сбросить фильтр" (was first entry).
+      // v1.0.42: removed voice row from sidebar — voice selection happens
+      // in player tracks list (soft-swap), not in the season sidebar.
+      // v1.0.42: seasons flattened to one entry per season (no dropdown);
+      // each is directly clickable; current season highlighted via selected.
       this.saveChoice(choice);
-      if (filter_items.voice  && filter_items.voice.length)  add('voice',  Lampa.Lang.translate('torrent_parser_voice'));
-      if (filter_items.season && filter_items.season.length) add('season', Lampa.Lang.translate('torrent_serial_season'));
+      if (filter_items.season && filter_items.season.length) {
+        var need = self.getChoice();
+        filter_items.season.forEach(function (name, i) {
+          select.push({
+            title:       name,
+            season_pick: true,
+            season_idx:  i,
+            selected:    need.season === i
+          });
+        });
+      }
       filter.set('filter', select);
       this.selected(filter_items);
     };
 
     this.selected = function (filter_items) {
       var need = this.getChoice(), select = [];
-      for (var i in need) {
-        if (filter_items[i] && filter_items[i].length) {
-          if (i === 'voice') select.push(filter_translate[i] + ': ' + filter_items[i][need[i]]);
-          else if (i === 'season' && filter_items.season.length >= 1) select.push(filter_translate.season + ': ' + filter_items[i][need[i]]);
-        }
+      // v1.0.42: only show the current season in the chosen text. Voice is
+      // no longer in the sidebar (handled in-player), so its label here
+      // would be misleading.
+      if (filter_items.season && filter_items.season.length >= 1) {
+        select.push(filter_translate.season + ': ' + filter_items.season[need.season]);
       }
       filter.chosen('filter', select);
       filter.chosen('sort', [balanser]);
+      // v1.0.42: override Lampa's 25-char shortText truncation in the filter
+      // button so longer chosen text fits. Set the DOM html directly with
+      // full text; CSS widens the button so it visually accommodates.
+      try {
+        var full = select.join(', ');
+        filter.render().find('.filter--filter > div').html(full || '').toggleClass('hide', !full);
+      } catch (e) {}
     };
 
     this.getEpisodes = function (season, call) {
@@ -3371,6 +3386,12 @@
       ".kp-voice-chip.is-watched{background:rgba(255,255,255,0.04);" +
         "color:rgba(255,255,255,0.38);" +
         "border-color:transparent}" +
+      // — v1.0.42: widen "Filter" button on the season page ~3× ─────────
+      // Default Lampa filter-button is sized for short chosen text; with
+      // longer "Сезон: Сезон N" labels it gets visibly truncated. We
+      // increase min-width and lift the inner div's overflow so text fits.
+      ".filter--filter{min-width:24em}" +
+      ".filter--filter > div{max-width:none;overflow:visible;white-space:nowrap;text-overflow:clip}" +
       "</style>");
     $('body').append(Lampa.Template.get('online_prestige_css', {}, true));
   }
