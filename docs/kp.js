@@ -23,7 +23,7 @@
    *  CONSTANTS                                                   *
    * ============================================================ */
 
-  var PLUGIN_VERSION  = '1.0.24';
+  var PLUGIN_VERSION  = '1.0.25';
   var COMPONENT_NAME  = 'online_kp';
   var BALANSER        = 'kpapi';
 
@@ -871,14 +871,20 @@
   /**
    * Voices matching ANY of these patterns are hidden from BOTH the source
    * filter sidebar AND the per-episode chips. Eugene's preference list.
+   *
+   * NOTE: temporarily disabled (v1.0.25 debug mode) — tracks should ALL be
+   * visible while debugging in-player switching. Restore by adding patterns
+   * back: [/UKR/i, /Пучков/i]
    */
-  var VOICE_HIDDEN_GLOBAL = [/UKR/i, /Пучков/i];
+  var VOICE_HIDDEN_GLOBAL = [];
 
   /**
-   * Hidden ONLY on episode cards (still pickable in sidebar filter — user can
-   * select a "single-voice" / "auteur" / "original" track if they really want).
+   * Hidden ONLY on episode cards (still pickable in sidebar filter).
+   *
+   * NOTE: temporarily disabled (v1.0.25 debug mode). Restore by adding back:
+   * [/Одноголосый/i, /Авторский/i, /Оригинал/i]
    */
-  var VOICE_HIDDEN_CARDS = [/Одноголосый/i, /Авторский/i, /Оригинал/i];
+  var VOICE_HIDDEN_CARDS = [];
 
   function audioCheckString(a) {
     if (!a) return '';
@@ -922,68 +928,42 @@
   }
 
   /**
-   * Build a single voice chip's textual content (just the inner label, no
-   * HTML wrapper). Codec is INTENTIONALLY not appended — AAC and AC3 variants
-   * of the same dub are grouped into a single chip (deduped by chipKey).
-   *   <studio-or-type>[ <LANG>]
-   * Examples: "AF", "AF EN", "MVO", "Orig EN".
+   * DEBUG MODE (v1.0.25): label = "NN.id" where NN = audio.index padded to
+   * 2 digits and id = kinopub global audio.id. Used in chips on cards.
+   * Same format as voiceLabel(a) for one-to-one trace between sidebar and
+   * chips. Restore production label by reverting to the studio/type/lang
+   * composition (see git history).
    */
   function voiceChipText(a) {
-    if (!a) return '?';
-    var author = (a.author && a.author.title) || '';
-    var typeShort = (a.type && a.type.short_title) || '';
-    var typeFull  = (a.type && a.type.title) || '';
-
-    var primary;
-    if (author) primary = studioAbbr(author);
-    else if (typeShort) primary = typeShort;
-    else if (typeFull)  primary = TYPE_SHORT[typeFull] || typeFull.substring(0, 3);
-    else primary = '?';
-
-    var lang = (a.lang || '').toUpperCase();
-    if (lang && lang !== 'RUS' && lang !== 'RU') {
-      primary += ' ' + lang.substring(0, 3);
-    }
-
-    return primary;
+    return voiceLabel(a);
   }
 
   /**
    * Build the voice-chips HTML for an episode card.
    *
+   * DEBUG MODE (v1.0.25): no dedup — every audio entry gets its own chip.
+   * Chip label is "NN.id" (see voiceChipText). Lets us see EVERY track
+   * including AC3 variants and identify exactly which one is currently
+   * active / watched.
+   *
    * Two indicator states (mutually exclusive, controlled by hasProgress):
    *   hasProgress === false  → chip with `is-active` class for activeKey
-   *                            (soft green fill — "what plays if you click")
+   *                            (soft green — "what plays if you click")
    *   hasProgress === true   → chip with `is-watched` class for watchedKey
-   *                            (gray underline — "you watched this here")
-   *
-   * Dedupes by chipKey so AAC and AC3 variants of the same dub collapse into
-   * one chip; the indicator triggers if EITHER variant matches the relevant
-   * key. Card-level visibility filter applied (Оригинал/Одноголосый/Авторский
-   * hidden on cards but visible in sidebar).
+   *                            (faded gray — "you watched this here")
    */
   function voiceChipsHtml(audios, activeKey, watchedKey, hasProgress) {
     if (!audios || !audios.length) return '';
-    var byChip = {};
-    var order  = [];
+    var chips = [];
     audios.forEach(function (a) {
       if (!isVoiceVisible(a, 'card')) return;
-      var k = chipKey(a);
-      if (!byChip[k]) {
-        byChip[k] = { audio: a, isActive: false, isWatched: false };
-        order.push(k);
-      }
-      var vk = voiceKey(a);
-      if (vk === activeKey)  byChip[k].isActive  = true;
-      if (vk === watchedKey) byChip[k].isWatched = true;
-    });
-    return order.map(function (k) {
-      var entry = byChip[k];
       var classes = ['kp-voice-chip'];
-      if (hasProgress && entry.isWatched)        classes.push('is-watched');
-      else if (!hasProgress && entry.isActive)   classes.push('is-active');
-      return '<span class="' + classes.join(' ') + '">' + voiceChipText(entry.audio) + '</span>';
-    }).join('');
+      var vk = voiceKey(a);
+      if (hasProgress && vk === watchedKey)        classes.push('is-watched');
+      else if (!hasProgress && vk === activeKey)   classes.push('is-active');
+      chips.push('<span class="' + classes.join(' ') + '">' + voiceChipText(a) + '</span>');
+    });
+    return chips.join('');
   }
 
   /**
@@ -1018,31 +998,20 @@
   }
 
   /**
-   * Pretty label for an audio track. Prefer kinopub's pre-formatted display
-   * field if present (`name` / `title`) — those match the kinopub web UI
-   * exactly. Otherwise construct from parts:
-   *   "Многоголосый LostFilm [RUS]"
-   *   "Многоголосый AlexFilm [RUS] (AC3)"
-   *   "Оригинал [ENG]"
+   * DEBUG MODE (v1.0.25): label = "NN.id" — index padded to 2 digits, then
+   * dot, then kinopub global audio id. One-to-one mapping between any
+   * UI place (sidebar, player tracks menu, chips, next-episode override)
+   * and the actual audio.index / audio.id values from the API response —
+   * makes it trivial to spot which exact track is selected vs played.
+   *
+   * Production label was: "<type> <author> [LANG] (CODEC)" — see git
+   * history if/when reverting.
    */
   function voiceLabel(a) {
     if (!a) return '';
-    // 1) trust kinopub's own display string when API gives one
-    if (typeof a.name  === 'string' && a.name.trim())  return a.name.trim();
-    if (typeof a.title === 'string' && a.title.trim()) return a.title.trim();
-    // 2) construct from parts
-    var parts = [];
-    if (a.type   && a.type.title)   parts.push(a.type.title);
-    if (a.author && a.author.title) parts.push(a.author.title);
-    var label = parts.join(' ');
-    if (a.lang) {
-      label = (label ? label + ' ' : '') + '[' + String(a.lang).toUpperCase() + ']';
-    }
-    var c = audioCodec(a);
-    if (c) {
-      label = (label ? label + ' ' : '') + '(' + String(c).toUpperCase() + ')';
-    }
-    return label || '';
+    var idx = (a.index != null) ? a.index : 0;
+    var id  = (a.id    != null) ? a.id    : 0;
+    return ('0' + idx).slice(-2) + '.' + id;
   }
 
   /**
