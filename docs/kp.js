@@ -23,7 +23,7 @@
    *  CONSTANTS                                                   *
    * ============================================================ */
 
-  var PLUGIN_VERSION  = '1.0.37-debug';
+  var PLUGIN_VERSION  = '1.0.38-debug';
   // Public manifest-proxy URL — set near KP_PROXY_URL declaration below.
   var COMPONENT_NAME  = 'online_kp';
   var BALANSER        = 'kpapi';
@@ -893,38 +893,23 @@
       } catch (e) { Logger.warn('voice', 'voiceovers selected sync failed', String(e)); }
 
       // ── Soft swap (Lampa-native quality-change pattern) ────────────────
-      // v1.0.35/36 evolution: split destroy and url(newUrl) with a delay.
-      // On Tizen AVPlayer, webapis.avplay.close() is asynchronous under the
-      // hood — the function returns synchronously but the HEVC main10
-      // hardware decoder takes time to release resources. Calling
-      // avplay.open() immediately afterwards with another HEVC stream
-      // crashes the Tizen app (verified Fargo HEVC log 165621/171502).
-      // 200ms wasn't enough; v1.0.37 bumps to 500ms which gives the HEVC
-      // decoder more headroom. AVC content unaffected (releases instantly).
-      var KP_SOFTSWAP_GAP_MS = 500;
+      // Direct PlayerVideo.url(newUrl, true) — change_quality=true tells
+      // Lampa to reuse the existing player overlay and just call AVPlayer
+      // close()+open() with the new URL. No DOM rebuild, no flash beyond
+      // the brief loading spinner during open.
       var work = null;
       try {
         work = (Lampa.Player && typeof Lampa.Player.playdata === 'function')
                ? Lampa.Player.playdata() : null;
         if (work) work.url = swapUrl;
-        if (Lampa.PlayerVideo && typeof Lampa.PlayerVideo.destroy === 'function') {
-          Lampa.PlayerVideo.destroy(true);
+        if (Lampa.PlayerVideo && typeof Lampa.PlayerVideo.url === 'function') {
+          Lampa.PlayerVideo.url(swapUrl, true);
         }
-        Logger.info('voice', 'soft-swap destroy done, deferring url()', { gapMs: KP_SOFTSWAP_GAP_MS });
-        setTimeout(function () {
-          try {
-            if (Lampa.PlayerVideo && typeof Lampa.PlayerVideo.url === 'function') {
-              Lampa.PlayerVideo.url(swapUrl, true);
-            }
-            if (work && work.timeline) {
-              work.timeline.continued = false;
-              work.timeline.continued_bloc = false;
-            }
-            Logger.info('voice', 'soft-swap fired', { url: (swapUrl || '').slice(0, 80) + '...' });
-          } catch (ee) {
-            Logger.warn('voice', 'deferred url() failed', String(ee));
-          }
-        }, KP_SOFTSWAP_GAP_MS);
+        if (work && work.timeline) {
+          work.timeline.continued = false;
+          work.timeline.continued_bloc = false;
+        }
+        Logger.info('voice', 'soft-swap fired', { url: (swapUrl || '').slice(0, 80) + '...' });
       } catch (e) {
         Logger.warn('voice', 'soft-swap failed, falling back to full restart', String(e));
         try {
@@ -2582,13 +2567,14 @@
             return;
           }
           var playlist = [];
+          var playlistSrc = []; // parallel array: source item per playlist entry
           if (item.season) {
             items.forEach(function (e) {
               var p = toPlayElement(e);
-              if (p) playlist.push(p);
+              if (p) { playlist.push(p); playlistSrc.push(e); }
             });
           } else {
-            playlist.push(play);
+            playlist.push(play); playlistSrc.push(item);
           }
 
           // Override the MAIN player title with the rich format including the
@@ -2654,6 +2640,53 @@
               proxyHost: KP_PROXY_URL,
               originalHost: (function(){ try { return new URL(originalUrl).host; } catch(e){ return '?'; } })()
             });
+
+            // ── v1.0.38: Wrap EVERY playlist entry, not just the clicked one ──
+            // Lampa next/prev episode navigation in player picks the next
+            // play-element from this playlist[] array as-is. If those still
+            // hold ORIGINAL kinopub URLs, AVPlayer opens the full master with
+            // 12 audio tracks → multi-audio Tizen demuxer crash (the v1.0.28
+            // era bug). This was masked while user only entered episodes via
+            // explicit click, but bites on auto-next and player-panel-next.
+            //
+            // Per-item: pick same voice (by audio.index match if present, else
+            // same array position) and apply proxyUrlFor to its stream URL.
+            try {
+              for (var pi = 0; pi < playlist.length; pi++) {
+                var ple = playlist[pi];
+                if (!ple || ple === play) continue; // clicked already wrapped
+                if (typeof ple.url !== 'string' || ple.url.indexOf(KP_PROXY_URL) === 0) continue;
+                var srcItem  = playlistSrc[pi];
+                var pleAudios = (srcItem && srcItem.kp && srcItem.kp.audios) || [];
+                // Default to first audio (voice 1) for items without matching voice
+                var pleVoiceOneBased = 1;
+                if (clickedAudio) {
+                  // Try to match by voice_key (lang|type|author|codec|index) → most stable.
+                  // Falls back to clickedAudio.index, then to position-based.
+                  var clickedKey = voiceKey(clickedAudio);
+                  for (var ai = 0; ai < pleAudios.length; ai++) {
+                    if (voiceKey(pleAudios[ai]) === clickedKey) {
+                      pleVoiceOneBased = (typeof pleAudios[ai].index === 'number' && pleAudios[ai].index > 0)
+                                         ? pleAudios[ai].index : (ai + 1);
+                      break;
+                    }
+                  }
+                  if (pleVoiceOneBased === 1 && typeof clickedAudio.index === 'number' && clickedAudio.index > 0) {
+                    // No key match — fall back to clicked audio.index (may exist in this episode).
+                    pleVoiceOneBased = clickedAudio.index;
+                  }
+                }
+                var pleProxyUrl = proxyUrlFor(ple.url, pleVoiceOneBased);
+                if (pleProxyUrl) {
+                  delete ple.quality;
+                  ple.url = pleProxyUrl;
+                }
+              }
+              Logger.debug('proxy', 'playlist wrapped', { count: playlist.length, voice: voiceOneBased });
+            } catch (ple_err) {
+              Logger.warn('proxy', 'playlist wrap failed', String(ple_err));
+            }
+
             Lampa.Player.play(play);
             Lampa.Player.playlist(playlist);
             if (item.mark) item.mark();
