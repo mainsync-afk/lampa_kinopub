@@ -23,7 +23,7 @@
    *  CONSTANTS                                                   *
    * ============================================================ */
 
-  var PLUGIN_VERSION  = '1.0.34-debug';
+  var PLUGIN_VERSION  = '1.0.35-debug';
   // Public manifest-proxy URL — set near KP_PROXY_URL declaration below.
   var COMPONENT_NAME  = 'online_kp';
   var BALANSER        = 'kpapi';
@@ -851,6 +851,13 @@
       } catch (e) { Logger.warn('voice', 'voiceovers selected sync failed', String(e)); }
 
       // ── Soft swap (Lampa-native quality-change pattern) ────────────────
+      // v1.0.35: split destroy and url(newUrl) with a small delay. On Tizen
+      // AVPlayer, webapis.avplay.close() is asynchronous under the hood —
+      // the function returns synchronously but the HEVC main10 hardware
+      // decoder takes time to release resources. Calling avplay.open()
+      // immediately afterwards with another HEVC stream crashes the player
+      // (verified with kinopub HEVC=ON on Fargo, log 165621.577.txt).
+      // 200 ms gap is empirically sufficient.
       var work = null;
       try {
         work = (Lampa.Player && typeof Lampa.Player.playdata === 'function')
@@ -859,14 +866,21 @@
         if (Lampa.PlayerVideo && typeof Lampa.PlayerVideo.destroy === 'function') {
           Lampa.PlayerVideo.destroy(true);
         }
-        if (Lampa.PlayerVideo && typeof Lampa.PlayerVideo.url === 'function') {
-          Lampa.PlayerVideo.url(swapUrl, true);
-        }
-        if (work && work.timeline) {
-          work.timeline.continued = false;
-          work.timeline.continued_bloc = false;
-        }
-        Logger.info('voice', 'soft-swap fired', { url: (swapUrl || '').slice(0, 80) + '...' });
+        Logger.info('voice', 'soft-swap destroy done, deferring url()', { gapMs: 200 });
+        setTimeout(function () {
+          try {
+            if (Lampa.PlayerVideo && typeof Lampa.PlayerVideo.url === 'function') {
+              Lampa.PlayerVideo.url(swapUrl, true);
+            }
+            if (work && work.timeline) {
+              work.timeline.continued = false;
+              work.timeline.continued_bloc = false;
+            }
+            Logger.info('voice', 'soft-swap fired', { url: (swapUrl || '').slice(0, 80) + '...' });
+          } catch (ee) {
+            Logger.warn('voice', 'deferred url() failed', String(ee));
+          }
+        }, 200);
       } catch (e) {
         Logger.warn('voice', 'soft-swap failed, falling back to full restart', String(e));
         try {
