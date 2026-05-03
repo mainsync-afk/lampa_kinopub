@@ -23,7 +23,7 @@
    *  CONSTANTS                                                   *
    * ============================================================ */
 
-  var PLUGIN_VERSION  = '1.0.42-debug';
+  var PLUGIN_VERSION  = '1.0.43-debug';
   // Public manifest-proxy URL — set near KP_PROXY_URL declaration below.
   var COMPONENT_NAME  = 'online_kp';
   var BALANSER        = 'kpapi';
@@ -2941,11 +2941,15 @@
 
     this.selected = function (filter_items) {
       var need = this.getChoice(), select = [];
-      // v1.0.42: only show the current season in the chosen text. Voice is
-      // no longer in the sidebar (handled in-player), so its label here
-      // would be misleading.
+      // v1.0.42: only the current season is in the sidebar (voice handled
+      // in-player). v1.0.43: show CURRENT VOICE in the chosen text so the
+      // top filter button reflects which voice is active even though it's
+      // no longer in the sidebar items.
       if (filter_items.season && filter_items.season.length >= 1) {
         select.push(filter_translate.season + ': ' + filter_items.season[need.season]);
+      }
+      if (filter_items.voice && filter_items.voice.length >= 1 && need.voice >= 0 && need.voice < filter_items.voice.length) {
+        select.push(filter_translate.voice + ': ' + filter_items.voice[need.voice]);
       }
       filter.chosen('filter', select);
       filter.chosen('sort', [balanser]);
@@ -3000,6 +3004,11 @@
         var fully  = window.innerWidth > 480;
         var scroll_to_element = false;
         var scroll_to_mark = false;
+        // v1.0.43: track first unfinished episode for focus on season switch.
+        // Priority: in-progress (continue watching) > unwatched (start fresh).
+        // Falls back to scroll_to_element/scroll_to_mark below.
+        var first_in_progress = false;
+        var first_unwatched   = false;
 
         items.forEach(function (element, index) {
           var episode = serial && episodes.length && !params.similars
@@ -3060,6 +3069,15 @@
             if (choice.movie_view === hash_behold) scroll_to_element = html;
           } else if (typeof episode_last !== 'undefined' && episode_last === episode_num) {
             scroll_to_element = html;
+          }
+
+          // v1.0.43: track first in-progress and first unwatched episodes
+          // for season-switch focus. timeline.percent comes from Lampa.Timeline
+          // which reads localStorage records keyed by hash_timeline.
+          if (serial) {
+            var pct = (element.timeline && element.timeline.percent) || 0;
+            if (pct > 0 && pct < 90 && !first_in_progress) first_in_progress = html;
+            if (pct === 0 && !first_unwatched) first_unwatched = html;
           }
 
           if (serial && !episode) {
@@ -3177,10 +3195,36 @@
           scroll.append(html);
         });
 
-        if (scroll_to_element) last = scroll_to_element[0];
-        else if (scroll_to_mark) last = scroll_to_mark[0];
+        // v1.0.43: prefer "first unfinished" over the legacy last-watched
+        // / last-marked anchors. UX intent: when the user opens or switches
+        // to a season, focus should land on the next thing to watch.
+        //   1. first in-progress  (continue watching)
+        //   2. first unwatched    (start fresh)
+        //   3. last clicked       (everything watched — back to last)
+        //   4. most-recent marked
+        if (first_in_progress)      last = first_in_progress[0];
+        else if (first_unwatched)   last = first_unwatched[0];
+        else if (scroll_to_element) last = scroll_to_element[0];
+        else if (scroll_to_mark)    last = scroll_to_mark[0];
 
         Lampa.Controller.enable('content');
+
+        // v1.0.43: Re-toggle 'content' so the freshly-set `last` actually
+        // gets focus. Lampa.Filter.show closes its Select modal as soon as
+        // user picks a season, which restores the previous controller and
+        // fires its toggle()→collectionFocus() BEFORE this getEpisodes
+        // network callback resolves — meaning focus would otherwise land
+        // on whatever stale `last` had (or the first DOM element).
+        try {
+          setTimeout(function () {
+            try {
+              if (Lampa.Activity.active().activity !== self.activity) return;
+              if (Lampa.Controller.enabled().name === 'content') {
+                Lampa.Controller.toggle('content');
+              }
+            } catch (e) {}
+          }, 0);
+        } catch (e) {}
       });
     };
 
