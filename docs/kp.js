@@ -23,9 +23,22 @@
    *  CONSTANTS                                                   *
    * ============================================================ */
 
-  var PLUGIN_VERSION  = '1.0.22';
+  var PLUGIN_VERSION  = '1.0.22-bare';
   var COMPONENT_NAME  = 'online_kp';
   var BALANSER        = 'kpapi';
+
+  // ── DIAGNOSTIC: BARE PLAYBACK MODE ────────────────────────────────────
+  // When true, the plugin strips ALL post-1.0.21 player-touching layers:
+  //   - no play.voiceovers (single-entry or otherwise)
+  //   - no pendingVoice / currentVoiceLabel
+  //   - no webapis.avplay.setSelectTrack on canplay/loadeddata/tracks
+  //   - no MutationObserver on .player-panel__next-episode-name
+  //   - no play.translate
+  // Goal: isolate whether 4K crashes / black screens come from our hooks
+  //   or from Tizen AVPlayer + the stream itself. Lampa receives ONLY
+  //   url + title + playlist + timeline + callback + error-fallback.
+  // Flip back to false once diagnosis is complete.
+  var KP_BARE_MODE = true;
 
   // OAuth credentials of the public xbmc/Kodi-style client used by
   // virtually every unofficial kinopub client. Documented in many
@@ -607,7 +620,89 @@
    * HTML5 + hls.js: hls.audioTrack = idx (Lampa might not expose hls instance,
    *   we try a few common attachment patterns)
    */
+  /**
+   * BARE-mode diagnostic — fetch the master.m3u8 of the stream we're about to
+   * play and log its key lines (#EXT-X-STREAM-INF for video levels with codecs
+   * and bitrates, #EXT-X-MEDIA for audio tracks). Read-only, doesn't affect
+   * playback. Helps identify whether kinopub is serving HEVC main10 vs AVC,
+   * how many audio tracks, what bitrates, etc.
+   */
+  function dumpStreamManifest(url) {
+    if (!url) return;
+    try {
+      var xhr = new XMLHttpRequest();
+      xhr.open('GET', url, true);
+      xhr.timeout = 5000;
+      xhr.onload = function () {
+        if (xhr.status < 200 || xhr.status >= 300) {
+          Logger.warn('manifest', 'fetch non-2xx', { status: xhr.status, url: url });
+          return;
+        }
+        var body = xhr.responseText || '';
+        // Keep only the diagnostic-relevant lines so we don't flood the log
+        // with thousands of segment URIs.
+        var lines = body.split(/\r?\n/);
+        var keep = [];
+        for (var i = 0; i < lines.length && keep.length < 100; i++) {
+          var l = lines[i];
+          if (!l) continue;
+          if (l.indexOf('#EXT-X-STREAM-INF') === 0 ||
+              l.indexOf('#EXT-X-MEDIA') === 0 ||
+              l.indexOf('#EXT-X-VERSION') === 0 ||
+              l.indexOf('#EXT-X-INDEPENDENT-SEGMENTS') === 0 ||
+              l.indexOf('#EXT-X-MAP') === 0 ||
+              (l.indexOf('#EXTM3U') === 0)) {
+            keep.push(l);
+          } else if (l.indexOf('#EXT-X-STREAM-INF') >= 0 || (i > 0 && lines[i - 1].indexOf('#EXT-X-STREAM-INF') === 0)) {
+            // capture variant playlist URL line right after STREAM-INF
+            keep.push(l);
+          }
+        }
+        Logger.info('manifest', 'master.m3u8', {
+          url:      url,
+          length:   body.length,
+          lineCount: lines.length,
+          keep:     keep
+        });
+      };
+      xhr.onerror   = function () { Logger.warn('manifest', 'fetch error', { url: url }); };
+      xhr.ontimeout = function () { Logger.warn('manifest', 'fetch timeout', { url: url }); };
+      xhr.send();
+    } catch (e) {
+      Logger.warn('manifest', 'dump failed', String(e));
+    }
+  }
+
+  /**
+   * BARE-mode diagnostic — dumps Tizen AVPlayer's view of the stream once it
+   * has parsed metadata. Shows actual codec strings, bitrate, resolution per
+   * video/audio track that the hardware decoder picked up. Use to compare
+   * stable vs crashing streams.
+   */
+  function dumpAvplayTracks(source) {
+    try {
+      if (!window.webapis || !window.webapis.avplay) return;
+      var info  = (typeof window.webapis.avplay.getTotalTrackInfo === 'function')
+                    ? (window.webapis.avplay.getTotalTrackInfo() || []) : [];
+      var state = (typeof window.webapis.avplay.getState === 'function')
+                    ? window.webapis.avplay.getState() : '?';
+      // extra is JSON-encoded codec/bitrate/resolution per track
+      var dump = info.map(function (t) {
+        var ex = {};
+        try { if (t.extra_info) ex = JSON.parse(t.extra_info); } catch (e) { ex = { _raw: t.extra_info }; }
+        return { index: t.index, type: t.type, extra: ex };
+      });
+      Logger.info('avplay', source, { state: state, tracks: dump });
+    } catch (e) {
+      Logger.warn('avplay', 'dump failed', String(e));
+    }
+  }
+
   function applyVoiceTrack(idx) {
+    if (KP_BARE_MODE) {
+      Logger.info('voice', 'BARE mode — skipping applyVoiceTrack');
+      return false;
+    }
     if (idx == null || idx < 0) return false;
 
     // ── Tizen native AVPlayer ─────────────────────────────────────────
@@ -678,6 +773,10 @@
    */
   var nextLabelObserver = null;
   function setupNextEpisodeLabelOverride() {
+    if (KP_BARE_MODE) {
+      Logger.info('player-ui', 'BARE mode — skipping next-episode-name override');
+      return;
+    }
     cleanupNextEpisodeLabelOverride(); // ensure single instance
 
     setTimeout(function () {
@@ -1826,26 +1925,36 @@
       if (voiceIdx >= 0 && audios[voiceIdx]) {
         pickedLabel = voiceLabel(audios[voiceIdx]) || ('Track ' + (voiceIdx + 1));
       }
-      pendingVoice = (voiceIdx >= 0)
-        ? { idx: voiceIdx, label: pickedLabel, key: (choice && choice.voice_key) || '' }
-        : null;
+      if (KP_BARE_MODE) {
+        // BARE mode: do NOT set play.voiceovers, play.translate, pendingVoice
+        // or currentVoiceLabel. Lampa receives a vanilla play-element. Voice
+        // selection from the filter still affects WHICH stream URL we pass
+        // (stream.url is built from choice.voice_key earlier), but no
+        // post-play track manipulation happens.
+        pendingVoice = null;
+        currentVoiceLabel = '';
+      } else {
+        pendingVoice = (voiceIdx >= 0)
+          ? { idx: voiceIdx, label: pickedLabel, key: (choice && choice.voice_key) || '' }
+          : null;
 
-      // Keep the current-voice label fresh for the DOM override of
-      // .player-panel__next-episode-name (see setupNextEpisodeLabelOverride).
-      if (pickedLabel) currentVoiceLabel = pickedLabel;
+        // Keep the current-voice label fresh for the DOM override of
+        // .player-panel__next-episode-name (see setupNextEpisodeLabelOverride).
+        if (pickedLabel) currentVoiceLabel = pickedLabel;
 
-      if (voiceIdx >= 0) {
-        play.voiceovers = [{
-          name:    pickedLabel,
-          url:     stream.url,
-          index:   voiceIdx,
-          'default': true
-        }];
-        // also set top-level `translate` — some Lampa builds display this in
-        // the player UI as "current voice" label, separate from the voiceovers
-        // panel. Updates correctly whenever the user re-launches with a new
-        // voice picked from the source filter.
-        play.translate = pickedLabel;
+        if (voiceIdx >= 0) {
+          play.voiceovers = [{
+            name:    pickedLabel,
+            url:     stream.url,
+            index:   voiceIdx,
+            'default': true
+          }];
+          // also set top-level `translate` — some Lampa builds display this in
+          // the player UI as "current voice" label, separate from the voiceovers
+          // panel. Updates correctly whenever the user re-launches with a new
+          // voice picked from the source filter.
+          play.translate = pickedLabel;
+        }
       }
 
       var subsAttached = 0;
@@ -1940,6 +2049,7 @@
 
           if (playlist.length > 1) play.playlist = playlist;
           Logger.info('player', 'launching', { url: play.url, playlist: playlist.length, title: play.title });
+          if (KP_BARE_MODE) dumpStreamManifest(play.url);
           Lampa.Player.play(play);
           Lampa.Player.playlist(playlist);
           if (item.mark) item.mark();
@@ -3042,9 +3152,11 @@
         ['create', 'start', 'ready', 'destroy', 'external'].forEach(function (evt) {
           Lampa.Player.listener.follow(evt, function (e) { logEvt('Player', { type: evt }); });
         });
-        // DOM injection for next-episode-name override
-        Lampa.Player.listener.follow('start',   function () { setupNextEpisodeLabelOverride(); });
-        Lampa.Player.listener.follow('destroy', function () { cleanupNextEpisodeLabelOverride(); });
+        if (!KP_BARE_MODE) {
+          // DOM injection for next-episode-name override
+          Lampa.Player.listener.follow('start',   function () { setupNextEpisodeLabelOverride(); });
+          Lampa.Player.listener.follow('destroy', function () { cleanupNextEpisodeLabelOverride(); });
+        }
         // After the player closes, repaint chips on visible cards so episodes
         // that just gained timeline progress flip from green to faded immediately.
         Lampa.Player.listener.follow('destroy', function () {
@@ -3073,25 +3185,43 @@
             });
           });
 
-        // Voice track switching — fired when audio backend has read tracks
-        // and the stream is ready. We try canplay first, then fall back to
-        // tracks event (hls.js fires it after loading), whichever comes first.
-        var voiceApplied = false;
-        function tryApplyPendingVoice(source) {
-          if (voiceApplied || !pendingVoice || pendingVoice.idx < 0) return;
-          Logger.debug('voice', 'apply via ' + source, pendingVoice);
-          if (applyVoiceTrack(pendingVoice.idx)) {
-            voiceApplied = true;
+        if (!KP_BARE_MODE) {
+          // Voice track switching — fired when audio backend has read tracks
+          // and the stream is ready. We try canplay first, then fall back to
+          // tracks event (hls.js fires it after loading), whichever comes first.
+          var voiceApplied = false;
+          function tryApplyPendingVoice(source) {
+            if (voiceApplied || !pendingVoice || pendingVoice.idx < 0) return;
+            Logger.debug('voice', 'apply via ' + source, pendingVoice);
+            if (applyVoiceTrack(pendingVoice.idx)) {
+              voiceApplied = true;
+            }
           }
+          Lampa.PlayerVideo.listener.follow('canplay',    function () { tryApplyPendingVoice('canplay'); });
+          Lampa.PlayerVideo.listener.follow('loadeddata', function () { tryApplyPendingVoice('loadeddata'); });
+          Lampa.PlayerVideo.listener.follow('tracks',     function () { tryApplyPendingVoice('tracks'); });
+          // reset the one-shot guard when player is destroyed so next launch can apply again
+          Lampa.Player.listener.follow('destroy', function () {
+            voiceApplied = false;
+            pendingVoice = null;
+          });
+        } else {
+          // BARE-mode read-only diagnostic: log AVPlayer track info once on
+          // canplay (codec strings, bitrate, resolution per track). Helps
+          // identify what the hardware decoder actually accepted.
+          var avplayDumped = false;
+          Lampa.PlayerVideo.listener.follow('canplay', function () {
+            if (avplayDumped) return;
+            avplayDumped = true;
+            dumpAvplayTracks('canplay');
+          });
+          Lampa.PlayerVideo.listener.follow('tracks', function () {
+            if (avplayDumped) return;
+            avplayDumped = true;
+            dumpAvplayTracks('tracks-event');
+          });
+          Lampa.Player.listener.follow('destroy', function () { avplayDumped = false; });
         }
-        Lampa.PlayerVideo.listener.follow('canplay',    function () { tryApplyPendingVoice('canplay'); });
-        Lampa.PlayerVideo.listener.follow('loadeddata', function () { tryApplyPendingVoice('loadeddata'); });
-        Lampa.PlayerVideo.listener.follow('tracks',     function () { tryApplyPendingVoice('tracks'); });
-        // reset the one-shot guard when player is destroyed so next launch can apply again
-        Lampa.Player.listener.follow('destroy', function () {
-          voiceApplied = false;
-          pendingVoice = null;
-        });
       } else {
         Logger.warn('player-evt', 'Lampa.PlayerVideo.listener unavailable');
       }
