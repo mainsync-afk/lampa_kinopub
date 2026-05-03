@@ -23,7 +23,7 @@
    *  CONSTANTS                                                   *
    * ============================================================ */
 
-  var PLUGIN_VERSION  = '1.0.26';
+  var PLUGIN_VERSION  = '1.0.27';
   var COMPONENT_NAME  = 'online_kp';
   var BALANSER        = 'kpapi';
 
@@ -599,6 +599,30 @@
   // next-episode title (per user request — that hint is more useful here).
   var currentVoiceLabel = '';
 
+  // Episode hash of the currently playing item — set by onEnter, used by the
+  // in-player onSelect callback to write to kp_episode_voice (watched-chip
+  // memory). Cleared on Player/destroy.
+  var currentEpisodeHash = '';
+
+  /**
+   * Set currentVoiceLabel AND repaint the .player-panel__next-episode-name
+   * DOM directly. Lampa never re-renders that element on its own when an
+   * audio track is switched in-place; the existing MutationObserver only
+   * restores the label after Lampa overwrites it. So when WE change the
+   * active voice ourselves we push the new label into the DOM here.
+   */
+  function updateCurrentVoiceLabel(label) {
+    currentVoiceLabel = label || '';
+    if (!label) return;
+    try {
+      var el = document.querySelector('.player-panel__next-episode-name');
+      if (el && el.textContent !== label) {
+        el.textContent = label;
+        try { el.classList.remove('hide'); } catch (e) {}
+      }
+    } catch (e) {}
+  }
+
   /**
    * Applies an audio-track switch on the currently active player. Idempotent —
    * safe to call multiple times. Returns true if a backend handled it.
@@ -686,6 +710,22 @@
    * ============================================================ */
 
   function syncVoiceToSource(key, label) {
+    // 1) Push new label into the player corner DOM immediately
+    updateCurrentVoiceLabel(label);
+
+    // 2) Update remembered voice for the currently playing episode so the
+    //    watched-chip indicator on the source view will move to the new
+    //    voice when the user comes back from the player.
+    if (currentEpisodeHash && key) {
+      try {
+        var wm = Lampa.Storage.cache('kp_episode_voice', 5000, {});
+        wm[currentEpisodeHash] = key;
+        Lampa.Storage.set('kp_episode_voice', wm);
+      } catch (e) { Logger.warn('phase-b', 'remember voice failed', String(e)); }
+    }
+
+    // 3) Update source state (filter sidebar + chip refresh) via the source
+    //    instance reference if available, else just refresh chips in DOM.
     try {
       if (window._kpCurrentSource && window._kpCurrentSource.applyExternalVoiceChange) {
         window._kpCurrentSource.applyExternalVoiceChange(key, label);
@@ -694,7 +734,6 @@
     } catch (e) {
       Logger.warn('phase-b', 'source sync failed', String(e));
     }
-    // Fallback: just refresh visible chip DOM with forced active key
     try { refreshAllKpVoiceChips(key); } catch (e) {}
   }
 
@@ -1919,10 +1958,17 @@
           if (!isVoiceVisible(audios[ai2], 'sidebar')) continue;
           var lbl = voiceLabel(audios[ai2]) || ('Track ' + (ai2 + 1));
           voiceovers.push({
+            // Lampa's PlayerPanel.setTracks → Select.show may render either
+            // `name` or `title` depending on internals. Set both to be safe.
             name:    lbl,
+            title:   lbl,
             url:     stream.url,         // same URL — onSelect handles switching
             index:   ai2,
             'default': ai2 === voiceIdx,
+            // `selected` mirrors the active voice for sidebar checkmark — Lampa
+            // Select widget reads it for the indicator. (`default` is for
+            // some other code paths.)
+            selected: ai2 === voiceIdx,
             onSelect: (function (idx, audiosRef) {
               return function (a) {
                 var audio = audiosRef[idx];
@@ -2028,6 +2074,11 @@
           // but we don't want side-effects from those calls to leak; only
           // the clicked item's voice should drive pendingVoice.
           setPlayContextForItem(item);
+
+          // Remember which episode is now playing — needed by the in-player
+          // onSelect callback to update kp_episode_voice when user switches
+          // voice from the player UI (without leaving to source view).
+          currentEpisodeHash = item.timeline_hash || '';
 
           // Remember voice for this episode so the watched-indicator chip
           // can show on next visit. Saved per timeline_hash (set in draw()).
@@ -3195,6 +3246,7 @@
         Lampa.Player.listener.follow('destroy', function () {
           voiceApplied = false;
           pendingVoice = null;
+          currentEpisodeHash = '';
         });
       } else {
         Logger.warn('player-evt', 'Lampa.PlayerVideo.listener unavailable');
