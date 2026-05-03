@@ -23,7 +23,7 @@
    *  CONSTANTS                                                   *
    * ============================================================ */
 
-  var PLUGIN_VERSION  = '1.0.40-debug';
+  var PLUGIN_VERSION  = '1.0.41-debug';
   // Public manifest-proxy URL — set near KP_PROXY_URL declaration below.
   var COMPONENT_NAME  = 'online_kp';
   var BALANSER        = 'kpapi';
@@ -640,6 +640,12 @@
   // next-episode title (per user request — that hint is more useful here).
   var currentVoiceLabel = '';
 
+  // v1.0.41: tracks whether the user changed voice via in-player UI during
+  // the current player session. Set in buildVoiceSwapCallback, read on
+  // Player/destroy to decide between full filter+chips rebuild (flashes the
+  // season grid) vs lightweight chip-only refresh.
+  var voiceChangedInPlayer = false;
+
   /**
    * Applies an audio-track switch on the currently active player. Idempotent —
    * safe to call multiple times. Returns true if a backend handled it.
@@ -950,9 +956,11 @@
         }
       } catch (e) {}
 
-      // ── Refresh chips on episode cards behind the player. Delay lets
-      // Lampa.Storage.set settle and any DOM mutations finalize. ─────────
-      try { setTimeout(refreshAllKpVoiceChips, 150); } catch (e) {}
+      // v1.0.41: mark that voice was changed in-player so the destroy
+      // handler does a full filter+chips rebuild (we need the sidebar
+      // label to reflect the new voice on next entry). Skipping the
+      // chip refresh here — destroy handler covers both cases below.
+      voiceChangedInPlayer = true;
     };
   }
 
@@ -3856,8 +3864,14 @@
         // is exposed by the source's buildFilter() and rebuilds both filter
         // and chips together. Falls back to chips-only refresh if not present.
         Lampa.Player.listener.follow('destroy', function () {
+          // v1.0.41: only do full filter+chips rebuild if voice was actually
+          // changed via in-player UI during this session. Otherwise the
+          // buildFilter+append cycle visibly flashes the season grid for no
+          // reason — chip-only refresh covers the watched-progress case.
+          var doFullRebuild = voiceChangedInPlayer;
+          voiceChangedInPlayer = false;
           setTimeout(function () {
-            if (typeof window._kpRefreshFilterAndChips === 'function') {
+            if (doFullRebuild && typeof window._kpRefreshFilterAndChips === 'function') {
               try { window._kpRefreshFilterAndChips(); }
               catch (e) { Logger.warn('voice', 'refresh hook failed', String(e)); refreshAllKpVoiceChips(); }
             } else {
