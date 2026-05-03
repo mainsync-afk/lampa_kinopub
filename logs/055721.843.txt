@@ -1,0 +1,377 @@
+05:50:47.551 UGJ690IT INFO  [boot] kp.js v1.0.12 starting {"session":"UGJ690IT","app":318,"ua":"Mozilla/5.0 (SMART-TV; LINUX; Tizen 9.0) AppleWebKit/537.36 (KHTML, like Gecko) 120.0.6099.5/9.0 TV Safari/537.36"}
+05:50:47.561 UGJ690IT DEBUG [api] GET /user null
+05:50:47.567 UGJ690IT INFO  [identity] sending /device/notify {"title":"Lampa (Samsung TV)","hardware":"Samsung Tizen 9.0","software":"kp.js 1.0.12 / Lampa 318","_platform":"tizen"}
+05:50:47.569 UGJ690IT DEBUG [api] POST /device/notify {"title":"Lampa (Samsung TV)","hardware":"Samsung Tizen 9.0","software":"kp.js 1.0.12 / Lampa 318"}
+05:50:47.575 UGJ690IT DEBUG [console] StorageWorker online_choice_kpapi start follow
+05:50:47.580 UGJ690IT INFO  [boot] kp.js initialized
+05:50:47.583 UGJ690IT DEBUG [console] Extensions include: https://mainsync-afk.github.io/lampa_kinopub/kp.js
+05:50:47.709 UGJ690IT DEBUG [console] Plugins update plugin cache: https://mainsync-afk.github.io/lampa_kinopub/kp.js
+05:50:47.988 UGJ690IT INFO  [lampa-evt] app/start
+05:50:48.134 UGJ690IT DEBUG [console] Tizen start pick
+05:50:48.165 UGJ690IT DEBUG [console] Tizen current id 0SG81L944v.Lampa
+05:50:48.168 UGJ690IT DEBUG [console] LoadingProgress status: Tizen init
+05:50:48.193 UGJ690IT DEBUG [console] LoadingProgress status: Player init
+05:50:48.257 UGJ690IT DEBUG [console] App user agent: Mozilla/5.0 (SMART-TV; LINUX; Tizen 9.0) AppleWebKit/537.36 (KHTML, like Gecko) 120.0.6099.5/9.0 TV Safari/537.36
+05:50:48.269 UGJ690IT DEBUG [console] App platform: tizen
+05:50:48.322 UGJ690IT DEBUG [console] Script create: http://lampa.mx/vender/hls/hls.js
+05:50:48.402 UGJ690IT INFO  [lampa-evt] app/ready
+05:50:48.472 UGJ690IT DEBUG [api] GET /user ok
+05:50:48.474 UGJ690IT INFO  [auth] profile ok {"name":"eugenestraw","subscribed":{"active":true,"end_time":1792246646,"days":168.4}}
+05:50:48.481 UGJ690IT DEBUG [api] POST /device/notify ok
+05:50:48.482 UGJ690IT INFO  [identity] notify ok {"status":200}
+05:50:48.638 UGJ690IT INFO  [lampa-evt] activity/init
+05:50:48.646 UGJ690IT INFO  [lampa-evt] activity/create
+05:50:48.682 UGJ690IT INFO  [lampa-evt] activity/start
+05:50:48.726 UGJ690IT DEBUG [console] Script include: http://lampa.mx/vender/hls/hls.js
+05:50:48.981 UGJ690IT DEBUG [console] Tizen set sections 2
+05:50:53.618 UGJ690IT INFO  [lampa-evt] activity/init
+05:50:53.621 UGJ690IT INFO  [lampa-evt] activity/create
+05:50:53.637 UGJ690IT INFO  [lampa-evt] activity/start
+05:50:56.075 UGJ690IT INFO  [lampa-evt] activity/init
+05:50:56.087 UGJ690IT INFO  [lampa-evt] activity/create
+05:50:56.103 UGJ690IT INFO  [lampa-evt] activity/start
+05:50:58.855 UGJ690IT INFO  [launch] open activity {"id":124364,"title":"Извне","orig":"FROM"}
+05:50:58.873 UGJ690IT INFO  [lampa-evt] activity/init
+05:50:58.875 UGJ690IT INFO  [lampa-evt] activity/create
+05:50:58.901 UGJ690IT INFO  [component] find query=Извне
+05:50:58.903 UGJ690IT INFO  [source] searchByTitle {"query":"Извне","year":2022,"orig":"FROM","rus":"Извне","imdb":"tt9813792","imdbNum":9813792,"type":"serial"}
+05:50:58.905 UGJ690IT DEBUG [api] GET /items/search {"q":"Извне","field":"title","perpage":50,"type":"serial"}
+05:50:58.919 UGJ690IT INFO  [lampa-evt] activity/start
+05:50:59.111 UGJ690IT DEBUG [api] GET /items/search ok
+05:50:59.113 UGJ690IT INFO  [source] search ok {"count":1}
+05:50:59.115 UGJ690IT DEBUG [source] top candidates [{"id":77917,"title":"Извне / From","year":2022,"type":"serial","imdb":9813792}]
+05:50:59.117 UGJ690IT INFO  [source] matched by imdb {"id":77917,"imdb":9813792}
+05:50:59.119 UGJ690IT INFO  [source] matched card {"id":77917,"title":"Извне / From","year":2022,"type":"serial"}
+05:50:59.121 UGJ690IT INFO  [source] find() id=77917
+05:50:59.123 UGJ690IT DEBUG [api] GET /items/77917 null
+05:50:59.338 UGJ690IT DEBUG [api] GET /items/77917 ok
+05:50:59.340 UGJ690IT INFO  [source] item loaded {"id":77917,"type":"serial","seasons":4,"videos":0}
+05:50:59.346 UGJ690IT DEBUG [source] extracted serial {"seasons":4,"totalEpisodes":32,"voices":5}
+05:50:59.354 UGJ690IT INFO  [format] auto resolved {"player":"tizen","format":"hls4"}
+05:50:59.359 UGJ690IT DEBUG [source] append items {"count":10}
+05:51:00.480 UGJ690IT DEBUG [player] play-element built {"title":"Выбор дня","url":"https://digital-cdn.net/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs4NTE3OTc7MTc3NzcwMTA2MCZoPV92OXRJSXFLdjd2bmdKMTdlb0JpdkEmZT0xNzc3Nzg3NDYw/851797.m3u8?loc=ru","q":1080,"voices":4,"voicesAttached":false,"player":"tizen","subs":0,"subsAvailable":0}
+05:51:00.482 UGJ690IT DEBUG [player] play-element built {"title":"Долгий день уходит в ночь","url":"https://digital-cdn.net/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs4NTE0MTM7MTc3NzcwMTA2MCZoPUc2TXROUWNESjNrVE9LcmVJRWNzVHcmZT0xNzc3Nzg3NDYw/851413.m3u8?loc=ru","q":1080,"voices":4,"voicesAttached":false,"player":"tizen","subs":0,"subsAvailable":2}
+05:51:00.483 UGJ690IT DEBUG [player] play-element built {"title":"Как обстоят дела сейчас","url":"https://digital-cdn.net/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs4NTE3NzA7MTc3NzcwMTA2MCZoPVVBcjdneFZqel85VV9JNjFvRVVHY1EmZT0xNzc3Nzg3NDYw/851770.m3u8?loc=ru","q":1080,"voices":4,"voicesAttached":false,"player":"tizen","subs":0,"subsAvailable":1}
+05:51:00.485 UGJ690IT DEBUG [player] play-element built {"title":"Выбор дня","url":"https://digital-cdn.net/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs4NTE3OTc7MTc3NzcwMTA2MCZoPV92OXRJSXFLdjd2bmdKMTdlb0JpdkEmZT0xNzc3Nzg3NDYw/851797.m3u8?loc=ru","q":1080,"voices":4,"voicesAttached":false,"player":"tizen","subs":0,"subsAvailable":0}
+05:51:00.487 UGJ690IT DEBUG [player] play-element built {"title":"Скала и дальний путь","url":"https://digital-cdn.net/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs4NTIxNTc7MTc3NzcwMTA2MCZoPU83SFZ5WE40UU8zMjB0LVM1SkhsMEEmZT0xNzc3Nzg3NDYw/852157.m3u8?loc=ru","q":1080,"voices":4,"voicesAttached":false,"player":"tizen","subs":0,"subsAvailable":0}
+05:51:00.488 UGJ690IT DEBUG [player] play-element built {"title":"Силуэты","url":"https://digital-cdn.net/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs4NTMxNDQ7MTc3NzcwMTA2MCZoPXNRbkl3dW03NnlNVXJlNU1XZmMxbUEmZT0xNzc3Nzg3NDYw/853144.m3u8?loc=ru","q":1080,"voices":4,"voicesAttached":false,"player":"tizen","subs":0,"subsAvailable":0}
+05:51:00.490 UGJ690IT DEBUG [player] play-element built {"title":"Книга 74","url":"https://digital-cdn.net/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs4NTM5ODc7MTc3NzcwMTA2MCZoPWNQTm9ydHVad3NOQjF6UGlTb3FuWHcmZT0xNzc3Nzg3NDYw/853987.m3u8?loc=ru","q":1080,"voices":4,"voicesAttached":false,"player":"tizen","subs":0,"subsAvailable":0}
+05:51:00.491 UGJ690IT DEBUG [player] play-element built {"title":"Все хорошее","url":"https://digital-cdn.net/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs4NTU1MTE7MTc3NzcwMTA2MCZoPVdzYnB2NlFwdmt6clJTV2lTTzhYN2cmZT0xNzc3Nzg3NDYw/855511.m3u8?loc=ru","q":1080,"voices":4,"voicesAttached":false,"player":"tizen","subs":0,"subsAvailable":0}
+05:51:00.492 UGJ690IT DEBUG [player] play-element built {"title":"Разбитые окна, открытые двери","url":"https://digital-cdn.net/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs4NTY0ODA7MTc3NzcwMTA2MCZoPWktMEt4Y1g1eWt3SGNSWm1NWFBfUWcmZT0xNzc3Nzg3NDYw/856480.m3u8?loc=ru","q":1080,"voices":4,"voicesAttached":false,"player":"tizen","subs":0,"subsAvailable":0}
+05:51:00.494 UGJ690IT DEBUG [player] play-element built {"title":"В лес","url":"https://digital-cdn.net/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs4NTc3MDE7MTc3NzcwMTA2MCZoPWd6SUJLVXlQdGNHR1BpdEJMU0dscWcmZT0xNzc3Nzg3NDYw/857701.m3u8?loc=ru","q":1080,"voices":4,"voicesAttached":false,"player":"tizen","subs":0,"subsAvailable":0}
+05:51:00.496 UGJ690IT DEBUG [player] play-element built {"title":"О, в какие места мы пойдем!","url":"https://digital-cdn.net/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs4NjAwMzI7MTc3NzcwMTA2MCZoPXdsMGtCMVlKLV96RHNYNVU2MWM5RkEmZT0xNzc3Nzg3NDYw/860032.m3u8?loc=ru","q":1080,"voices":4,"voicesAttached":false,"player":"tizen","subs":0,"subsAvailable":0}
+05:51:00.497 UGJ690IT INFO  [player] launching {"url":"https://digital-cdn.net/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs4NTE3OTc7MTc3NzcwMTA2MCZoPV92OXRJSXFLdjd2bmdKMTdlb0JpdkEmZT0xNzc3Nzg3NDYw/851797.m3u8?loc=ru","playlist":10}
+05:51:00.499 UGJ690IT INFO  [lampa-evt] Player/create
+05:51:00.516 UGJ690IT INFO  [lampa-evt] Player/start
+05:51:00.944 UGJ690IT INFO  [lampa-evt] Player/ready
+05:51:01.644 UGJ690IT INFO  [lampa-evt] PlayerVideo/translate
+05:51:01.646 UGJ690IT INFO  [lampa-evt] PlayerVideo/translate
+05:51:01.914 UGJ690IT INFO  [lampa-evt] PlayerVideo/play
+05:51:05.870 UGJ690IT INFO  [lampa-evt] PlayerVideo/canplay
+05:51:05.876 UGJ690IT INFO  [lampa-evt] PlayerVideo/loadeddata
+05:51:05.932 UGJ690IT INFO  [lampa-evt] PlayerVideo/tracks
+05:51:05.934 UGJ690IT INFO  [lampa-evt] PlayerVideo/subs
+05:51:05.963 UGJ690IT INFO  [lampa-evt] PlayerVideo/pause
+05:51:06.139 UGJ690IT INFO  [lampa-evt] PlayerVideo/play
+05:51:08.659 UGJ690IT INFO  [lampa-evt] PlayerVideo/pause
+05:51:08.666 UGJ690IT INFO  [lampa-evt] PlayerVideo/rewind
+05:51:09.005 UGJ690IT INFO  [lampa-evt] PlayerVideo/pause
+05:51:09.009 UGJ690IT INFO  [lampa-evt] PlayerVideo/rewind
+05:51:09.113 UGJ690IT INFO  [lampa-evt] PlayerVideo/pause
+05:51:09.117 UGJ690IT INFO  [lampa-evt] PlayerVideo/rewind
+05:51:09.221 UGJ690IT INFO  [lampa-evt] PlayerVideo/pause
+05:51:09.224 UGJ690IT INFO  [lampa-evt] PlayerVideo/rewind
+05:51:09.330 UGJ690IT INFO  [lampa-evt] PlayerVideo/pause
+05:51:09.333 UGJ690IT INFO  [lampa-evt] PlayerVideo/rewind
+05:51:09.437 UGJ690IT INFO  [lampa-evt] PlayerVideo/pause
+05:51:09.440 UGJ690IT INFO  [lampa-evt] PlayerVideo/rewind
+05:51:09.545 UGJ690IT INFO  [lampa-evt] PlayerVideo/pause
+05:51:09.548 UGJ690IT INFO  [lampa-evt] PlayerVideo/rewind
+05:51:09.654 UGJ690IT INFO  [lampa-evt] PlayerVideo/pause
+05:51:09.657 UGJ690IT INFO  [lampa-evt] PlayerVideo/rewind
+05:51:09.761 UGJ690IT INFO  [lampa-evt] PlayerVideo/pause
+05:51:09.764 UGJ690IT INFO  [lampa-evt] PlayerVideo/rewind
+05:51:09.869 UGJ690IT INFO  [lampa-evt] PlayerVideo/pause
+05:51:09.872 UGJ690IT INFO  [lampa-evt] PlayerVideo/rewind
+05:51:09.977 UGJ690IT INFO  [lampa-evt] PlayerVideo/pause
+05:51:09.980 UGJ690IT INFO  [lampa-evt] PlayerVideo/rewind
+05:51:11.191 UGJ690IT INFO  [lampa-evt] PlayerVideo/play
+05:51:15.986 UGJ690IT INFO  [lampa-evt] Player/destroy
+05:51:17.648 UGJ690IT INFO  [lampa-evt] activity/start
+05:51:17.651 UGJ690IT INFO  [lampa-evt] activity/archive
+05:51:17.946 UGJ690IT DEBUG [source] destroy
+05:51:17.948 UGJ690IT INFO  [lampa-evt] activity/destroy
+05:51:18.933 UGJ690IT INFO  [lampa-evt] activity/start
+05:51:18.935 UGJ690IT INFO  [lampa-evt] activity/archive
+05:51:19.245 UGJ690IT INFO  [lampa-evt] activity/destroy
+05:51:20.894 UGJ690IT INFO  [lampa-evt] activity/init
+05:51:20.904 UGJ690IT INFO  [lampa-evt] activity/create
+05:51:20.917 UGJ690IT INFO  [lampa-evt] activity/start
+05:51:22.773 UGJ690IT INFO  [launch] open activity {"id":76479,"title":"Пацаны","orig":"The Boys"}
+05:51:22.788 UGJ690IT INFO  [lampa-evt] activity/init
+05:51:22.789 UGJ690IT INFO  [lampa-evt] activity/create
+05:51:22.811 UGJ690IT INFO  [component] find query=Пацаны
+05:51:22.813 UGJ690IT INFO  [source] searchByTitle {"query":"Пацаны","year":2019,"orig":"The Boys","rus":"Пацаны","imdb":"tt1190634","imdbNum":1190634,"type":"serial"}
+05:51:22.814 UGJ690IT DEBUG [api] GET /items/search {"q":"Пацаны","field":"title","perpage":50,"type":"serial"}
+05:51:22.826 UGJ690IT INFO  [lampa-evt] activity/start
+05:51:23.113 UGJ690IT DEBUG [api] GET /items/search ok
+05:51:23.115 UGJ690IT INFO  [source] search ok {"count":3}
+05:51:23.116 UGJ690IT DEBUG [source] top candidates [{"id":52759,"title":"Пацаны / The Boys","year":2019,"type":"serial","imdb":1190634},{"id":14004,"title":"Реальные пацаны","year":2010,"type":"serial","imdb":1837341},{"id":8964,"title":"Реальные пацаны / Blue Mountain State","year":2010,"type":"serial","imdb":1344204}]
+05:51:23.118 UGJ690IT INFO  [source] matched by imdb {"id":52759,"imdb":1190634}
+05:51:23.120 UGJ690IT INFO  [source] matched card {"id":52759,"title":"Пацаны / The Boys","year":2019,"type":"serial"}
+05:51:23.121 UGJ690IT INFO  [source] find() id=52759
+05:51:23.123 UGJ690IT DEBUG [api] GET /items/52759 null
+05:51:23.448 UGJ690IT DEBUG [api] GET /items/52759 ok
+05:51:23.450 UGJ690IT INFO  [source] item loaded {"id":52759,"type":"serial","seasons":5,"videos":0}
+05:51:23.454 UGJ690IT DEBUG [source] extracted serial {"seasons":5,"totalEpisodes":37,"voices":8}
+05:51:23.459 UGJ690IT DEBUG [source] append items {"count":8}
+05:51:24.579 UGJ690IT DEBUG [player] play-element built {"title":"Получи!","url":"https://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs2NjgyNjY7MTc3NzcwMTA4NCZoPThmeTFXNkVnRjItczl4eGJYNUF0VWcmZT0xNzc3Nzg3NDg0/668266.m3u8?loc=ru","q":2160,"voices":5,"voicesAttached":false,"player":"tizen","subs":0,"subsAvailable":0}
+05:51:24.581 UGJ690IT DEBUG [player] play-element built {"title":"Такая игра","url":"https://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs2NjY2NDY7MTc3NzcwMTA4NCZoPWVsS25ERGNFSFJCVE5pcUo5MlZsa0EmZT0xNzc3Nzg3NDg0/666646.m3u8?loc=ru","q":2160,"voices":5,"voicesAttached":false,"player":"tizen","subs":0,"subsAvailable":2}
+05:51:24.583 UGJ690IT DEBUG [player] play-element built {"title":"Вишенка","url":"https://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs2Njc1Mjg7MTc3NzcwMTA4NCZoPWo0NnhaNTM3eUh6REFHOUZuejNVTncmZT0xNzc3Nzg3NDg0/667528.m3u8?loc=ru","q":2160,"voices":5,"voicesAttached":false,"player":"tizen","subs":0,"subsAvailable":0}
+05:51:24.584 UGJ690IT DEBUG [player] play-element built {"title":"Получи!","url":"https://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs2NjgyNjY7MTc3NzcwMTA4NCZoPThmeTFXNkVnRjItczl4eGJYNUF0VWcmZT0xNzc3Nzg3NDg0/668266.m3u8?loc=ru","q":2160,"voices":5,"voicesAttached":false,"player":"tizen","subs":0,"subsAvailable":0}
+05:51:24.586 UGJ690IT DEBUG [player] play-element built {"title":"Самка человека","url":"https://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs2NjkzODg7MTc3NzcwMTA4NCZoPUthdldUc1FiZWZvRFV3YS1MS0Z5YUEmZT0xNzc3Nzg3NDg0/669388.m3u8?loc=ru","q":2160,"voices":5,"voicesAttached":false,"player":"tizen","subs":0,"subsAvailable":0}
+05:51:24.588 UGJ690IT DEBUG [player] play-element built {"title":"Полезно для души","url":"https://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs2NzA5ODQ7MTc3NzcwMTA4NCZoPU4wajE2LU80OWtueFRNYVFEdXhUUmcmZT0xNzc3Nzg3NDg0/670984.m3u8?loc=ru","q":2160,"voices":5,"voicesAttached":false,"player":"tizen","subs":0,"subsAvailable":0}
+05:51:24.590 UGJ690IT DEBUG [player] play-element built {"title":"Невинные","url":"https://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs2NzIzMDE7MTc3NzcwMTA4NCZoPVJoai1Wb2NJNlhQSlB5YUpXV2ljcWcmZT0xNzc3Nzg3NDg0/672301.m3u8?loc=ru","q":2160,"voices":5,"voicesAttached":false,"player":"tizen","subs":0,"subsAvailable":0}
+05:51:24.592 UGJ690IT DEBUG [player] play-element built {"title":"Общество самосохранения","url":"https://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs2NzI4NTA7MTc3NzcwMTA4NCZoPWxpekJGcnNvN1NiZlYtM3VKUXlBSEEmZT0xNzc3Nzg3NDg0/672850.m3u8?loc=ru","q":2160,"voices":5,"voicesAttached":false,"player":"tizen","subs":0,"subsAvailable":0}
+05:51:24.594 UGJ690IT DEBUG [player] play-element built {"title":"Ты меня нашёл","url":"https://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs2NzMwMDY7MTc3NzcwMTA4NCZoPWJCVlpZMG9LeENkeUYzMGhTU3MwcGcmZT0xNzc3Nzg3NDg0/673006.m3u8?loc=ru","q":2160,"voices":5,"voicesAttached":false,"player":"tizen","subs":0,"subsAvailable":0}
+05:51:24.595 UGJ690IT INFO  [player] launching {"url":"https://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs2NjgyNjY7MTc3NzcwMTA4NCZoPThmeTFXNkVnRjItczl4eGJYNUF0VWcmZT0xNzc3Nzg3NDg0/668266.m3u8?loc=ru","playlist":8}
+05:51:24.597 UGJ690IT INFO  [lampa-evt] Player/create
+05:51:24.610 UGJ690IT INFO  [lampa-evt] Player/start
+05:51:24.695 UGJ690IT INFO  [lampa-evt] Player/ready
+05:51:25.358 UGJ690IT INFO  [lampa-evt] PlayerVideo/translate
+05:51:25.359 UGJ690IT INFO  [lampa-evt] PlayerVideo/translate
+05:51:25.379 UGJ690IT INFO  [lampa-evt] PlayerVideo/play
+05:53:03.257 bzSPotZE INFO  [boot] kp.js v1.0.12 starting {"session":"bzSPotZE","app":318,"ua":"Mozilla/5.0 (SMART-TV; LINUX; Tizen 9.0) AppleWebKit/537.36 (KHTML, like Gecko) 120.0.6099.5/9.0 TV Safari/537.36"}
+05:53:03.268 bzSPotZE DEBUG [api] GET /user null
+05:53:03.273 bzSPotZE INFO  [identity] sending /device/notify {"title":"Lampa (Samsung TV)","hardware":"Samsung Tizen 9.0","software":"kp.js 1.0.12 / Lampa 318","_platform":"tizen"}
+05:53:03.275 bzSPotZE DEBUG [api] POST /device/notify {"title":"Lampa (Samsung TV)","hardware":"Samsung Tizen 9.0","software":"kp.js 1.0.12 / Lampa 318"}
+05:53:03.282 bzSPotZE DEBUG [console] StorageWorker online_choice_kpapi start follow
+05:53:03.287 bzSPotZE INFO  [boot] kp.js initialized
+05:53:03.290 bzSPotZE DEBUG [console] Extensions include: https://mainsync-afk.github.io/lampa_kinopub/kp.js
+05:53:03.432 bzSPotZE DEBUG [console] Plugins update plugin cache: https://mainsync-afk.github.io/lampa_kinopub/kp.js
+05:53:03.456 bzSPotZE INFO  [lampa-evt] app/start
+05:53:03.629 bzSPotZE DEBUG [console] Tizen start pick
+05:53:03.658 bzSPotZE DEBUG [console] Tizen current id 0SG81L944v.Lampa
+05:53:03.661 bzSPotZE DEBUG [console] LoadingProgress status: Tizen init
+05:53:03.686 bzSPotZE DEBUG [console] LoadingProgress status: Player init
+05:53:03.755 bzSPotZE DEBUG [console] App user agent: Mozilla/5.0 (SMART-TV; LINUX; Tizen 9.0) AppleWebKit/537.36 (KHTML, like Gecko) 120.0.6099.5/9.0 TV Safari/537.36
+05:53:03.767 bzSPotZE DEBUG [console] App platform: tizen
+05:53:03.826 bzSPotZE DEBUG [console] Script create: http://lampa.mx/vender/hls/hls.js
+05:53:03.919 bzSPotZE INFO  [lampa-evt] app/ready
+05:53:03.964 bzSPotZE DEBUG [api] GET /user ok
+05:53:03.966 bzSPotZE INFO  [auth] profile ok {"name":"eugenestraw","subscribed":{"active":true,"end_time":1792246646,"days":168.4}}
+05:53:03.971 bzSPotZE DEBUG [api] POST /device/notify ok
+05:53:03.973 bzSPotZE INFO  [identity] notify ok {"status":200}
+05:53:04.124 bzSPotZE INFO  [lampa-evt] activity/init
+05:53:04.133 bzSPotZE INFO  [lampa-evt] activity/create
+05:53:04.175 bzSPotZE INFO  [lampa-evt] activity/start
+05:53:04.372 bzSPotZE DEBUG [console] Script include: http://lampa.mx/vender/hls/hls.js
+05:53:19.275 bzSPotZE INFO  [lampa-evt] activity/init
+05:53:19.278 bzSPotZE INFO  [lampa-evt] activity/create
+05:53:19.298 bzSPotZE INFO  [lampa-evt] activity/start
+05:53:21.913 bzSPotZE INFO  [lampa-evt] activity/init
+05:53:21.925 bzSPotZE INFO  [lampa-evt] activity/create
+05:53:21.942 bzSPotZE INFO  [lampa-evt] activity/start
+05:53:24.272 bzSPotZE INFO  [launch] open activity {"id":76479,"title":"Пацаны","orig":"The Boys"}
+05:53:24.290 bzSPotZE INFO  [lampa-evt] activity/init
+05:53:24.292 bzSPotZE INFO  [lampa-evt] activity/create
+05:53:24.316 bzSPotZE INFO  [component] find query=Пацаны
+05:53:24.318 bzSPotZE INFO  [source] searchByTitle {"query":"Пацаны","year":2019,"orig":"The Boys","rus":"Пацаны","imdb":"tt1190634","imdbNum":1190634,"type":"serial"}
+05:53:24.320 bzSPotZE DEBUG [api] GET /items/search {"q":"Пацаны","field":"title","perpage":50,"type":"serial"}
+05:53:24.339 bzSPotZE INFO  [lampa-evt] activity/start
+05:53:24.783 bzSPotZE DEBUG [api] GET /items/search ok
+05:53:24.786 bzSPotZE INFO  [source] search ok {"count":3}
+05:53:24.788 bzSPotZE DEBUG [source] top candidates [{"id":52759,"title":"Пацаны / The Boys","year":2019,"type":"serial","imdb":1190634},{"id":14004,"title":"Реальные пацаны","year":2010,"type":"serial","imdb":1837341},{"id":8964,"title":"Реальные пацаны / Blue Mountain State","year":2010,"type":"serial","imdb":1344204}]
+05:53:24.790 bzSPotZE INFO  [source] matched by imdb {"id":52759,"imdb":1190634}
+05:53:24.791 bzSPotZE INFO  [source] matched card {"id":52759,"title":"Пацаны / The Boys","year":2019,"type":"serial"}
+05:53:24.793 bzSPotZE INFO  [source] find() id=52759
+05:53:24.795 bzSPotZE DEBUG [api] GET /items/52759 null
+05:53:25.129 bzSPotZE DEBUG [api] GET /items/52759 ok
+05:53:25.132 bzSPotZE INFO  [source] item loaded {"id":52759,"type":"serial","seasons":5,"videos":0}
+05:53:25.138 bzSPotZE DEBUG [source] extracted serial {"seasons":5,"totalEpisodes":37,"voices":8}
+05:53:25.145 bzSPotZE INFO  [format] auto resolved {"player":"tizen","format":"hls4"}
+05:53:25.150 bzSPotZE DEBUG [source] append items {"count":8}
+05:53:26.798 bzSPotZE DEBUG [player] play-element built {"title":"Получи!","url":"https://digital-cdn.net/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs2NjgyNjY7MTc3NzcwMTIwNSZoPUxTU096bTlZeE5MamEtcjRZSmtWNVEmZT0xNzc3Nzg3NjA1/668266.m3u8?loc=ru","q":1080,"voices":5,"voicesAttached":false,"player":"tizen","subs":0,"subsAvailable":0}
+05:53:26.800 bzSPotZE DEBUG [player] play-element built {"title":"Такая игра","url":"https://digital-cdn.net/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs2NjY2NDY7MTc3NzcwMTIwNSZoPWlTS05uNVZrQXN4andZRHd5V0JvencmZT0xNzc3Nzg3NjA1/666646.m3u8?loc=ru","q":1080,"voices":5,"voicesAttached":false,"player":"tizen","subs":0,"subsAvailable":2}
+05:53:26.801 bzSPotZE DEBUG [player] play-element built {"title":"Вишенка","url":"https://digital-cdn.net/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs2Njc1Mjg7MTc3NzcwMTIwNSZoPW5mVkJTNzQ0T3YtVE1OeFplZWtsRGcmZT0xNzc3Nzg3NjA1/667528.m3u8?loc=ru","q":1080,"voices":5,"voicesAttached":false,"player":"tizen","subs":0,"subsAvailable":0}
+05:53:26.803 bzSPotZE DEBUG [player] play-element built {"title":"Получи!","url":"https://digital-cdn.net/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs2NjgyNjY7MTc3NzcwMTIwNSZoPUxTU096bTlZeE5MamEtcjRZSmtWNVEmZT0xNzc3Nzg3NjA1/668266.m3u8?loc=ru","q":1080,"voices":5,"voicesAttached":false,"player":"tizen","subs":0,"subsAvailable":0}
+05:53:26.804 bzSPotZE DEBUG [player] play-element built {"title":"Самка человека","url":"https://digital-cdn.net/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs2NjkzODg7MTc3NzcwMTIwNSZoPXdtcjhmazBsYTZfaEdjWTV5SU5LbncmZT0xNzc3Nzg3NjA1/669388.m3u8?loc=ru","q":1080,"voices":5,"voicesAttached":false,"player":"tizen","subs":0,"subsAvailable":0}
+05:53:26.806 bzSPotZE DEBUG [player] play-element built {"title":"Полезно для души","url":"https://digital-cdn.net/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs2NzA5ODQ7MTc3NzcwMTIwNSZoPXRoaGhMaFJ1YUs2bGJ1WHl4NHEzVGcmZT0xNzc3Nzg3NjA1/670984.m3u8?loc=ru","q":1080,"voices":5,"voicesAttached":false,"player":"tizen","subs":0,"subsAvailable":0}
+05:53:26.808 bzSPotZE DEBUG [player] play-element built {"title":"Невинные","url":"https://digital-cdn.net/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs2NzIzMDE7MTc3NzcwMTIwNSZoPXBnbnBfZ1JaZmRZOE5jTEJTazl4NWcmZT0xNzc3Nzg3NjA1/672301.m3u8?loc=ru","q":1080,"voices":5,"voicesAttached":false,"player":"tizen","subs":0,"subsAvailable":0}
+05:53:26.809 bzSPotZE DEBUG [player] play-element built {"title":"Общество самосохранения","url":"https://digital-cdn.net/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs2NzI4NTA7MTc3NzcwMTIwNSZoPXpfbm1OZlg3ZGk0UjZxOTdtYkZWSlEmZT0xNzc3Nzg3NjA1/672850.m3u8?loc=ru","q":1080,"voices":5,"voicesAttached":false,"player":"tizen","subs":0,"subsAvailable":0}
+05:53:26.811 bzSPotZE DEBUG [player] play-element built {"title":"Ты меня нашёл","url":"https://digital-cdn.net/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs2NzMwMDY7MTc3NzcwMTIwNSZoPV9wZWpUTzNHdmdkcFB5dE9UbjhUdlEmZT0xNzc3Nzg3NjA1/673006.m3u8?loc=ru","q":1080,"voices":5,"voicesAttached":false,"player":"tizen","subs":0,"subsAvailable":0}
+05:53:26.812 bzSPotZE INFO  [player] launching {"url":"https://digital-cdn.net/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs2NjgyNjY7MTc3NzcwMTIwNSZoPUxTU096bTlZeE5MamEtcjRZSmtWNVEmZT0xNzc3Nzg3NjA1/668266.m3u8?loc=ru","playlist":8}
+05:53:26.814 bzSPotZE INFO  [lampa-evt] Player/create
+05:53:26.829 bzSPotZE INFO  [lampa-evt] Player/start
+05:53:27.185 bzSPotZE INFO  [lampa-evt] Player/ready
+05:53:27.884 bzSPotZE INFO  [lampa-evt] PlayerVideo/translate
+05:53:27.886 bzSPotZE INFO  [lampa-evt] PlayerVideo/translate
+05:53:28.096 bzSPotZE INFO  [lampa-evt] PlayerVideo/play
+05:53:32.025 bzSPotZE INFO  [lampa-evt] PlayerVideo/canplay
+05:53:32.032 bzSPotZE INFO  [lampa-evt] PlayerVideo/loadeddata
+05:53:32.066 bzSPotZE INFO  [lampa-evt] PlayerVideo/tracks
+05:53:32.068 bzSPotZE INFO  [lampa-evt] PlayerVideo/subs
+05:53:32.087 bzSPotZE INFO  [lampa-evt] PlayerVideo/pause
+05:53:32.308 bzSPotZE INFO  [lampa-evt] PlayerVideo/play
+05:53:35.657 bzSPotZE INFO  [lampa-evt] PlayerVideo/pause
+05:53:35.666 bzSPotZE INFO  [lampa-evt] PlayerVideo/rewind
+05:53:36.005 bzSPotZE INFO  [lampa-evt] PlayerVideo/pause
+05:53:36.009 bzSPotZE INFO  [lampa-evt] PlayerVideo/rewind
+05:53:36.112 bzSPotZE INFO  [lampa-evt] PlayerVideo/pause
+05:53:36.116 bzSPotZE INFO  [lampa-evt] PlayerVideo/rewind
+05:53:36.220 bzSPotZE INFO  [lampa-evt] PlayerVideo/pause
+05:53:36.223 bzSPotZE INFO  [lampa-evt] PlayerVideo/rewind
+05:53:36.328 bzSPotZE INFO  [lampa-evt] PlayerVideo/pause
+05:53:36.333 bzSPotZE INFO  [lampa-evt] PlayerVideo/rewind
+05:53:37.528 bzSPotZE INFO  [lampa-evt] PlayerVideo/play
+05:53:42.781 bzSPotZE INFO  [lampa-evt] Player/destroy
+05:53:44.375 bzSPotZE DEBUG [player] play-element built {"title":"Полезно для души","url":"https://digital-cdn.net/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs2NzA5ODQ7MTc3NzcwMTIwNSZoPXRoaGhMaFJ1YUs2bGJ1WHl4NHEzVGcmZT0xNzc3Nzg3NjA1/670984.m3u8?loc=ru","q":1080,"voices":5,"voicesAttached":false,"player":"tizen","subs":0,"subsAvailable":0}
+05:53:44.377 bzSPotZE DEBUG [player] play-element built {"title":"Такая игра","url":"https://digital-cdn.net/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs2NjY2NDY7MTc3NzcwMTIwNSZoPWlTS05uNVZrQXN4andZRHd5V0JvencmZT0xNzc3Nzg3NjA1/666646.m3u8?loc=ru","q":1080,"voices":5,"voicesAttached":false,"player":"tizen","subs":0,"subsAvailable":2}
+05:53:44.378 bzSPotZE DEBUG [player] play-element built {"title":"Вишенка","url":"https://digital-cdn.net/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs2Njc1Mjg7MTc3NzcwMTIwNSZoPW5mVkJTNzQ0T3YtVE1OeFplZWtsRGcmZT0xNzc3Nzg3NjA1/667528.m3u8?loc=ru","q":1080,"voices":5,"voicesAttached":false,"player":"tizen","subs":0,"subsAvailable":0}
+05:53:44.380 bzSPotZE DEBUG [player] play-element built {"title":"Получи!","url":"https://digital-cdn.net/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs2NjgyNjY7MTc3NzcwMTIwNSZoPUxTU096bTlZeE5MamEtcjRZSmtWNVEmZT0xNzc3Nzg3NjA1/668266.m3u8?loc=ru","q":1080,"voices":5,"voicesAttached":false,"player":"tizen","subs":0,"subsAvailable":0}
+05:53:44.381 bzSPotZE DEBUG [player] play-element built {"title":"Самка человека","url":"https://digital-cdn.net/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs2NjkzODg7MTc3NzcwMTIwNSZoPXdtcjhmazBsYTZfaEdjWTV5SU5LbncmZT0xNzc3Nzg3NjA1/669388.m3u8?loc=ru","q":1080,"voices":5,"voicesAttached":false,"player":"tizen","subs":0,"subsAvailable":0}
+05:53:44.382 bzSPotZE DEBUG [player] play-element built {"title":"Полезно для души","url":"https://digital-cdn.net/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs2NzA5ODQ7MTc3NzcwMTIwNSZoPXRoaGhMaFJ1YUs2bGJ1WHl4NHEzVGcmZT0xNzc3Nzg3NjA1/670984.m3u8?loc=ru","q":1080,"voices":5,"voicesAttached":false,"player":"tizen","subs":0,"subsAvailable":0}
+05:53:44.384 bzSPotZE DEBUG [player] play-element built {"title":"Невинные","url":"https://digital-cdn.net/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs2NzIzMDE7MTc3NzcwMTIwNSZoPXBnbnBfZ1JaZmRZOE5jTEJTazl4NWcmZT0xNzc3Nzg3NjA1/672301.m3u8?loc=ru","q":1080,"voices":5,"voicesAttached":false,"player":"tizen","subs":0,"subsAvailable":0}
+05:53:44.385 bzSPotZE DEBUG [player] play-element built {"title":"Общество самосохранения","url":"https://digital-cdn.net/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs2NzI4NTA7MTc3NzcwMTIwNSZoPXpfbm1OZlg3ZGk0UjZxOTdtYkZWSlEmZT0xNzc3Nzg3NjA1/672850.m3u8?loc=ru","q":1080,"voices":5,"voicesAttached":false,"player":"tizen","subs":0,"subsAvailable":0}
+05:53:44.387 bzSPotZE DEBUG [player] play-element built {"title":"Ты меня нашёл","url":"https://digital-cdn.net/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs2NzMwMDY7MTc3NzcwMTIwNSZoPV9wZWpUTzNHdmdkcFB5dE9UbjhUdlEmZT0xNzc3Nzg3NjA1/673006.m3u8?loc=ru","q":1080,"voices":5,"voicesAttached":false,"player":"tizen","subs":0,"subsAvailable":0}
+05:53:44.388 bzSPotZE INFO  [player] launching {"url":"https://digital-cdn.net/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs2NzA5ODQ7MTc3NzcwMTIwNSZoPXRoaGhMaFJ1YUs2bGJ1WHl4NHEzVGcmZT0xNzc3Nzg3NjA1/670984.m3u8?loc=ru","playlist":8}
+05:53:44.389 bzSPotZE INFO  [lampa-evt] Player/create
+05:53:44.400 bzSPotZE INFO  [lampa-evt] Player/start
+05:53:44.466 bzSPotZE INFO  [lampa-evt] Player/ready
+05:53:44.709 bzSPotZE INFO  [lampa-evt] PlayerVideo/translate
+05:53:44.711 bzSPotZE INFO  [lampa-evt] PlayerVideo/translate
+05:53:44.730 bzSPotZE INFO  [lampa-evt] PlayerVideo/play
+05:55:49.280 xLlEyYOE INFO  [boot] kp.js v1.0.12 starting {"session":"xLlEyYOE","app":318,"ua":"Mozilla/5.0 (SMART-TV; LINUX; Tizen 9.0) AppleWebKit/537.36 (KHTML, like Gecko) 120.0.6099.5/9.0 TV Safari/537.36"}
+05:55:49.290 xLlEyYOE DEBUG [api] GET /user null
+05:55:49.295 xLlEyYOE INFO  [identity] sending /device/notify {"title":"Lampa (Samsung TV)","hardware":"Samsung Tizen 9.0","software":"kp.js 1.0.12 / Lampa 318","_platform":"tizen"}
+05:55:49.298 xLlEyYOE DEBUG [api] POST /device/notify {"title":"Lampa (Samsung TV)","hardware":"Samsung Tizen 9.0","software":"kp.js 1.0.12 / Lampa 318"}
+05:55:49.303 xLlEyYOE DEBUG [console] StorageWorker online_choice_kpapi start follow
+05:55:49.308 xLlEyYOE INFO  [boot] kp.js initialized
+05:55:49.311 xLlEyYOE DEBUG [console] Extensions include: https://mainsync-afk.github.io/lampa_kinopub/kp.js
+05:55:49.423 xLlEyYOE DEBUG [console] Plugins update plugin cache: https://mainsync-afk.github.io/lampa_kinopub/kp.js
+05:55:49.618 xLlEyYOE INFO  [lampa-evt] app/start
+05:55:49.753 xLlEyYOE DEBUG [console] Tizen start pick
+05:55:49.796 xLlEyYOE DEBUG [console] Tizen current id 0SG81L944v.Lampa
+05:55:49.800 xLlEyYOE DEBUG [console] LoadingProgress status: Tizen init
+05:55:49.825 xLlEyYOE DEBUG [console] LoadingProgress status: Player init
+05:55:49.892 xLlEyYOE DEBUG [console] App user agent: Mozilla/5.0 (SMART-TV; LINUX; Tizen 9.0) AppleWebKit/537.36 (KHTML, like Gecko) 120.0.6099.5/9.0 TV Safari/537.36
+05:55:49.904 xLlEyYOE DEBUG [console] App platform: tizen
+05:55:49.958 xLlEyYOE DEBUG [console] Script create: http://lampa.mx/vender/hls/hls.js
+05:55:50.042 xLlEyYOE INFO  [lampa-evt] app/ready
+05:55:50.114 xLlEyYOE DEBUG [api] POST /device/notify ok
+05:55:50.116 xLlEyYOE INFO  [identity] notify ok {"status":200}
+05:55:50.144 xLlEyYOE DEBUG [api] GET /user ok
+05:55:50.146 xLlEyYOE INFO  [auth] profile ok {"name":"eugenestraw","subscribed":{"active":true,"end_time":1792246646,"days":168.3}}
+05:55:50.219 xLlEyYOE DEBUG [console] Script include: http://lampa.mx/vender/hls/hls.js
+05:55:50.279 xLlEyYOE INFO  [lampa-evt] activity/init
+05:55:50.288 xLlEyYOE INFO  [lampa-evt] activity/create
+05:55:50.326 xLlEyYOE INFO  [lampa-evt] activity/start
+05:55:50.578 xLlEyYOE DEBUG [console] Tizen set sections 2
+05:55:50.664 xLlEyYOE DEBUG [console] Tizen service error: {"code":8,"name":"NotFoundError","message":"No matched application found."}
+05:56:35.896 drlXnLhA INFO  [boot] kp.js v1.0.12 starting {"session":"drlXnLhA","app":318,"ua":"Mozilla/5.0 (SMART-TV; LINUX; Tizen 9.0) AppleWebKit/537.36 (KHTML, like Gecko) 120.0.6099.5/9.0 TV Safari/537.36"}
+05:56:35.935 drlXnLhA DEBUG [api] GET /user null
+05:56:35.941 drlXnLhA INFO  [identity] sending /device/notify {"title":"Lampa (Samsung TV)","hardware":"Samsung Tizen 9.0","software":"kp.js 1.0.12 / Lampa 318","_platform":"tizen"}
+05:56:35.944 drlXnLhA DEBUG [api] POST /device/notify {"title":"Lampa (Samsung TV)","hardware":"Samsung Tizen 9.0","software":"kp.js 1.0.12 / Lampa 318"}
+05:56:35.949 drlXnLhA DEBUG [console] StorageWorker online_choice_kpapi start follow
+05:56:35.955 drlXnLhA INFO  [boot] kp.js initialized
+05:56:35.958 drlXnLhA DEBUG [console] Extensions include: https://mainsync-afk.github.io/lampa_kinopub/kp.js
+05:56:36.071 drlXnLhA DEBUG [console] Plugins update plugin cache: https://mainsync-afk.github.io/lampa_kinopub/kp.js
+05:56:36.205 drlXnLhA INFO  [lampa-evt] app/start
+05:56:36.364 drlXnLhA DEBUG [console] Tizen start pick
+05:56:36.391 drlXnLhA DEBUG [console] Tizen current id 0SG81L944v.Lampa
+05:56:36.394 drlXnLhA DEBUG [console] LoadingProgress status: Tizen init
+05:56:36.420 drlXnLhA DEBUG [console] LoadingProgress status: Player init
+05:56:36.489 drlXnLhA DEBUG [console] App user agent: Mozilla/5.0 (SMART-TV; LINUX; Tizen 9.0) AppleWebKit/537.36 (KHTML, like Gecko) 120.0.6099.5/9.0 TV Safari/537.36
+05:56:36.501 drlXnLhA DEBUG [console] App platform: tizen
+05:56:36.557 drlXnLhA DEBUG [console] Script create: http://lampa.mx/vender/hls/hls.js
+05:56:36.645 drlXnLhA INFO  [lampa-evt] app/ready
+05:56:36.715 drlXnLhA DEBUG [api] GET /user ok
+05:56:36.717 drlXnLhA INFO  [auth] profile ok {"name":"eugenestraw","subscribed":{"active":true,"end_time":1792246646,"days":168.3}}
+05:56:36.723 drlXnLhA DEBUG [api] POST /device/notify ok
+05:56:36.725 drlXnLhA INFO  [identity] notify ok {"status":200}
+05:56:36.799 drlXnLhA DEBUG [console] Script include: http://lampa.mx/vender/hls/hls.js
+05:56:36.879 drlXnLhA INFO  [lampa-evt] activity/init
+05:56:36.888 drlXnLhA INFO  [lampa-evt] activity/create
+05:56:36.927 drlXnLhA INFO  [lampa-evt] activity/start
+05:56:37.174 drlXnLhA DEBUG [console] Tizen set sections 2
+05:56:37.254 drlXnLhA DEBUG [console] Tizen service error: {"code":8,"name":"NotFoundError","message":"No matched application found."}
+05:56:52.655 drlXnLhA INFO  [lampa-evt] activity/init
+05:56:52.658 drlXnLhA INFO  [lampa-evt] activity/create
+05:56:52.676 drlXnLhA INFO  [lampa-evt] activity/start
+05:56:54.091 drlXnLhA INFO  [lampa-evt] activity/init
+05:56:54.103 drlXnLhA INFO  [lampa-evt] activity/create
+05:56:54.119 drlXnLhA INFO  [lampa-evt] activity/start
+05:56:56.170 drlXnLhA INFO  [launch] open activity {"id":76479,"title":"Пацаны","orig":"The Boys"}
+05:56:56.188 drlXnLhA INFO  [lampa-evt] activity/init
+05:56:56.190 drlXnLhA INFO  [lampa-evt] activity/create
+05:56:56.215 drlXnLhA INFO  [component] find query=Пацаны
+05:56:56.217 drlXnLhA INFO  [source] searchByTitle {"query":"Пацаны","year":2019,"orig":"The Boys","rus":"Пацаны","imdb":"tt1190634","imdbNum":1190634,"type":"serial"}
+05:56:56.218 drlXnLhA DEBUG [api] GET /items/search {"q":"Пацаны","field":"title","perpage":50,"type":"serial"}
+05:56:56.234 drlXnLhA INFO  [lampa-evt] activity/start
+05:56:56.672 drlXnLhA DEBUG [api] GET /items/search ok
+05:56:56.675 drlXnLhA INFO  [source] search ok {"count":3}
+05:56:56.677 drlXnLhA DEBUG [source] top candidates [{"id":52759,"title":"Пацаны / The Boys","year":2019,"type":"serial","imdb":1190634},{"id":14004,"title":"Реальные пацаны","year":2010,"type":"serial","imdb":1837341},{"id":8964,"title":"Реальные пацаны / Blue Mountain State","year":2010,"type":"serial","imdb":1344204}]
+05:56:56.679 drlXnLhA INFO  [source] matched by imdb {"id":52759,"imdb":1190634}
+05:56:56.681 drlXnLhA INFO  [source] matched card {"id":52759,"title":"Пацаны / The Boys","year":2019,"type":"serial"}
+05:56:56.684 drlXnLhA INFO  [source] find() id=52759
+05:56:56.686 drlXnLhA DEBUG [api] GET /items/52759 null
+05:56:57.073 drlXnLhA DEBUG [api] GET /items/52759 ok
+05:56:57.075 drlXnLhA INFO  [source] item loaded {"id":52759,"type":"serial","seasons":5,"videos":0}
+05:56:57.082 drlXnLhA DEBUG [source] extracted serial {"seasons":5,"totalEpisodes":37,"voices":8}
+05:56:57.089 drlXnLhA INFO  [format] auto resolved {"player":"tizen","format":"hls4"}
+05:56:57.094 drlXnLhA DEBUG [source] append items {"count":8}
+05:56:58.135 drlXnLhA DEBUG [player] play-element built {"title":"Получи!","url":"https://digital-cdn.net/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs2NjgyNjY7MTc3NzcwMTQxNyZoPU1GaWlMR21RUHFFWnFCQUV5V05XQmcmZT0xNzc3Nzg3ODE3/668266.m3u8?loc=ru","q":1080,"voices":5,"voicesAttached":false,"player":"tizen","subs":0,"subsAvailable":0}
+05:56:58.137 drlXnLhA DEBUG [player] play-element built {"title":"Такая игра","url":"https://digital-cdn.net/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs2NjY2NDY7MTc3NzcwMTQxNyZoPUNjUEFTelJ3M2g0ajJuWlBZblJtd2cmZT0xNzc3Nzg3ODE3/666646.m3u8?loc=ru","q":1080,"voices":5,"voicesAttached":false,"player":"tizen","subs":0,"subsAvailable":2}
+05:56:58.139 drlXnLhA DEBUG [player] play-element built {"title":"Вишенка","url":"https://digital-cdn.net/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs2Njc1Mjg7MTc3NzcwMTQxNyZoPXpwU18yT0Jya2RqTUN4M1ZGbkM4dmcmZT0xNzc3Nzg3ODE3/667528.m3u8?loc=ru","q":1080,"voices":5,"voicesAttached":false,"player":"tizen","subs":0,"subsAvailable":0}
+05:56:58.140 drlXnLhA DEBUG [player] play-element built {"title":"Получи!","url":"https://digital-cdn.net/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs2NjgyNjY7MTc3NzcwMTQxNyZoPU1GaWlMR21RUHFFWnFCQUV5V05XQmcmZT0xNzc3Nzg3ODE3/668266.m3u8?loc=ru","q":1080,"voices":5,"voicesAttached":false,"player":"tizen","subs":0,"subsAvailable":0}
+05:56:58.142 drlXnLhA DEBUG [player] play-element built {"title":"Самка человека","url":"https://digital-cdn.net/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs2NjkzODg7MTc3NzcwMTQxNyZoPXVpbXlONGFORmQ2SVcyMVVxSlN2NXcmZT0xNzc3Nzg3ODE3/669388.m3u8?loc=ru","q":1080,"voices":5,"voicesAttached":false,"player":"tizen","subs":0,"subsAvailable":0}
+05:56:58.143 drlXnLhA DEBUG [player] play-element built {"title":"Полезно для души","url":"https://digital-cdn.net/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs2NzA5ODQ7MTc3NzcwMTQxNyZoPXJmdTRlNTd3RmFqTGRpTnlDdFZXWkEmZT0xNzc3Nzg3ODE3/670984.m3u8?loc=ru","q":1080,"voices":5,"voicesAttached":false,"player":"tizen","subs":0,"subsAvailable":0}
+05:56:58.145 drlXnLhA DEBUG [player] play-element built {"title":"Невинные","url":"https://digital-cdn.net/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs2NzIzMDE7MTc3NzcwMTQxNyZoPW5HOFlOVWtMWHluYWk5MFR5cUw3NEEmZT0xNzc3Nzg3ODE3/672301.m3u8?loc=ru","q":1080,"voices":5,"voicesAttached":false,"player":"tizen","subs":0,"subsAvailable":0}
+05:56:58.146 drlXnLhA DEBUG [player] play-element built {"title":"Общество самосохранения","url":"https://digital-cdn.net/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs2NzI4NTA7MTc3NzcwMTQxNyZoPWRsdDBkOGpCOFVvM2lhU0k4di1UdVEmZT0xNzc3Nzg3ODE3/672850.m3u8?loc=ru","q":1080,"voices":5,"voicesAttached":false,"player":"tizen","subs":0,"subsAvailable":0}
+05:56:58.148 drlXnLhA DEBUG [player] play-element built {"title":"Ты меня нашёл","url":"https://digital-cdn.net/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs2NzMwMDY7MTc3NzcwMTQxNyZoPTBzQzdja1VITzNtclFhWmNlTVljU3cmZT0xNzc3Nzg3ODE3/673006.m3u8?loc=ru","q":1080,"voices":5,"voicesAttached":false,"player":"tizen","subs":0,"subsAvailable":0}
+05:56:58.149 drlXnLhA INFO  [player] launching {"url":"https://digital-cdn.net/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs2NjgyNjY7MTc3NzcwMTQxNyZoPU1GaWlMR21RUHFFWnFCQUV5V05XQmcmZT0xNzc3Nzg3ODE3/668266.m3u8?loc=ru","playlist":8}
+05:56:58.151 drlXnLhA INFO  [lampa-evt] Player/create
+05:56:58.171 drlXnLhA INFO  [lampa-evt] Player/start
+05:56:58.497 drlXnLhA INFO  [lampa-evt] Player/ready
+05:56:59.257 drlXnLhA INFO  [lampa-evt] PlayerVideo/translate
+05:56:59.259 drlXnLhA INFO  [lampa-evt] PlayerVideo/translate
+05:56:59.491 drlXnLhA INFO  [lampa-evt] PlayerVideo/play
+05:57:03.852 drlXnLhA INFO  [lampa-evt] PlayerVideo/canplay
+05:57:03.859 drlXnLhA INFO  [lampa-evt] PlayerVideo/loadeddata
+05:57:03.890 drlXnLhA INFO  [lampa-evt] PlayerVideo/tracks
+05:57:03.893 drlXnLhA INFO  [lampa-evt] PlayerVideo/subs
+05:57:03.923 drlXnLhA INFO  [lampa-evt] PlayerVideo/pause
+05:57:10.599 drlXnLhA INFO  [lampa-evt] PlayerVideo/play
+05:57:12.696 drlXnLhA INFO  [lampa-evt] PlayerVideo/pause
+05:57:12.706 drlXnLhA INFO  [lampa-evt] PlayerVideo/rewind
+05:57:13.037 drlXnLhA INFO  [lampa-evt] PlayerVideo/pause
+05:57:13.042 drlXnLhA INFO  [lampa-evt] PlayerVideo/rewind
+05:57:13.139 drlXnLhA INFO  [lampa-evt] PlayerVideo/pause
+05:57:13.144 drlXnLhA INFO  [lampa-evt] PlayerVideo/rewind
+05:57:13.245 drlXnLhA INFO  [lampa-evt] PlayerVideo/pause
+05:57:13.249 drlXnLhA INFO  [lampa-evt] PlayerVideo/rewind
+05:57:13.360 drlXnLhA INFO  [lampa-evt] PlayerVideo/pause
+05:57:13.380 drlXnLhA INFO  [lampa-evt] PlayerVideo/rewind
+05:57:13.461 drlXnLhA INFO  [lampa-evt] PlayerVideo/pause
+05:57:13.467 drlXnLhA INFO  [lampa-evt] PlayerVideo/rewind
+05:57:13.571 drlXnLhA INFO  [lampa-evt] PlayerVideo/pause
+05:57:13.576 drlXnLhA INFO  [lampa-evt] PlayerVideo/rewind
+05:57:13.679 drlXnLhA INFO  [lampa-evt] PlayerVideo/pause
+05:57:13.684 drlXnLhA INFO  [lampa-evt] PlayerVideo/rewind
+05:57:13.787 drlXnLhA INFO  [lampa-evt] PlayerVideo/pause
+05:57:13.791 drlXnLhA INFO  [lampa-evt] PlayerVideo/rewind
+05:57:13.893 drlXnLhA INFO  [lampa-evt] PlayerVideo/pause
+05:57:13.898 drlXnLhA INFO  [lampa-evt] PlayerVideo/rewind
+05:57:14.002 drlXnLhA INFO  [lampa-evt] PlayerVideo/pause
+05:57:14.012 drlXnLhA INFO  [lampa-evt] PlayerVideo/rewind
+05:57:14.111 drlXnLhA INFO  [lampa-evt] PlayerVideo/pause
+05:57:14.118 drlXnLhA INFO  [lampa-evt] PlayerVideo/rewind
+05:57:14.218 drlXnLhA INFO  [lampa-evt] PlayerVideo/pause
+05:57:14.228 drlXnLhA INFO  [lampa-evt] PlayerVideo/rewind
+05:57:14.326 drlXnLhA INFO  [lampa-evt] PlayerVideo/pause
+05:57:14.331 drlXnLhA INFO  [lampa-evt] PlayerVideo/rewind
+05:57:14.431 drlXnLhA INFO  [lampa-evt] PlayerVideo/pause
+05:57:14.434 drlXnLhA INFO  [lampa-evt] PlayerVideo/rewind
+05:57:14.544 drlXnLhA INFO  [lampa-evt] PlayerVideo/pause
+05:57:14.552 drlXnLhA INFO  [lampa-evt] PlayerVideo/rewind
+05:57:21.843 drlXnLhA INFO  [lampa-evt] PlayerVideo/play

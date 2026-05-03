@@ -1,0 +1,3 @@
+запуск лог-сервера в cmd
+
+cd /d C:\Clade_projects\lampa_kinopub\log-server && node server.js

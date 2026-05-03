@@ -1,0 +1,14 @@
+{
+  "name": "lampa-kinopub-proxy",
+  "version": "1.0.0",
+  "description": "HLS4 master.m3u8 reducer for Tizen AVPlayer multi-audio bug. See ../HANDOFF_VPS.md for deploy.",
+  "private": true,
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {}
+}

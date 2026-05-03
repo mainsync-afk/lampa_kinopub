@@ -1,0 +1,11 @@
+services:
+  proxy:
+    container_name: lampa-kinopub-proxy
+    build: ./proxy-server
+    ports:
+      - "8788:3000"        # host 8788 → container 3000. aapanel-nginx
+                           # proxies kinopub.fastcdn.pics to 127.0.0.1:8788.
+    environment:
+      - PORT=3000
+      - CACHE_TTL_MS=60000
+    restart: unless-stopped

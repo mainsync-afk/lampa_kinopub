@@ -1,0 +1,485 @@
+07:54:11.076 eSAlBirC INFO  [boot] kp.js v1.0.14 starting {"session":"eSAlBirC","app":318,"ua":"Mozilla/5.0 (SMART-TV; LINUX; Tizen 9.0) AppleWebKit/537.36 (KHTML, like Gecko) 120.0.6099.5/9.0 TV Safari/537.36"}
+07:54:11.086 eSAlBirC DEBUG [api] GET /user null
+07:54:11.091 eSAlBirC INFO  [identity] sending /device/notify {"title":"Lampa (Samsung TV)","hardware":"Samsung Tizen 9.0","software":"kp.js 1.0.14 / Lampa 318","_platform":"tizen"}
+07:54:11.094 eSAlBirC DEBUG [api] POST /device/notify {"title":"Lampa (Samsung TV)","hardware":"Samsung Tizen 9.0","software":"kp.js 1.0.14 / Lampa 318"}
+07:54:11.099 eSAlBirC DEBUG [console] StorageWorker online_choice_kpapi start follow
+07:54:11.104 eSAlBirC INFO  [boot] kp.js initialized
+07:54:11.107 eSAlBirC DEBUG [console] Extensions include: https://mainsync-afk.github.io/lampa_kinopub/kp.js
+07:54:11.221 eSAlBirC DEBUG [console] Plugins update plugin cache: https://mainsync-afk.github.io/lampa_kinopub/kp.js
+07:54:11.338 eSAlBirC INFO  [lampa-evt] app/start
+07:54:11.469 eSAlBirC DEBUG [console] Tizen start pick
+07:54:11.492 eSAlBirC DEBUG [console] Tizen current id 0SG81L944v.Lampa
+07:54:11.495 eSAlBirC DEBUG [console] LoadingProgress status: Tizen init
+07:54:11.517 eSAlBirC DEBUG [console] LoadingProgress status: Player init
+07:54:11.578 eSAlBirC DEBUG [console] App user agent: Mozilla/5.0 (SMART-TV; LINUX; Tizen 9.0) AppleWebKit/537.36 (KHTML, like Gecko) 120.0.6099.5/9.0 TV Safari/537.36
+07:54:11.589 eSAlBirC DEBUG [console] App platform: tizen
+07:54:11.638 eSAlBirC DEBUG [console] Script create: http://lampa.mx/vender/hls/hls.js
+07:54:11.725 eSAlBirC INFO  [lampa-evt] app/ready
+07:54:11.782 eSAlBirC DEBUG [api] POST /device/notify ok
+07:54:11.784 eSAlBirC INFO  [identity] notify ok {"status":200}
+07:54:11.798 eSAlBirC DEBUG [api] GET /user ok
+07:54:11.800 eSAlBirC INFO  [auth] profile ok {"name":"eugenestraw","subscribed":{"active":true,"end_time":1792246646,"days":168.3}}
+07:54:11.996 eSAlBirC INFO  [lampa-evt] activity/init
+07:54:12.006 eSAlBirC INFO  [lampa-evt] activity/create
+07:54:12.045 eSAlBirC INFO  [lampa-evt] activity/start
+07:54:12.195 eSAlBirC DEBUG [console] Script include: http://lampa.mx/vender/hls/hls.js
+07:54:16.802 eSAlBirC INFO  [lampa-evt] activity/init
+07:54:16.805 eSAlBirC INFO  [lampa-evt] activity/create
+07:54:16.821 eSAlBirC INFO  [lampa-evt] activity/start
+07:54:18.300 eSAlBirC INFO  [lampa-evt] activity/init
+07:54:18.311 eSAlBirC INFO  [lampa-evt] activity/create
+07:54:18.326 eSAlBirC INFO  [lampa-evt] activity/start
+07:54:20.720 eSAlBirC INFO  [launch] open activity {"id":124364,"title":"Извне","orig":"FROM"}
+07:54:20.738 eSAlBirC INFO  [lampa-evt] activity/init
+07:54:20.740 eSAlBirC INFO  [lampa-evt] activity/create
+07:54:20.764 eSAlBirC INFO  [component] find query=Извне
+07:54:20.766 eSAlBirC INFO  [source] searchByTitle {"query":"Извне","year":2022,"orig":"FROM","rus":"Извне","imdb":"tt9813792","imdbNum":9813792,"type":"serial"}
+07:54:20.767 eSAlBirC DEBUG [api] GET /items/search {"q":"Извне","field":"title","perpage":50,"type":"serial"}
+07:54:20.780 eSAlBirC INFO  [lampa-evt] activity/start
+07:54:21.049 eSAlBirC DEBUG [api] GET /items/search ok
+07:54:21.051 eSAlBirC INFO  [source] search ok {"count":1}
+07:54:21.053 eSAlBirC DEBUG [source] top candidates [{"id":77917,"title":"Извне / From","year":2022,"type":"serial","imdb":9813792}]
+07:54:21.055 eSAlBirC INFO  [source] matched by imdb {"id":77917,"imdb":9813792}
+07:54:21.057 eSAlBirC INFO  [source] matched card {"id":77917,"title":"Извне / From","year":2022,"type":"serial"}
+07:54:21.059 eSAlBirC INFO  [source] find() id=77917
+07:54:21.062 eSAlBirC DEBUG [api] GET /items/77917 null
+07:54:21.274 eSAlBirC DEBUG [api] GET /items/77917 ok
+07:54:21.276 eSAlBirC INFO  [source] item loaded {"id":77917,"type":"serial","seasons":4,"videos":0}
+07:54:21.282 eSAlBirC DEBUG [source] extracted serial {"seasons":4,"totalEpisodes":32,"voices":5}
+07:54:21.289 eSAlBirC INFO  [format] auto resolved {"player":"tizen","format":"hls4"}
+07:54:21.295 eSAlBirC DEBUG [source] append items {"count":10}
+07:54:36.913 eSAlBirC INFO  [lampa-evt] activity/start
+07:54:36.916 eSAlBirC INFO  [lampa-evt] activity/archive
+07:54:37.203 eSAlBirC DEBUG [source] destroy
+07:54:37.205 eSAlBirC INFO  [lampa-evt] activity/destroy
+07:54:38.139 eSAlBirC INFO  [lampa-evt] activity/start
+07:54:38.141 eSAlBirC INFO  [lampa-evt] activity/archive
+07:54:38.432 eSAlBirC INFO  [lampa-evt] activity/destroy
+07:54:39.759 eSAlBirC INFO  [lampa-evt] activity/init
+07:54:39.768 eSAlBirC INFO  [lampa-evt] activity/create
+07:54:39.781 eSAlBirC INFO  [lampa-evt] activity/start
+07:54:41.778 eSAlBirC INFO  [launch] open activity {"id":225891,"title":"Река Мадисон","orig":"The Madison"}
+07:54:41.794 eSAlBirC INFO  [lampa-evt] activity/init
+07:54:41.796 eSAlBirC INFO  [lampa-evt] activity/create
+07:54:41.818 eSAlBirC INFO  [component] find query=Река Мадисон
+07:54:41.819 eSAlBirC INFO  [source] searchByTitle {"query":"Река Мадисон","year":2026,"orig":"The Madison","rus":"Река Мадисон","imdb":"tt33204276","imdbNum":33204276,"type":"serial"}
+07:54:41.821 eSAlBirC DEBUG [api] GET /items/search {"q":"Река Мадисон","field":"title","perpage":50,"type":"serial"}
+07:54:41.833 eSAlBirC INFO  [lampa-evt] activity/start
+07:54:42.113 eSAlBirC DEBUG [api] GET /items/search ok
+07:54:42.115 eSAlBirC INFO  [source] search ok {"count":1}
+07:54:42.117 eSAlBirC DEBUG [source] top candidates [{"id":121408,"title":"Река Мадисон / The Madison","year":2026,"type":"serial","imdb":33204276}]
+07:54:42.118 eSAlBirC INFO  [source] matched by imdb {"id":121408,"imdb":33204276}
+07:54:42.120 eSAlBirC INFO  [source] matched card {"id":121408,"title":"Река Мадисон / The Madison","year":2026,"type":"serial"}
+07:54:42.122 eSAlBirC INFO  [source] find() id=121408
+07:54:42.123 eSAlBirC DEBUG [api] GET /items/121408 null
+07:54:42.341 eSAlBirC DEBUG [api] GET /items/121408 ok
+07:54:42.343 eSAlBirC INFO  [source] item loaded {"id":121408,"type":"serial","seasons":1,"videos":0}
+07:54:42.345 eSAlBirC DEBUG [source] extracted serial {"seasons":1,"totalEpisodes":6,"voices":5}
+07:54:42.349 eSAlBirC DEBUG [source] append items {"count":6}
+07:54:54.612 eSAlBirC INFO  [lampa-evt] activity/start
+07:54:54.615 eSAlBirC INFO  [lampa-evt] activity/archive
+07:54:54.905 eSAlBirC DEBUG [source] destroy
+07:54:54.907 eSAlBirC INFO  [lampa-evt] activity/destroy
+07:54:56.116 eSAlBirC INFO  [lampa-evt] activity/start
+07:54:56.118 eSAlBirC INFO  [lampa-evt] activity/archive
+07:54:56.403 eSAlBirC INFO  [lampa-evt] activity/destroy
+07:54:58.019 eSAlBirC INFO  [lampa-evt] activity/init
+07:54:58.027 eSAlBirC INFO  [lampa-evt] activity/create
+07:54:58.038 eSAlBirC INFO  [lampa-evt] activity/start
+07:55:18.977 eSAlBirC INFO  [launch] open activity {"id":124364,"title":"Извне","orig":"FROM"}
+07:55:19.016 eSAlBirC INFO  [lampa-evt] activity/init
+07:55:19.018 eSAlBirC INFO  [lampa-evt] activity/create
+07:55:19.036 eSAlBirC INFO  [component] find query=Извне
+07:55:19.038 eSAlBirC INFO  [source] searchByTitle {"query":"Извне","year":2022,"orig":"FROM","rus":"Извне","imdb":"tt9813792","imdbNum":9813792,"type":"serial"}
+07:55:19.039 eSAlBirC DEBUG [api] GET /items/search {"q":"Извне","field":"title","perpage":50,"type":"serial"}
+07:55:19.050 eSAlBirC INFO  [lampa-evt] activity/start
+07:55:19.357 eSAlBirC DEBUG [api] GET /items/search ok
+07:55:19.359 eSAlBirC INFO  [source] search ok {"count":1}
+07:55:19.361 eSAlBirC DEBUG [source] top candidates [{"id":77917,"title":"Извне / From","year":2022,"type":"serial","imdb":9813792}]
+07:55:19.362 eSAlBirC INFO  [source] matched by imdb {"id":77917,"imdb":9813792}
+07:55:19.364 eSAlBirC INFO  [source] matched card {"id":77917,"title":"Извне / From","year":2022,"type":"serial"}
+07:55:19.366 eSAlBirC INFO  [source] find() id=77917
+07:55:19.368 eSAlBirC DEBUG [api] GET /items/77917 null
+07:55:19.595 eSAlBirC DEBUG [api] GET /items/77917 ok
+07:55:19.597 eSAlBirC INFO  [source] item loaded {"id":77917,"type":"serial","seasons":4,"videos":0}
+07:55:19.599 eSAlBirC DEBUG [source] extracted serial {"seasons":4,"totalEpisodes":32,"voices":5}
+07:55:19.604 eSAlBirC DEBUG [source] append items {"count":10}
+07:55:59.439 eSAlBirC DEBUG [source] filter change {"type":"season","index":1}
+07:55:59.446 eSAlBirC DEBUG [source] append items {"count":10}
+07:56:14.097 eSAlBirC DEBUG [source] filter change {"type":"season","index":2}
+07:56:14.104 eSAlBirC DEBUG [source] append items {"count":10}
+07:56:39.516 eSAlBirC DEBUG [source] filter change {"type":"season","index":0}
+07:56:39.547 eSAlBirC DEBUG [source] append items {"count":10}
+07:57:05.687 eSAlBirC DEBUG [player] play-element built {"title":"Долгий день уходит в ночь","url":"http://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs4NTE0MTM7MTc3NzcwODUyMCZoPWZpY1BKU2E0bGlVZzlmVDZIU0xfX1EmZT0xNzc3Nzk0OTIw/851413.m3u8?loc=ru","q":1080,"voiceIdx":0,"voiceLabel":"Многоголосый rus","voicesAvailable":4,"player":"tizen","subs":0,"subsAvailable":2}
+07:57:05.689 eSAlBirC DEBUG [player] play-element built {"title":"Долгий день уходит в ночь","url":"http://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs4NTE0MTM7MTc3NzcwODUyMCZoPWZpY1BKU2E0bGlVZzlmVDZIU0xfX1EmZT0xNzc3Nzk0OTIw/851413.m3u8?loc=ru","q":1080,"voiceIdx":0,"voiceLabel":"Многоголосый rus","voicesAvailable":4,"player":"tizen","subs":0,"subsAvailable":2}
+07:57:05.690 eSAlBirC DEBUG [player] play-element built {"title":"Как обстоят дела сейчас","url":"http://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs4NTE3NzA7MTc3NzcwODUyMCZoPW5fTklpRmJiU0NCVjl6TVRiaTlNcUEmZT0xNzc3Nzk0OTIw/851770.m3u8?loc=ru","q":1080,"voiceIdx":0,"voiceLabel":"Многоголосый rus","voicesAvailable":4,"player":"tizen","subs":0,"subsAvailable":1}
+07:57:05.692 eSAlBirC DEBUG [player] play-element built {"title":"Выбор дня","url":"http://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs4NTE3OTc7MTc3NzcwODUyMCZoPUFnR3dyeDVuNDEwckxZb2lUd2RwSncmZT0xNzc3Nzk0OTIw/851797.m3u8?loc=ru","q":1080,"voiceIdx":0,"voiceLabel":"Многоголосый rus","voicesAvailable":4,"player":"tizen","subs":0,"subsAvailable":0}
+07:57:05.694 eSAlBirC DEBUG [player] play-element built {"title":"Скала и дальний путь","url":"http://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs4NTIxNTc7MTc3NzcwODUyMCZoPXhNMko3UUFYYWd1empWbWZPalVFOUEmZT0xNzc3Nzk0OTIw/852157.m3u8?loc=ru","q":1080,"voiceIdx":0,"voiceLabel":"Многоголосый rus","voicesAvailable":4,"player":"tizen","subs":0,"subsAvailable":0}
+07:57:05.695 eSAlBirC DEBUG [player] play-element built {"title":"Силуэты","url":"http://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs4NTMxNDQ7MTc3NzcwODUyMCZoPTBhNnNTNTVoemFqbGEwVlFDclZpeWcmZT0xNzc3Nzk0OTIw/853144.m3u8?loc=ru","q":1080,"voiceIdx":0,"voiceLabel":"Многоголосый rus","voicesAvailable":4,"player":"tizen","subs":0,"subsAvailable":0}
+07:57:05.697 eSAlBirC DEBUG [player] play-element built {"title":"Книга 74","url":"http://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs4NTM5ODc7MTc3NzcwODUyMCZoPU11RlNZa01aUEVpZnJmQjVhbnVSQWcmZT0xNzc3Nzk0OTIw/853987.m3u8?loc=ru","q":1080,"voiceIdx":0,"voiceLabel":"Многоголосый rus","voicesAvailable":4,"player":"tizen","subs":0,"subsAvailable":0}
+07:57:05.698 eSAlBirC DEBUG [player] play-element built {"title":"Все хорошее","url":"http://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs4NTU1MTE7MTc3NzcwODUyMCZoPXdjX2JwTTYxMC1TZ3RGd3c3R0JNQWcmZT0xNzc3Nzk0OTIw/855511.m3u8?loc=ru","q":1080,"voiceIdx":0,"voiceLabel":"Многоголосый rus","voicesAvailable":4,"player":"tizen","subs":0,"subsAvailable":0}
+07:57:05.700 eSAlBirC DEBUG [player] play-element built {"title":"Разбитые окна, открытые двери","url":"http://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs4NTY0ODA7MTc3NzcwODUyMCZoPUR0UTlUTXBMOUlVTWVYQlNrV2I3ZEEmZT0xNzc3Nzk0OTIw/856480.m3u8?loc=ru","q":1080,"voiceIdx":0,"voiceLabel":"Многоголосый rus","voicesAvailable":4,"player":"tizen","subs":0,"subsAvailable":0}
+07:57:05.701 eSAlBirC DEBUG [player] play-element built {"title":"В лес","url":"http://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs4NTc3MDE7MTc3NzcwODUyMCZoPWRiREh0cXNTeEZlcUUzV1AxRzNuYlEmZT0xNzc3Nzk0OTIw/857701.m3u8?loc=ru","q":1080,"voiceIdx":0,"voiceLabel":"Многоголосый rus","voicesAvailable":4,"player":"tizen","subs":0,"subsAvailable":0}
+07:57:05.703 eSAlBirC DEBUG [player] play-element built {"title":"О, в какие места мы пойдем!","url":"http://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs4NjAwMzI7MTc3NzcwODUyMCZoPUpfU0xCTl8xUVhfOURESHA2d1kxY3cmZT0xNzc3Nzk0OTIw/860032.m3u8?loc=ru","q":1080,"voiceIdx":0,"voiceLabel":"Многоголосый rus","voicesAvailable":4,"player":"tizen","subs":0,"subsAvailable":0}
+07:57:05.704 eSAlBirC INFO  [player] launching {"url":"http://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs4NTE0MTM7MTc3NzcwODUyMCZoPWZpY1BKU2E0bGlVZzlmVDZIU0xfX1EmZT0xNzc3Nzk0OTIw/851413.m3u8?loc=ru","playlist":10}
+07:57:05.706 eSAlBirC INFO  [lampa-evt] Player/create
+07:57:05.721 eSAlBirC INFO  [lampa-evt] Player/start
+07:57:05.968 eSAlBirC INFO  [lampa-evt] Player/ready
+07:57:06.642 eSAlBirC INFO  [lampa-evt] PlayerVideo/translate
+07:57:06.645 eSAlBirC INFO  [lampa-evt] PlayerVideo/translate
+07:57:06.771 eSAlBirC INFO  [lampa-evt] PlayerVideo/play
+07:57:09.893 eSAlBirC INFO  [lampa-evt] PlayerVideo/canplay
+07:57:09.898 eSAlBirC DEBUG [voice] apply via canplay {"idx":0,"label":"Многоголосый rus","key":"rus|Многоголосый"}
+07:57:09.904 eSAlBirC INFO  [voice] switched via avplay {"idx":0,"nativeIdx":1,"total":4}
+07:57:09.911 eSAlBirC INFO  [lampa-evt] PlayerVideo/loadeddata
+07:57:09.948 eSAlBirC INFO  [lampa-evt] PlayerVideo/tracks
+07:57:09.952 eSAlBirC INFO  [lampa-evt] PlayerVideo/subs
+07:57:09.972 eSAlBirC INFO  [lampa-evt] PlayerVideo/pause
+07:57:10.200 eSAlBirC INFO  [lampa-evt] PlayerVideo/play
+07:57:17.962 eSAlBirC INFO  [lampa-evt] Player/destroy
+07:57:24.616 eSAlBirC DEBUG [source] filter change {"type":"voice","index":1}
+07:57:24.642 eSAlBirC INFO  [voice] user picked {"name":"Оригинал eng","key":"eng|Оригинал"}
+07:57:24.649 eSAlBirC DEBUG [source] append items {"count":10}
+07:57:28.019 eSAlBirC DEBUG [player] play-element built {"title":"Долгий день уходит в ночь","url":"http://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs4NTE0MTM7MTc3NzcwODUyMCZoPWZpY1BKU2E0bGlVZzlmVDZIU0xfX1EmZT0xNzc3Nzk0OTIw/851413.m3u8?loc=ru","q":1080,"voiceIdx":3,"voiceLabel":"Оригинал eng","voicesAvailable":4,"player":"tizen","subs":0,"subsAvailable":2}
+07:57:28.046 eSAlBirC DEBUG [player] play-element built {"title":"Долгий день уходит в ночь","url":"http://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs4NTE0MTM7MTc3NzcwODUyMCZoPWZpY1BKU2E0bGlVZzlmVDZIU0xfX1EmZT0xNzc3Nzk0OTIw/851413.m3u8?loc=ru","q":1080,"voiceIdx":3,"voiceLabel":"Оригинал eng","voicesAvailable":4,"player":"tizen","subs":0,"subsAvailable":2}
+07:57:28.047 eSAlBirC DEBUG [player] play-element built {"title":"Как обстоят дела сейчас","url":"http://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs4NTE3NzA7MTc3NzcwODUyMCZoPW5fTklpRmJiU0NCVjl6TVRiaTlNcUEmZT0xNzc3Nzk0OTIw/851770.m3u8?loc=ru","q":1080,"voiceIdx":3,"voiceLabel":"Оригинал eng","voicesAvailable":4,"player":"tizen","subs":0,"subsAvailable":1}
+07:57:28.049 eSAlBirC DEBUG [player] play-element built {"title":"Выбор дня","url":"http://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs4NTE3OTc7MTc3NzcwODUyMCZoPUFnR3dyeDVuNDEwckxZb2lUd2RwSncmZT0xNzc3Nzk0OTIw/851797.m3u8?loc=ru","q":1080,"voiceIdx":3,"voiceLabel":"Оригинал eng","voicesAvailable":4,"player":"tizen","subs":0,"subsAvailable":0}
+07:57:28.050 eSAlBirC DEBUG [player] play-element built {"title":"Скала и дальний путь","url":"http://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs4NTIxNTc7MTc3NzcwODUyMCZoPXhNMko3UUFYYWd1empWbWZPalVFOUEmZT0xNzc3Nzk0OTIw/852157.m3u8?loc=ru","q":1080,"voiceIdx":3,"voiceLabel":"Оригинал eng","voicesAvailable":4,"player":"tizen","subs":0,"subsAvailable":0}
+07:57:28.052 eSAlBirC DEBUG [player] play-element built {"title":"Силуэты","url":"http://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs4NTMxNDQ7MTc3NzcwODUyMCZoPTBhNnNTNTVoemFqbGEwVlFDclZpeWcmZT0xNzc3Nzk0OTIw/853144.m3u8?loc=ru","q":1080,"voiceIdx":3,"voiceLabel":"Оригинал eng","voicesAvailable":4,"player":"tizen","subs":0,"subsAvailable":0}
+07:57:28.053 eSAlBirC DEBUG [player] play-element built {"title":"Книга 74","url":"http://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs4NTM5ODc7MTc3NzcwODUyMCZoPU11RlNZa01aUEVpZnJmQjVhbnVSQWcmZT0xNzc3Nzk0OTIw/853987.m3u8?loc=ru","q":1080,"voiceIdx":3,"voiceLabel":"Оригинал eng","voicesAvailable":4,"player":"tizen","subs":0,"subsAvailable":0}
+07:57:28.055 eSAlBirC DEBUG [player] play-element built {"title":"Все хорошее","url":"http://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs4NTU1MTE7MTc3NzcwODUyMCZoPXdjX2JwTTYxMC1TZ3RGd3c3R0JNQWcmZT0xNzc3Nzk0OTIw/855511.m3u8?loc=ru","q":1080,"voiceIdx":3,"voiceLabel":"Оригинал eng","voicesAvailable":4,"player":"tizen","subs":0,"subsAvailable":0}
+07:57:28.056 eSAlBirC DEBUG [player] play-element built {"title":"Разбитые окна, открытые двери","url":"http://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs4NTY0ODA7MTc3NzcwODUyMCZoPUR0UTlUTXBMOUlVTWVYQlNrV2I3ZEEmZT0xNzc3Nzk0OTIw/856480.m3u8?loc=ru","q":1080,"voiceIdx":3,"voiceLabel":"Оригинал eng","voicesAvailable":4,"player":"tizen","subs":0,"subsAvailable":0}
+07:57:28.058 eSAlBirC DEBUG [player] play-element built {"title":"В лес","url":"http://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs4NTc3MDE7MTc3NzcwODUyMCZoPWRiREh0cXNTeEZlcUUzV1AxRzNuYlEmZT0xNzc3Nzk0OTIw/857701.m3u8?loc=ru","q":1080,"voiceIdx":3,"voiceLabel":"Оригинал eng","voicesAvailable":4,"player":"tizen","subs":0,"subsAvailable":0}
+07:57:28.059 eSAlBirC DEBUG [player] play-element built {"title":"О, в какие места мы пойдем!","url":"http://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs4NjAwMzI7MTc3NzcwODUyMCZoPUpfU0xCTl8xUVhfOURESHA2d1kxY3cmZT0xNzc3Nzk0OTIw/860032.m3u8?loc=ru","q":1080,"voiceIdx":3,"voiceLabel":"Оригинал eng","voicesAvailable":4,"player":"tizen","subs":0,"subsAvailable":0}
+07:57:28.061 eSAlBirC INFO  [player] launching {"url":"http://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs4NTE0MTM7MTc3NzcwODUyMCZoPWZpY1BKU2E0bGlVZzlmVDZIU0xfX1EmZT0xNzc3Nzk0OTIw/851413.m3u8?loc=ru","playlist":10}
+07:57:28.062 eSAlBirC INFO  [lampa-evt] Player/create
+07:57:28.073 eSAlBirC INFO  [lampa-evt] Player/start
+07:57:28.140 eSAlBirC INFO  [lampa-evt] Player/ready
+07:57:28.358 eSAlBirC INFO  [lampa-evt] PlayerVideo/translate
+07:57:28.360 eSAlBirC INFO  [lampa-evt] PlayerVideo/translate
+07:57:28.383 eSAlBirC INFO  [lampa-evt] PlayerVideo/play
+07:57:30.460 eSAlBirC INFO  [lampa-evt] PlayerVideo/canplay
+07:57:30.462 eSAlBirC DEBUG [voice] apply via canplay {"idx":3,"label":"Оригинал eng","key":"eng|Оригинал"}
+07:57:30.562 eSAlBirC INFO  [voice] switched via avplay {"idx":3,"nativeIdx":4,"total":4}
+07:57:30.566 eSAlBirC INFO  [lampa-evt] PlayerVideo/loadeddata
+07:57:30.584 eSAlBirC INFO  [lampa-evt] PlayerVideo/tracks
+07:57:30.586 eSAlBirC INFO  [lampa-evt] PlayerVideo/subs
+07:57:30.598 eSAlBirC INFO  [lampa-evt] PlayerVideo/pause
+07:57:30.828 eSAlBirC INFO  [lampa-evt] PlayerVideo/play
+07:57:38.425 eSAlBirC INFO  [lampa-evt] Player/destroy
+07:57:39.651 eSAlBirC INFO  [lampa-evt] activity/start
+07:57:39.654 eSAlBirC INFO  [lampa-evt] activity/archive
+07:57:39.964 eSAlBirC DEBUG [source] destroy
+07:57:39.966 eSAlBirC INFO  [lampa-evt] activity/destroy
+07:57:40.835 eSAlBirC INFO  [lampa-evt] activity/start
+07:57:40.837 eSAlBirC INFO  [lampa-evt] activity/archive
+07:57:41.131 eSAlBirC INFO  [lampa-evt] activity/destroy
+07:57:43.817 eSAlBirC INFO  [lampa-evt] activity/init
+07:57:43.824 eSAlBirC INFO  [lampa-evt] activity/create
+07:57:43.835 eSAlBirC INFO  [lampa-evt] activity/start
+07:57:46.376 eSAlBirC INFO  [launch] open activity {"id":76479,"title":"Пацаны","orig":"The Boys"}
+07:57:46.390 eSAlBirC INFO  [lampa-evt] activity/init
+07:57:46.392 eSAlBirC INFO  [lampa-evt] activity/create
+07:57:46.413 eSAlBirC INFO  [component] find query=Пацаны
+07:57:46.415 eSAlBirC INFO  [source] searchByTitle {"query":"Пацаны","year":2019,"orig":"The Boys","rus":"Пацаны","imdb":"tt1190634","imdbNum":1190634,"type":"serial"}
+07:57:46.416 eSAlBirC DEBUG [api] GET /items/search {"q":"Пацаны","field":"title","perpage":50,"type":"serial"}
+07:57:46.428 eSAlBirC INFO  [lampa-evt] activity/start
+07:57:46.740 eSAlBirC DEBUG [api] GET /items/search ok
+07:57:46.741 eSAlBirC INFO  [source] search ok {"count":3}
+07:57:46.743 eSAlBirC DEBUG [source] top candidates [{"id":52759,"title":"Пацаны / The Boys","year":2019,"type":"serial","imdb":1190634},{"id":14004,"title":"Реальные пацаны","year":2010,"type":"serial","imdb":1837341},{"id":8964,"title":"Реальные пацаны / Blue Mountain State","year":2010,"type":"serial","imdb":1344204}]
+07:57:46.745 eSAlBirC INFO  [source] matched by imdb {"id":52759,"imdb":1190634}
+07:57:46.747 eSAlBirC INFO  [source] matched card {"id":52759,"title":"Пацаны / The Boys","year":2019,"type":"serial"}
+07:57:46.749 eSAlBirC INFO  [source] find() id=52759
+07:57:46.751 eSAlBirC DEBUG [api] GET /items/52759 null
+07:57:47.023 eSAlBirC DEBUG [api] GET /items/52759 ok
+07:57:47.024 eSAlBirC INFO  [source] item loaded {"id":52759,"type":"serial","seasons":5,"videos":0}
+07:57:47.028 eSAlBirC DEBUG [source] extracted serial {"seasons":5,"totalEpisodes":37,"voices":8}
+07:57:47.037 eSAlBirC DEBUG [source] append items {"count":8}
+07:57:53.500 eSAlBirC DEBUG [player] play-element built {"title":"Получи!","url":"http://digital-cdn.net/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs2NjgyNjY7MTc3NzcwODY2OCZoPXExX0txWXJIQUNPMTJ4cm94SDJ1SFEmZT0xNzc3Nzk1MDY4/668266.m3u8?loc=ru","q":2160,"voiceIdx":0,"voiceLabel":"Двухголосый rus","voicesAvailable":5,"player":"tizen","subs":0,"subsAvailable":0}
+07:57:53.527 eSAlBirC DEBUG [player] play-element built {"title":"Такая игра","url":"http://digital-cdn.net/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs2NjY2NDY7MTc3NzcwODY2OCZoPXZWMEc2Rm1oNFFUeUMyMXRCRjdiWlEmZT0xNzc3Nzk1MDY4/666646.m3u8?loc=ru","q":2160,"voiceIdx":0,"voiceLabel":"Двухголосый rus","voicesAvailable":5,"player":"tizen","subs":0,"subsAvailable":2}
+07:57:53.528 eSAlBirC DEBUG [player] play-element built {"title":"Вишенка","url":"http://digital-cdn.net/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs2Njc1Mjg7MTc3NzcwODY2OCZoPXJDX1M1ZF9vZWxybkY3OWNiYmZ5NFEmZT0xNzc3Nzk1MDY4/667528.m3u8?loc=ru","q":2160,"voiceIdx":0,"voiceLabel":"Двухголосый rus","voicesAvailable":5,"player":"tizen","subs":0,"subsAvailable":0}
+07:57:53.530 eSAlBirC DEBUG [player] play-element built {"title":"Получи!","url":"http://digital-cdn.net/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs2NjgyNjY7MTc3NzcwODY2OCZoPXExX0txWXJIQUNPMTJ4cm94SDJ1SFEmZT0xNzc3Nzk1MDY4/668266.m3u8?loc=ru","q":2160,"voiceIdx":0,"voiceLabel":"Двухголосый rus","voicesAvailable":5,"player":"tizen","subs":0,"subsAvailable":0}
+07:57:53.531 eSAlBirC DEBUG [player] play-element built {"title":"Самка человека","url":"http://digital-cdn.net/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs2NjkzODg7MTc3NzcwODY2OCZoPVJ5V1ItVlJOMThuQzQ4MXk4dUttaXcmZT0xNzc3Nzk1MDY4/669388.m3u8?loc=ru","q":2160,"voiceIdx":0,"voiceLabel":"Двухголосый rus","voicesAvailable":5,"player":"tizen","subs":0,"subsAvailable":0}
+07:57:53.533 eSAlBirC DEBUG [player] play-element built {"title":"Полезно для души","url":"http://digital-cdn.net/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs2NzA5ODQ7MTc3NzcwODY2OCZoPVdnc2V1WndFS2FiTjkzVU8zc19YOHcmZT0xNzc3Nzk1MDY4/670984.m3u8?loc=ru","q":2160,"voiceIdx":0,"voiceLabel":"Двухголосый rus","voicesAvailable":5,"player":"tizen","subs":0,"subsAvailable":0}
+07:57:53.534 eSAlBirC DEBUG [player] play-element built {"title":"Невинные","url":"http://digital-cdn.net/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs2NzIzMDE7MTc3NzcwODY2OCZoPTFlSHpiVkNTNHliLVI5UHgxR3d0UEEmZT0xNzc3Nzk1MDY4/672301.m3u8?loc=ru","q":2160,"voiceIdx":0,"voiceLabel":"Двухголосый rus","voicesAvailable":5,"player":"tizen","subs":0,"subsAvailable":0}
+07:57:53.535 eSAlBirC DEBUG [player] play-element built {"title":"Общество самосохранения","url":"http://digital-cdn.net/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs2NzI4NTA7MTc3NzcwODY2OCZoPWYwRHdsWnJ6RHpuUi10Rm9hQTZ5WXcmZT0xNzc3Nzk1MDY4/672850.m3u8?loc=ru","q":2160,"voiceIdx":0,"voiceLabel":"Двухголосый rus","voicesAvailable":5,"player":"tizen","subs":0,"subsAvailable":0}
+07:57:53.537 eSAlBirC DEBUG [player] play-element built {"title":"Ты меня нашёл","url":"http://digital-cdn.net/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs2NzMwMDY7MTc3NzcwODY2OCZoPUphcGVPZ0kxekJKUUZtZzVZVTBGZ2cmZT0xNzc3Nzk1MDY4/673006.m3u8?loc=ru","q":2160,"voiceIdx":0,"voiceLabel":"Двухголосый rus","voicesAvailable":5,"player":"tizen","subs":0,"subsAvailable":0}
+07:57:53.538 eSAlBirC INFO  [player] launching {"url":"http://digital-cdn.net/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs2NjgyNjY7MTc3NzcwODY2OCZoPXExX0txWXJIQUNPMTJ4cm94SDJ1SFEmZT0xNzc3Nzk1MDY4/668266.m3u8?loc=ru","playlist":8}
+07:57:53.539 eSAlBirC INFO  [lampa-evt] Player/create
+07:57:53.550 eSAlBirC INFO  [lampa-evt] Player/start
+07:57:53.625 eSAlBirC INFO  [lampa-evt] Player/ready
+07:57:54.267 eSAlBirC INFO  [lampa-evt] PlayerVideo/translate
+07:57:54.269 eSAlBirC INFO  [lampa-evt] PlayerVideo/translate
+07:57:54.287 eSAlBirC INFO  [lampa-evt] PlayerVideo/play
+07:57:57.356 eSAlBirC INFO  [lampa-evt] PlayerVideo/canplay
+07:57:57.358 eSAlBirC DEBUG [voice] apply via canplay {"idx":0,"label":"Двухголосый rus","key":"rus|Двухголосый"}
+07:57:57.364 eSAlBirC INFO  [voice] switched via avplay {"idx":0,"nativeIdx":1,"total":5}
+07:57:57.372 eSAlBirC INFO  [lampa-evt] PlayerVideo/loadeddata
+07:57:57.399 eSAlBirC INFO  [lampa-evt] PlayerVideo/tracks
+07:57:57.401 eSAlBirC INFO  [lampa-evt] PlayerVideo/subs
+07:57:59.181 eSAlBirC INFO  [lampa-evt] PlayerVideo/pause
+07:57:59.189 eSAlBirC INFO  [lampa-evt] PlayerVideo/rewind
+07:57:59.529 eSAlBirC INFO  [lampa-evt] PlayerVideo/pause
+07:57:59.532 eSAlBirC INFO  [lampa-evt] PlayerVideo/rewind
+07:57:59.636 eSAlBirC INFO  [lampa-evt] PlayerVideo/pause
+07:57:59.638 eSAlBirC INFO  [lampa-evt] PlayerVideo/rewind
+07:57:59.745 eSAlBirC INFO  [lampa-evt] PlayerVideo/pause
+07:57:59.748 eSAlBirC INFO  [lampa-evt] PlayerVideo/rewind
+07:57:59.852 eSAlBirC INFO  [lampa-evt] PlayerVideo/pause
+07:57:59.855 eSAlBirC INFO  [lampa-evt] PlayerVideo/rewind
+07:57:59.960 eSAlBirC INFO  [lampa-evt] PlayerVideo/pause
+07:57:59.962 eSAlBirC INFO  [lampa-evt] PlayerVideo/rewind
+07:58:00.068 eSAlBirC INFO  [lampa-evt] PlayerVideo/pause
+07:58:00.072 eSAlBirC INFO  [lampa-evt] PlayerVideo/rewind
+07:58:00.176 eSAlBirC INFO  [lampa-evt] PlayerVideo/pause
+07:58:00.179 eSAlBirC INFO  [lampa-evt] PlayerVideo/rewind
+07:58:00.284 eSAlBirC INFO  [lampa-evt] PlayerVideo/pause
+07:58:00.287 eSAlBirC INFO  [lampa-evt] PlayerVideo/rewind
+07:58:00.393 eSAlBirC INFO  [lampa-evt] PlayerVideo/pause
+07:58:00.396 eSAlBirC INFO  [lampa-evt] PlayerVideo/rewind
+07:58:00.501 eSAlBirC INFO  [lampa-evt] PlayerVideo/pause
+07:58:00.504 eSAlBirC INFO  [lampa-evt] PlayerVideo/rewind
+07:58:00.609 eSAlBirC INFO  [lampa-evt] PlayerVideo/pause
+07:58:00.612 eSAlBirC INFO  [lampa-evt] PlayerVideo/rewind
+07:58:00.716 eSAlBirC INFO  [lampa-evt] PlayerVideo/pause
+07:58:00.719 eSAlBirC INFO  [lampa-evt] PlayerVideo/rewind
+07:58:00.824 eSAlBirC INFO  [lampa-evt] PlayerVideo/pause
+07:58:00.827 eSAlBirC INFO  [lampa-evt] PlayerVideo/rewind
+07:58:00.932 eSAlBirC INFO  [lampa-evt] PlayerVideo/pause
+07:58:00.936 eSAlBirC INFO  [lampa-evt] PlayerVideo/rewind
+07:58:02.172 eSAlBirC INFO  [lampa-evt] PlayerVideo/play
+07:58:11.814 eSAlBirC INFO  [lampa-evt] Player/destroy
+07:58:19.955 eSAlBirC DEBUG [source] filter change {"type":"voice","index":2}
+07:58:19.981 eSAlBirC INFO  [voice] user picked {"name":"Оригинал eng","key":"eng|Оригинал"}
+07:58:19.988 eSAlBirC DEBUG [source] append items {"count":8}
+07:58:22.459 eSAlBirC DEBUG [player] play-element built {"title":"Получи!","url":"http://digital-cdn.net/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs2NjgyNjY7MTc3NzcwODY2OCZoPXExX0txWXJIQUNPMTJ4cm94SDJ1SFEmZT0xNzc3Nzk1MDY4/668266.m3u8?loc=ru","q":2160,"voiceIdx":3,"voiceLabel":"Оригинал eng","voicesAvailable":5,"player":"tizen","subs":0,"subsAvailable":0}
+07:58:22.460 eSAlBirC DEBUG [player] play-element built {"title":"Такая игра","url":"http://digital-cdn.net/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs2NjY2NDY7MTc3NzcwODY2OCZoPXZWMEc2Rm1oNFFUeUMyMXRCRjdiWlEmZT0xNzc3Nzk1MDY4/666646.m3u8?loc=ru","q":2160,"voiceIdx":3,"voiceLabel":"Оригинал eng","voicesAvailable":5,"player":"tizen","subs":0,"subsAvailable":2}
+07:58:22.462 eSAlBirC DEBUG [player] play-element built {"title":"Вишенка","url":"http://digital-cdn.net/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs2Njc1Mjg7MTc3NzcwODY2OCZoPXJDX1M1ZF9vZWxybkY3OWNiYmZ5NFEmZT0xNzc3Nzk1MDY4/667528.m3u8?loc=ru","q":2160,"voiceIdx":3,"voiceLabel":"Оригинал eng","voicesAvailable":5,"player":"tizen","subs":0,"subsAvailable":0}
+07:58:22.463 eSAlBirC DEBUG [player] play-element built {"title":"Получи!","url":"http://digital-cdn.net/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs2NjgyNjY7MTc3NzcwODY2OCZoPXExX0txWXJIQUNPMTJ4cm94SDJ1SFEmZT0xNzc3Nzk1MDY4/668266.m3u8?loc=ru","q":2160,"voiceIdx":3,"voiceLabel":"Оригинал eng","voicesAvailable":5,"player":"tizen","subs":0,"subsAvailable":0}
+07:58:22.465 eSAlBirC DEBUG [player] play-element built {"title":"Самка человека","url":"http://digital-cdn.net/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs2NjkzODg7MTc3NzcwODY2OCZoPVJ5V1ItVlJOMThuQzQ4MXk4dUttaXcmZT0xNzc3Nzk1MDY4/669388.m3u8?loc=ru","q":2160,"voiceIdx":3,"voiceLabel":"Оригинал eng","voicesAvailable":5,"player":"tizen","subs":0,"subsAvailable":0}
+07:58:22.466 eSAlBirC DEBUG [player] play-element built {"title":"Полезно для души","url":"http://digital-cdn.net/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs2NzA5ODQ7MTc3NzcwODY2OCZoPVdnc2V1WndFS2FiTjkzVU8zc19YOHcmZT0xNzc3Nzk1MDY4/670984.m3u8?loc=ru","q":2160,"voiceIdx":3,"voiceLabel":"Оригинал eng","voicesAvailable":5,"player":"tizen","subs":0,"subsAvailable":0}
+07:58:22.467 eSAlBirC DEBUG [player] play-element built {"title":"Невинные","url":"http://digital-cdn.net/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs2NzIzMDE7MTc3NzcwODY2OCZoPTFlSHpiVkNTNHliLVI5UHgxR3d0UEEmZT0xNzc3Nzk1MDY4/672301.m3u8?loc=ru","q":2160,"voiceIdx":3,"voiceLabel":"Оригинал eng","voicesAvailable":5,"player":"tizen","subs":0,"subsAvailable":0}
+07:58:22.469 eSAlBirC DEBUG [player] play-element built {"title":"Общество самосохранения","url":"http://digital-cdn.net/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs2NzI4NTA7MTc3NzcwODY2OCZoPWYwRHdsWnJ6RHpuUi10Rm9hQTZ5WXcmZT0xNzc3Nzk1MDY4/672850.m3u8?loc=ru","q":2160,"voiceIdx":3,"voiceLabel":"Оригинал eng","voicesAvailable":5,"player":"tizen","subs":0,"subsAvailable":0}
+07:58:22.470 eSAlBirC DEBUG [player] play-element built {"title":"Ты меня нашёл","url":"http://digital-cdn.net/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs2NzMwMDY7MTc3NzcwODY2OCZoPUphcGVPZ0kxekJKUUZtZzVZVTBGZ2cmZT0xNzc3Nzk1MDY4/673006.m3u8?loc=ru","q":2160,"voiceIdx":3,"voiceLabel":"Оригинал eng","voicesAvailable":5,"player":"tizen","subs":0,"subsAvailable":0}
+07:58:22.471 eSAlBirC INFO  [player] launching {"url":"http://digital-cdn.net/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs2NjgyNjY7MTc3NzcwODY2OCZoPXExX0txWXJIQUNPMTJ4cm94SDJ1SFEmZT0xNzc3Nzk1MDY4/668266.m3u8?loc=ru","playlist":8}
+07:58:22.473 eSAlBirC INFO  [lampa-evt] Player/create
+07:58:22.483 eSAlBirC INFO  [lampa-evt] Player/start
+07:58:22.543 eSAlBirC INFO  [lampa-evt] Player/ready
+07:58:22.724 eSAlBirC INFO  [lampa-evt] PlayerVideo/translate
+07:58:22.725 eSAlBirC INFO  [lampa-evt] PlayerVideo/translate
+07:58:22.744 eSAlBirC INFO  [lampa-evt] PlayerVideo/play
+07:58:24.970 eSAlBirC INFO  [lampa-evt] PlayerVideo/canplay
+07:58:24.972 eSAlBirC DEBUG [voice] apply via canplay {"idx":3,"label":"Оригинал eng","key":"eng|Оригинал"}
+07:58:25.113 eSAlBirC INFO  [voice] switched via avplay {"idx":3,"nativeIdx":4,"total":5}
+07:58:25.123 eSAlBirC INFO  [lampa-evt] PlayerVideo/loadeddata
+07:58:25.151 eSAlBirC INFO  [lampa-evt] PlayerVideo/tracks
+07:58:25.152 eSAlBirC INFO  [lampa-evt] PlayerVideo/subs
+07:58:25.172 eSAlBirC INFO  [lampa-evt] PlayerVideo/pause
+07:58:25.418 eSAlBirC INFO  [lampa-evt] PlayerVideo/play
+07:58:33.919 eSAlBirC INFO  [lampa-evt] PlayerVideo/pause
+07:58:33.926 eSAlBirC INFO  [lampa-evt] PlayerVideo/rewind
+07:58:34.933 eSAlBirC INFO  [lampa-evt] PlayerVideo/play
+07:58:41.803 eSAlBirC INFO  [lampa-evt] Player/destroy
+07:58:42.860 eSAlBirC DEBUG [player] play-element built {"title":"Самка человека","url":"http://digital-cdn.net/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs2NjkzODg7MTc3NzcwODY2OCZoPVJ5V1ItVlJOMThuQzQ4MXk4dUttaXcmZT0xNzc3Nzk1MDY4/669388.m3u8?loc=ru","q":2160,"voiceIdx":3,"voiceLabel":"Оригинал eng","voicesAvailable":5,"player":"tizen","subs":0,"subsAvailable":0}
+07:58:42.862 eSAlBirC DEBUG [player] play-element built {"title":"Такая игра","url":"http://digital-cdn.net/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs2NjY2NDY7MTc3NzcwODY2OCZoPXZWMEc2Rm1oNFFUeUMyMXRCRjdiWlEmZT0xNzc3Nzk1MDY4/666646.m3u8?loc=ru","q":2160,"voiceIdx":3,"voiceLabel":"Оригинал eng","voicesAvailable":5,"player":"tizen","subs":0,"subsAvailable":2}
+07:58:42.863 eSAlBirC DEBUG [player] play-element built {"title":"Вишенка","url":"http://digital-cdn.net/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs2Njc1Mjg7MTc3NzcwODY2OCZoPXJDX1M1ZF9vZWxybkY3OWNiYmZ5NFEmZT0xNzc3Nzk1MDY4/667528.m3u8?loc=ru","q":2160,"voiceIdx":3,"voiceLabel":"Оригинал eng","voicesAvailable":5,"player":"tizen","subs":0,"subsAvailable":0}
+07:58:42.865 eSAlBirC DEBUG [player] play-element built {"title":"Получи!","url":"http://digital-cdn.net/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs2NjgyNjY7MTc3NzcwODY2OCZoPXExX0txWXJIQUNPMTJ4cm94SDJ1SFEmZT0xNzc3Nzk1MDY4/668266.m3u8?loc=ru","q":2160,"voiceIdx":3,"voiceLabel":"Оригинал eng","voicesAvailable":5,"player":"tizen","subs":0,"subsAvailable":0}
+07:58:42.866 eSAlBirC DEBUG [player] play-element built {"title":"Самка человека","url":"http://digital-cdn.net/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs2NjkzODg7MTc3NzcwODY2OCZoPVJ5V1ItVlJOMThuQzQ4MXk4dUttaXcmZT0xNzc3Nzk1MDY4/669388.m3u8?loc=ru","q":2160,"voiceIdx":3,"voiceLabel":"Оригинал eng","voicesAvailable":5,"player":"tizen","subs":0,"subsAvailable":0}
+07:58:42.867 eSAlBirC DEBUG [player] play-element built {"title":"Полезно для души","url":"http://digital-cdn.net/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs2NzA5ODQ7MTc3NzcwODY2OCZoPVdnc2V1WndFS2FiTjkzVU8zc19YOHcmZT0xNzc3Nzk1MDY4/670984.m3u8?loc=ru","q":2160,"voiceIdx":3,"voiceLabel":"Оригинал eng","voicesAvailable":5,"player":"tizen","subs":0,"subsAvailable":0}
+07:58:42.869 eSAlBirC DEBUG [player] play-element built {"title":"Невинные","url":"http://digital-cdn.net/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs2NzIzMDE7MTc3NzcwODY2OCZoPTFlSHpiVkNTNHliLVI5UHgxR3d0UEEmZT0xNzc3Nzk1MDY4/672301.m3u8?loc=ru","q":2160,"voiceIdx":3,"voiceLabel":"Оригинал eng","voicesAvailable":5,"player":"tizen","subs":0,"subsAvailable":0}
+07:58:42.870 eSAlBirC DEBUG [player] play-element built {"title":"Общество самосохранения","url":"http://digital-cdn.net/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs2NzI4NTA7MTc3NzcwODY2OCZoPWYwRHdsWnJ6RHpuUi10Rm9hQTZ5WXcmZT0xNzc3Nzk1MDY4/672850.m3u8?loc=ru","q":2160,"voiceIdx":3,"voiceLabel":"Оригинал eng","voicesAvailable":5,"player":"tizen","subs":0,"subsAvailable":0}
+07:58:42.872 eSAlBirC DEBUG [player] play-element built {"title":"Ты меня нашёл","url":"http://digital-cdn.net/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs2NzMwMDY7MTc3NzcwODY2OCZoPUphcGVPZ0kxekJKUUZtZzVZVTBGZ2cmZT0xNzc3Nzk1MDY4/673006.m3u8?loc=ru","q":2160,"voiceIdx":3,"voiceLabel":"Оригинал eng","voicesAvailable":5,"player":"tizen","subs":0,"subsAvailable":0}
+07:58:42.873 eSAlBirC INFO  [player] launching {"url":"http://digital-cdn.net/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs2NjkzODg7MTc3NzcwODY2OCZoPVJ5V1ItVlJOMThuQzQ4MXk4dUttaXcmZT0xNzc3Nzk1MDY4/669388.m3u8?loc=ru","playlist":8}
+07:58:42.875 eSAlBirC INFO  [lampa-evt] Player/create
+07:58:42.886 eSAlBirC INFO  [lampa-evt] Player/start
+07:58:42.958 eSAlBirC INFO  [lampa-evt] Player/ready
+07:58:43.187 eSAlBirC INFO  [lampa-evt] PlayerVideo/translate
+07:58:43.188 eSAlBirC INFO  [lampa-evt] PlayerVideo/translate
+07:58:43.213 eSAlBirC INFO  [lampa-evt] PlayerVideo/play
+07:58:46.047 eSAlBirC INFO  [lampa-evt] PlayerVideo/canplay
+07:58:46.049 eSAlBirC DEBUG [voice] apply via canplay {"idx":3,"label":"Оригинал eng","key":"eng|Оригинал"}
+07:58:46.137 eSAlBirC INFO  [voice] switched via avplay {"idx":3,"nativeIdx":4,"total":5}
+07:58:46.141 eSAlBirC INFO  [lampa-evt] PlayerVideo/loadeddata
+07:58:46.186 eSAlBirC INFO  [lampa-evt] PlayerVideo/tracks
+07:58:46.188 eSAlBirC INFO  [lampa-evt] PlayerVideo/subs
+07:58:46.210 eSAlBirC INFO  [lampa-evt] PlayerVideo/pause
+07:58:46.480 eSAlBirC INFO  [lampa-evt] PlayerVideo/play
+07:59:03.882 eSAlBirC INFO  [lampa-evt] Player/destroy
+07:59:21.538 eSAlBirC INFO  [lampa-evt] activity/start
+07:59:21.543 eSAlBirC INFO  [lampa-evt] activity/archive
+07:59:21.840 eSAlBirC DEBUG [source] destroy
+07:59:21.842 eSAlBirC INFO  [lampa-evt] activity/destroy
+07:59:22.695 eSAlBirC INFO  [lampa-evt] activity/start
+07:59:22.697 eSAlBirC INFO  [lampa-evt] activity/archive
+07:59:22.991 eSAlBirC INFO  [lampa-evt] activity/destroy
+07:59:28.977 eSAlBirC INFO  [lampa-evt] activity/init
+07:59:28.987 eSAlBirC INFO  [lampa-evt] activity/create
+07:59:28.998 eSAlBirC INFO  [lampa-evt] activity/start
+07:59:38.677 eSAlBirC INFO  [launch] open activity {"id":124364,"title":"Извне","orig":"FROM"}
+07:59:38.696 eSAlBirC INFO  [lampa-evt] activity/init
+07:59:38.698 eSAlBirC INFO  [lampa-evt] activity/create
+07:59:38.723 eSAlBirC INFO  [component] find query=Извне
+07:59:38.725 eSAlBirC INFO  [source] searchByTitle {"query":"Извне","year":2022,"orig":"FROM","rus":"Извне","imdb":"tt9813792","imdbNum":9813792,"type":"serial"}
+07:59:38.727 eSAlBirC DEBUG [api] GET /items/search {"q":"Извне","field":"title","perpage":50,"type":"serial"}
+07:59:38.739 eSAlBirC INFO  [lampa-evt] activity/start
+07:59:39.034 eSAlBirC DEBUG [api] GET /items/search ok
+07:59:39.037 eSAlBirC INFO  [source] search ok {"count":1}
+07:59:39.039 eSAlBirC DEBUG [source] top candidates [{"id":77917,"title":"Извне / From","year":2022,"type":"serial","imdb":9813792}]
+07:59:39.041 eSAlBirC INFO  [source] matched by imdb {"id":77917,"imdb":9813792}
+07:59:39.042 eSAlBirC INFO  [source] matched card {"id":77917,"title":"Извне / From","year":2022,"type":"serial"}
+07:59:39.044 eSAlBirC INFO  [source] find() id=77917
+07:59:39.046 eSAlBirC DEBUG [api] GET /items/77917 null
+07:59:39.307 eSAlBirC DEBUG [api] GET /items/77917 ok
+07:59:39.309 eSAlBirC INFO  [source] item loaded {"id":77917,"type":"serial","seasons":4,"videos":0}
+07:59:39.312 eSAlBirC DEBUG [source] extracted serial {"seasons":4,"totalEpisodes":32,"voices":5}
+07:59:39.318 eSAlBirC DEBUG [source] append items {"count":10}
+08:01:14.536 eSAlBirC DEBUG [source] filter change {"type":"season","index":1}
+08:01:14.542 eSAlBirC DEBUG [source] append items {"count":10}
+08:03:25.752 eSAlBirC DEBUG [source] filter change {"type":"voice","index":3}
+08:03:25.778 eSAlBirC INFO  [voice] user picked {"name":"Многоголосый ukr","key":"ukr|Многоголосый"}
+08:03:25.785 eSAlBirC DEBUG [source] append items {"count":10}
+08:03:27.717 eSAlBirC DEBUG [player] play-element built {"title":"Чужаки в чужом краю","url":"http://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs5Mzc5OTk7MTc3NzcwODc4MCZoPUstV1dieTNuVEtKSmRUcGFJZGVYb1EmZT0xNzc3Nzk1MTgw/937999.m3u8?loc=ru","q":1080,"voiceIdx":0,"voiceLabel":"Многоголосый rus","voicesAvailable":6,"player":"tizen","subs":0,"subsAvailable":0}
+08:03:27.719 eSAlBirC DEBUG [player] play-element built {"title":"Чужаки в чужом краю","url":"http://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs5Mzc5OTk7MTc3NzcwODc4MCZoPUstV1dieTNuVEtKSmRUcGFJZGVYb1EmZT0xNzc3Nzk1MTgw/937999.m3u8?loc=ru","q":1080,"voiceIdx":0,"voiceLabel":"Многоголосый rus","voicesAvailable":6,"player":"tizen","subs":0,"subsAvailable":0}
+08:03:27.721 eSAlBirC DEBUG [player] play-element built {"title":"Доброта чужих людей","url":"http://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs5NDAyNjc7MTc3NzcwODc4MCZoPWFacFFuVFdRd05VemFOWDBuQ0lyWlEmZT0xNzc3Nzk1MTgw/940267.m3u8?loc=ru","q":1080,"voiceIdx":0,"voiceLabel":"Многоголосый rus","voicesAvailable":6,"player":"tizen","subs":0,"subsAvailable":0}
+08:03:27.722 eSAlBirC DEBUG [player] play-element built {"title":"Предел","url":"http://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs5NDE1MjE7MTc3NzcwODc4MCZoPXVEc3BsU3oxOTRUWmNHS0ZmX3pkNWcmZT0xNzc3Nzk1MTgw/941521.m3u8?loc=ru","q":1080,"voiceIdx":0,"voiceLabel":"Многоголосый rus","voicesAvailable":6,"player":"tizen","subs":0,"subsAvailable":0}
+08:03:27.724 eSAlBirC DEBUG [player] play-element built {"title":"Этот путь пройден","url":"http://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs5NDI4NTk7MTc3NzcwODc4MCZoPU9vMDU5N1E4ZU9uR0N4SHd5YlQ0cUEmZT0xNzc3Nzk1MTgw/942859.m3u8?loc=ru","q":1080,"voiceIdx":0,"voiceLabel":"Многоголосый rus","voicesAvailable":6,"player":"tizen","subs":0,"subsAvailable":0}
+08:03:27.725 eSAlBirC DEBUG [player] play-element built {"title":"Колыбельная","url":"http://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs5NDQxNTI7MTc3NzcwODc4MCZoPVZSQkx4QjByck1MaHZYMnQzTVFYNFEmZT0xNzc3Nzk1MTgw/944152.m3u8?loc=ru","q":1080,"voiceIdx":0,"voiceLabel":"Многоголосый rus","voicesAvailable":6,"player":"tizen","subs":0,"subsAvailable":0}
+08:03:27.727 eSAlBirC DEBUG [player] play-element built {"title":"Па-де-де","url":"http://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs5NDYzNTE7MTc3NzcwODc4MCZoPWx4dUg3dlZwUVpNOUl2VE00N2lXc3cmZT0xNzc3Nzk1MTgw/946351.m3u8?loc=ru","q":1080,"voiceIdx":0,"voiceLabel":"Многоголосый rus","voicesAvailable":6,"player":"tizen","subs":0,"subsAvailable":0}
+08:03:27.729 eSAlBirC DEBUG [player] play-element built {"title":"Чрево зверя","url":"http://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs5NDcxNjE7MTc3NzcwODc4MCZoPTlpYy1LdHZLdVA4MHR0Rklpak1LYWcmZT0xNzc3Nzk1MTgw/947161.m3u8?loc=ru","q":1080,"voiceIdx":0,"voiceLabel":"Многоголосый rus","voicesAvailable":6,"player":"tizen","subs":0,"subsAvailable":0}
+08:03:27.730 eSAlBirC DEBUG [player] play-element built {"title":"Не видеть лес за деревьями","url":"http://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs5NDgyMjY7MTc3NzcwODc4MCZoPXVDVjkwdE4xWGpNOEJoMnhqYXY5VmcmZT0xNzc3Nzk1MTgw/948226.m3u8?loc=ru","q":1080,"voiceIdx":0,"voiceLabel":"Многоголосый rus","voicesAvailable":6,"player":"tizen","subs":0,"subsAvailable":0}
+08:03:27.731 eSAlBirC DEBUG [player] play-element built {"title":"Волшебный огненный шар","url":"http://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs5NTAyNDU7MTc3NzcwODc4MCZoPWpTTFpwWFBNTDVJdTBfZDRfUGVBSkEmZT0xNzc3Nzk1MTgw/950245.m3u8?loc=ru","q":1080,"voiceIdx":0,"voiceLabel":"Многоголосый rus","voicesAvailable":6,"player":"tizen","subs":0,"subsAvailable":0}
+08:03:27.733 eSAlBirC DEBUG [player] play-element built {"title":"Однажды в сказке…","url":"http://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs5NTEzMTk7MTc3NzcwODc4MCZoPU4zaHJPWDRNd1JwaW9RUXZ5STJGS1EmZT0xNzc3Nzk1MTgw/951319.m3u8?loc=ru","q":1080,"voiceIdx":0,"voiceLabel":"Многоголосый rus","voicesAvailable":6,"player":"tizen","subs":0,"subsAvailable":0}
+08:03:27.734 eSAlBirC INFO  [player] launching {"url":"http://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs5Mzc5OTk7MTc3NzcwODc4MCZoPUstV1dieTNuVEtKSmRUcGFJZGVYb1EmZT0xNzc3Nzk1MTgw/937999.m3u8?loc=ru","playlist":10}
+08:03:27.735 eSAlBirC INFO  [lampa-evt] Player/create
+08:03:27.747 eSAlBirC INFO  [lampa-evt] Player/start
+08:03:27.818 eSAlBirC INFO  [lampa-evt] Player/ready
+08:03:28.481 eSAlBirC INFO  [lampa-evt] PlayerVideo/translate
+08:03:28.483 eSAlBirC INFO  [lampa-evt] PlayerVideo/translate
+08:03:28.502 eSAlBirC INFO  [lampa-evt] PlayerVideo/play
+08:03:31.086 eSAlBirC INFO  [lampa-evt] PlayerVideo/canplay
+08:03:31.088 eSAlBirC DEBUG [voice] apply via canplay {"idx":0,"label":"Многоголосый rus","key":"ukr|Многоголосый"}
+08:03:31.098 eSAlBirC INFO  [voice] switched via avplay {"idx":0,"nativeIdx":1,"total":6}
+08:03:31.113 eSAlBirC INFO  [lampa-evt] PlayerVideo/loadeddata
+08:03:31.151 eSAlBirC INFO  [lampa-evt] PlayerVideo/tracks
+08:03:31.153 eSAlBirC INFO  [lampa-evt] PlayerVideo/subs
+08:03:34.256 eSAlBirC INFO  [lampa-evt] PlayerVideo/pause
+08:03:34.264 eSAlBirC INFO  [lampa-evt] PlayerVideo/rewind
+08:03:34.604 eSAlBirC INFO  [lampa-evt] PlayerVideo/pause
+08:03:34.608 eSAlBirC INFO  [lampa-evt] PlayerVideo/rewind
+08:03:34.712 eSAlBirC INFO  [lampa-evt] PlayerVideo/pause
+08:03:34.715 eSAlBirC INFO  [lampa-evt] PlayerVideo/rewind
+08:03:34.820 eSAlBirC INFO  [lampa-evt] PlayerVideo/pause
+08:03:34.823 eSAlBirC INFO  [lampa-evt] PlayerVideo/rewind
+08:03:34.928 eSAlBirC INFO  [lampa-evt] PlayerVideo/pause
+08:03:34.932 eSAlBirC INFO  [lampa-evt] PlayerVideo/rewind
+08:03:35.037 eSAlBirC INFO  [lampa-evt] PlayerVideo/pause
+08:03:35.042 eSAlBirC INFO  [lampa-evt] PlayerVideo/rewind
+08:03:35.145 eSAlBirC INFO  [lampa-evt] PlayerVideo/pause
+08:03:35.147 eSAlBirC INFO  [lampa-evt] PlayerVideo/rewind
+08:03:35.252 eSAlBirC INFO  [lampa-evt] PlayerVideo/pause
+08:03:35.255 eSAlBirC INFO  [lampa-evt] PlayerVideo/rewind
+08:03:35.360 eSAlBirC INFO  [lampa-evt] PlayerVideo/pause
+08:03:35.363 eSAlBirC INFO  [lampa-evt] PlayerVideo/rewind
+08:03:35.468 eSAlBirC INFO  [lampa-evt] PlayerVideo/pause
+08:03:35.471 eSAlBirC INFO  [lampa-evt] PlayerVideo/rewind
+08:03:35.577 eSAlBirC INFO  [lampa-evt] PlayerVideo/pause
+08:03:35.579 eSAlBirC INFO  [lampa-evt] PlayerVideo/rewind
+08:03:35.684 eSAlBirC INFO  [lampa-evt] PlayerVideo/pause
+08:03:35.687 eSAlBirC INFO  [lampa-evt] PlayerVideo/rewind
+08:03:35.793 eSAlBirC INFO  [lampa-evt] PlayerVideo/pause
+08:03:35.796 eSAlBirC INFO  [lampa-evt] PlayerVideo/rewind
+08:03:35.900 eSAlBirC INFO  [lampa-evt] PlayerVideo/pause
+08:03:35.903 eSAlBirC INFO  [lampa-evt] PlayerVideo/rewind
+08:03:36.008 eSAlBirC INFO  [lampa-evt] PlayerVideo/pause
+08:03:36.011 eSAlBirC INFO  [lampa-evt] PlayerVideo/rewind
+08:03:36.120 eSAlBirC INFO  [lampa-evt] PlayerVideo/pause
+08:03:36.123 eSAlBirC INFO  [lampa-evt] PlayerVideo/rewind
+08:03:37.300 eSAlBirC INFO  [lampa-evt] PlayerVideo/play
+08:03:42.556 eSAlBirC INFO  [lampa-evt] PlayerVideo/pause
+08:03:42.563 eSAlBirC INFO  [lampa-evt] PlayerVideo/rewind
+08:03:42.905 eSAlBirC INFO  [lampa-evt] PlayerVideo/pause
+08:03:42.908 eSAlBirC INFO  [lampa-evt] PlayerVideo/rewind
+08:03:43.013 eSAlBirC INFO  [lampa-evt] PlayerVideo/pause
+08:03:43.016 eSAlBirC INFO  [lampa-evt] PlayerVideo/rewind
+08:03:43.121 eSAlBirC INFO  [lampa-evt] PlayerVideo/pause
+08:03:43.124 eSAlBirC INFO  [lampa-evt] PlayerVideo/rewind
+08:03:43.229 eSAlBirC INFO  [lampa-evt] PlayerVideo/pause
+08:03:43.231 eSAlBirC INFO  [lampa-evt] PlayerVideo/rewind
+08:03:43.336 eSAlBirC INFO  [lampa-evt] PlayerVideo/pause
+08:03:43.339 eSAlBirC INFO  [lampa-evt] PlayerVideo/rewind
+08:03:43.444 eSAlBirC INFO  [lampa-evt] PlayerVideo/pause
+08:03:43.447 eSAlBirC INFO  [lampa-evt] PlayerVideo/rewind
+08:03:44.682 eSAlBirC INFO  [lampa-evt] PlayerVideo/play
+08:03:54.972 eSAlBirC INFO  [lampa-evt] Player/destroy
+08:03:59.372 eSAlBirC DEBUG [source] filter change {"type":"voice","index":1}
+08:03:59.398 eSAlBirC INFO  [voice] user picked {"name":"Оригинал eng","key":"eng|Оригинал"}
+08:03:59.405 eSAlBirC DEBUG [source] append items {"count":10}
+08:04:00.655 eSAlBirC DEBUG [player] play-element built {"title":"Чужаки в чужом краю","url":"http://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs5Mzc5OTk7MTc3NzcwODc4MCZoPUstV1dieTNuVEtKSmRUcGFJZGVYb1EmZT0xNzc3Nzk1MTgw/937999.m3u8?loc=ru","q":1080,"voiceIdx":4,"voiceLabel":"Оригинал eng","voicesAvailable":6,"player":"tizen","subs":0,"subsAvailable":0}
+08:04:00.657 eSAlBirC DEBUG [player] play-element built {"title":"Чужаки в чужом краю","url":"http://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs5Mzc5OTk7MTc3NzcwODc4MCZoPUstV1dieTNuVEtKSmRUcGFJZGVYb1EmZT0xNzc3Nzk1MTgw/937999.m3u8?loc=ru","q":1080,"voiceIdx":4,"voiceLabel":"Оригинал eng","voicesAvailable":6,"player":"tizen","subs":0,"subsAvailable":0}
+08:04:00.659 eSAlBirC DEBUG [player] play-element built {"title":"Доброта чужих людей","url":"http://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs5NDAyNjc7MTc3NzcwODc4MCZoPWFacFFuVFdRd05VemFOWDBuQ0lyWlEmZT0xNzc3Nzk1MTgw/940267.m3u8?loc=ru","q":1080,"voiceIdx":4,"voiceLabel":"Оригинал eng","voicesAvailable":6,"player":"tizen","subs":0,"subsAvailable":0}
+08:04:00.660 eSAlBirC DEBUG [player] play-element built {"title":"Предел","url":"http://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs5NDE1MjE7MTc3NzcwODc4MCZoPXVEc3BsU3oxOTRUWmNHS0ZmX3pkNWcmZT0xNzc3Nzk1MTgw/941521.m3u8?loc=ru","q":1080,"voiceIdx":4,"voiceLabel":"Оригинал eng","voicesAvailable":6,"player":"tizen","subs":0,"subsAvailable":0}
+08:04:00.661 eSAlBirC DEBUG [player] play-element built {"title":"Этот путь пройден","url":"http://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs5NDI4NTk7MTc3NzcwODc4MCZoPU9vMDU5N1E4ZU9uR0N4SHd5YlQ0cUEmZT0xNzc3Nzk1MTgw/942859.m3u8?loc=ru","q":1080,"voiceIdx":4,"voiceLabel":"Оригинал eng","voicesAvailable":6,"player":"tizen","subs":0,"subsAvailable":0}
+08:04:00.663 eSAlBirC DEBUG [player] play-element built {"title":"Колыбельная","url":"http://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs5NDQxNTI7MTc3NzcwODc4MCZoPVZSQkx4QjByck1MaHZYMnQzTVFYNFEmZT0xNzc3Nzk1MTgw/944152.m3u8?loc=ru","q":1080,"voiceIdx":4,"voiceLabel":"Оригинал eng","voicesAvailable":6,"player":"tizen","subs":0,"subsAvailable":0}
+08:04:00.664 eSAlBirC DEBUG [player] play-element built {"title":"Па-де-де","url":"http://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs5NDYzNTE7MTc3NzcwODc4MCZoPWx4dUg3dlZwUVpNOUl2VE00N2lXc3cmZT0xNzc3Nzk1MTgw/946351.m3u8?loc=ru","q":1080,"voiceIdx":4,"voiceLabel":"Оригинал eng","voicesAvailable":6,"player":"tizen","subs":0,"subsAvailable":0}
+08:04:00.665 eSAlBirC DEBUG [player] play-element built {"title":"Чрево зверя","url":"http://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs5NDcxNjE7MTc3NzcwODc4MCZoPTlpYy1LdHZLdVA4MHR0Rklpak1LYWcmZT0xNzc3Nzk1MTgw/947161.m3u8?loc=ru","q":1080,"voiceIdx":4,"voiceLabel":"Оригинал eng","voicesAvailable":6,"player":"tizen","subs":0,"subsAvailable":0}
+08:04:00.667 eSAlBirC DEBUG [player] play-element built {"title":"Не видеть лес за деревьями","url":"http://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs5NDgyMjY7MTc3NzcwODc4MCZoPXVDVjkwdE4xWGpNOEJoMnhqYXY5VmcmZT0xNzc3Nzk1MTgw/948226.m3u8?loc=ru","q":1080,"voiceIdx":4,"voiceLabel":"Оригинал eng","voicesAvailable":6,"player":"tizen","subs":0,"subsAvailable":0}
+08:04:00.668 eSAlBirC DEBUG [player] play-element built {"title":"Волшебный огненный шар","url":"http://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs5NTAyNDU7MTc3NzcwODc4MCZoPWpTTFpwWFBNTDVJdTBfZDRfUGVBSkEmZT0xNzc3Nzk1MTgw/950245.m3u8?loc=ru","q":1080,"voiceIdx":4,"voiceLabel":"Оригинал eng","voicesAvailable":6,"player":"tizen","subs":0,"subsAvailable":0}
+08:04:00.669 eSAlBirC DEBUG [player] play-element built {"title":"Однажды в сказке…","url":"http://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs5NTEzMTk7MTc3NzcwODc4MCZoPU4zaHJPWDRNd1JwaW9RUXZ5STJGS1EmZT0xNzc3Nzk1MTgw/951319.m3u8?loc=ru","q":1080,"voiceIdx":4,"voiceLabel":"Оригинал eng","voicesAvailable":6,"player":"tizen","subs":0,"subsAvailable":0}
+08:04:00.671 eSAlBirC INFO  [player] launching {"url":"http://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs5Mzc5OTk7MTc3NzcwODc4MCZoPUstV1dieTNuVEtKSmRUcGFJZGVYb1EmZT0xNzc3Nzk1MTgw/937999.m3u8?loc=ru","playlist":10}
+08:04:00.672 eSAlBirC INFO  [lampa-evt] Player/create
+08:04:00.683 eSAlBirC INFO  [lampa-evt] Player/start
+08:04:00.747 eSAlBirC INFO  [lampa-evt] Player/ready
+08:04:00.964 eSAlBirC INFO  [lampa-evt] PlayerVideo/translate
+08:04:00.966 eSAlBirC INFO  [lampa-evt] PlayerVideo/translate
+08:04:00.985 eSAlBirC INFO  [lampa-evt] PlayerVideo/play
+08:04:03.053 eSAlBirC INFO  [lampa-evt] PlayerVideo/canplay
+08:04:03.054 eSAlBirC DEBUG [voice] apply via canplay {"idx":4,"label":"Оригинал eng","key":"eng|Оригинал"}
+08:04:03.126 eSAlBirC INFO  [voice] switched via avplay {"idx":4,"nativeIdx":5,"total":6}
+08:04:03.134 eSAlBirC INFO  [lampa-evt] PlayerVideo/loadeddata
+08:04:03.166 eSAlBirC INFO  [lampa-evt] PlayerVideo/tracks
+08:04:03.167 eSAlBirC INFO  [lampa-evt] PlayerVideo/subs
+08:04:03.196 eSAlBirC INFO  [lampa-evt] PlayerVideo/pause
+08:04:03.412 eSAlBirC INFO  [lampa-evt] PlayerVideo/play
+08:04:05.779 eSAlBirC INFO  [lampa-evt] PlayerVideo/pause
+08:04:05.787 eSAlBirC INFO  [lampa-evt] PlayerVideo/rewind
+08:04:06.124 eSAlBirC INFO  [lampa-evt] PlayerVideo/pause
+08:04:06.127 eSAlBirC INFO  [lampa-evt] PlayerVideo/rewind
+08:04:06.233 eSAlBirC INFO  [lampa-evt] PlayerVideo/pause
+08:04:06.235 eSAlBirC INFO  [lampa-evt] PlayerVideo/rewind
+08:04:06.340 eSAlBirC INFO  [lampa-evt] PlayerVideo/pause
+08:04:06.342 eSAlBirC INFO  [lampa-evt] PlayerVideo/rewind
+08:04:06.448 eSAlBirC INFO  [lampa-evt] PlayerVideo/pause
+08:04:06.451 eSAlBirC INFO  [lampa-evt] PlayerVideo/rewind
+08:04:06.556 eSAlBirC INFO  [lampa-evt] PlayerVideo/pause
+08:04:06.559 eSAlBirC INFO  [lampa-evt] PlayerVideo/rewind
+08:04:06.664 eSAlBirC INFO  [lampa-evt] PlayerVideo/pause
+08:04:06.667 eSAlBirC INFO  [lampa-evt] PlayerVideo/rewind
+08:04:07.868 eSAlBirC INFO  [lampa-evt] PlayerVideo/play
+08:04:09.455 eSAlBirC INFO  [lampa-evt] PlayerVideo/pause
+08:04:09.462 eSAlBirC INFO  [lampa-evt] PlayerVideo/rewind
+08:04:09.804 eSAlBirC INFO  [lampa-evt] PlayerVideo/pause
+08:04:09.807 eSAlBirC INFO  [lampa-evt] PlayerVideo/rewind
+08:04:09.911 eSAlBirC INFO  [lampa-evt] PlayerVideo/pause
+08:04:09.914 eSAlBirC INFO  [lampa-evt] PlayerVideo/rewind
+08:04:10.020 eSAlBirC INFO  [lampa-evt] PlayerVideo/pause
+08:04:10.023 eSAlBirC INFO  [lampa-evt] PlayerVideo/rewind
+08:04:10.127 eSAlBirC INFO  [lampa-evt] PlayerVideo/pause
+08:04:10.130 eSAlBirC INFO  [lampa-evt] PlayerVideo/rewind
+08:04:10.236 eSAlBirC INFO  [lampa-evt] PlayerVideo/pause
+08:04:10.239 eSAlBirC INFO  [lampa-evt] PlayerVideo/rewind
+08:04:10.343 eSAlBirC INFO  [lampa-evt] PlayerVideo/pause
+08:04:10.346 eSAlBirC INFO  [lampa-evt] PlayerVideo/rewind
+08:04:10.453 eSAlBirC INFO  [lampa-evt] PlayerVideo/pause
+08:04:10.455 eSAlBirC INFO  [lampa-evt] PlayerVideo/rewind
+08:04:10.559 eSAlBirC INFO  [lampa-evt] PlayerVideo/pause
+08:04:10.562 eSAlBirC INFO  [lampa-evt] PlayerVideo/rewind
+08:04:10.667 eSAlBirC INFO  [lampa-evt] PlayerVideo/pause
+08:04:10.670 eSAlBirC INFO  [lampa-evt] PlayerVideo/rewind
+08:04:10.776 eSAlBirC INFO  [lampa-evt] PlayerVideo/pause
+08:04:10.779 eSAlBirC INFO  [lampa-evt] PlayerVideo/rewind
+08:04:10.883 eSAlBirC INFO  [lampa-evt] PlayerVideo/pause
+08:04:10.886 eSAlBirC INFO  [lampa-evt] PlayerVideo/rewind
+08:04:10.992 eSAlBirC INFO  [lampa-evt] PlayerVideo/pause
+08:04:10.995 eSAlBirC INFO  [lampa-evt] PlayerVideo/rewind
+08:04:12.178 eSAlBirC INFO  [lampa-evt] PlayerVideo/play
+08:04:38.428 eSAlBirC INFO  [lampa-evt] Player/destroy

@@ -1,0 +1,294 @@
+07:36:51.686 bAjGg9jC INFO  [boot] kp.js v1.0.27 starting {"session":"bAjGg9jC","app":318,"ua":"Mozilla/5.0 (SMART-TV; LINUX; Tizen 9.0) AppleWebKit/537.36 (KHTML, like Gecko) 120.0.6099.5/9.0 TV Safari/537.36"}
+07:36:51.697 bAjGg9jC DEBUG [api] GET /user null
+07:36:51.703 bAjGg9jC INFO  [identity] sending /device/notify {"title":"Lampa (Samsung TV)","hardware":"Samsung Tizen 9.0","software":"kp.js 1.0.27 / Lampa 318","_platform":"tizen"}
+07:36:51.705 bAjGg9jC DEBUG [api] POST /device/notify {"title":"Lampa (Samsung TV)","hardware":"Samsung Tizen 9.0","software":"kp.js 1.0.27 / Lampa 318"}
+07:36:51.711 bAjGg9jC DEBUG [console] StorageWorker online_choice_kpapi start follow
+07:36:51.717 bAjGg9jC INFO  [boot] kp.js initialized
+07:36:51.720 bAjGg9jC DEBUG [console] Extensions include: https://mainsync-afk.github.io/lampa_kinopub/kp.js
+07:36:51.832 bAjGg9jC DEBUG [console] Plugins update plugin cache: https://mainsync-afk.github.io/lampa_kinopub/kp.js
+07:36:52.301 bAjGg9jC DEBUG [console] Extensions include: https://s.fastcdn.pics/s.js
+07:36:52.314 bAjGg9jC INFO  [lampa-evt] app/start
+07:36:52.467 bAjGg9jC DEBUG [console] Tizen start pick
+07:36:52.494 bAjGg9jC DEBUG [console] Tizen current id 0SG81L944v.Lampa
+07:36:52.498 bAjGg9jC DEBUG [console] LoadingProgress status: Tizen init
+07:36:52.522 bAjGg9jC DEBUG [console] LoadingProgress status: Player init
+07:36:52.593 bAjGg9jC DEBUG [console] App user agent: Mozilla/5.0 (SMART-TV; LINUX; Tizen 9.0) AppleWebKit/537.36 (KHTML, like Gecko) 120.0.6099.5/9.0 TV Safari/537.36
+07:36:52.608 bAjGg9jC DEBUG [console] App platform: tizen
+07:36:52.668 bAjGg9jC DEBUG [console] Script create: http://lampa.mx/vender/hls/hls.js
+07:36:52.759 bAjGg9jC INFO  [lampa-evt] app/ready
+07:36:52.829 bAjGg9jC DEBUG [api] GET /user ok
+07:36:52.832 bAjGg9jC INFO  [auth] profile ok {"name":"eugenestraw","subscribed":{"active":true,"end_time":1792246646,"days":167.3}}
+07:36:52.848 bAjGg9jC DEBUG [api] POST /device/notify ok
+07:36:52.850 bAjGg9jC INFO  [identity] notify ok {"status":200}
+07:36:52.985 bAjGg9jC INFO  [lampa-evt] activity/init
+07:36:53.027 bAjGg9jC INFO  [lampa-evt] activity/create
+07:36:53.086 bAjGg9jC INFO  [lampa-evt] activity/start
+07:36:53.359 bAjGg9jC DEBUG [console] Script include: http://lampa.mx/vender/hls/hls.js
+07:36:53.449 bAjGg9jC DEBUG [console] Plugins update plugin cache: https://s.fastcdn.pics/s.js
+07:37:49.190 bAjGg9jC INFO  [lampa-evt] activity/init
+07:37:49.201 bAjGg9jC INFO  [lampa-evt] activity/create
+07:37:49.216 bAjGg9jC INFO  [lampa-evt] activity/start
+07:37:51.729 bAjGg9jC INFO  [launch] open activity {"id":60622,"title":"Фарго","orig":"Fargo"}
+07:37:51.748 bAjGg9jC INFO  [lampa-evt] activity/init
+07:37:51.751 bAjGg9jC INFO  [lampa-evt] activity/create
+07:37:51.775 bAjGg9jC INFO  [component] find query=Фарго
+07:37:51.778 bAjGg9jC INFO  [source] searchByTitle {"query":"Фарго","year":2014,"orig":"Fargo","rus":"Фарго","imdb":"tt2802850","imdbNum":2802850,"type":"serial"}
+07:37:51.780 bAjGg9jC DEBUG [api] GET /items/search {"q":"Фарго","field":"title","perpage":50,"type":"serial"}
+07:37:51.794 bAjGg9jC INFO  [lampa-evt] activity/start
+07:37:52.119 bAjGg9jC DEBUG [api] GET /items/search ok
+07:37:52.122 bAjGg9jC INFO  [source] search ok {"count":1}
+07:37:52.125 bAjGg9jC DEBUG [source] top candidates [{"id":8636,"title":"Фарго / Fargo","year":2014,"type":"serial","imdb":2802850}]
+07:37:52.128 bAjGg9jC INFO  [source] matched by imdb {"id":8636,"imdb":2802850}
+07:37:52.131 bAjGg9jC INFO  [source] matched card {"id":8636,"title":"Фарго / Fargo","year":2014,"type":"serial"}
+07:37:52.133 bAjGg9jC INFO  [source] find() id=8636
+07:37:52.136 bAjGg9jC DEBUG [api] GET /items/8636 null
+07:37:52.499 bAjGg9jC DEBUG [api] GET /items/8636 ok
+07:37:52.503 bAjGg9jC INFO  [source] item loaded {"id":8636,"type":"serial","seasons":5,"videos":0}
+07:37:52.505 bAjGg9jC DEBUG [source] sample audio entry [0] {"id":2093344,"index":1,"codec":"aac","channels":6,"lang":"rus","type":{"id":2,"title":"Многоголосый","short_title":"MVO"},"author":{"id":10,"title":"LostFilm","short_title":null}}
+07:37:52.508 bAjGg9jC DEBUG [source] sample audio entry [1] {"id":2093347,"index":2,"codec":"aac","channels":6,"lang":"rus","type":{"id":3,"title":"Двухголосый","short_title":"DVO"},"author":{"id":13,"title":"Кубик в Кубе","short_title":null}}
+07:37:52.527 bAjGg9jC DEBUG [source] extracted serial {"seasons":5,"totalEpisodes":51,"voicesPerSeason":[10,6,4,7,14]}
+07:37:52.539 bAjGg9jC DEBUG [source] append items {"count":10}
+07:37:54.276 bAjGg9jC DEBUG [player] play-element built {"title":"s5e02 - Испытания и потрясения","url":"https://digital-cdn.net/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs5ODE0MjE7MTc3Nzc5Mzg3MiZoPVJYRnVFRjRIb1RQTlpLNUQ5SHRzQncmZT0xNzc3ODgwMjcy/981421.m3u8?loc=nl","q":2160,"voiceIdx":0,"voice":"01.2938678","voicesAvailable":12,"player":"tizen","subs":0,"subsAvailable":0}
+07:37:54.279 bAjGg9jC DEBUG [player] play-element built {"title":"s5e01 - Трагедия общин","url":"https://digital-cdn.net/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs5ODEyNDc7MTc3Nzc5Mzg3MiZoPXNiX0hrMUxDMEVkVHp5SjlIZjRXZEEmZT0xNzc3ODgwMjcy/981247.m3u8?loc=nl","q":2160,"voiceIdx":0,"voice":"01.2938291","voicesAvailable":12,"player":"tizen","subs":0,"subsAvailable":2}
+07:37:54.281 bAjGg9jC DEBUG [player] play-element built {"title":"s5e02 - Испытания и потрясения","url":"https://digital-cdn.net/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs5ODE0MjE7MTc3Nzc5Mzg3MiZoPVJYRnVFRjRIb1RQTlpLNUQ5SHRzQncmZT0xNzc3ODgwMjcy/981421.m3u8?loc=nl","q":2160,"voiceIdx":0,"voice":"01.2938678","voicesAvailable":12,"player":"tizen","subs":0,"subsAvailable":0}
+07:37:54.283 bAjGg9jC DEBUG [player] play-element built {"title":"s5e03 - Парадокс посреднических сделок","url":"https://digital-cdn.net/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs5ODMyMTI7MTc3Nzc5Mzg3MiZoPW5DZmtPaWE4U0U2dlV0QlFpX2VQYWcmZT0xNzc3ODgwMjcy/983212.m3u8?loc=nl","q":2160,"voiceIdx":0,"voice":"01.2948320","voicesAvailable":12,"player":"tizen","subs":0,"subsAvailable":0}
+07:37:54.285 bAjGg9jC DEBUG [player] play-element built {"title":"s5e04 - Нерастворимость","url":"https://digital-cdn.net/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs5ODUwNzU7MTc3Nzc5Mzg3MiZoPURUOFFPSXlzWlNZaDJJZlBLWTExdHcmZT0xNzc3ODgwMjcy/985075.m3u8?loc=nl","q":2160,"voiceIdx":0,"voice":"01.2953804","voicesAvailable":12,"player":"tizen","subs":0,"subsAvailable":0}
+07:37:54.287 bAjGg9jC DEBUG [player] play-element built {"title":"s5e05 - Тигр","url":"https://digital-cdn.net/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs5ODYzODk7MTc3Nzc5Mzg3MiZoPTJhZ3RPM2dHWXNMUkVxcEYyUmxBSkEmZT0xNzc3ODgwMjcy/986389.m3u8?loc=nl","q":2160,"voiceIdx":0,"voice":"01.2969296","voicesAvailable":12,"player":"tizen","subs":0,"subsAvailable":0}
+07:37:54.289 bAjGg9jC DEBUG [player] play-element built {"title":"s5e06 - Трепетный капкан","url":"https://digital-cdn.net/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs5ODc3MDM7MTc3Nzc5Mzg3MiZoPXBZN3czaFB3NXctYXIxQlFrN3F1eVEmZT0xNzc3ODgwMjcy/987703.m3u8?loc=nl","q":2160,"voiceIdx":0,"voice":"01.2975524","voicesAvailable":12,"player":"tizen","subs":0,"subsAvailable":0}
+07:37:54.291 bAjGg9jC DEBUG [player] play-element built {"title":"s5e07 - Линда","url":"https://digital-cdn.net/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs5ODk1Njk7MTc3Nzc5Mzg3MiZoPXE2V2tzdzlFN1l6NmtMbm55NkdXb0EmZT0xNzc3ODgwMjcy/989569.m3u8?loc=nl","q":2160,"voiceIdx":0,"voice":"01.2977282","voicesAvailable":12,"player":"tizen","subs":0,"subsAvailable":0}
+07:37:54.292 bAjGg9jC DEBUG [player] play-element built {"title":"s5e08 - Одеяло","url":"https://digital-cdn.net/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs5OTA3NzI7MTc3Nzc5Mzg3MiZoPTNLSXR5UzZjY0ptQzhQWkFUT01nTUEmZT0xNzc3ODgwMjcy/990772.m3u8?loc=nl","q":2160,"voiceIdx":0,"voice":"01.2993140","voicesAvailable":12,"player":"tizen","subs":0,"subsAvailable":0}
+07:37:54.294 bAjGg9jC DEBUG [player] play-element built {"title":"s5e09 - Бесполезная рука","url":"https://digital-cdn.net/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs5OTE5NjA7MTc3Nzc5Mzg3MiZoPTFPSUpTX2s0aWhyQ2xIek95aUtDZHcmZT0xNzc3ODgwMjcy/991960.m3u8?loc=nl","q":2160,"voiceIdx":0,"voice":"01.2993269","voicesAvailable":12,"player":"tizen","subs":0,"subsAvailable":0}
+07:37:54.296 bAjGg9jC DEBUG [player] play-element built {"title":"s5e10 - Бисквит","url":"https://digital-cdn.net/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs5OTMwNDY7MTc3Nzc5Mzg3MiZoPTZvTW82V2xNZUJFSFBMVk5KM0RtOWcmZT0xNzc3ODgwMjcy/993046.m3u8?loc=nl","q":2160,"voiceIdx":0,"voice":"01.2993761","voicesAvailable":12,"player":"tizen","subs":0,"subsAvailable":0}
+07:37:54.298 bAjGg9jC DEBUG [voice] context resolved for item {"season":5,"episode":2,"voiceIdx":0,"label":"01.2938678"}
+07:37:54.300 bAjGg9jC DEBUG [voice] remembered for episode {"hash":"1292161442","key":"rus|Авторский|Ю. Сербин|aac"}
+07:37:54.302 bAjGg9jC INFO  [player] launching {"url":"https://digital-cdn.net/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs5ODE0MjE7MTc3Nzc5Mzg3MiZoPVJYRnVFRjRIb1RQTlpLNUQ5SHRzQncmZT0xNzc3ODgwMjcy/981421.m3u8?loc=nl","playlist":10,"title":"Фарго s5e02 - Испытания и потрясения"}
+07:37:54.304 bAjGg9jC INFO  [lampa-evt] Player/create
+07:37:54.323 bAjGg9jC INFO  [lampa-evt] Player/start
+07:37:54.714 bAjGg9jC INFO  [lampa-evt] Player/ready
+07:37:54.771 bAjGg9jC INFO  [player-ui] next-episode-name override active {"label":"01.2938678"}
+07:37:55.446 bAjGg9jC INFO  [lampa-evt] PlayerVideo/levels
+07:37:55.697 bAjGg9jC INFO  [lampa-evt] PlayerVideo/play
+07:37:58.467 bAjGg9jC INFO  [lampa-evt] PlayerVideo/canplay
+07:37:58.472 bAjGg9jC DEBUG [voice] apply via canplay {"idx":0,"label":"01.2938678","key":"rus|Авторский|Ю. Сербин|aac"}
+07:37:58.479 bAjGg9jC INFO  [voice] switched via avplay {"idx":0,"nativeIdx":1,"total":1}
+07:37:58.489 bAjGg9jC INFO  [lampa-evt] PlayerVideo/loadeddata
+07:37:58.514 bAjGg9jC INFO  [lampa-evt] PlayerVideo/tracks
+07:37:58.534 bAjGg9jC INFO  [lampa-evt] PlayerVideo/pause
+07:37:58.867 bAjGg9jC INFO  [lampa-evt] PlayerVideo/play
+07:38:12.698 bAjGg9jC INFO  [lampa-evt] PlayerVideo/pause
+07:38:12.700 bAjGg9jC INFO  [lampa-evt] PlayerVideo/pause
+07:39:56.489 bAjGg9jC INFO  [lampa-evt] PlayerVideo/play
+07:39:56.492 bAjGg9jC INFO  [lampa-evt] PlayerVideo/play
+07:40:01.209 bAjGg9jC INFO  [phase-b] voice onSelect {"idx":1,"key":"rus|Многоголосый|LostFilm|aac"}
+07:40:01.239 bAjGg9jC WARN  [voice] avplay: idx out of range {"idx":1,"total":1}
+07:40:01.243 bAjGg9jC WARN  [voice] no track switch backend available, stream stays on default audio
+07:40:01.246 bAjGg9jC INFO  [phase-b] switch result {"idx":1,"ok":false}
+07:40:01.250 bAjGg9jC INFO  [phase-b] external voice change {"key":"rus|Многоголосый|LostFilm|aac","label":"02.2938681"}
+07:40:07.667 bAjGg9jC INFO  [phase-b] voice onSelect {"idx":4,"key":"rus|Дубляж||aac"}
+07:40:07.696 bAjGg9jC WARN  [voice] avplay: idx out of range {"idx":4,"total":1}
+07:40:07.700 bAjGg9jC WARN  [voice] no track switch backend available, stream stays on default audio
+07:40:07.703 bAjGg9jC INFO  [phase-b] switch result {"idx":4,"ok":false}
+07:40:07.706 bAjGg9jC INFO  [phase-b] external voice change {"key":"rus|Дубляж||aac","label":"05.2938690"}
+07:40:13.187 bAjGg9jC INFO  [phase-b] voice onSelect {"idx":6,"key":"rus|Многоголосый|TVShows|aac"}
+07:40:13.191 bAjGg9jC WARN  [voice] avplay: idx out of range {"idx":6,"total":1}
+07:40:13.195 bAjGg9jC WARN  [voice] no track switch backend available, stream stays on default audio
+07:40:13.199 bAjGg9jC INFO  [phase-b] switch result {"idx":6,"ok":false}
+07:40:13.201 bAjGg9jC INFO  [phase-b] external voice change {"key":"rus|Многоголосый|TVShows|aac","label":"07.2938696"}
+07:40:21.607 bAjGg9jC INFO  [phase-b] voice onSelect {"idx":9,"key":"ukr|Многоголосый|BaibaKo|aac"}
+07:40:21.637 bAjGg9jC WARN  [voice] avplay: idx out of range {"idx":9,"total":1}
+07:40:21.641 bAjGg9jC WARN  [voice] no track switch backend available, stream stays on default audio
+07:40:21.644 bAjGg9jC INFO  [phase-b] switch result {"idx":9,"ok":false}
+07:40:21.647 bAjGg9jC INFO  [phase-b] external voice change {"key":"ukr|Многоголосый|BaibaKo|aac","label":"10.2938705"}
+07:40:26.940 bAjGg9jC INFO  [lampa-evt] Player/destroy
+07:40:28.229 bAjGg9jC DEBUG [player] play-element built {"title":"s5e03 - Парадокс посреднических сделок","url":"https://digital-cdn.net/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs5ODMyMTI7MTc3Nzc5Mzg3MiZoPW5DZmtPaWE4U0U2dlV0QlFpX2VQYWcmZT0xNzc3ODgwMjcy/983212.m3u8?loc=nl","q":2160,"voiceIdx":9,"voice":"10.2948347","voicesAvailable":12,"player":"tizen","subs":0,"subsAvailable":0}
+07:40:28.232 bAjGg9jC DEBUG [player] play-element built {"title":"s5e01 - Трагедия общин","url":"https://digital-cdn.net/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs5ODEyNDc7MTc3Nzc5Mzg3MiZoPXNiX0hrMUxDMEVkVHp5SjlIZjRXZEEmZT0xNzc3ODgwMjcy/981247.m3u8?loc=nl","q":2160,"voiceIdx":9,"voice":"10.2938318","voicesAvailable":12,"player":"tizen","subs":0,"subsAvailable":2}
+07:40:28.234 bAjGg9jC DEBUG [player] play-element built {"title":"s5e02 - Испытания и потрясения","url":"https://digital-cdn.net/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs5ODE0MjE7MTc3Nzc5Mzg3MiZoPVJYRnVFRjRIb1RQTlpLNUQ5SHRzQncmZT0xNzc3ODgwMjcy/981421.m3u8?loc=nl","q":2160,"voiceIdx":9,"voice":"10.2938705","voicesAvailable":12,"player":"tizen","subs":0,"subsAvailable":0}
+07:40:28.235 bAjGg9jC DEBUG [player] play-element built {"title":"s5e03 - Парадокс посреднических сделок","url":"https://digital-cdn.net/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs5ODMyMTI7MTc3Nzc5Mzg3MiZoPW5DZmtPaWE4U0U2dlV0QlFpX2VQYWcmZT0xNzc3ODgwMjcy/983212.m3u8?loc=nl","q":2160,"voiceIdx":9,"voice":"10.2948347","voicesAvailable":12,"player":"tizen","subs":0,"subsAvailable":0}
+07:40:28.237 bAjGg9jC DEBUG [player] play-element built {"title":"s5e04 - Нерастворимость","url":"https://digital-cdn.net/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs5ODUwNzU7MTc3Nzc5Mzg3MiZoPURUOFFPSXlzWlNZaDJJZlBLWTExdHcmZT0xNzc3ODgwMjcy/985075.m3u8?loc=nl","q":2160,"voiceIdx":9,"voice":"10.2953831","voicesAvailable":12,"player":"tizen","subs":0,"subsAvailable":0}
+07:40:28.239 bAjGg9jC DEBUG [player] play-element built {"title":"s5e05 - Тигр","url":"https://digital-cdn.net/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs5ODYzODk7MTc3Nzc5Mzg3MiZoPTJhZ3RPM2dHWXNMUkVxcEYyUmxBSkEmZT0xNzc3ODgwMjcy/986389.m3u8?loc=nl","q":2160,"voiceIdx":9,"voice":"10.2969323","voicesAvailable":12,"player":"tizen","subs":0,"subsAvailable":0}
+07:40:28.241 bAjGg9jC DEBUG [player] play-element built {"title":"s5e06 - Трепетный капкан","url":"https://digital-cdn.net/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs5ODc3MDM7MTc3Nzc5Mzg3MiZoPXBZN3czaFB3NXctYXIxQlFrN3F1eVEmZT0xNzc3ODgwMjcy/987703.m3u8?loc=nl","q":2160,"voiceIdx":9,"voice":"10.2975551","voicesAvailable":12,"player":"tizen","subs":0,"subsAvailable":0}
+07:40:28.243 bAjGg9jC DEBUG [player] play-element built {"title":"s5e07 - Линда","url":"https://digital-cdn.net/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs5ODk1Njk7MTc3Nzc5Mzg3MiZoPXE2V2tzdzlFN1l6NmtMbm55NkdXb0EmZT0xNzc3ODgwMjcy/989569.m3u8?loc=nl","q":2160,"voiceIdx":9,"voice":"10.2977309","voicesAvailable":12,"player":"tizen","subs":0,"subsAvailable":0}
+07:40:28.244 bAjGg9jC DEBUG [player] play-element built {"title":"s5e08 - Одеяло","url":"https://digital-cdn.net/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs5OTA3NzI7MTc3Nzc5Mzg3MiZoPTNLSXR5UzZjY0ptQzhQWkFUT01nTUEmZT0xNzc3ODgwMjcy/990772.m3u8?loc=nl","q":2160,"voiceIdx":9,"voice":"10.2993167","voicesAvailable":12,"player":"tizen","subs":0,"subsAvailable":0}
+07:40:28.246 bAjGg9jC DEBUG [player] play-element built {"title":"s5e09 - Бесполезная рука","url":"https://digital-cdn.net/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs5OTE5NjA7MTc3Nzc5Mzg3MiZoPTFPSUpTX2s0aWhyQ2xIek95aUtDZHcmZT0xNzc3ODgwMjcy/991960.m3u8?loc=nl","q":2160,"voiceIdx":9,"voice":"10.2993296","voicesAvailable":12,"player":"tizen","subs":0,"subsAvailable":0}
+07:40:28.248 bAjGg9jC DEBUG [player] play-element built {"title":"s5e10 - Бисквит","url":"https://digital-cdn.net/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs5OTMwNDY7MTc3Nzc5Mzg3MiZoPTZvTW82V2xNZUJFSFBMVk5KM0RtOWcmZT0xNzc3ODgwMjcy/993046.m3u8?loc=nl","q":2160,"voiceIdx":9,"voice":"10.2993788","voicesAvailable":12,"player":"tizen","subs":0,"subsAvailable":0}
+07:40:28.250 bAjGg9jC DEBUG [voice] context resolved for item {"season":5,"episode":3,"voiceIdx":9,"label":"10.2948347"}
+07:40:28.252 bAjGg9jC DEBUG [voice] remembered for episode {"hash":"1320790593","key":"ukr|Многоголосый|BaibaKo|aac"}
+07:40:28.254 bAjGg9jC INFO  [player] launching {"url":"https://digital-cdn.net/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs5ODMyMTI7MTc3Nzc5Mzg3MiZoPW5DZmtPaWE4U0U2dlV0QlFpX2VQYWcmZT0xNzc3ODgwMjcy/983212.m3u8?loc=nl","playlist":10,"title":"Фарго s5e03 - Парадокс посреднических сделок"}
+07:40:28.255 bAjGg9jC INFO  [lampa-evt] Player/create
+07:40:28.268 bAjGg9jC INFO  [lampa-evt] Player/start
+07:40:28.341 bAjGg9jC INFO  [lampa-evt] Player/ready
+07:40:28.421 bAjGg9jC INFO  [player-ui] next-episode-name override active {"label":"10.2948347"}
+07:40:28.549 bAjGg9jC INFO  [lampa-evt] PlayerVideo/levels
+07:40:28.570 bAjGg9jC INFO  [lampa-evt] PlayerVideo/play
+07:40:30.791 bAjGg9jC INFO  [lampa-evt] PlayerVideo/canplay
+07:40:30.794 bAjGg9jC DEBUG [voice] apply via canplay {"idx":9,"label":"10.2948347","key":"ukr|Многоголосый|BaibaKo|aac"}
+07:40:30.798 bAjGg9jC WARN  [voice] avplay: idx out of range {"idx":9,"total":1}
+07:40:30.802 bAjGg9jC WARN  [voice] no track switch backend available, stream stays on default audio
+07:40:30.815 bAjGg9jC INFO  [lampa-evt] PlayerVideo/loadeddata
+07:40:30.817 bAjGg9jC DEBUG [voice] apply via loadeddata {"idx":9,"label":"10.2948347","key":"ukr|Многоголосый|BaibaKo|aac"}
+07:40:30.821 bAjGg9jC WARN  [voice] avplay: idx out of range {"idx":9,"total":1}
+07:40:30.826 bAjGg9jC WARN  [voice] no track switch backend available, stream stays on default audio
+07:40:30.857 bAjGg9jC INFO  [lampa-evt] PlayerVideo/tracks
+07:40:30.861 bAjGg9jC DEBUG [voice] apply via tracks {"idx":9,"label":"10.2948347","key":"ukr|Многоголосый|BaibaKo|aac"}
+07:40:30.866 bAjGg9jC WARN  [voice] avplay: idx out of range {"idx":9,"total":1}
+07:40:30.871 bAjGg9jC WARN  [voice] no track switch backend available, stream stays on default audio
+07:40:30.890 bAjGg9jC INFO  [lampa-evt] PlayerVideo/pause
+07:40:31.064 bAjGg9jC INFO  [lampa-evt] PlayerVideo/play
+07:40:33.636 bAjGg9jC INFO  [lampa-evt] Player/destroy
+07:40:35.149 bAjGg9jC DEBUG [player] play-element built {"title":"s5e05 - Тигр","url":"https://digital-cdn.net/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs5ODYzODk7MTc3Nzc5Mzg3MiZoPTJhZ3RPM2dHWXNMUkVxcEYyUmxBSkEmZT0xNzc3ODgwMjcy/986389.m3u8?loc=nl","q":2160,"voiceIdx":9,"voice":"10.2969323","voicesAvailable":12,"player":"tizen","subs":0,"subsAvailable":0}
+07:40:35.152 bAjGg9jC DEBUG [player] play-element built {"title":"s5e01 - Трагедия общин","url":"https://digital-cdn.net/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs5ODEyNDc7MTc3Nzc5Mzg3MiZoPXNiX0hrMUxDMEVkVHp5SjlIZjRXZEEmZT0xNzc3ODgwMjcy/981247.m3u8?loc=nl","q":2160,"voiceIdx":9,"voice":"10.2938318","voicesAvailable":12,"player":"tizen","subs":0,"subsAvailable":2}
+07:40:35.153 bAjGg9jC DEBUG [player] play-element built {"title":"s5e02 - Испытания и потрясения","url":"https://digital-cdn.net/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs5ODE0MjE7MTc3Nzc5Mzg3MiZoPVJYRnVFRjRIb1RQTlpLNUQ5SHRzQncmZT0xNzc3ODgwMjcy/981421.m3u8?loc=nl","q":2160,"voiceIdx":9,"voice":"10.2938705","voicesAvailable":12,"player":"tizen","subs":0,"subsAvailable":0}
+07:40:35.155 bAjGg9jC DEBUG [player] play-element built {"title":"s5e03 - Парадокс посреднических сделок","url":"https://digital-cdn.net/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs5ODMyMTI7MTc3Nzc5Mzg3MiZoPW5DZmtPaWE4U0U2dlV0QlFpX2VQYWcmZT0xNzc3ODgwMjcy/983212.m3u8?loc=nl","q":2160,"voiceIdx":9,"voice":"10.2948347","voicesAvailable":12,"player":"tizen","subs":0,"subsAvailable":0}
+07:40:35.157 bAjGg9jC DEBUG [player] play-element built {"title":"s5e04 - Нерастворимость","url":"https://digital-cdn.net/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs5ODUwNzU7MTc3Nzc5Mzg3MiZoPURUOFFPSXlzWlNZaDJJZlBLWTExdHcmZT0xNzc3ODgwMjcy/985075.m3u8?loc=nl","q":2160,"voiceIdx":9,"voice":"10.2953831","voicesAvailable":12,"player":"tizen","subs":0,"subsAvailable":0}
+07:40:35.159 bAjGg9jC DEBUG [player] play-element built {"title":"s5e05 - Тигр","url":"https://digital-cdn.net/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs5ODYzODk7MTc3Nzc5Mzg3MiZoPTJhZ3RPM2dHWXNMUkVxcEYyUmxBSkEmZT0xNzc3ODgwMjcy/986389.m3u8?loc=nl","q":2160,"voiceIdx":9,"voice":"10.2969323","voicesAvailable":12,"player":"tizen","subs":0,"subsAvailable":0}
+07:40:35.160 bAjGg9jC DEBUG [player] play-element built {"title":"s5e06 - Трепетный капкан","url":"https://digital-cdn.net/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs5ODc3MDM7MTc3Nzc5Mzg3MiZoPXBZN3czaFB3NXctYXIxQlFrN3F1eVEmZT0xNzc3ODgwMjcy/987703.m3u8?loc=nl","q":2160,"voiceIdx":9,"voice":"10.2975551","voicesAvailable":12,"player":"tizen","subs":0,"subsAvailable":0}
+07:40:35.162 bAjGg9jC DEBUG [player] play-element built {"title":"s5e07 - Линда","url":"https://digital-cdn.net/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs5ODk1Njk7MTc3Nzc5Mzg3MiZoPXE2V2tzdzlFN1l6NmtMbm55NkdXb0EmZT0xNzc3ODgwMjcy/989569.m3u8?loc=nl","q":2160,"voiceIdx":9,"voice":"10.2977309","voicesAvailable":12,"player":"tizen","subs":0,"subsAvailable":0}
+07:40:35.164 bAjGg9jC DEBUG [player] play-element built {"title":"s5e08 - Одеяло","url":"https://digital-cdn.net/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs5OTA3NzI7MTc3Nzc5Mzg3MiZoPTNLSXR5UzZjY0ptQzhQWkFUT01nTUEmZT0xNzc3ODgwMjcy/990772.m3u8?loc=nl","q":2160,"voiceIdx":9,"voice":"10.2993167","voicesAvailable":12,"player":"tizen","subs":0,"subsAvailable":0}
+07:40:35.165 bAjGg9jC DEBUG [player] play-element built {"title":"s5e09 - Бесполезная рука","url":"https://digital-cdn.net/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs5OTE5NjA7MTc3Nzc5Mzg3MiZoPTFPSUpTX2s0aWhyQ2xIek95aUtDZHcmZT0xNzc3ODgwMjcy/991960.m3u8?loc=nl","q":2160,"voiceIdx":9,"voice":"10.2993296","voicesAvailable":12,"player":"tizen","subs":0,"subsAvailable":0}
+07:40:35.167 bAjGg9jC DEBUG [player] play-element built {"title":"s5e10 - Бисквит","url":"https://digital-cdn.net/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs5OTMwNDY7MTc3Nzc5Mzg3MiZoPTZvTW82V2xNZUJFSFBMVk5KM0RtOWcmZT0xNzc3ODgwMjcy/993046.m3u8?loc=nl","q":2160,"voiceIdx":9,"voice":"10.2993788","voicesAvailable":12,"player":"tizen","subs":0,"subsAvailable":0}
+07:40:35.169 bAjGg9jC DEBUG [voice] context resolved for item {"season":5,"episode":5,"voiceIdx":9,"label":"10.2969323"}
+07:40:35.171 bAjGg9jC DEBUG [voice] remembered for episode {"hash":"1378048895","key":"ukr|Многоголосый|BaibaKo|aac"}
+07:40:35.172 bAjGg9jC INFO  [player] launching {"url":"https://digital-cdn.net/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs5ODYzODk7MTc3Nzc5Mzg3MiZoPTJhZ3RPM2dHWXNMUkVxcEYyUmxBSkEmZT0xNzc3ODgwMjcy/986389.m3u8?loc=nl","playlist":10,"title":"Фарго s5e05 - Тигр"}
+07:40:35.174 bAjGg9jC INFO  [lampa-evt] Player/create
+07:40:35.187 bAjGg9jC INFO  [lampa-evt] Player/start
+07:40:35.259 bAjGg9jC INFO  [lampa-evt] Player/ready
+07:40:35.339 bAjGg9jC INFO  [player-ui] next-episode-name override active {"label":"10.2969323"}
+07:40:35.476 bAjGg9jC INFO  [lampa-evt] PlayerVideo/levels
+07:40:35.495 bAjGg9jC INFO  [lampa-evt] PlayerVideo/play
+07:40:38.250 bAjGg9jC INFO  [lampa-evt] PlayerVideo/canplay
+07:40:38.252 bAjGg9jC DEBUG [voice] apply via canplay {"idx":9,"label":"10.2969323","key":"ukr|Многоголосый|BaibaKo|aac"}
+07:40:38.257 bAjGg9jC WARN  [voice] avplay: idx out of range {"idx":9,"total":1}
+07:40:38.266 bAjGg9jC WARN  [voice] no track switch backend available, stream stays on default audio
+07:40:38.275 bAjGg9jC INFO  [lampa-evt] PlayerVideo/loadeddata
+07:40:38.277 bAjGg9jC DEBUG [voice] apply via loadeddata {"idx":9,"label":"10.2969323","key":"ukr|Многоголосый|BaibaKo|aac"}
+07:40:38.281 bAjGg9jC WARN  [voice] avplay: idx out of range {"idx":9,"total":1}
+07:40:38.285 bAjGg9jC WARN  [voice] no track switch backend available, stream stays on default audio
+07:40:38.310 bAjGg9jC INFO  [lampa-evt] PlayerVideo/tracks
+07:40:38.313 bAjGg9jC DEBUG [voice] apply via tracks {"idx":9,"label":"10.2969323","key":"ukr|Многоголосый|BaibaKo|aac"}
+07:40:38.318 bAjGg9jC WARN  [voice] avplay: idx out of range {"idx":9,"total":1}
+07:40:38.322 bAjGg9jC WARN  [voice] no track switch backend available, stream stays on default audio
+07:40:38.342 bAjGg9jC INFO  [lampa-evt] PlayerVideo/pause
+07:40:38.555 bAjGg9jC INFO  [lampa-evt] PlayerVideo/play
+07:40:46.379 bAjGg9jC INFO  [lampa-evt] PlayerVideo/pause
+07:40:46.386 bAjGg9jC INFO  [lampa-evt] PlayerVideo/rewind
+07:40:46.699 bAjGg9jC INFO  [lampa-evt] PlayerVideo/pause
+07:40:46.703 bAjGg9jC INFO  [lampa-evt] PlayerVideo/rewind
+07:40:46.806 bAjGg9jC INFO  [lampa-evt] PlayerVideo/pause
+07:40:46.809 bAjGg9jC INFO  [lampa-evt] PlayerVideo/rewind
+07:40:46.914 bAjGg9jC INFO  [lampa-evt] PlayerVideo/pause
+07:40:46.917 bAjGg9jC INFO  [lampa-evt] PlayerVideo/rewind
+07:40:47.022 bAjGg9jC INFO  [lampa-evt] PlayerVideo/pause
+07:40:47.025 bAjGg9jC INFO  [lampa-evt] PlayerVideo/rewind
+07:40:47.130 bAjGg9jC INFO  [lampa-evt] PlayerVideo/pause
+07:40:47.133 bAjGg9jC INFO  [lampa-evt] PlayerVideo/rewind
+07:40:47.238 bAjGg9jC INFO  [lampa-evt] PlayerVideo/pause
+07:40:47.242 bAjGg9jC INFO  [lampa-evt] PlayerVideo/rewind
+07:40:47.345 bAjGg9jC INFO  [lampa-evt] PlayerVideo/pause
+07:40:47.349 bAjGg9jC INFO  [lampa-evt] PlayerVideo/rewind
+07:40:47.454 bAjGg9jC INFO  [lampa-evt] PlayerVideo/pause
+07:40:47.457 bAjGg9jC INFO  [lampa-evt] PlayerVideo/rewind
+07:40:47.562 bAjGg9jC INFO  [lampa-evt] PlayerVideo/pause
+07:40:47.566 bAjGg9jC INFO  [lampa-evt] PlayerVideo/rewind
+07:40:47.670 bAjGg9jC INFO  [lampa-evt] PlayerVideo/pause
+07:40:47.673 bAjGg9jC INFO  [lampa-evt] PlayerVideo/rewind
+07:40:53.841 bAjGg9jC INFO  [lampa-evt] PlayerVideo/play
+07:40:57.710 bAjGg9jC INFO  [lampa-evt] PlayerVideo/pause
+07:40:57.718 bAjGg9jC INFO  [lampa-evt] PlayerVideo/rewind
+07:40:58.059 bAjGg9jC INFO  [lampa-evt] PlayerVideo/pause
+07:40:58.063 bAjGg9jC INFO  [lampa-evt] PlayerVideo/rewind
+07:40:58.169 bAjGg9jC INFO  [lampa-evt] PlayerVideo/pause
+07:40:58.174 bAjGg9jC INFO  [lampa-evt] PlayerVideo/rewind
+07:40:58.274 bAjGg9jC INFO  [lampa-evt] PlayerVideo/pause
+07:40:58.277 bAjGg9jC INFO  [lampa-evt] PlayerVideo/rewind
+07:40:58.385 bAjGg9jC INFO  [lampa-evt] PlayerVideo/pause
+07:40:58.388 bAjGg9jC INFO  [lampa-evt] PlayerVideo/rewind
+07:40:58.494 bAjGg9jC INFO  [lampa-evt] PlayerVideo/pause
+07:40:58.499 bAjGg9jC INFO  [lampa-evt] PlayerVideo/rewind
+07:40:58.600 bAjGg9jC INFO  [lampa-evt] PlayerVideo/pause
+07:40:58.604 bAjGg9jC INFO  [lampa-evt] PlayerVideo/rewind
+07:40:58.707 bAjGg9jC INFO  [lampa-evt] PlayerVideo/pause
+07:40:58.711 bAjGg9jC INFO  [lampa-evt] PlayerVideo/rewind
+07:40:58.817 bAjGg9jC INFO  [lampa-evt] PlayerVideo/pause
+07:40:58.820 bAjGg9jC INFO  [lampa-evt] PlayerVideo/rewind
+07:40:59.971 bAjGg9jC INFO  [lampa-evt] PlayerVideo/play
+07:41:05.073 bAjGg9jC INFO  [lampa-evt] Player/destroy
+07:41:07.210 bAjGg9jC DEBUG [player] play-element built {"title":"s5e08 - Одеяло","url":"https://digital-cdn.net/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs5OTA3NzI7MTc3Nzc5Mzg3MiZoPTNLSXR5UzZjY0ptQzhQWkFUT01nTUEmZT0xNzc3ODgwMjcy/990772.m3u8?loc=nl","q":2160,"voiceIdx":9,"voice":"10.2993167","voicesAvailable":12,"player":"tizen","subs":0,"subsAvailable":0}
+07:41:07.212 bAjGg9jC DEBUG [player] play-element built {"title":"s5e01 - Трагедия общин","url":"https://digital-cdn.net/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs5ODEyNDc7MTc3Nzc5Mzg3MiZoPXNiX0hrMUxDMEVkVHp5SjlIZjRXZEEmZT0xNzc3ODgwMjcy/981247.m3u8?loc=nl","q":2160,"voiceIdx":9,"voice":"10.2938318","voicesAvailable":12,"player":"tizen","subs":0,"subsAvailable":2}
+07:41:07.214 bAjGg9jC DEBUG [player] play-element built {"title":"s5e02 - Испытания и потрясения","url":"https://digital-cdn.net/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs5ODE0MjE7MTc3Nzc5Mzg3MiZoPVJYRnVFRjRIb1RQTlpLNUQ5SHRzQncmZT0xNzc3ODgwMjcy/981421.m3u8?loc=nl","q":2160,"voiceIdx":9,"voice":"10.2938705","voicesAvailable":12,"player":"tizen","subs":0,"subsAvailable":0}
+07:41:07.216 bAjGg9jC DEBUG [player] play-element built {"title":"s5e03 - Парадокс посреднических сделок","url":"https://digital-cdn.net/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs5ODMyMTI7MTc3Nzc5Mzg3MiZoPW5DZmtPaWE4U0U2dlV0QlFpX2VQYWcmZT0xNzc3ODgwMjcy/983212.m3u8?loc=nl","q":2160,"voiceIdx":9,"voice":"10.2948347","voicesAvailable":12,"player":"tizen","subs":0,"subsAvailable":0}
+07:41:07.218 bAjGg9jC DEBUG [player] play-element built {"title":"s5e04 - Нерастворимость","url":"https://digital-cdn.net/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs5ODUwNzU7MTc3Nzc5Mzg3MiZoPURUOFFPSXlzWlNZaDJJZlBLWTExdHcmZT0xNzc3ODgwMjcy/985075.m3u8?loc=nl","q":2160,"voiceIdx":9,"voice":"10.2953831","voicesAvailable":12,"player":"tizen","subs":0,"subsAvailable":0}
+07:41:07.219 bAjGg9jC DEBUG [player] play-element built {"title":"s5e05 - Тигр","url":"https://digital-cdn.net/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs5ODYzODk7MTc3Nzc5Mzg3MiZoPTJhZ3RPM2dHWXNMUkVxcEYyUmxBSkEmZT0xNzc3ODgwMjcy/986389.m3u8?loc=nl","q":2160,"voiceIdx":9,"voice":"10.2969323","voicesAvailable":12,"player":"tizen","subs":0,"subsAvailable":0}
+07:41:07.221 bAjGg9jC DEBUG [player] play-element built {"title":"s5e06 - Трепетный капкан","url":"https://digital-cdn.net/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs5ODc3MDM7MTc3Nzc5Mzg3MiZoPXBZN3czaFB3NXctYXIxQlFrN3F1eVEmZT0xNzc3ODgwMjcy/987703.m3u8?loc=nl","q":2160,"voiceIdx":9,"voice":"10.2975551","voicesAvailable":12,"player":"tizen","subs":0,"subsAvailable":0}
+07:41:07.223 bAjGg9jC DEBUG [player] play-element built {"title":"s5e07 - Линда","url":"https://digital-cdn.net/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs5ODk1Njk7MTc3Nzc5Mzg3MiZoPXE2V2tzdzlFN1l6NmtMbm55NkdXb0EmZT0xNzc3ODgwMjcy/989569.m3u8?loc=nl","q":2160,"voiceIdx":9,"voice":"10.2977309","voicesAvailable":12,"player":"tizen","subs":0,"subsAvailable":0}
+07:41:07.224 bAjGg9jC DEBUG [player] play-element built {"title":"s5e08 - Одеяло","url":"https://digital-cdn.net/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs5OTA3NzI7MTc3Nzc5Mzg3MiZoPTNLSXR5UzZjY0ptQzhQWkFUT01nTUEmZT0xNzc3ODgwMjcy/990772.m3u8?loc=nl","q":2160,"voiceIdx":9,"voice":"10.2993167","voicesAvailable":12,"player":"tizen","subs":0,"subsAvailable":0}
+07:41:07.226 bAjGg9jC DEBUG [player] play-element built {"title":"s5e09 - Бесполезная рука","url":"https://digital-cdn.net/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs5OTE5NjA7MTc3Nzc5Mzg3MiZoPTFPSUpTX2s0aWhyQ2xIek95aUtDZHcmZT0xNzc3ODgwMjcy/991960.m3u8?loc=nl","q":2160,"voiceIdx":9,"voice":"10.2993296","voicesAvailable":12,"player":"tizen","subs":0,"subsAvailable":0}
+07:41:07.228 bAjGg9jC DEBUG [player] play-element built {"title":"s5e10 - Бисквит","url":"https://digital-cdn.net/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs5OTMwNDY7MTc3Nzc5Mzg3MiZoPTZvTW82V2xNZUJFSFBMVk5KM0RtOWcmZT0xNzc3ODgwMjcy/993046.m3u8?loc=nl","q":2160,"voiceIdx":9,"voice":"10.2993788","voicesAvailable":12,"player":"tizen","subs":0,"subsAvailable":0}
+07:41:07.230 bAjGg9jC DEBUG [voice] context resolved for item {"season":5,"episode":8,"voiceIdx":9,"label":"10.2993167"}
+07:41:07.232 bAjGg9jC DEBUG [voice] remembered for episode {"hash":"1463936348","key":"ukr|Многоголосый|BaibaKo|aac"}
+07:41:07.233 bAjGg9jC INFO  [player] launching {"url":"https://digital-cdn.net/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs5OTA3NzI7MTc3Nzc5Mzg3MiZoPTNLSXR5UzZjY0ptQzhQWkFUT01nTUEmZT0xNzc3ODgwMjcy/990772.m3u8?loc=nl","playlist":10,"title":"Фарго s5e08 - Одеяло"}
+07:41:07.235 bAjGg9jC INFO  [lampa-evt] Player/create
+07:41:07.248 bAjGg9jC INFO  [lampa-evt] Player/start
+07:41:07.332 bAjGg9jC INFO  [lampa-evt] Player/ready
+07:41:07.401 bAjGg9jC INFO  [player-ui] next-episode-name override active {"label":"10.2993167"}
+07:41:07.532 bAjGg9jC INFO  [lampa-evt] PlayerVideo/levels
+07:41:07.553 bAjGg9jC INFO  [lampa-evt] PlayerVideo/play
+07:41:10.484 bAjGg9jC INFO  [lampa-evt] PlayerVideo/canplay
+07:41:10.487 bAjGg9jC DEBUG [voice] apply via canplay {"idx":9,"label":"10.2993167","key":"ukr|Многоголосый|BaibaKo|aac"}
+07:41:10.490 bAjGg9jC WARN  [voice] avplay: idx out of range {"idx":9,"total":1}
+07:41:10.495 bAjGg9jC WARN  [voice] no track switch backend available, stream stays on default audio
+07:41:10.506 bAjGg9jC INFO  [lampa-evt] PlayerVideo/loadeddata
+07:41:10.509 bAjGg9jC DEBUG [voice] apply via loadeddata {"idx":9,"label":"10.2993167","key":"ukr|Многоголосый|BaibaKo|aac"}
+07:41:10.512 bAjGg9jC WARN  [voice] avplay: idx out of range {"idx":9,"total":1}
+07:41:10.516 bAjGg9jC WARN  [voice] no track switch backend available, stream stays on default audio
+07:41:10.547 bAjGg9jC INFO  [lampa-evt] PlayerVideo/tracks
+07:41:10.553 bAjGg9jC DEBUG [voice] apply via tracks {"idx":9,"label":"10.2993167","key":"ukr|Многоголосый|BaibaKo|aac"}
+07:41:10.563 bAjGg9jC WARN  [voice] avplay: idx out of range {"idx":9,"total":1}
+07:41:10.572 bAjGg9jC WARN  [voice] no track switch backend available, stream stays on default audio
+07:41:11.972 bAjGg9jC INFO  [lampa-evt] PlayerVideo/pause
+07:41:11.981 bAjGg9jC INFO  [lampa-evt] PlayerVideo/rewind
+07:41:12.318 bAjGg9jC INFO  [lampa-evt] PlayerVideo/pause
+07:41:12.322 bAjGg9jC INFO  [lampa-evt] PlayerVideo/rewind
+07:41:12.425 bAjGg9jC INFO  [lampa-evt] PlayerVideo/pause
+07:41:12.429 bAjGg9jC INFO  [lampa-evt] PlayerVideo/rewind
+07:41:12.533 bAjGg9jC INFO  [lampa-evt] PlayerVideo/pause
+07:41:12.537 bAjGg9jC INFO  [lampa-evt] PlayerVideo/rewind
+07:41:12.642 bAjGg9jC INFO  [lampa-evt] PlayerVideo/pause
+07:41:12.645 bAjGg9jC INFO  [lampa-evt] PlayerVideo/rewind
+07:41:12.750 bAjGg9jC INFO  [lampa-evt] PlayerVideo/pause
+07:41:12.753 bAjGg9jC INFO  [lampa-evt] PlayerVideo/rewind
+07:41:12.858 bAjGg9jC INFO  [lampa-evt] PlayerVideo/pause
+07:41:12.861 bAjGg9jC INFO  [lampa-evt] PlayerVideo/rewind
+07:41:12.966 bAjGg9jC INFO  [lampa-evt] PlayerVideo/pause
+07:41:12.969 bAjGg9jC INFO  [lampa-evt] PlayerVideo/rewind
+07:41:13.074 bAjGg9jC INFO  [lampa-evt] PlayerVideo/pause
+07:41:13.077 bAjGg9jC INFO  [lampa-evt] PlayerVideo/rewind
+07:41:13.183 bAjGg9jC INFO  [lampa-evt] PlayerVideo/pause
+07:41:13.187 bAjGg9jC INFO  [lampa-evt] PlayerVideo/rewind
+07:41:13.290 bAjGg9jC INFO  [lampa-evt] PlayerVideo/pause
+07:41:13.293 bAjGg9jC INFO  [lampa-evt] PlayerVideo/rewind
+07:41:13.398 bAjGg9jC INFO  [lampa-evt] PlayerVideo/pause
+07:41:13.401 bAjGg9jC INFO  [lampa-evt] PlayerVideo/rewind
+07:41:13.506 bAjGg9jC INFO  [lampa-evt] PlayerVideo/pause
+07:41:13.509 bAjGg9jC INFO  [lampa-evt] PlayerVideo/rewind
+07:41:13.614 bAjGg9jC INFO  [lampa-evt] PlayerVideo/pause
+07:41:13.618 bAjGg9jC INFO  [lampa-evt] PlayerVideo/rewind
+07:41:13.722 bAjGg9jC INFO  [lampa-evt] PlayerVideo/pause
+07:41:13.726 bAjGg9jC INFO  [lampa-evt] PlayerVideo/rewind
+07:41:13.830 bAjGg9jC INFO  [lampa-evt] PlayerVideo/pause
+07:41:13.834 bAjGg9jC INFO  [lampa-evt] PlayerVideo/rewind
+07:41:13.938 bAjGg9jC INFO  [lampa-evt] PlayerVideo/pause
+07:41:13.941 bAjGg9jC INFO  [lampa-evt] PlayerVideo/rewind
+07:41:14.047 bAjGg9jC INFO  [lampa-evt] PlayerVideo/pause
+07:41:14.052 bAjGg9jC INFO  [lampa-evt] PlayerVideo/rewind
+07:41:14.153 bAjGg9jC INFO  [lampa-evt] PlayerVideo/pause
+07:41:14.156 bAjGg9jC INFO  [lampa-evt] PlayerVideo/rewind
+07:41:14.262 bAjGg9jC INFO  [lampa-evt] PlayerVideo/pause
+07:41:14.266 bAjGg9jC INFO  [lampa-evt] PlayerVideo/rewind
+07:41:14.369 bAjGg9jC INFO  [lampa-evt] PlayerVideo/pause
+07:41:14.374 bAjGg9jC INFO  [lampa-evt] PlayerVideo/rewind
+07:41:14.478 bAjGg9jC INFO  [lampa-evt] PlayerVideo/pause
+07:41:14.481 bAjGg9jC INFO  [lampa-evt] PlayerVideo/rewind
+07:41:14.586 bAjGg9jC INFO  [lampa-evt] PlayerVideo/pause
+07:41:14.589 bAjGg9jC INFO  [lampa-evt] PlayerVideo/rewind
+07:41:15.771 bAjGg9jC INFO  [lampa-evt] PlayerVideo/play
+07:41:20.920 bAjGg9jC INFO  [lampa-evt] Player/destroy

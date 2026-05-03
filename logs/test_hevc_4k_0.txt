@@ -1,0 +1,241 @@
+Шаг 0 — baseline (текущее состояние, HEVC выключен)
+
+В kinopub web UI убедись: HEVC = ☐ (выключен), 4K = ✓, Mixed = ☐, тип потока = HLS4
+В плагине Формат = HLS4
+Открой «Пацаны» → S3E1 «Пилот» (или любой эпизод где обычно q:2160)
+Запусти на встроенном плеере Lampa
+Жди ~10 секунд
+Пришли мне фрагмент лога с моментом launching до canplay/error
+
+
+
+
+
+откат на hls-2; плеер пишет 720*300 (но визуально - лучше); смена разрешения в плеере на 1080 - плеер пишет 4к (визуально вроде не изменилось); смена на 720 - откат на http, фриз
+
+
+03:44:52.997 1PXwDUi4 INFO  [boot] kp.js v1.0.9 starting {"session":"1PXwDUi4","app":318,"ua":"Mozilla/5.0 (SMART-TV; LINUX; Tizen 9.0) AppleWebKit/537.36 (KHTML, like Gecko) 120.0.6099.5/9.0 TV Safari/537.36"}
+03:44:53.007 1PXwDUi4 DEBUG [api] GET /user null
+03:44:53.012 1PXwDUi4 INFO  [identity] sending /device/notify {"title":"Lampa (Samsung TV)","hardware":"Samsung Tizen 9.0","software":"kp.js 1.0.9 / Lampa 318","_platform":"tizen"}
+03:44:53.015 1PXwDUi4 DEBUG [api] POST /device/notify {"title":"Lampa (Samsung TV)","hardware":"Samsung Tizen 9.0","software":"kp.js 1.0.9 / Lampa 318"}
+03:44:53.020 1PXwDUi4 DEBUG [console] StorageWorker online_choice_kpapi start follow
+03:44:53.025 1PXwDUi4 INFO  [boot] kp.js initialized
+03:44:53.028 1PXwDUi4 DEBUG [console] Extensions include: https://mainsync-afk.github.io/lampa_kinopub/kp.js
+03:44:53.152 1PXwDUi4 DEBUG [console] Plugins update plugin cache: https://mainsync-afk.github.io/lampa_kinopub/kp.js
+03:44:53.276 1PXwDUi4 INFO  [lampa-evt] app/start
+03:44:53.417 1PXwDUi4 DEBUG [console] Tizen start pick
+03:44:53.450 1PXwDUi4 DEBUG [console] Tizen current id 0SG81L944v.Lampa
+03:44:53.453 1PXwDUi4 DEBUG [console] LoadingProgress status: Tizen init
+03:44:53.477 1PXwDUi4 DEBUG [console] LoadingProgress status: Player init
+03:44:53.540 1PXwDUi4 DEBUG [console] App user agent: Mozilla/5.0 (SMART-TV; LINUX; Tizen 9.0) AppleWebKit/537.36 (KHTML, like Gecko) 120.0.6099.5/9.0 TV Safari/537.36
+03:44:53.551 1PXwDUi4 DEBUG [console] App platform: tizen
+03:44:53.603 1PXwDUi4 DEBUG [console] Script create: http://lampa.mx/vender/hls/hls.js
+03:44:53.689 1PXwDUi4 INFO  [lampa-evt] app/ready
+03:44:53.940 1PXwDUi4 DEBUG [api] POST /device/notify ok
+03:44:53.942 1PXwDUi4 INFO  [identity] notify ok {"status":200}
+03:44:53.952 1PXwDUi4 INFO  [lampa-evt] activity/init
+03:44:53.963 1PXwDUi4 INFO  [lampa-evt] activity/create
+03:44:54.006 1PXwDUi4 INFO  [lampa-evt] activity/start
+03:44:54.018 1PXwDUi4 DEBUG [api] GET /user ok
+03:44:54.020 1PXwDUi4 INFO  [auth] profile ok {"name":"eugenestraw","subscribed":{"active":true,"end_time":1792246646,"days":168.4}}
+03:44:54.061 1PXwDUi4 DEBUG [console] Script include: http://lampa.mx/vender/hls/hls.js
+03:46:04.394 1PXwDUi4 INFO  [lampa-evt] activity/init
+03:46:04.397 1PXwDUi4 INFO  [lampa-evt] activity/create
+03:46:04.414 1PXwDUi4 INFO  [lampa-evt] activity/start
+03:46:06.112 1PXwDUi4 INFO  [lampa-evt] activity/init
+03:46:06.123 1PXwDUi4 INFO  [lampa-evt] activity/create
+03:46:06.138 1PXwDUi4 INFO  [lampa-evt] activity/start
+03:46:18.128 1PXwDUi4 INFO  [lampa-evt] activity/start
+03:46:18.130 1PXwDUi4 INFO  [lampa-evt] activity/archive
+03:46:18.449 1PXwDUi4 INFO  [lampa-evt] activity/destroy
+03:46:20.191 1PXwDUi4 INFO  [lampa-evt] activity/init
+03:46:20.199 1PXwDUi4 INFO  [lampa-evt] activity/create
+03:46:20.211 1PXwDUi4 INFO  [lampa-evt] activity/start
+03:46:23.193 1PXwDUi4 INFO  [launch] open activity {"id":225891,"title":"Река Мадисон","orig":"The Madison"}
+03:46:23.211 1PXwDUi4 INFO  [lampa-evt] activity/init
+03:46:23.213 1PXwDUi4 INFO  [lampa-evt] activity/create
+03:46:23.238 1PXwDUi4 INFO  [component] find query=Река Мадисон
+03:46:23.240 1PXwDUi4 INFO  [source] searchByTitle {"query":"Река Мадисон","year":2026,"orig":"The Madison","rus":"Река Мадисон","imdb":"tt33204276","imdbNum":33204276,"type":"serial"}
+03:46:23.242 1PXwDUi4 DEBUG [api] GET /items/search {"q":"Река Мадисон","field":"title","perpage":50,"type":"serial"}
+03:46:23.255 1PXwDUi4 INFO  [lampa-evt] activity/start
+03:46:23.563 1PXwDUi4 DEBUG [api] GET /items/search ok
+03:46:23.565 1PXwDUi4 INFO  [source] search ok {"count":1}
+03:46:23.567 1PXwDUi4 DEBUG [source] top candidates [{"id":121408,"title":"Река Мадисон / The Madison","year":2026,"type":"serial","imdb":33204276}]
+03:46:23.569 1PXwDUi4 INFO  [source] matched by imdb {"id":121408,"imdb":33204276}
+03:46:23.571 1PXwDUi4 INFO  [source] matched card {"id":121408,"title":"Река Мадисон / The Madison","year":2026,"type":"serial"}
+03:46:23.572 1PXwDUi4 INFO  [source] find() id=121408
+03:46:23.574 1PXwDUi4 DEBUG [api] GET /items/121408 null
+03:46:23.784 1PXwDUi4 DEBUG [api] GET /items/121408 ok
+03:46:23.787 1PXwDUi4 INFO  [source] item loaded {"id":121408,"type":"serial","seasons":1,"videos":0}
+03:46:23.791 1PXwDUi4 DEBUG [source] extracted serial {"seasons":1,"totalEpisodes":6,"voices":5}
+03:46:23.800 1PXwDUi4 DEBUG [source] append items {"count":6}
+03:46:31.022 1PXwDUi4 DEBUG [player] play-element built {"title":"Свободное падение","url":"https://cdn2site.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMTI4MTEyOzE3Nzc2OTM1ODQmaD0yVVo1T3QwdXMzOE1zUGpBUmtMakFnJmU9MTc3Nzc3OTk4NA/1128112.m3u8?loc=ru","q":2160,"voices":8,"subs":0,"subsAvailable":0}
+03:46:31.025 1PXwDUi4 DEBUG [player] play-element built {"title":"Пилот","url":"https://cdn2site.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMTI4MTA2OzE3Nzc2OTM1ODQmaD1UX3JtVjhBcUpmQ0ZINHJmaDcwVmR3JmU9MTc3Nzc3OTk4NA/1128106.m3u8?loc=ru","q":2160,"voices":12,"subs":0,"subsAvailable":2}
+03:46:31.027 1PXwDUi4 DEBUG [player] play-element built {"title":"Пусть земля меня укроет","url":"https://cdn2site.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMTI4MTA5OzE3Nzc2OTM1ODQmaD13WEo0UjhZQkhVMEt5bTZrai14M2hBJmU9MTc3Nzc3OTk4NA/1128109.m3u8?loc=ru","q":2160,"voices":8,"subs":0,"subsAvailable":0}
+03:46:31.028 1PXwDUi4 DEBUG [player] play-element built {"title":"Свободное падение","url":"https://cdn2site.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMTI4MTEyOzE3Nzc2OTM1ODQmaD0yVVo1T3QwdXMzOE1zUGpBUmtMakFnJmU9MTc3Nzc3OTk4NA/1128112.m3u8?loc=ru","q":2160,"voices":8,"subs":0,"subsAvailable":0}
+03:46:31.030 1PXwDUi4 DEBUG [player] play-element built {"title":"За день до прощания","url":"https://cdn2site.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMTI5MjM0OzE3Nzc2OTM1ODQmaD1ybFZCaHFmbGFjSHhIUG1wMDhfX3dBJmU9MTc3Nzc3OTk4NA/1129234.m3u8?loc=ru","q":2160,"voices":8,"subs":0,"subsAvailable":0}
+03:46:31.031 1PXwDUi4 DEBUG [player] play-element built {"title":"Старый бар, новая мечта","url":"https://cdn2site.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMTI5MjM3OzE3Nzc2OTM1ODQmaD1xSUdDNm5XU0szTFE2UWRLeVRzZkZnJmU9MTc3Nzc3OTk4NA/1129237.m3u8?loc=ru","q":2160,"voices":8,"subs":0,"subsAvailable":0}
+03:46:31.033 1PXwDUi4 DEBUG [player] play-element built {"title":"Решение","url":"https://cdn2site.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMTI5MjQwOzE3Nzc2OTM1ODQmaD1nLTFGSXZpV0NsMEhwZl8xWExhMkN3JmU9MTc3Nzc3OTk4NA/1129240.m3u8?loc=ru","q":2160,"voices":8,"subs":0,"subsAvailable":0}
+03:46:31.034 1PXwDUi4 INFO  [player] launching {"url":"https://cdn2site.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMTI4MTEyOzE3Nzc2OTM1ODQmaD0yVVo1T3QwdXMzOE1zUGpBUmtMakFnJmU9MTc3Nzc3OTk4NA/1128112.m3u8?loc=ru","playlist":6}
+03:46:31.036 1PXwDUi4 INFO  [lampa-evt] Player/create
+03:46:31.055 1PXwDUi4 INFO  [lampa-evt] Player/start
+03:46:31.239 1PXwDUi4 INFO  [lampa-evt] Player/ready
+03:46:31.973 1PXwDUi4 INFO  [lampa-evt] PlayerVideo/translate
+03:46:31.975 1PXwDUi4 INFO  [lampa-evt] PlayerVideo/translate
+03:46:31.989 1PXwDUi4 INFO  [lampa-evt] PlayerVideo/play
+03:46:32.271 1PXwDUi4 INFO  [lampa-evt] PlayerVideo/error {"error":"Видео не найдено или повреждено","fatal":true}
+03:46:32.275 1PXwDUi4 WARN  [player] falling back to hls2 {"url":"https://cdn2site.com/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMTI4MTEyOzE3Nzc2OTM1ODQmaD0yVVo1T3QwdXMzOE1zUGpBUmtMakFnJmU9MTc3Nzc3OTk4NA/1128112.m3u8?loc=ru","q":2160}
+03:46:32.297 1PXwDUi4 INFO  [lampa-evt] PlayerVideo/play
+03:46:35.304 1PXwDUi4 INFO  [lampa-evt] PlayerVideo/loadeddata
+03:46:35.317 1PXwDUi4 INFO  [lampa-evt] PlayerVideo/canplay
+03:47:12.463 1PXwDUi4 INFO  [lampa-evt] PlayerVideo/play
+03:47:13.037 1PXwDUi4 INFO  [lampa-evt] PlayerVideo/error {"error":"Видео не найдено или повреждено","fatal":true}
+03:47:13.040 1PXwDUi4 WARN  [player] falling back to hls {"url":"https://cdn2site.com/hls/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMTI4MTEyOzE3Nzc2OTM1ODQmaD0yVVo1T3QwdXMzOE1zUGpBUmtMakFnJmU9MTc3Nzc3OTk4NA/6/12/4035853df53bf171af80a736aeb77b5a.mp4/master-v1a1.m3u8?loc=ru","q":2160}
+03:47:13.054 1PXwDUi4 INFO  [lampa-evt] PlayerVideo/play
+03:47:15.587 1PXwDUi4 INFO  [lampa-evt] PlayerVideo/loadeddata
+03:47:15.594 1PXwDUi4 INFO  [lampa-evt] PlayerVideo/canplay
+03:47:16.382 1PXwDUi4 INFO  [lampa-evt] PlayerVideo/pause
+03:47:16.386 1PXwDUi4 INFO  [lampa-evt] PlayerVideo/play
+03:47:16.503 1PXwDUi4 INFO  [lampa-evt] PlayerVideo/canplay
+03:47:18.561 1PXwDUi4 INFO  [lampa-evt] PlayerVideo/canplay
+03:47:36.632 1PXwDUi4 INFO  [lampa-evt] PlayerVideo/play
+03:47:37.189 1PXwDUi4 INFO  [lampa-evt] PlayerVideo/error {"error":"Видео не найдено или повреждено","fatal":true}
+03:47:37.191 1PXwDUi4 WARN  [player] falling back to http {"url":"https://cdn2site.com/pd/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMTI4MTEyOzE3Nzc2OTM1ODQmaD0yVVo1T3QwdXMzOE1zUGpBUmtMakFnJmU9MTc3Nzc3OTk4NA/6/12/4035853df53bf171af80a736aeb77b5a.mp4?loc=ru","q":2160}
+03:47:37.202 1PXwDUi4 INFO  [lampa-evt] PlayerVideo/play
+03:47:41.808 1PXwDUi4 INFO  [lampa-evt] PlayerVideo/loadeddata
+03:47:41.842 1PXwDUi4 INFO  [lampa-evt] PlayerVideo/canplay
+03:47:45.785 1PXwDUi4 INFO  [lampa-evt] PlayerVideo/pause
+03:47:45.816 1PXwDUi4 INFO  [lampa-evt] PlayerVideo/play
+03:48:16.345 1PXwDUi4 INFO  [lampa-evt] PlayerVideo/canplay
+03:48:16.412 1PXwDUi4 INFO  [lampa-evt] Player/destroy
+03:48:16.464 1PXwDUi4 INFO  [lampa-evt] activity/start
+03:48:16.467 1PXwDUi4 INFO  [lampa-evt] activity/archive
+03:48:16.496 1PXwDUi4 INFO  [lampa-evt] activity/start
+03:48:16.498 1PXwDUi4 INFO  [lampa-evt] activity/archive
+03:48:16.770 1PXwDUi4 DEBUG [source] destroy
+03:48:16.773 1PXwDUi4 INFO  [lampa-evt] activity/destroy
+03:48:16.778 1PXwDUi4 INFO  [lampa-evt] activity/destroy
+03:48:27.952 1PXwDUi4 INFO  [lampa-evt] activity/destroy
+03:48:27.954 1PXwDUi4 INFO  [lampa-evt] activity/init
+03:48:27.956 1PXwDUi4 INFO  [lampa-evt] activity/create
+03:48:27.969 1PXwDUi4 INFO  [lampa-evt] activity/start
+03:48:29.189 1PXwDUi4 INFO  [lampa-evt] activity/init
+03:48:29.196 1PXwDUi4 INFO  [lampa-evt] activity/create
+03:48:29.207 1PXwDUi4 INFO  [lampa-evt] activity/start
+03:48:32.549 1PXwDUi4 INFO  [launch] open activity {"id":225891,"title":"Река Мадисон","orig":"The Madison"}
+03:48:32.588 1PXwDUi4 INFO  [lampa-evt] activity/init
+03:48:32.589 1PXwDUi4 INFO  [lampa-evt] activity/create
+03:48:32.612 1PXwDUi4 INFO  [component] find query=Река Мадисон
+03:48:32.613 1PXwDUi4 INFO  [source] searchByTitle {"query":"Река Мадисон","year":2026,"orig":"The Madison","rus":"Река Мадисон","imdb":"tt33204276","imdbNum":33204276,"type":"serial"}
+03:48:32.615 1PXwDUi4 DEBUG [api] GET /items/search {"q":"Река Мадисон","field":"title","perpage":50,"type":"serial"}
+03:48:32.627 1PXwDUi4 INFO  [lampa-evt] activity/start
+03:48:33.090 1PXwDUi4 DEBUG [api] GET /items/search ok
+03:48:33.092 1PXwDUi4 INFO  [source] search ok {"count":1}
+03:48:33.094 1PXwDUi4 DEBUG [source] top candidates [{"id":121408,"title":"Река Мадисон / The Madison","year":2026,"type":"serial","imdb":33204276}]
+03:48:33.096 1PXwDUi4 INFO  [source] matched by imdb {"id":121408,"imdb":33204276}
+03:48:33.098 1PXwDUi4 INFO  [source] matched card {"id":121408,"title":"Река Мадисон / The Madison","year":2026,"type":"serial"}
+03:48:33.100 1PXwDUi4 INFO  [source] find() id=121408
+03:48:33.102 1PXwDUi4 DEBUG [api] GET /items/121408 null
+03:48:33.338 1PXwDUi4 DEBUG [api] GET /items/121408 ok
+03:48:33.340 1PXwDUi4 INFO  [source] item loaded {"id":121408,"type":"serial","seasons":1,"videos":0}
+03:48:33.342 1PXwDUi4 DEBUG [source] extracted serial {"seasons":1,"totalEpisodes":6,"voices":5}
+03:48:33.347 1PXwDUi4 DEBUG [source] append items {"count":6}
+03:48:35.533 1PXwDUi4 DEBUG [player] play-element built {"title":"За день до прощания","url":"https://cdn2site.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMTI5MjM0OzE3Nzc2OTM3MTQmaD0zZWZacFYtSk1kU2pPYWMxMjJHQjZnJmU9MTc3Nzc4MDExNA/1129234.m3u8?loc=ru","q":2160,"voices":8,"subs":0,"subsAvailable":0}
+03:48:35.535 1PXwDUi4 DEBUG [player] play-element built {"title":"Пилот","url":"https://cdn2site.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMTI4MTA2OzE3Nzc2OTM3MTQmaD1yMGRvVnBLZjl4Z3RwX1Nhbmw5M0ZBJmU9MTc3Nzc4MDExNA/1128106.m3u8?loc=ru","q":2160,"voices":12,"subs":0,"subsAvailable":2}
+03:48:35.536 1PXwDUi4 DEBUG [player] play-element built {"title":"Пусть земля меня укроет","url":"https://cdn2site.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMTI4MTA5OzE3Nzc2OTM3MTQmaD12NWpvTl9aNXNodFZKTEZLQ29vZmlBJmU9MTc3Nzc4MDExNA/1128109.m3u8?loc=ru","q":2160,"voices":8,"subs":0,"subsAvailable":0}
+03:48:35.538 1PXwDUi4 DEBUG [player] play-element built {"title":"Свободное падение","url":"https://cdn2site.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMTI4MTEyOzE3Nzc2OTM3MTQmaD1ybTZrakFDaTVvRVRyZnZLSlljUmVnJmU9MTc3Nzc4MDExNA/1128112.m3u8?loc=ru","q":2160,"voices":8,"subs":0,"subsAvailable":0}
+03:48:35.540 1PXwDUi4 DEBUG [player] play-element built {"title":"За день до прощания","url":"https://cdn2site.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMTI5MjM0OzE3Nzc2OTM3MTQmaD0zZWZacFYtSk1kU2pPYWMxMjJHQjZnJmU9MTc3Nzc4MDExNA/1129234.m3u8?loc=ru","q":2160,"voices":8,"subs":0,"subsAvailable":0}
+03:48:35.541 1PXwDUi4 DEBUG [player] play-element built {"title":"Старый бар, новая мечта","url":"https://cdn2site.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMTI5MjM3OzE3Nzc2OTM3MTQmaD1UZU55emFMUlNWZzVtREt1RnJVeUNBJmU9MTc3Nzc4MDExNA/1129237.m3u8?loc=ru","q":2160,"voices":8,"subs":0,"subsAvailable":0}
+03:48:35.543 1PXwDUi4 DEBUG [player] play-element built {"title":"Решение","url":"https://cdn2site.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMTI5MjQwOzE3Nzc2OTM3MTQmaD1GNndrUy1FT2VMcDV1YnM3VTRSN3NBJmU9MTc3Nzc4MDExNA/1129240.m3u8?loc=ru","q":2160,"voices":8,"subs":0,"subsAvailable":0}
+03:48:35.544 1PXwDUi4 INFO  [player] launching {"url":"https://cdn2site.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMTI5MjM0OzE3Nzc2OTM3MTQmaD0zZWZacFYtSk1kU2pPYWMxMjJHQjZnJmU9MTc3Nzc4MDExNA/1129234.m3u8?loc=ru","playlist":6}
+03:48:35.545 1PXwDUi4 INFO  [lampa-evt] Player/create
+03:48:35.557 1PXwDUi4 INFO  [lampa-evt] Player/start
+03:48:35.619 1PXwDUi4 INFO  [lampa-evt] Player/ready
+03:48:35.889 1PXwDUi4 INFO  [lampa-evt] PlayerVideo/translate
+03:48:35.891 1PXwDUi4 INFO  [lampa-evt] PlayerVideo/translate
+03:48:35.899 1PXwDUi4 INFO  [lampa-evt] PlayerVideo/play
+03:48:36.141 1PXwDUi4 INFO  [lampa-evt] PlayerVideo/error {"error":"Видео не найдено или повреждено","fatal":true}
+03:48:36.143 1PXwDUi4 WARN  [player] falling back to hls2 {"url":"https://cdn2site.com/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMTI5MjM0OzE3Nzc2OTM3MTQmaD0zZWZacFYtSk1kU2pPYWMxMjJHQjZnJmU9MTc3Nzc4MDExNA/1129234.m3u8?loc=ru","q":2160}
+03:48:36.159 1PXwDUi4 INFO  [lampa-evt] PlayerVideo/play
+03:48:38.455 1PXwDUi4 INFO  [lampa-evt] PlayerVideo/loadeddata
+03:48:38.491 1PXwDUi4 INFO  [lampa-evt] PlayerVideo/canplay
+03:48:39.772 1PXwDUi4 INFO  [lampa-evt] PlayerVideo/pause
+03:48:39.779 1PXwDUi4 INFO  [lampa-evt] PlayerVideo/play
+03:48:39.867 1PXwDUi4 INFO  [lampa-evt] PlayerVideo/canplay
+03:48:41.262 1PXwDUi4 INFO  [lampa-evt] PlayerVideo/canplay
+03:49:18.701 1PXwDUi4 INFO  [lampa-evt] PlayerVideo/pause
+03:49:18.703 1PXwDUi4 INFO  [lampa-evt] PlayerVideo/rewind
+03:49:19.389 1PXwDUi4 INFO  [lampa-evt] PlayerVideo/pause
+03:49:19.391 1PXwDUi4 INFO  [lampa-evt] PlayerVideo/rewind
+03:49:19.738 1PXwDUi4 INFO  [lampa-evt] PlayerVideo/pause
+03:49:19.740 1PXwDUi4 INFO  [lampa-evt] PlayerVideo/rewind
+03:49:19.846 1PXwDUi4 INFO  [lampa-evt] PlayerVideo/pause
+03:49:19.848 1PXwDUi4 INFO  [lampa-evt] PlayerVideo/rewind
+03:49:19.954 1PXwDUi4 INFO  [lampa-evt] PlayerVideo/pause
+03:49:19.956 1PXwDUi4 INFO  [lampa-evt] PlayerVideo/rewind
+03:49:20.062 1PXwDUi4 INFO  [lampa-evt] PlayerVideo/pause
+03:49:20.064 1PXwDUi4 INFO  [lampa-evt] PlayerVideo/rewind
+03:49:20.170 1PXwDUi4 INFO  [lampa-evt] PlayerVideo/pause
+03:49:20.172 1PXwDUi4 INFO  [lampa-evt] PlayerVideo/rewind
+03:49:20.278 1PXwDUi4 INFO  [lampa-evt] PlayerVideo/pause
+03:49:20.280 1PXwDUi4 INFO  [lampa-evt] PlayerVideo/rewind
+03:49:20.387 1PXwDUi4 INFO  [lampa-evt] PlayerVideo/pause
+03:49:20.389 1PXwDUi4 INFO  [lampa-evt] PlayerVideo/rewind
+03:49:21.393 1PXwDUi4 INFO  [lampa-evt] PlayerVideo/play
+03:49:21.495 1PXwDUi4 INFO  [lampa-evt] PlayerVideo/canplay
+03:49:22.466 1PXwDUi4 INFO  [lampa-evt] PlayerVideo/canplay
+03:49:33.548 1PXwDUi4 INFO  [lampa-evt] PlayerVideo/play
+03:49:34.070 1PXwDUi4 INFO  [lampa-evt] PlayerVideo/error {"error":"Видео не найдено или повреждено","fatal":true}
+03:49:34.072 1PXwDUi4 WARN  [player] falling back to hls {"url":"https://cdn2site.com/hls/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMTI5MjM0OzE3Nzc2OTM3MTQmaD0zZWZacFYtSk1kU2pPYWMxMjJHQjZnJmU9MTc3Nzc4MDExNA/4/09/eb24887e1b72b3fe77d2ec4a1706b130.mp4/master-v1a1.m3u8?loc=ru","q":2160}
+03:49:34.086 1PXwDUi4 INFO  [lampa-evt] PlayerVideo/play
+03:49:36.652 1PXwDUi4 INFO  [lampa-evt] PlayerVideo/loadeddata
+03:49:36.659 1PXwDUi4 INFO  [lampa-evt] PlayerVideo/canplay
+03:49:37.442 1PXwDUi4 INFO  [lampa-evt] PlayerVideo/pause
+03:49:37.447 1PXwDUi4 INFO  [lampa-evt] PlayerVideo/play
+03:49:37.626 1PXwDUi4 INFO  [lampa-evt] PlayerVideo/canplay
+03:49:38.846 1PXwDUi4 INFO  [lampa-evt] PlayerVideo/canplay
+03:49:44.081 1PXwDUi4 INFO  [lampa-evt] Player/destroy
+03:50:12.831 1PXwDUi4 DEBUG [player] play-element built {"title":"За день до прощания","url":"https://cdn2site.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMTI5MjM0OzE3Nzc2OTM3MTQmaD0zZWZacFYtSk1kU2pPYWMxMjJHQjZnJmU9MTc3Nzc4MDExNA/1129234.m3u8?loc=ru","q":2160,"voices":8,"subs":0,"subsAvailable":0}
+03:50:12.859 1PXwDUi4 DEBUG [player] play-element built {"title":"Пилот","url":"https://cdn2site.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMTI4MTA2OzE3Nzc2OTM3MTQmaD1yMGRvVnBLZjl4Z3RwX1Nhbmw5M0ZBJmU9MTc3Nzc4MDExNA/1128106.m3u8?loc=ru","q":2160,"voices":12,"subs":0,"subsAvailable":2}
+03:50:12.860 1PXwDUi4 DEBUG [player] play-element built {"title":"Пусть земля меня укроет","url":"https://cdn2site.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMTI4MTA5OzE3Nzc2OTM3MTQmaD12NWpvTl9aNXNodFZKTEZLQ29vZmlBJmU9MTc3Nzc4MDExNA/1128109.m3u8?loc=ru","q":2160,"voices":8,"subs":0,"subsAvailable":0}
+03:50:12.862 1PXwDUi4 DEBUG [player] play-element built {"title":"Свободное падение","url":"https://cdn2site.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMTI4MTEyOzE3Nzc2OTM3MTQmaD1ybTZrakFDaTVvRVRyZnZLSlljUmVnJmU9MTc3Nzc4MDExNA/1128112.m3u8?loc=ru","q":2160,"voices":8,"subs":0,"subsAvailable":0}
+03:50:12.863 1PXwDUi4 DEBUG [player] play-element built {"title":"За день до прощания","url":"https://cdn2site.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMTI5MjM0OzE3Nzc2OTM3MTQmaD0zZWZacFYtSk1kU2pPYWMxMjJHQjZnJmU9MTc3Nzc4MDExNA/1129234.m3u8?loc=ru","q":2160,"voices":8,"subs":0,"subsAvailable":0}
+03:50:12.864 1PXwDUi4 DEBUG [player] play-element built {"title":"Старый бар, новая мечта","url":"https://cdn2site.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMTI5MjM3OzE3Nzc2OTM3MTQmaD1UZU55emFMUlNWZzVtREt1RnJVeUNBJmU9MTc3Nzc4MDExNA/1129237.m3u8?loc=ru","q":2160,"voices":8,"subs":0,"subsAvailable":0}
+03:50:12.866 1PXwDUi4 DEBUG [player] play-element built {"title":"Решение","url":"https://cdn2site.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMTI5MjQwOzE3Nzc2OTM3MTQmaD1GNndrUy1FT2VMcDV1YnM3VTRSN3NBJmU9MTc3Nzc4MDExNA/1129240.m3u8?loc=ru","q":2160,"voices":8,"subs":0,"subsAvailable":0}
+03:50:12.867 1PXwDUi4 INFO  [player] launching {"url":"https://cdn2site.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMTI5MjM0OzE3Nzc2OTM3MTQmaD0zZWZacFYtSk1kU2pPYWMxMjJHQjZnJmU9MTc3Nzc4MDExNA/1129234.m3u8?loc=ru","playlist":6}
+03:50:12.868 1PXwDUi4 INFO  [lampa-evt] Player/create
+03:50:12.879 1PXwDUi4 INFO  [lampa-evt] Player/start
+03:50:12.938 1PXwDUi4 INFO  [lampa-evt] Player/ready
+03:50:13.206 1PXwDUi4 INFO  [lampa-evt] PlayerVideo/translate
+03:50:13.208 1PXwDUi4 INFO  [lampa-evt] PlayerVideo/translate
+03:50:13.224 1PXwDUi4 INFO  [lampa-evt] PlayerVideo/play
+03:50:13.458 1PXwDUi4 INFO  [lampa-evt] PlayerVideo/error {"error":"Видео не найдено или повреждено","fatal":true}
+03:50:13.460 1PXwDUi4 WARN  [player] falling back to hls2 {"url":"https://cdn2site.com/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMTI5MjM0OzE3Nzc2OTM3MTQmaD0zZWZacFYtSk1kU2pPYWMxMjJHQjZnJmU9MTc3Nzc4MDExNA/1129234.m3u8?loc=ru","q":2160}
+03:50:13.474 1PXwDUi4 INFO  [lampa-evt] PlayerVideo/play
+03:50:15.123 1PXwDUi4 INFO  [lampa-evt] PlayerVideo/loadeddata
+03:50:15.128 1PXwDUi4 INFO  [lampa-evt] PlayerVideo/canplay
+03:50:16.176 1PXwDUi4 INFO  [lampa-evt] PlayerVideo/pause
+03:50:16.180 1PXwDUi4 INFO  [lampa-evt] PlayerVideo/play
+03:50:16.250 1PXwDUi4 INFO  [lampa-evt] PlayerVideo/canplay
+03:50:17.083 1PXwDUi4 INFO  [lampa-evt] PlayerVideo/canplay
+03:50:19.781 1PXwDUi4 INFO  [lampa-evt] PlayerVideo/play
+03:50:20.280 1PXwDUi4 INFO  [lampa-evt] PlayerVideo/error {"error":"Видео не найдено или повреждено","fatal":true}
+03:50:20.282 1PXwDUi4 WARN  [player] falling back to hls {"url":"https://cdn2site.com/hls/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMTI5MjM0OzE3Nzc2OTM3MTQmaD0zZWZacFYtSk1kU2pPYWMxMjJHQjZnJmU9MTc3Nzc4MDExNA/4/09/eb24887e1b72b3fe77d2ec4a1706b130.mp4/master-v1a1.m3u8?loc=ru","q":2160}
+03:50:20.296 1PXwDUi4 INFO  [lampa-evt] PlayerVideo/play
+03:50:22.409 1PXwDUi4 INFO  [lampa-evt] PlayerVideo/loadeddata
+03:50:22.416 1PXwDUi4 INFO  [lampa-evt] PlayerVideo/canplay
+03:50:23.194 1PXwDUi4 INFO  [lampa-evt] PlayerVideo/pause
+03:50:23.203 1PXwDUi4 INFO  [lampa-evt] PlayerVideo/play
+03:50:23.323 1PXwDUi4 INFO  [lampa-evt] PlayerVideo/canplay
+03:50:25.297 1PXwDUi4 INFO  [lampa-evt] PlayerVideo/canplay
+03:50:28.542 1PXwDUi4 INFO  [lampa-evt] PlayerVideo/play
+03:50:29.038 1PXwDUi4 INFO  [lampa-evt] PlayerVideo/error {"error":"Видео не найдено или повреждено","fatal":true}
+03:50:29.041 1PXwDUi4 WARN  [player] falling back to http {"url":"https://cdn2site.com/pd/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMTI5MjM0OzE3Nzc2OTM3MTQmaD0zZWZacFYtSk1kU2pPYWMxMjJHQjZnJmU9MTc3Nzc4MDExNA/4/09/eb24887e1b72b3fe77d2ec4a1706b130.mp4?loc=ru","q":2160}
+03:50:29.052 1PXwDUi4 INFO  [lampa-evt] PlayerVideo/play
+03:50:34.855 1PXwDUi4 INFO  [lampa-evt] PlayerVideo/loadeddata
+03:50:34.887 1PXwDUi4 INFO  [lampa-evt] PlayerVideo/canplay
+03:50:38.832 1PXwDUi4 INFO  [lampa-evt] PlayerVideo/pause
+03:50:38.865 1PXwDUi4 INFO  [lampa-evt] PlayerVideo/play
+03:51:09.367 1PXwDUi4 INFO  [lampa-evt] PlayerVideo/canplay
+03:51:09.406 1PXwDUi4 INFO  [lampa-evt] PlayerVideo/error {"error":"code [2] details [PIPELINE_ERROR_NETWORK]","fatal":true}
+03:51:09.408 1PXwDUi4 WARN  [player] no fallback URLs left {"tried":4}

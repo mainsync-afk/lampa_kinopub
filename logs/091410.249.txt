@@ -1,0 +1,145 @@
+09:13:01.532 7X7WPcta INFO  [lampa-evt] activity/init
+09:13:01.544 7X7WPcta INFO  [lampa-evt] activity/create
+09:13:01.558 7X7WPcta INFO  [lampa-evt] activity/start
+09:13:22.030 7X7WPcta INFO  [launch] open activity {"id":60622,"title":"Фарго","orig":"Fargo"}
+09:13:22.049 7X7WPcta INFO  [lampa-evt] activity/init
+09:13:22.052 7X7WPcta INFO  [lampa-evt] activity/create
+09:13:22.078 7X7WPcta INFO  [component] find query=Фарго
+09:13:22.080 7X7WPcta INFO  [source] searchByTitle {"query":"Фарго","year":2014,"orig":"Fargo","rus":"Фарго","imdb":"tt2802850","imdbNum":2802850,"type":"serial"}
+09:13:22.082 7X7WPcta DEBUG [api] GET /items/search {"q":"Фарго","field":"title","perpage":50,"type":"serial"}
+09:13:22.096 7X7WPcta INFO  [lampa-evt] activity/start
+09:13:22.468 7X7WPcta DEBUG [api] GET /items/search ok
+09:13:22.470 7X7WPcta INFO  [source] search ok {"count":1}
+09:13:22.472 7X7WPcta DEBUG [source] top candidates [{"id":8636,"title":"Фарго / Fargo","year":2014,"type":"serial","imdb":2802850}]
+09:13:22.475 7X7WPcta INFO  [source] matched by imdb {"id":8636,"imdb":2802850}
+09:13:22.477 7X7WPcta INFO  [source] matched card {"id":8636,"title":"Фарго / Fargo","year":2014,"type":"serial"}
+09:13:22.479 7X7WPcta INFO  [source] find() id=8636
+09:13:22.480 7X7WPcta DEBUG [api] GET /items/8636 null
+09:13:22.799 7X7WPcta DEBUG [api] GET /items/8636 ok
+09:13:22.801 7X7WPcta INFO  [source] item loaded {"id":8636,"type":"serial","seasons":5,"videos":0}
+09:13:22.803 7X7WPcta DEBUG [source] sample audio entry [0] {"id":2093344,"index":1,"codec":"aac","channels":6,"lang":"rus","type":{"id":2,"title":"Многоголосый","short_title":"MVO"},"author":{"id":10,"title":"LostFilm","short_title":null}}
+09:13:22.806 7X7WPcta DEBUG [source] sample audio entry [1] {"id":2093347,"index":2,"codec":"aac","channels":6,"lang":"rus","type":{"id":3,"title":"Двухголосый","short_title":"DVO"},"author":{"id":13,"title":"Кубик в Кубе","short_title":null}}
+09:13:22.817 7X7WPcta DEBUG [source] extracted serial {"seasons":5,"totalEpisodes":51,"voicesPerSeason":[10,6,4,6,11]}
+09:13:22.830 7X7WPcta DEBUG [source] append items {"count":10}
+09:13:24.296 7X7WPcta DEBUG [player] play-element built {"title":"s5e10 - Бисквит","url":"https://cdn2cdn.com/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDcwNjEyMTs5OTMwNDY7MTc3Nzc5OTYwMyZoPW84Ti1JZWcxRFk2ekVDQmZkM1JCV2cmZT0xNzc3ODg2MDAz/993046.m3u8?loc=nl","q":2160,"voiceIdx":3,"voice":"Многоголосый NewStudio [RUS] (AAC)","voicesAvailable":12,"player":"tizen","subs":0,"subsAvailable":0}
+09:13:24.298 7X7WPcta DEBUG [player] play-element built {"title":"s5e01 - Трагедия общин","url":"https://cdn2cdn.com/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDcwNjEyMTs5ODEyNDc7MTc3Nzc5OTYwMyZoPXVsdHJoVUZrQXhHcDBPWE1MR2xPdGcmZT0xNzc3ODg2MDAz/981247.m3u8?loc=nl","q":2160,"voiceIdx":3,"voice":"Многоголосый NewStudio [RUS] (AAC)","voicesAvailable":12,"player":"tizen","subs":0,"subsAvailable":2}
+09:13:24.300 7X7WPcta DEBUG [player] play-element built {"title":"s5e02 - Испытания и потрясения","url":"https://cdn2cdn.com/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDcwNjEyMTs5ODE0MjE7MTc3Nzc5OTYwMyZoPTZneEZ3RUhLVUR4Tk10dFlGeUd3Q3cmZT0xNzc3ODg2MDAz/981421.m3u8?loc=nl","q":2160,"voiceIdx":3,"voice":"Многоголосый NewStudio [RUS] (AAC)","voicesAvailable":12,"player":"tizen","subs":0,"subsAvailable":0}
+09:13:24.302 7X7WPcta DEBUG [player] play-element built {"title":"s5e03 - Парадокс посреднических сделок","url":"https://cdn2cdn.com/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDcwNjEyMTs5ODMyMTI7MTc3Nzc5OTYwMyZoPW9PclE4cnY4cFdldUIxUDJ3LXFjX0EmZT0xNzc3ODg2MDAz/983212.m3u8?loc=nl","q":2160,"voiceIdx":3,"voice":"Многоголосый NewStudio [RUS] (AAC)","voicesAvailable":12,"player":"tizen","subs":0,"subsAvailable":0}
+09:13:24.304 7X7WPcta DEBUG [player] play-element built {"title":"s5e04 - Нерастворимость","url":"https://cdn2cdn.com/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDcwNjEyMTs5ODUwNzU7MTc3Nzc5OTYwMyZoPWJVeHZoZ01VZFRTczg5OXN0ZU5PVGcmZT0xNzc3ODg2MDAz/985075.m3u8?loc=nl","q":2160,"voiceIdx":3,"voice":"Многоголосый NewStudio [RUS] (AAC)","voicesAvailable":12,"player":"tizen","subs":0,"subsAvailable":0}
+09:13:24.305 7X7WPcta DEBUG [player] play-element built {"title":"s5e05 - Тигр","url":"https://cdn2cdn.com/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDcwNjEyMTs5ODYzODk7MTc3Nzc5OTYwMyZoPTVjV19nSnAxNkZKVDJYZWhEUUd0REEmZT0xNzc3ODg2MDAz/986389.m3u8?loc=nl","q":2160,"voiceIdx":3,"voice":"Многоголосый NewStudio [RUS] (AAC)","voicesAvailable":12,"player":"tizen","subs":0,"subsAvailable":0}
+09:13:24.307 7X7WPcta DEBUG [player] play-element built {"title":"s5e06 - Трепетный капкан","url":"https://cdn2cdn.com/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDcwNjEyMTs5ODc3MDM7MTc3Nzc5OTYwMyZoPXJ5YXZNWW5xX1hyUXhMakpJM3lhVkEmZT0xNzc3ODg2MDAz/987703.m3u8?loc=nl","q":2160,"voiceIdx":3,"voice":"Многоголосый NewStudio [RUS] (AAC)","voicesAvailable":12,"player":"tizen","subs":0,"subsAvailable":0}
+09:13:24.309 7X7WPcta DEBUG [player] play-element built {"title":"s5e07 - Линда","url":"https://cdn2cdn.com/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDcwNjEyMTs5ODk1Njk7MTc3Nzc5OTYwMyZoPTQyWUNtd2twdjU2dFNWWnJDbzlqd1EmZT0xNzc3ODg2MDAz/989569.m3u8?loc=nl","q":2160,"voiceIdx":3,"voice":"Многоголосый NewStudio [RUS] (AAC)","voicesAvailable":12,"player":"tizen","subs":0,"subsAvailable":0}
+09:13:24.311 7X7WPcta DEBUG [player] play-element built {"title":"s5e08 - Одеяло","url":"https://cdn2cdn.com/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDcwNjEyMTs5OTA3NzI7MTc3Nzc5OTYwMyZoPWFBeF9yU0RLX0x5ampEM2JSaG1NaWcmZT0xNzc3ODg2MDAz/990772.m3u8?loc=nl","q":2160,"voiceIdx":3,"voice":"Многоголосый NewStudio [RUS] (AAC)","voicesAvailable":12,"player":"tizen","subs":0,"subsAvailable":0}
+09:13:24.313 7X7WPcta DEBUG [player] play-element built {"title":"s5e09 - Бесполезная рука","url":"https://cdn2cdn.com/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDcwNjEyMTs5OTE5NjA7MTc3Nzc5OTYwMyZoPTVBX0dGWUxoVDM2NjllUzBXenNSMWcmZT0xNzc3ODg2MDAz/991960.m3u8?loc=nl","q":2160,"voiceIdx":3,"voice":"Многоголосый NewStudio [RUS] (AAC)","voicesAvailable":12,"player":"tizen","subs":0,"subsAvailable":0}
+09:13:24.314 7X7WPcta DEBUG [player] play-element built {"title":"s5e10 - Бисквит","url":"https://cdn2cdn.com/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDcwNjEyMTs5OTMwNDY7MTc3Nzc5OTYwMyZoPW84Ti1JZWcxRFk2ekVDQmZkM1JCV2cmZT0xNzc3ODg2MDAz/993046.m3u8?loc=nl","q":2160,"voiceIdx":3,"voice":"Многоголосый NewStudio [RUS] (AAC)","voicesAvailable":12,"player":"tizen","subs":0,"subsAvailable":0}
+09:13:24.316 7X7WPcta INFO  [player] launching {"url":"https://cdn2cdn.com/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDcwNjEyMTs5OTMwNDY7MTc3Nzc5OTYwMyZoPW84Ti1JZWcxRFk2ekVDQmZkM1JCV2cmZT0xNzc3ODg2MDAz/993046.m3u8?loc=nl","playlist":10,"title":"Фарго s5e10 - Бисквит"}
+09:13:24.320 7X7WPcta INFO  [lampa-evt] Player/create
+09:13:24.343 7X7WPcta INFO  [lampa-evt] Player/start
+09:13:24.756 7X7WPcta INFO  [lampa-evt] Player/ready
+09:13:25.007 7X7WPcta INFO  [manifest] master.m3u8 {"url":"https://cdn2cdn.com/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDcwNjEyMTs5OTMwNDY7MTc3Nzc5OTYwMyZoPW84Ti1JZWcxRFk2ekVDQmZkM1JCV2cmZT0xNzc3ODg2MDAz/993046.m3u8?loc=nl","length":3189,"lineCount":22,"keep":["#EXTM3U","#EXT-X-VERSION:3","#EXT-X-INDEPENDENT-SEGMENTS","#EXT-X-STREAM-INF:PROGRAM-ID=1,BANDWIDTH=3468936,VIDEO-RANGE=SDR,RESOLUTION=3840x2160,CODECS=\"hvc1.2.4.L150.B0,mp4a.40.2\",FRAME-RATE=23.976,HDCP-LEVEL=NONE","https://86feaca6-c052-436f-8b78-99cea0ec1571.ams-static-15.cdntogo.net/hls/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDcwNjEyMTs5OTMwNDY7MTc3Nzc5OTYwMyZoPW84Ti1JZWcxRFk2ekVDQmZkM1JCV2cmZT0xNzc3ODg2MDAz/b/ef/CSYKpQLImdrsIGiJZ.mp4/index-v1a1.m3u8?loc=nl","#EXT-X-STREAM-INF:PROGRAM-ID=1,BANDWIDTH=1555929,VIDEO-RANGE=SDR,RESOLUTION=1920x1080,CODECS=\"hvc1.2.4.L150.B0,mp4a.40.2\",FRAME-RATE=23.976,HDCP-LEVEL=NONE","https://86feaca6-c052-436f-8b78-99cea0ec1571.ams-static-15.cdntogo.net/hls/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDcwNjEyMTs5OTMwNDY7MTc3Nzc5OTYwMyZoPW84Ti1JZWcxRFk2ekVDQmZkM1JCV2cmZT0xNzc3ODg2MDAz/c/56/HhMlaScuuax5NUmnk.mp4/index-v1a1.m3u8?loc=nl","#EXT-X-STREAM-INF:PROGRAM-ID=1,BANDWIDTH=699474,VIDEO-RANGE=SDR,RESOLUTION=1280x720,CODECS=\"hvc1.2.4.L150.B0,mp4a.40.2\",FRAME-RATE=23.976,HDCP-LEVEL=NONE","https://86feaca6-c052-436f-8b78-99cea0ec1571.ams-static-02.cdntogo.net/hls/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDcwNjEyMTs5OTMwNDY7MTc3Nzc5OTYwMyZoPW84Ti1JZWcxRFk2ekVDQmZkM1JCV2cmZT0xNzc3ODg2MDAz/1/e3/mupcAtcc3ho1iRacp.mp4/index-v1a1.m3u8?loc=nl","#EXT-X-STREAM-INF:PROGRAM-ID=1,BANDWIDTH=307520,VIDEO-RANGE=SDR,RESOLUTION=720x406,CODECS=\"hvc1.2.4.L150.B0,mp4a.40.2\",FRAME-RATE=23.976,HDCP-LEVEL=NONE","https://86feaca6-c052-436f-8b78-99cea0ec1571.ams-static-01.cdntogo.net/hls/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDcwNjEyMTs5OTMwNDY7MTc3Nzc5OTYwMyZoPW84Ti1JZWcxRFk2ekVDQmZkM1JCV2cmZT0xNzc3ODg2MDAz/0/0c/No4ufu64F1ziqhl9S.mp4/index-v1a1.m3u8?loc=nl"]}
+09:13:25.233 7X7WPcta INFO  [lampa-evt] PlayerVideo/levels
+09:13:25.507 7X7WPcta INFO  [lampa-evt] PlayerVideo/play
+09:13:28.017 7X7WPcta INFO  [lampa-evt] PlayerVideo/canplay
+09:13:28.025 7X7WPcta INFO  [avplay] canplay {"state":"PLAYING","tracks":[{"index":0,"type":"VIDEO","extra":{"fourCC":"video/x-h265","Width":"3840","Height":"2160","Bit_rate":"99999999"}},{"index":1,"type":"AUDIO","extra":{"language":"eng","channels":"6","sample_rate":"48000","bit_rate":"1056","fourCC":"audio/mpeg"}}]}
+09:13:28.034 7X7WPcta INFO  [lampa-evt] PlayerVideo/loadeddata
+09:13:28.069 7X7WPcta INFO  [lampa-evt] PlayerVideo/tracks
+09:13:28.104 7X7WPcta INFO  [lampa-evt] PlayerVideo/pause
+09:13:28.322 7X7WPcta INFO  [lampa-evt] PlayerVideo/play
+09:13:33.040 7X7WPcta INFO  [lampa-evt] PlayerVideo/pause
+09:13:33.047 7X7WPcta INFO  [lampa-evt] PlayerVideo/rewind
+09:13:33.384 7X7WPcta INFO  [lampa-evt] PlayerVideo/pause
+09:13:33.388 7X7WPcta INFO  [lampa-evt] PlayerVideo/rewind
+09:13:33.490 7X7WPcta INFO  [lampa-evt] PlayerVideo/pause
+09:13:33.494 7X7WPcta INFO  [lampa-evt] PlayerVideo/rewind
+09:13:33.599 7X7WPcta INFO  [lampa-evt] PlayerVideo/pause
+09:13:33.602 7X7WPcta INFO  [lampa-evt] PlayerVideo/rewind
+09:13:33.707 7X7WPcta INFO  [lampa-evt] PlayerVideo/pause
+09:13:33.711 7X7WPcta INFO  [lampa-evt] PlayerVideo/rewind
+09:13:33.815 7X7WPcta INFO  [lampa-evt] PlayerVideo/pause
+09:13:33.819 7X7WPcta INFO  [lampa-evt] PlayerVideo/rewind
+09:13:33.923 7X7WPcta INFO  [lampa-evt] PlayerVideo/pause
+09:13:33.926 7X7WPcta INFO  [lampa-evt] PlayerVideo/rewind
+09:13:34.031 7X7WPcta INFO  [lampa-evt] PlayerVideo/pause
+09:13:34.034 7X7WPcta INFO  [lampa-evt] PlayerVideo/rewind
+09:13:34.139 7X7WPcta INFO  [lampa-evt] PlayerVideo/pause
+09:13:34.143 7X7WPcta INFO  [lampa-evt] PlayerVideo/rewind
+09:13:34.247 7X7WPcta INFO  [lampa-evt] PlayerVideo/pause
+09:13:34.250 7X7WPcta INFO  [lampa-evt] PlayerVideo/rewind
+09:13:34.355 7X7WPcta INFO  [lampa-evt] PlayerVideo/pause
+09:13:34.359 7X7WPcta INFO  [lampa-evt] PlayerVideo/rewind
+09:13:34.462 7X7WPcta INFO  [lampa-evt] PlayerVideo/pause
+09:13:34.465 7X7WPcta INFO  [lampa-evt] PlayerVideo/rewind
+09:13:35.645 7X7WPcta INFO  [lampa-evt] PlayerVideo/play
+09:13:39.389 7X7WPcta INFO  [lampa-evt] Player/destroy
+09:13:46.513 7X7WPcta DEBUG [player] play-element built {"title":"s5e07 - Линда","url":"https://cdn2cdn.com/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDcwNjEyMTs5ODk1Njk7MTc3Nzc5OTYwMyZoPTQyWUNtd2twdjU2dFNWWnJDbzlqd1EmZT0xNzc3ODg2MDAz/989569.m3u8?loc=nl","q":2160,"voiceIdx":3,"voice":"Многоголосый NewStudio [RUS] (AAC)","voicesAvailable":12,"player":"tizen","subs":0,"subsAvailable":0}
+09:13:46.539 7X7WPcta DEBUG [player] play-element built {"title":"s5e01 - Трагедия общин","url":"https://cdn2cdn.com/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDcwNjEyMTs5ODEyNDc7MTc3Nzc5OTYwMyZoPXVsdHJoVUZrQXhHcDBPWE1MR2xPdGcmZT0xNzc3ODg2MDAz/981247.m3u8?loc=nl","q":2160,"voiceIdx":3,"voice":"Многоголосый NewStudio [RUS] (AAC)","voicesAvailable":12,"player":"tizen","subs":0,"subsAvailable":2}
+09:13:46.541 7X7WPcta DEBUG [player] play-element built {"title":"s5e02 - Испытания и потрясения","url":"https://cdn2cdn.com/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDcwNjEyMTs5ODE0MjE7MTc3Nzc5OTYwMyZoPTZneEZ3RUhLVUR4Tk10dFlGeUd3Q3cmZT0xNzc3ODg2MDAz/981421.m3u8?loc=nl","q":2160,"voiceIdx":3,"voice":"Многоголосый NewStudio [RUS] (AAC)","voicesAvailable":12,"player":"tizen","subs":0,"subsAvailable":0}
+09:13:46.543 7X7WPcta DEBUG [player] play-element built {"title":"s5e03 - Парадокс посреднических сделок","url":"https://cdn2cdn.com/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDcwNjEyMTs5ODMyMTI7MTc3Nzc5OTYwMyZoPW9PclE4cnY4cFdldUIxUDJ3LXFjX0EmZT0xNzc3ODg2MDAz/983212.m3u8?loc=nl","q":2160,"voiceIdx":3,"voice":"Многоголосый NewStudio [RUS] (AAC)","voicesAvailable":12,"player":"tizen","subs":0,"subsAvailable":0}
+09:13:46.544 7X7WPcta DEBUG [player] play-element built {"title":"s5e04 - Нерастворимость","url":"https://cdn2cdn.com/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDcwNjEyMTs5ODUwNzU7MTc3Nzc5OTYwMyZoPWJVeHZoZ01VZFRTczg5OXN0ZU5PVGcmZT0xNzc3ODg2MDAz/985075.m3u8?loc=nl","q":2160,"voiceIdx":3,"voice":"Многоголосый NewStudio [RUS] (AAC)","voicesAvailable":12,"player":"tizen","subs":0,"subsAvailable":0}
+09:13:46.546 7X7WPcta DEBUG [player] play-element built {"title":"s5e05 - Тигр","url":"https://cdn2cdn.com/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDcwNjEyMTs5ODYzODk7MTc3Nzc5OTYwMyZoPTVjV19nSnAxNkZKVDJYZWhEUUd0REEmZT0xNzc3ODg2MDAz/986389.m3u8?loc=nl","q":2160,"voiceIdx":3,"voice":"Многоголосый NewStudio [RUS] (AAC)","voicesAvailable":12,"player":"tizen","subs":0,"subsAvailable":0}
+09:13:46.547 7X7WPcta DEBUG [player] play-element built {"title":"s5e06 - Трепетный капкан","url":"https://cdn2cdn.com/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDcwNjEyMTs5ODc3MDM7MTc3Nzc5OTYwMyZoPXJ5YXZNWW5xX1hyUXhMakpJM3lhVkEmZT0xNzc3ODg2MDAz/987703.m3u8?loc=nl","q":2160,"voiceIdx":3,"voice":"Многоголосый NewStudio [RUS] (AAC)","voicesAvailable":12,"player":"tizen","subs":0,"subsAvailable":0}
+09:13:46.549 7X7WPcta DEBUG [player] play-element built {"title":"s5e07 - Линда","url":"https://cdn2cdn.com/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDcwNjEyMTs5ODk1Njk7MTc3Nzc5OTYwMyZoPTQyWUNtd2twdjU2dFNWWnJDbzlqd1EmZT0xNzc3ODg2MDAz/989569.m3u8?loc=nl","q":2160,"voiceIdx":3,"voice":"Многоголосый NewStudio [RUS] (AAC)","voicesAvailable":12,"player":"tizen","subs":0,"subsAvailable":0}
+09:13:46.551 7X7WPcta DEBUG [player] play-element built {"title":"s5e08 - Одеяло","url":"https://cdn2cdn.com/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDcwNjEyMTs5OTA3NzI7MTc3Nzc5OTYwMyZoPWFBeF9yU0RLX0x5ampEM2JSaG1NaWcmZT0xNzc3ODg2MDAz/990772.m3u8?loc=nl","q":2160,"voiceIdx":3,"voice":"Многоголосый NewStudio [RUS] (AAC)","voicesAvailable":12,"player":"tizen","subs":0,"subsAvailable":0}
+09:13:46.552 7X7WPcta DEBUG [player] play-element built {"title":"s5e09 - Бесполезная рука","url":"https://cdn2cdn.com/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDcwNjEyMTs5OTE5NjA7MTc3Nzc5OTYwMyZoPTVBX0dGWUxoVDM2NjllUzBXenNSMWcmZT0xNzc3ODg2MDAz/991960.m3u8?loc=nl","q":2160,"voiceIdx":3,"voice":"Многоголосый NewStudio [RUS] (AAC)","voicesAvailable":12,"player":"tizen","subs":0,"subsAvailable":0}
+09:13:46.554 7X7WPcta DEBUG [player] play-element built {"title":"s5e10 - Бисквит","url":"https://cdn2cdn.com/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDcwNjEyMTs5OTMwNDY7MTc3Nzc5OTYwMyZoPW84Ti1JZWcxRFk2ekVDQmZkM1JCV2cmZT0xNzc3ODg2MDAz/993046.m3u8?loc=nl","q":2160,"voiceIdx":3,"voice":"Многоголосый NewStudio [RUS] (AAC)","voicesAvailable":12,"player":"tizen","subs":0,"subsAvailable":0}
+09:13:46.556 7X7WPcta INFO  [player] launching {"url":"https://cdn2cdn.com/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDcwNjEyMTs5ODk1Njk7MTc3Nzc5OTYwMyZoPTQyWUNtd2twdjU2dFNWWnJDbzlqd1EmZT0xNzc3ODg2MDAz/989569.m3u8?loc=nl","playlist":10,"title":"Фарго s5e07 - Линда"}
+09:13:46.558 7X7WPcta INFO  [lampa-evt] Player/create
+09:13:46.571 7X7WPcta INFO  [lampa-evt] Player/start
+09:13:46.647 7X7WPcta INFO  [lampa-evt] Player/ready
+09:13:46.765 7X7WPcta INFO  [manifest] master.m3u8 {"url":"https://cdn2cdn.com/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDcwNjEyMTs5ODk1Njk7MTc3Nzc5OTYwMyZoPTQyWUNtd2twdjU2dFNWWnJDbzlqd1EmZT0xNzc3ODg2MDAz/989569.m3u8?loc=nl","length":3189,"lineCount":22,"keep":["#EXTM3U","#EXT-X-VERSION:3","#EXT-X-INDEPENDENT-SEGMENTS","#EXT-X-STREAM-INF:PROGRAM-ID=1,BANDWIDTH=5774673,VIDEO-RANGE=SDR,RESOLUTION=3840x2160,CODECS=\"hvc1.2.4.L150.B0,mp4a.40.2\",FRAME-RATE=23.976,HDCP-LEVEL=NONE","https://3ca02ace-9c82-11eb-9ce3-04d4c439219f.ams-static-03.cdntogo.net/hls/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDcwNjEyMTs5ODk1Njk7MTc3Nzc5OTYwMyZoPTQyWUNtd2twdjU2dFNWWnJDbzlqd1EmZT0xNzc3ODg2MDAz/d/75/FTDwe1JnTobzQn0YT.mp4/index-v1a1.m3u8?loc=nl","#EXT-X-STREAM-INF:PROGRAM-ID=1,BANDWIDTH=2117391,VIDEO-RANGE=SDR,RESOLUTION=1920x1080,CODECS=\"hvc1.2.4.L150.B0,mp4a.40.2\",FRAME-RATE=23.976,HDCP-LEVEL=NONE","https://3ca02ace-9c82-11eb-9ce3-04d4c439219f.ams-static-14.cdntogo.net/hls/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDcwNjEyMTs5ODk1Njk7MTc3Nzc5OTYwMyZoPTQyWUNtd2twdjU2dFNWWnJDbzlqd1EmZT0xNzc3ODg2MDAz/6/91/Aqk60isQJYXw5znkE.mp4/index-v1a1.m3u8?loc=nl","#EXT-X-STREAM-INF:PROGRAM-ID=1,BANDWIDTH=792147,VIDEO-RANGE=SDR,RESOLUTION=1280x720,CODECS=\"hvc1.2.4.L150.B0,mp4a.40.2\",FRAME-RATE=23.976,HDCP-LEVEL=NONE","https://3ca02ace-9c82-11eb-9ce3-04d4c439219f.ams-static-15.cdntogo.net/hls/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDcwNjEyMTs5ODk1Njk7MTc3Nzc5OTYwMyZoPTQyWUNtd2twdjU2dFNWWnJDbzlqd1EmZT0xNzc3ODg2MDAz/b/4e/Bwk8NzUs4f8qhK7LI.mp4/index-v1a1.m3u8?loc=nl","#EXT-X-STREAM-INF:PROGRAM-ID=1,BANDWIDTH=335298,VIDEO-RANGE=SDR,RESOLUTION=720x406,CODECS=\"hvc1.2.4.L150.B0,mp4a.40.2\",FRAME-RATE=23.976,HDCP-LEVEL=NONE","https://3ca02ace-9c82-11eb-9ce3-04d4c439219f.ams-static-03.cdntogo.net/hls/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDcwNjEyMTs5ODk1Njk7MTc3Nzc5OTYwMyZoPTQyWUNtd2twdjU2dFNWWnJDbzlqd1EmZT0xNzc3ODg2MDAz/5/8f/gnNx8lZ1siKxUKgb6.mp4/index-v1a1.m3u8?loc=nl"]}
+09:13:46.959 7X7WPcta INFO  [lampa-evt] PlayerVideo/levels
+09:13:46.978 7X7WPcta INFO  [lampa-evt] PlayerVideo/play
+09:13:49.946 7X7WPcta INFO  [lampa-evt] PlayerVideo/canplay
+09:13:49.951 7X7WPcta INFO  [avplay] canplay {"state":"PLAYING","tracks":[{"index":0,"type":"VIDEO","extra":{"fourCC":"video/x-h265","Width":"3840","Height":"2160","Bit_rate":"99999999"}},{"index":1,"type":"AUDIO","extra":{"language":"eng","channels":"6","sample_rate":"48000","bit_rate":"815","fourCC":"audio/mpeg"}}]}
+09:13:49.959 7X7WPcta INFO  [lampa-evt] PlayerVideo/loadeddata
+09:13:49.990 7X7WPcta INFO  [lampa-evt] PlayerVideo/tracks
+09:13:54.256 7X7WPcta INFO  [lampa-evt] Player/destroy
+09:13:59.372 7X7WPcta DEBUG [player] play-element built {"title":"s5e01 - Трагедия общин","url":"https://cdn2cdn.com/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDcwNjEyMTs5ODEyNDc7MTc3Nzc5OTYwMyZoPXVsdHJoVUZrQXhHcDBPWE1MR2xPdGcmZT0xNzc3ODg2MDAz/981247.m3u8?loc=nl","q":2160,"voiceIdx":3,"voice":"Многоголосый NewStudio [RUS] (AAC)","voicesAvailable":12,"player":"tizen","subs":0,"subsAvailable":2}
+09:13:59.399 7X7WPcta DEBUG [player] play-element built {"title":"s5e01 - Трагедия общин","url":"https://cdn2cdn.com/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDcwNjEyMTs5ODEyNDc7MTc3Nzc5OTYwMyZoPXVsdHJoVUZrQXhHcDBPWE1MR2xPdGcmZT0xNzc3ODg2MDAz/981247.m3u8?loc=nl","q":2160,"voiceIdx":3,"voice":"Многоголосый NewStudio [RUS] (AAC)","voicesAvailable":12,"player":"tizen","subs":0,"subsAvailable":2}
+09:13:59.401 7X7WPcta DEBUG [player] play-element built {"title":"s5e02 - Испытания и потрясения","url":"https://cdn2cdn.com/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDcwNjEyMTs5ODE0MjE7MTc3Nzc5OTYwMyZoPTZneEZ3RUhLVUR4Tk10dFlGeUd3Q3cmZT0xNzc3ODg2MDAz/981421.m3u8?loc=nl","q":2160,"voiceIdx":3,"voice":"Многоголосый NewStudio [RUS] (AAC)","voicesAvailable":12,"player":"tizen","subs":0,"subsAvailable":0}
+09:13:59.402 7X7WPcta DEBUG [player] play-element built {"title":"s5e03 - Парадокс посреднических сделок","url":"https://cdn2cdn.com/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDcwNjEyMTs5ODMyMTI7MTc3Nzc5OTYwMyZoPW9PclE4cnY4cFdldUIxUDJ3LXFjX0EmZT0xNzc3ODg2MDAz/983212.m3u8?loc=nl","q":2160,"voiceIdx":3,"voice":"Многоголосый NewStudio [RUS] (AAC)","voicesAvailable":12,"player":"tizen","subs":0,"subsAvailable":0}
+09:13:59.404 7X7WPcta DEBUG [player] play-element built {"title":"s5e04 - Нерастворимость","url":"https://cdn2cdn.com/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDcwNjEyMTs5ODUwNzU7MTc3Nzc5OTYwMyZoPWJVeHZoZ01VZFRTczg5OXN0ZU5PVGcmZT0xNzc3ODg2MDAz/985075.m3u8?loc=nl","q":2160,"voiceIdx":3,"voice":"Многоголосый NewStudio [RUS] (AAC)","voicesAvailable":12,"player":"tizen","subs":0,"subsAvailable":0}
+09:13:59.406 7X7WPcta DEBUG [player] play-element built {"title":"s5e05 - Тигр","url":"https://cdn2cdn.com/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDcwNjEyMTs5ODYzODk7MTc3Nzc5OTYwMyZoPTVjV19nSnAxNkZKVDJYZWhEUUd0REEmZT0xNzc3ODg2MDAz/986389.m3u8?loc=nl","q":2160,"voiceIdx":3,"voice":"Многоголосый NewStudio [RUS] (AAC)","voicesAvailable":12,"player":"tizen","subs":0,"subsAvailable":0}
+09:13:59.407 7X7WPcta DEBUG [player] play-element built {"title":"s5e06 - Трепетный капкан","url":"https://cdn2cdn.com/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDcwNjEyMTs5ODc3MDM7MTc3Nzc5OTYwMyZoPXJ5YXZNWW5xX1hyUXhMakpJM3lhVkEmZT0xNzc3ODg2MDAz/987703.m3u8?loc=nl","q":2160,"voiceIdx":3,"voice":"Многоголосый NewStudio [RUS] (AAC)","voicesAvailable":12,"player":"tizen","subs":0,"subsAvailable":0}
+09:13:59.409 7X7WPcta DEBUG [player] play-element built {"title":"s5e07 - Линда","url":"https://cdn2cdn.com/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDcwNjEyMTs5ODk1Njk7MTc3Nzc5OTYwMyZoPTQyWUNtd2twdjU2dFNWWnJDbzlqd1EmZT0xNzc3ODg2MDAz/989569.m3u8?loc=nl","q":2160,"voiceIdx":3,"voice":"Многоголосый NewStudio [RUS] (AAC)","voicesAvailable":12,"player":"tizen","subs":0,"subsAvailable":0}
+09:13:59.410 7X7WPcta DEBUG [player] play-element built {"title":"s5e08 - Одеяло","url":"https://cdn2cdn.com/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDcwNjEyMTs5OTA3NzI7MTc3Nzc5OTYwMyZoPWFBeF9yU0RLX0x5ampEM2JSaG1NaWcmZT0xNzc3ODg2MDAz/990772.m3u8?loc=nl","q":2160,"voiceIdx":3,"voice":"Многоголосый NewStudio [RUS] (AAC)","voicesAvailable":12,"player":"tizen","subs":0,"subsAvailable":0}
+09:13:59.412 7X7WPcta DEBUG [player] play-element built {"title":"s5e09 - Бесполезная рука","url":"https://cdn2cdn.com/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDcwNjEyMTs5OTE5NjA7MTc3Nzc5OTYwMyZoPTVBX0dGWUxoVDM2NjllUzBXenNSMWcmZT0xNzc3ODg2MDAz/991960.m3u8?loc=nl","q":2160,"voiceIdx":3,"voice":"Многоголосый NewStudio [RUS] (AAC)","voicesAvailable":12,"player":"tizen","subs":0,"subsAvailable":0}
+09:13:59.414 7X7WPcta DEBUG [player] play-element built {"title":"s5e10 - Бисквит","url":"https://cdn2cdn.com/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDcwNjEyMTs5OTMwNDY7MTc3Nzc5OTYwMyZoPW84Ti1JZWcxRFk2ekVDQmZkM1JCV2cmZT0xNzc3ODg2MDAz/993046.m3u8?loc=nl","q":2160,"voiceIdx":3,"voice":"Многоголосый NewStudio [RUS] (AAC)","voicesAvailable":12,"player":"tizen","subs":0,"subsAvailable":0}
+09:13:59.415 7X7WPcta INFO  [player] launching {"url":"https://cdn2cdn.com/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDcwNjEyMTs5ODEyNDc7MTc3Nzc5OTYwMyZoPXVsdHJoVUZrQXhHcDBPWE1MR2xPdGcmZT0xNzc3ODg2MDAz/981247.m3u8?loc=nl","playlist":10,"title":"Фарго s5e01 - Трагедия общин"}
+09:13:59.418 7X7WPcta INFO  [lampa-evt] Player/create
+09:13:59.436 7X7WPcta INFO  [lampa-evt] Player/start
+09:13:59.505 7X7WPcta INFO  [lampa-evt] Player/ready
+09:13:59.635 7X7WPcta INFO  [manifest] master.m3u8 {"url":"https://cdn2cdn.com/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDcwNjEyMTs5ODEyNDc7MTc3Nzc5OTYwMyZoPXVsdHJoVUZrQXhHcDBPWE1MR2xPdGcmZT0xNzc3ODg2MDAz/981247.m3u8?loc=nl","length":3191,"lineCount":22,"keep":["#EXTM3U","#EXT-X-VERSION:3","#EXT-X-INDEPENDENT-SEGMENTS","#EXT-X-STREAM-INF:PROGRAM-ID=1,BANDWIDTH=10785152,VIDEO-RANGE=SDR,RESOLUTION=3840x2160,CODECS=\"hvc1.2.4.L150.B0,mp4a.40.2\",FRAME-RATE=23.976,HDCP-LEVEL=NONE","https://3ca02ace-9c82-11eb-9ce3-04d4c439219f.ams-static-03.cdntogo.net/hls/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDcwNjEyMTs5ODEyNDc7MTc3Nzc5OTYwMyZoPXVsdHJoVUZrQXhHcDBPWE1MR2xPdGcmZT0xNzc3ODg2MDAz/b/b1/Dq40a7dCbM8odSkIt.mp4/index-v1a1.m3u8?loc=nl","#EXT-X-STREAM-INF:PROGRAM-ID=1,BANDWIDTH=3952881,VIDEO-RANGE=SDR,RESOLUTION=1920x1080,CODECS=\"hvc1.2.4.L150.B0,mp4a.40.2\",FRAME-RATE=23.976,HDCP-LEVEL=NONE","https://3ca02ace-9c82-11eb-9ce3-04d4c439219f.ams-static-03.cdntogo.net/hls/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDcwNjEyMTs5ODEyNDc7MTc3Nzc5OTYwMyZoPXVsdHJoVUZrQXhHcDBPWE1MR2xPdGcmZT0xNzc3ODg2MDAz/f/f3/TIQUXtBOgJxMG4nvo.mp4/index-v1a1.m3u8?loc=nl","#EXT-X-STREAM-INF:PROGRAM-ID=1,BANDWIDTH=532203,VIDEO-RANGE=SDR,RESOLUTION=1280x720,CODECS=\"hvc1.2.4.L150.B0,mp4a.40.2\",FRAME-RATE=23.976,HDCP-LEVEL=NONE","https://3ca02ace-9c82-11eb-9ce3-04d4c439219f.ams-static-14.cdntogo.net/hls/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDcwNjEyMTs5ODEyNDc7MTc3Nzc5OTYwMyZoPXVsdHJoVUZrQXhHcDBPWE1MR2xPdGcmZT0xNzc3ODg2MDAz/b/25/ffEtuzsm8qlN2JDVg.mp4/index-v1a1.m3u8?loc=nl","#EXT-X-STREAM-INF:PROGRAM-ID=1,BANDWIDTH=239417,VIDEO-RANGE=SDR,RESOLUTION=720x406,CODECS=\"hvc1.2.4.L150.B0,mp4a.40.2\",FRAME-RATE=23.976,HDCP-LEVEL=NONE","https://3ca02ace-9c82-11eb-9ce3-04d4c439219f.ams-static-02.cdntogo.net/hls/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDcwNjEyMTs5ODEyNDc7MTc3Nzc5OTYwMyZoPXVsdHJoVUZrQXhHcDBPWE1MR2xPdGcmZT0xNzc3ODg2MDAz/f/a6/d6wATBea8BsH902Bg.mp4/index-v1a1.m3u8?loc=nl"]}
+09:13:59.831 7X7WPcta INFO  [lampa-evt] PlayerVideo/levels
+09:13:59.850 7X7WPcta INFO  [lampa-evt] PlayerVideo/play
+09:14:02.134 7X7WPcta INFO  [lampa-evt] PlayerVideo/canplay
+09:14:02.138 7X7WPcta INFO  [avplay] canplay {"state":"PLAYING","tracks":[{"index":0,"type":"VIDEO","extra":{"fourCC":"video/x-h265","Width":"3840","Height":"2160","Bit_rate":"99999999"}},{"index":1,"type":"AUDIO","extra":{"language":"eng","channels":"6","sample_rate":"48000","bit_rate":"694","fourCC":"audio/mpeg"}}]}
+09:14:02.147 7X7WPcta INFO  [lampa-evt] PlayerVideo/loadeddata
+09:14:02.173 7X7WPcta INFO  [lampa-evt] PlayerVideo/tracks
+09:14:02.933 7X7WPcta INFO  [lampa-evt] PlayerVideo/pause
+09:14:02.940 7X7WPcta INFO  [lampa-evt] PlayerVideo/rewind
+09:14:03.281 7X7WPcta INFO  [lampa-evt] PlayerVideo/pause
+09:14:03.285 7X7WPcta INFO  [lampa-evt] PlayerVideo/rewind
+09:14:03.390 7X7WPcta INFO  [lampa-evt] PlayerVideo/pause
+09:14:03.394 7X7WPcta INFO  [lampa-evt] PlayerVideo/rewind
+09:14:03.497 7X7WPcta INFO  [lampa-evt] PlayerVideo/pause
+09:14:03.500 7X7WPcta INFO  [lampa-evt] PlayerVideo/rewind
+09:14:03.605 7X7WPcta INFO  [lampa-evt] PlayerVideo/pause
+09:14:03.608 7X7WPcta INFO  [lampa-evt] PlayerVideo/rewind
+09:14:03.712 7X7WPcta INFO  [lampa-evt] PlayerVideo/pause
+09:14:03.716 7X7WPcta INFO  [lampa-evt] PlayerVideo/rewind
+09:14:03.820 7X7WPcta INFO  [lampa-evt] PlayerVideo/pause
+09:14:03.824 7X7WPcta INFO  [lampa-evt] PlayerVideo/rewind
+09:14:03.929 7X7WPcta INFO  [lampa-evt] PlayerVideo/pause
+09:14:03.932 7X7WPcta INFO  [lampa-evt] PlayerVideo/rewind
+09:14:04.037 7X7WPcta INFO  [lampa-evt] PlayerVideo/pause
+09:14:04.040 7X7WPcta INFO  [lampa-evt] PlayerVideo/rewind
+09:14:04.145 7X7WPcta INFO  [lampa-evt] PlayerVideo/pause
+09:14:04.148 7X7WPcta INFO  [lampa-evt] PlayerVideo/rewind
+09:14:04.253 7X7WPcta INFO  [lampa-evt] PlayerVideo/pause
+09:14:04.256 7X7WPcta INFO  [lampa-evt] PlayerVideo/rewind
+09:14:04.360 7X7WPcta INFO  [lampa-evt] PlayerVideo/pause
+09:14:04.364 7X7WPcta INFO  [lampa-evt] PlayerVideo/rewind
+09:14:05.527 7X7WPcta INFO  [lampa-evt] PlayerVideo/play
+09:14:10.249 7X7WPcta INFO  [lampa-evt] Player/destroy
+

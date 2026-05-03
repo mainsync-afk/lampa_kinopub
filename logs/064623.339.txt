@@ -1,0 +1,208 @@
+06:41:51.360 BPOAn0mc INFO  [boot] kp.js v1.0.26 starting {"session":"BPOAn0mc","app":318,"ua":"Mozilla/5.0 (SMART-TV; LINUX; Tizen 9.0) AppleWebKit/537.36 (KHTML, like Gecko) 120.0.6099.5/9.0 TV Safari/537.36"}
+06:41:51.370 BPOAn0mc DEBUG [api] GET /user null
+06:41:51.376 BPOAn0mc INFO  [identity] sending /device/notify {"title":"Lampa (Samsung TV)","hardware":"Samsung Tizen 9.0","software":"kp.js 1.0.26 / Lampa 318","_platform":"tizen"}
+06:41:51.378 BPOAn0mc DEBUG [api] POST /device/notify {"title":"Lampa (Samsung TV)","hardware":"Samsung Tizen 9.0","software":"kp.js 1.0.26 / Lampa 318"}
+06:41:51.384 BPOAn0mc DEBUG [console] StorageWorker online_choice_kpapi start follow
+06:41:51.390 BPOAn0mc INFO  [boot] kp.js initialized
+06:41:51.393 BPOAn0mc DEBUG [console] Extensions include: https://mainsync-afk.github.io/lampa_kinopub/kp.js
+06:41:51.526 BPOAn0mc DEBUG [console] Plugins update plugin cache: https://mainsync-afk.github.io/lampa_kinopub/kp.js
+06:41:52.043 BPOAn0mc DEBUG [api] GET /user ok
+06:41:52.046 BPOAn0mc INFO  [auth] profile ok {"name":"eugenestraw","subscribed":{"active":true,"end_time":1792246646,"days":167.3}}
+06:41:52.051 BPOAn0mc DEBUG [api] POST /device/notify ok
+06:41:52.053 BPOAn0mc INFO  [identity] notify ok {"status":200}
+06:41:52.151 BPOAn0mc DEBUG [console] Extensions include: https://s.fastcdn.pics/s.js
+06:41:52.164 BPOAn0mc INFO  [lampa-evt] app/start
+06:41:52.334 BPOAn0mc DEBUG [console] Tizen start pick
+06:41:52.362 BPOAn0mc DEBUG [console] Tizen current id 0SG81L944v.Lampa
+06:41:52.366 BPOAn0mc DEBUG [console] LoadingProgress status: Tizen init
+06:41:52.392 BPOAn0mc DEBUG [console] LoadingProgress status: Player init
+06:41:52.468 BPOAn0mc DEBUG [console] App user agent: Mozilla/5.0 (SMART-TV; LINUX; Tizen 9.0) AppleWebKit/537.36 (KHTML, like Gecko) 120.0.6099.5/9.0 TV Safari/537.36
+06:41:52.484 BPOAn0mc DEBUG [console] App platform: tizen
+06:41:52.540 BPOAn0mc DEBUG [console] Script create: http://lampa.mx/vender/hls/hls.js
+06:41:52.633 BPOAn0mc INFO  [lampa-evt] app/ready
+06:41:52.884 BPOAn0mc INFO  [lampa-evt] activity/init
+06:41:52.917 BPOAn0mc INFO  [lampa-evt] activity/create
+06:41:52.964 BPOAn0mc INFO  [lampa-evt] activity/start
+06:41:53.010 BPOAn0mc DEBUG [console] Plugins update plugin cache: https://s.fastcdn.pics/s.js
+06:41:53.258 BPOAn0mc DEBUG [console] Script include: http://lampa.mx/vender/hls/hls.js
+06:42:15.866 BPOAn0mc INFO  [lampa-evt] activity/init
+06:42:15.870 BPOAn0mc INFO  [lampa-evt] activity/create
+06:42:15.887 BPOAn0mc INFO  [lampa-evt] activity/start
+06:42:36.864 BPOAn0mc INFO  [lampa-evt] activity/init
+06:42:36.876 BPOAn0mc INFO  [lampa-evt] activity/create
+06:42:36.893 BPOAn0mc INFO  [lampa-evt] activity/start
+06:42:43.445 BPOAn0mc INFO  [launch] open activity {"id":255055,"title":"Док","orig":"Doc"}
+06:42:43.466 BPOAn0mc INFO  [lampa-evt] activity/init
+06:42:43.468 BPOAn0mc INFO  [lampa-evt] activity/create
+06:42:43.495 BPOAn0mc INFO  [component] find query=Док
+06:42:43.498 BPOAn0mc INFO  [source] searchByTitle {"query":"Док","year":2025,"orig":"Doc","rus":"Док","imdb":"tt26748321","imdbNum":26748321,"type":"serial"}
+06:42:43.500 BPOAn0mc DEBUG [api] GET /items/search {"q":"Док","field":"title","perpage":50,"type":"serial"}
+06:42:43.514 BPOAn0mc INFO  [lampa-evt] activity/start
+06:42:43.838 BPOAn0mc DEBUG [api] GET /items/search ok
+06:42:43.840 BPOAn0mc INFO  [source] search ok {"count":50}
+06:42:43.843 BPOAn0mc DEBUG [source] top candidates [{"id":52093,"title":"Доктор Стоун / Dr. Stone","year":2019,"type":"serial","imdb":9679542},{"id":99451,"title":"Закон и порядок Торонто: Преступный умысел / Law & Order Toronto: Criminal Intent","year":2024,"type":"serial","imdb":27954448},{"id":37015,"title":"Закон и порядок. Специальный корпус / Law & Order: Special Victims Unit","year":1999,"type":"serial","imdb":203259},{"id":116377,"title":"Закон и порядок / Law & Order","year":1990,"type":"serial","imdb":98844},{"id":107962,"title":"Док / Doc","year":2025,"type":"serial","imdb":26748321}]
+06:42:43.846 BPOAn0mc INFO  [source] matched by imdb {"id":107962,"imdb":26748321}
+06:42:43.848 BPOAn0mc INFO  [source] matched card {"id":107962,"title":"Док / Doc","year":2025,"type":"serial"}
+06:42:43.850 BPOAn0mc INFO  [source] find() id=107962
+06:42:43.852 BPOAn0mc DEBUG [api] GET /items/107962 null
+06:42:44.084 BPOAn0mc DEBUG [api] GET /items/107962 ok
+06:42:44.087 BPOAn0mc INFO  [source] item loaded {"id":107962,"type":"serial","seasons":2,"videos":0}
+06:42:44.089 BPOAn0mc DEBUG [source] sample audio entry [0] {"id":3249265,"index":1,"codec":"aac","channels":6,"lang":"rus","type":{"id":2,"title":"Многоголосый","short_title":"MVO"},"author":{"id":1621,"title":"TVShows","short_title":""}}
+06:42:44.091 BPOAn0mc DEBUG [source] sample audio entry [1] {"id":3249268,"index":2,"codec":"aac","channels":2,"lang":"rus","type":{"id":2,"title":"Многоголосый","short_title":"MVO"},"author":null}
+06:42:44.100 BPOAn0mc DEBUG [source] extracted serial {"seasons":2,"totalEpisodes":32,"voicesPerSeason":[6,7]}
+06:42:44.109 BPOAn0mc INFO  [format] auto resolved {"player":"tizen","format":"hls4"}
+06:42:44.116 BPOAn0mc DEBUG [source] append items {"count":22}
+06:42:49.564 BPOAn0mc DEBUG [source] filter change {"type":"voice","index":3}
+06:42:49.566 BPOAn0mc INFO  [voice] user picked {"season":1,"name":"04.3472789","key":"eng|Оригинал||aac"}
+06:42:49.578 BPOAn0mc DEBUG [source] append items {"count":22}
+06:42:51.408 BPOAn0mc DEBUG [player] play-element built {"title":"s2e01 - Её сердце","url":"https://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMDk0ODY5OzE3Nzc3OTA1NjQmaD1ZZWc3UUJXRmlYYVFUdmVUeFR2MWFBJmU9MTc3Nzg3Njk2NA/1094869.m3u8?loc=nl","q":1080,"voiceIdx":3,"voice":"04.3472789","voicesAvailable":5,"player":"tizen","subs":0,"subsAvailable":0}
+06:42:51.411 BPOAn0mc DEBUG [player] play-element built {"title":"s2e01 - Её сердце","url":"https://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMDk0ODY5OzE3Nzc3OTA1NjQmaD1ZZWc3UUJXRmlYYVFUdmVUeFR2MWFBJmU9MTc3Nzg3Njk2NA/1094869.m3u8?loc=nl","q":1080,"voiceIdx":3,"voice":"04.3472789","voicesAvailable":5,"player":"tizen","subs":0,"subsAvailable":0}
+06:42:51.413 BPOAn0mc DEBUG [player] play-element built {"title":"s2e02 - Великие заблуждения","url":"https://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMDk4MzMxOzE3Nzc3OTA1NjQmaD1ZdW9OSk9DVjRvQ3paamxWTVNFbHpBJmU9MTc3Nzg3Njk2NA/1098331.m3u8?loc=nl","q":1080,"voiceIdx":3,"voice":"04.3493189","voicesAvailable":5,"player":"tizen","subs":0,"subsAvailable":0}
+06:42:51.415 BPOAn0mc DEBUG [player] play-element built {"title":"s2e03 - Новая кровь","url":"https://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMDk4NjI4OzE3Nzc3OTA1NjQmaD1tdGUxUjB4RzNyVlo5bTgtZmxOVEhnJmU9MTc3Nzg3Njk2NA/1098628.m3u8?loc=nl","q":1080,"voiceIdx":3,"voice":"04.3507847","voicesAvailable":5,"player":"tizen","subs":0,"subsAvailable":0}
+06:42:51.417 BPOAn0mc DEBUG [player] play-element built {"title":"s2e04 - Что-то доказать","url":"https://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMTAxODgwOzE3Nzc3OTA1NjQmaD1JbElubDA0Q2JCRDhIbDN0amp0RnlnJmU9MTc3Nzg3Njk2NA/1101880.m3u8?loc=nl","q":1080,"voiceIdx":3,"voice":"04.3514321","voicesAvailable":5,"player":"tizen","subs":0,"subsAvailable":0}
+06:42:51.419 BPOAn0mc DEBUG [player] play-element built {"title":"s2e05 - Тонкая грань","url":"https://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMTAzMTkxOzE3Nzc3OTA1NjQmaD1Za1FXckN1bDM3OVpkQTlqZXFkMGxRJmU9MTc3Nzg3Njk2NA/1103191.m3u8?loc=nl","q":1080,"voiceIdx":3,"voice":"04.3532837","voicesAvailable":6,"player":"tizen","subs":0,"subsAvailable":0}
+06:42:51.420 BPOAn0mc DEBUG [player] play-element built {"title":"s2e06 - Святые и грешники","url":"https://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMTA3MTAzOzE3Nzc3OTA1NjQmaD1QTl9sYzBHM3lRTXVNNzA5Xy0yRnVnJmU9MTc3Nzg3Njk2NA/1107103.m3u8?loc=nl","q":1080,"voiceIdx":2,"voice":"03.3532738","voicesAvailable":3,"player":"tizen","subs":0,"subsAvailable":0}
+06:42:51.422 BPOAn0mc DEBUG [player] play-element built {"title":"s2e07 - Что я сделал ради любви","url":"https://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMTA3MTA2OzE3Nzc3OTA1NjQmaD0zdHYxUnp3R2RYMDRUT0hIWXVqXzVBJmU9MTc3Nzg3Njk2NA/1107106.m3u8?loc=nl","q":1080,"voiceIdx":0,"voice":"01.3532774","voicesAvailable":2,"player":"tizen","subs":0,"subsAvailable":0}
+06:42:51.424 BPOAn0mc DEBUG [player] play-element built {"title":"s2e08 - He Loved You","url":"https://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMTA4Njk2OzE3Nzc3OTA1NjQmaD0xX05lYTZWeUtrd0tNdjh4Z2lTZGJnJmU9MTc3Nzg3Njk2NA/1108696.m3u8?loc=nl","q":1080,"voiceIdx":0,"voice":"01.3540217","voicesAvailable":2,"player":"tizen","subs":0,"subsAvailable":0}
+06:42:51.426 BPOAn0mc DEBUG [player] play-element built {"title":"s2e09 - Kaddish","url":"https://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMTEwMTY2OzE3Nzc3OTA1NjQmaD1rY0ZZVXhhYnpraVNITHVaVjFZU0VnJmU9MTc3Nzg3Njk2NA/1110166.m3u8?loc=nl","q":1080,"voiceIdx":0,"voice":"01.3548296","voicesAvailable":2,"player":"tizen","subs":0,"subsAvailable":0}
+06:42:51.427 BPOAn0mc DEBUG [player] play-element built {"title":"s2e10 - Chief","url":"https://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMTE4MzYyOzE3Nzc3OTA1NjQmaD1oQUJLT2tvU0dFbVkzd3JPNU45b1RnJmU9MTc3Nzg3Njk2NA/1118362.m3u8?loc=nl","q":1080,"voiceIdx":2,"voice":"03.3587239","voicesAvailable":3,"player":"tizen","subs":0,"subsAvailable":0}
+06:42:51.429 BPOAn0mc DEBUG [player] play-element built {"title":"s2e11 - Family Matters","url":"https://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMTE4NjkyOzE3Nzc3OTA1NjQmaD1rSG1GejBrLXdEa1N3TXZMWU94WkJRJmU9MTc3Nzg3Njk2NA/1118692.m3u8?loc=nl","q":1080,"voiceIdx":1,"voice":"02.3589351","voicesAvailable":2,"player":"tizen","subs":0,"subsAvailable":0}
+06:42:51.431 BPOAn0mc DEBUG [player] play-element built {"title":"s2e12 - Inquisition","url":"https://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMTE5NjgyOzE3Nzc3OTA1NjQmaD16NHk5Y2NKUmNUQVh3UHVrN2lYdWx3JmU9MTc3Nzg3Njk2NA/1119682.m3u8?loc=nl","q":1080,"voiceIdx":1,"voice":"02.3598051","voicesAvailable":2,"player":"tizen","subs":0,"subsAvailable":0}
+06:42:51.433 BPOAn0mc DEBUG [player] play-element built {"title":"s2e13","url":"https://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMTIwNzIzOzE3Nzc3OTA1NjQmaD1uVDZxQlU5ZE52MkktdkhzY3hONUtBJmU9MTc3Nzg3Njk2NA/1120723.m3u8?loc=nl","q":1080,"voiceIdx":0,"voice":"01.3605125","voicesAvailable":2,"player":"tizen","subs":0,"subsAvailable":0}
+06:42:51.435 BPOAn0mc DEBUG [player] play-element built {"title":"s2e14 - When You Know, You Know","url":"https://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMTIyODgwOzE3Nzc3OTA1NjQmaD1pS3hoTU5iV2hzU0s4ZU9rSmtuRTRBJmU9MTc3Nzg3Njk2NA/1122880.m3u8?loc=nl","q":1080,"voiceIdx":2,"voice":"03.3615979","voicesAvailable":3,"player":"tizen","subs":0,"subsAvailable":0}
+06:42:51.436 BPOAn0mc DEBUG [player] play-element built {"title":"s2e15 - Trust","url":"https://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMTIyODMyOzE3Nzc3OTA1NjQmaD1Dak0xT0Fzd0hwUHdIc2M3TEFzLUVRJmU9MTc3Nzg3Njk2NA/1122832.m3u8?loc=nl","q":1080,"voiceIdx":0,"voice":"01.3615787","voicesAvailable":2,"player":"tizen","subs":0,"subsAvailable":0}
+06:42:51.438 BPOAn0mc DEBUG [player] play-element built {"title":"s2e16 - The Best We Can Do","url":"https://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMTI2MDU0OzE3Nzc3OTA1NjQmaD1fSm5SZmY4V1o3Q29fTTFUdk1QUkZBJmU9MTc3Nzg3Njk2NA/1126054.m3u8?loc=nl","q":1080,"voiceIdx":0,"voice":"01.3641308","voicesAvailable":3,"player":"tizen","subs":0,"subsAvailable":0}
+06:42:51.440 BPOAn0mc DEBUG [player] play-element built {"title":"s2e17 - Good Hands","url":"https://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMTI5OTA2OzE3Nzc3OTA1NjQmaD1SNzNsY1VHYi0yNU1XQVp4M0xuT21BJmU9MTc3Nzg3Njk2NA/1129906.m3u8?loc=nl","q":1080,"voiceIdx":2,"voice":"03.3667873","voicesAvailable":3,"player":"tizen","subs":0,"subsAvailable":1}
+06:42:51.442 BPOAn0mc DEBUG [player] play-element built {"title":"s2e18 - Orientation","url":"https://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMTI5OTA5OzE3Nzc3OTA1NjQmaD1DTC1YSkdtY3I4ZUpmRGpDM1o2Q2J3JmU9MTc3Nzg3Njk2NA/1129909.m3u8?loc=nl","q":1080,"voiceIdx":2,"voice":"03.3667882","voicesAvailable":3,"player":"tizen","subs":0,"subsAvailable":0}
+06:42:51.443 BPOAn0mc DEBUG [player] play-element built {"title":"s2e19 - Next","url":"https://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMTMxMDY3OzE3Nzc3OTA1NjQmaD1ZaEFJUVpDb1dTb0RfM0d3S29HS3FBJmU9MTc3Nzg3Njk2NA/1131067.m3u8?loc=nl","q":1080,"voiceIdx":2,"voice":"03.3680242","voicesAvailable":3,"player":"tizen","subs":0,"subsAvailable":0}
+06:42:51.445 BPOAn0mc DEBUG [player] play-element built {"title":"s2e20 - The Big Chair","url":"https://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMTMyNzExOzE3Nzc3OTA1NjQmaD1NZnZTLWRpR2d4VDV5SFV5NEk1TTlRJmU9MTc3Nzg3Njk2NA/1132711.m3u8?loc=nl","q":1080,"voiceIdx":1,"voice":"02.3684451","voicesAvailable":2,"player":"tizen","subs":0,"subsAvailable":0}
+06:42:51.447 BPOAn0mc DEBUG [player] play-element built {"title":"s2e21 - Stuck","url":"https://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMTMzODM5OzE3Nzc3OTA1NjQmaD0teTg3RHZhMFloMWRqbF9RNExFd1BBJmU9MTc3Nzg3Njk2NA/1133839.m3u8?loc=nl","q":1080,"voiceIdx":1,"voice":"02.3690082","voicesAvailable":2,"player":"tizen","subs":0,"subsAvailable":0}
+06:42:51.449 BPOAn0mc DEBUG [player] play-element built {"title":"s2e22 - Happy Birthday","url":"https://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMTMzODMwOzE3Nzc3OTA1NjQmaD0wRFBWRVMxVUFjWnUtYjBmcGlDT0VRJmU9MTc3Nzg3Njk2NA/1133830.m3u8?loc=nl","q":1080,"voiceIdx":1,"voice":"02.3690037","voicesAvailable":2,"player":"tizen","subs":0,"subsAvailable":0}
+06:42:51.451 BPOAn0mc DEBUG [voice] context resolved for item {"season":2,"episode":1,"voiceIdx":3,"label":"04.3472789"}
+06:42:51.453 BPOAn0mc DEBUG [voice] remembered for episode {"hash":"47704697","key":"eng|Оригинал||aac"}
+06:42:51.454 BPOAn0mc INFO  [player] launching {"url":"https://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMDk0ODY5OzE3Nzc3OTA1NjQmaD1ZZWc3UUJXRmlYYVFUdmVUeFR2MWFBJmU9MTc3Nzg3Njk2NA/1094869.m3u8?loc=nl","playlist":22,"title":"Док s2e01 - Её сердце"}
+06:42:51.456 BPOAn0mc INFO  [lampa-evt] Player/create
+06:42:51.473 BPOAn0mc INFO  [lampa-evt] Player/start
+06:42:51.772 BPOAn0mc INFO  [lampa-evt] Player/ready
+06:42:51.827 BPOAn0mc INFO  [player-ui] next-episode-name override active {"label":"04.3472789"}
+06:42:52.461 BPOAn0mc INFO  [lampa-evt] PlayerVideo/translate
+06:42:52.464 BPOAn0mc INFO  [lampa-evt] PlayerVideo/translate
+06:42:52.598 BPOAn0mc INFO  [lampa-evt] PlayerVideo/play
+06:42:55.562 BPOAn0mc INFO  [lampa-evt] PlayerVideo/canplay
+06:42:55.567 BPOAn0mc DEBUG [voice] apply via canplay {"idx":3,"label":"04.3472789","key":"eng|Оригинал||aac"}
+06:42:55.688 BPOAn0mc INFO  [voice] switched via avplay {"idx":3,"nativeIdx":4,"total":5}
+06:42:55.694 BPOAn0mc INFO  [lampa-evt] PlayerVideo/loadeddata
+06:42:55.720 BPOAn0mc INFO  [lampa-evt] PlayerVideo/tracks
+06:42:55.723 BPOAn0mc INFO  [lampa-evt] PlayerVideo/subs
+06:42:55.742 BPOAn0mc INFO  [lampa-evt] PlayerVideo/pause
+06:42:55.987 BPOAn0mc INFO  [lampa-evt] PlayerVideo/play
+06:43:13.447 BPOAn0mc INFO  [phase-b] voice onSelect {"idx":0,"key":"rus|Многоголосый|TVShows|aac"}
+06:43:13.563 BPOAn0mc INFO  [voice] switched via avplay {"idx":0,"nativeIdx":1,"total":5}
+06:43:13.565 BPOAn0mc INFO  [phase-b] switch result {"idx":0,"ok":true}
+06:43:13.567 BPOAn0mc INFO  [phase-b] external voice change {"key":"rus|Многоголосый|TVShows|aac","label":"01.3472780"}
+06:43:23.783 BPOAn0mc INFO  [lampa-evt] PlayerVideo/pause
+06:43:23.785 BPOAn0mc INFO  [lampa-evt] PlayerVideo/pause
+06:43:55.546 BPOAn0mc INFO  [lampa-evt] PlayerVideo/pause
+06:43:55.551 BPOAn0mc INFO  [lampa-evt] PlayerVideo/rewind
+06:43:56.767 BPOAn0mc INFO  [lampa-evt] PlayerVideo/play
+06:44:00.225 BPOAn0mc INFO  [lampa-evt] PlayerVideo/pause
+06:44:00.259 BPOAn0mc INFO  [lampa-evt] PlayerVideo/rewind
+06:44:01.489 BPOAn0mc INFO  [lampa-evt] PlayerVideo/play
+06:44:09.162 BPOAn0mc INFO  [lampa-evt] PlayerVideo/pause
+06:44:09.190 BPOAn0mc INFO  [lampa-evt] PlayerVideo/pause
+06:44:25.144 BPOAn0mc INFO  [lampa-evt] PlayerVideo/pause
+06:44:25.176 BPOAn0mc INFO  [lampa-evt] PlayerVideo/rewind
+06:44:26.514 BPOAn0mc INFO  [lampa-evt] PlayerVideo/play
+06:44:41.603 BPOAn0mc INFO  [lampa-evt] PlayerVideo/pause
+06:44:41.633 BPOAn0mc INFO  [lampa-evt] PlayerVideo/pause
+06:44:44.903 BPOAn0mc INFO  [lampa-evt] PlayerVideo/play
+06:44:44.905 BPOAn0mc INFO  [lampa-evt] PlayerVideo/play
+06:44:47.701 BPOAn0mc INFO  [phase-b] voice onSelect {"idx":1,"key":"rus|Многоголосый||aac"}
+06:44:47.839 BPOAn0mc INFO  [voice] switched via avplay {"idx":1,"nativeIdx":2,"total":5}
+06:44:47.841 BPOAn0mc INFO  [phase-b] switch result {"idx":1,"ok":true}
+06:44:47.843 BPOAn0mc INFO  [phase-b] external voice change {"key":"rus|Многоголосый||aac","label":"02.3472783"}
+06:44:50.565 BPOAn0mc INFO  [lampa-evt] PlayerVideo/pause
+06:44:50.572 BPOAn0mc INFO  [lampa-evt] PlayerVideo/rewind
+06:44:51.783 BPOAn0mc INFO  [lampa-evt] PlayerVideo/play
+06:45:03.302 BPOAn0mc INFO  [lampa-evt] PlayerVideo/pause
+06:45:03.304 BPOAn0mc INFO  [lampa-evt] PlayerVideo/pause
+06:45:19.002 BPOAn0mc INFO  [lampa-evt] PlayerVideo/play
+06:45:19.033 BPOAn0mc INFO  [lampa-evt] PlayerVideo/play
+06:45:27.721 BPOAn0mc INFO  [phase-b] voice onSelect {"idx":3,"key":"eng|Оригинал||aac"}
+06:45:27.835 BPOAn0mc INFO  [voice] switched via avplay {"idx":3,"nativeIdx":4,"total":5}
+06:45:27.838 BPOAn0mc INFO  [phase-b] switch result {"idx":3,"ok":true}
+06:45:27.840 BPOAn0mc INFO  [phase-b] external voice change {"key":"eng|Оригинал||aac","label":"04.3472789"}
+06:45:34.267 BPOAn0mc INFO  [lampa-evt] Player/destroy
+06:45:38.624 BPOAn0mc DEBUG [player] play-element built {"title":"s2e01 - Её сердце","url":"https://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMDk0ODY5OzE3Nzc3OTA1NjQmaD1ZZWc3UUJXRmlYYVFUdmVUeFR2MWFBJmU9MTc3Nzg3Njk2NA/1094869.m3u8?loc=nl","q":1080,"voiceIdx":3,"voice":"04.3472789","voicesAvailable":5,"player":"tizen","subs":0,"subsAvailable":0}
+06:45:38.651 BPOAn0mc DEBUG [player] play-element built {"title":"s2e01 - Её сердце","url":"https://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMDk0ODY5OzE3Nzc3OTA1NjQmaD1ZZWc3UUJXRmlYYVFUdmVUeFR2MWFBJmU9MTc3Nzg3Njk2NA/1094869.m3u8?loc=nl","q":1080,"voiceIdx":3,"voice":"04.3472789","voicesAvailable":5,"player":"tizen","subs":0,"subsAvailable":0}
+06:45:38.653 BPOAn0mc DEBUG [player] play-element built {"title":"s2e02 - Великие заблуждения","url":"https://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMDk4MzMxOzE3Nzc3OTA1NjQmaD1ZdW9OSk9DVjRvQ3paamxWTVNFbHpBJmU9MTc3Nzg3Njk2NA/1098331.m3u8?loc=nl","q":1080,"voiceIdx":3,"voice":"04.3493189","voicesAvailable":5,"player":"tizen","subs":0,"subsAvailable":0}
+06:45:38.655 BPOAn0mc DEBUG [player] play-element built {"title":"s2e03 - Новая кровь","url":"https://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMDk4NjI4OzE3Nzc3OTA1NjQmaD1tdGUxUjB4RzNyVlo5bTgtZmxOVEhnJmU9MTc3Nzg3Njk2NA/1098628.m3u8?loc=nl","q":1080,"voiceIdx":3,"voice":"04.3507847","voicesAvailable":5,"player":"tizen","subs":0,"subsAvailable":0}
+06:45:38.657 BPOAn0mc DEBUG [player] play-element built {"title":"s2e04 - Что-то доказать","url":"https://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMTAxODgwOzE3Nzc3OTA1NjQmaD1JbElubDA0Q2JCRDhIbDN0amp0RnlnJmU9MTc3Nzg3Njk2NA/1101880.m3u8?loc=nl","q":1080,"voiceIdx":3,"voice":"04.3514321","voicesAvailable":5,"player":"tizen","subs":0,"subsAvailable":0}
+06:45:38.659 BPOAn0mc DEBUG [player] play-element built {"title":"s2e05 - Тонкая грань","url":"https://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMTAzMTkxOzE3Nzc3OTA1NjQmaD1Za1FXckN1bDM3OVpkQTlqZXFkMGxRJmU9MTc3Nzg3Njk2NA/1103191.m3u8?loc=nl","q":1080,"voiceIdx":3,"voice":"04.3532837","voicesAvailable":6,"player":"tizen","subs":0,"subsAvailable":0}
+06:45:38.661 BPOAn0mc DEBUG [player] play-element built {"title":"s2e06 - Святые и грешники","url":"https://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMTA3MTAzOzE3Nzc3OTA1NjQmaD1QTl9sYzBHM3lRTXVNNzA5Xy0yRnVnJmU9MTc3Nzg3Njk2NA/1107103.m3u8?loc=nl","q":1080,"voiceIdx":2,"voice":"03.3532738","voicesAvailable":3,"player":"tizen","subs":0,"subsAvailable":0}
+06:45:38.662 BPOAn0mc DEBUG [player] play-element built {"title":"s2e07 - Что я сделал ради любви","url":"https://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMTA3MTA2OzE3Nzc3OTA1NjQmaD0zdHYxUnp3R2RYMDRUT0hIWXVqXzVBJmU9MTc3Nzg3Njk2NA/1107106.m3u8?loc=nl","q":1080,"voiceIdx":0,"voice":"01.3532774","voicesAvailable":2,"player":"tizen","subs":0,"subsAvailable":0}
+06:45:38.664 BPOAn0mc DEBUG [player] play-element built {"title":"s2e08 - He Loved You","url":"https://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMTA4Njk2OzE3Nzc3OTA1NjQmaD0xX05lYTZWeUtrd0tNdjh4Z2lTZGJnJmU9MTc3Nzg3Njk2NA/1108696.m3u8?loc=nl","q":1080,"voiceIdx":0,"voice":"01.3540217","voicesAvailable":2,"player":"tizen","subs":0,"subsAvailable":0}
+06:45:38.666 BPOAn0mc DEBUG [player] play-element built {"title":"s2e09 - Kaddish","url":"https://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMTEwMTY2OzE3Nzc3OTA1NjQmaD1rY0ZZVXhhYnpraVNITHVaVjFZU0VnJmU9MTc3Nzg3Njk2NA/1110166.m3u8?loc=nl","q":1080,"voiceIdx":0,"voice":"01.3548296","voicesAvailable":2,"player":"tizen","subs":0,"subsAvailable":0}
+06:45:38.668 BPOAn0mc DEBUG [player] play-element built {"title":"s2e10 - Chief","url":"https://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMTE4MzYyOzE3Nzc3OTA1NjQmaD1oQUJLT2tvU0dFbVkzd3JPNU45b1RnJmU9MTc3Nzg3Njk2NA/1118362.m3u8?loc=nl","q":1080,"voiceIdx":2,"voice":"03.3587239","voicesAvailable":3,"player":"tizen","subs":0,"subsAvailable":0}
+06:45:38.670 BPOAn0mc DEBUG [player] play-element built {"title":"s2e11 - Family Matters","url":"https://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMTE4NjkyOzE3Nzc3OTA1NjQmaD1rSG1GejBrLXdEa1N3TXZMWU94WkJRJmU9MTc3Nzg3Njk2NA/1118692.m3u8?loc=nl","q":1080,"voiceIdx":1,"voice":"02.3589351","voicesAvailable":2,"player":"tizen","subs":0,"subsAvailable":0}
+06:45:38.671 BPOAn0mc DEBUG [player] play-element built {"title":"s2e12 - Inquisition","url":"https://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMTE5NjgyOzE3Nzc3OTA1NjQmaD16NHk5Y2NKUmNUQVh3UHVrN2lYdWx3JmU9MTc3Nzg3Njk2NA/1119682.m3u8?loc=nl","q":1080,"voiceIdx":1,"voice":"02.3598051","voicesAvailable":2,"player":"tizen","subs":0,"subsAvailable":0}
+06:45:38.673 BPOAn0mc DEBUG [player] play-element built {"title":"s2e13","url":"https://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMTIwNzIzOzE3Nzc3OTA1NjQmaD1uVDZxQlU5ZE52MkktdkhzY3hONUtBJmU9MTc3Nzg3Njk2NA/1120723.m3u8?loc=nl","q":1080,"voiceIdx":0,"voice":"01.3605125","voicesAvailable":2,"player":"tizen","subs":0,"subsAvailable":0}
+06:45:38.675 BPOAn0mc DEBUG [player] play-element built {"title":"s2e14 - When You Know, You Know","url":"https://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMTIyODgwOzE3Nzc3OTA1NjQmaD1pS3hoTU5iV2hzU0s4ZU9rSmtuRTRBJmU9MTc3Nzg3Njk2NA/1122880.m3u8?loc=nl","q":1080,"voiceIdx":2,"voice":"03.3615979","voicesAvailable":3,"player":"tizen","subs":0,"subsAvailable":0}
+06:45:38.676 BPOAn0mc DEBUG [player] play-element built {"title":"s2e15 - Trust","url":"https://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMTIyODMyOzE3Nzc3OTA1NjQmaD1Dak0xT0Fzd0hwUHdIc2M3TEFzLUVRJmU9MTc3Nzg3Njk2NA/1122832.m3u8?loc=nl","q":1080,"voiceIdx":0,"voice":"01.3615787","voicesAvailable":2,"player":"tizen","subs":0,"subsAvailable":0}
+06:45:38.678 BPOAn0mc DEBUG [player] play-element built {"title":"s2e16 - The Best We Can Do","url":"https://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMTI2MDU0OzE3Nzc3OTA1NjQmaD1fSm5SZmY4V1o3Q29fTTFUdk1QUkZBJmU9MTc3Nzg3Njk2NA/1126054.m3u8?loc=nl","q":1080,"voiceIdx":0,"voice":"01.3641308","voicesAvailable":3,"player":"tizen","subs":0,"subsAvailable":0}
+06:45:38.680 BPOAn0mc DEBUG [player] play-element built {"title":"s2e17 - Good Hands","url":"https://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMTI5OTA2OzE3Nzc3OTA1NjQmaD1SNzNsY1VHYi0yNU1XQVp4M0xuT21BJmU9MTc3Nzg3Njk2NA/1129906.m3u8?loc=nl","q":1080,"voiceIdx":2,"voice":"03.3667873","voicesAvailable":3,"player":"tizen","subs":0,"subsAvailable":1}
+06:45:38.682 BPOAn0mc DEBUG [player] play-element built {"title":"s2e18 - Orientation","url":"https://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMTI5OTA5OzE3Nzc3OTA1NjQmaD1DTC1YSkdtY3I4ZUpmRGpDM1o2Q2J3JmU9MTc3Nzg3Njk2NA/1129909.m3u8?loc=nl","q":1080,"voiceIdx":2,"voice":"03.3667882","voicesAvailable":3,"player":"tizen","subs":0,"subsAvailable":0}
+06:45:38.683 BPOAn0mc DEBUG [player] play-element built {"title":"s2e19 - Next","url":"https://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMTMxMDY3OzE3Nzc3OTA1NjQmaD1ZaEFJUVpDb1dTb0RfM0d3S29HS3FBJmU9MTc3Nzg3Njk2NA/1131067.m3u8?loc=nl","q":1080,"voiceIdx":2,"voice":"03.3680242","voicesAvailable":3,"player":"tizen","subs":0,"subsAvailable":0}
+06:45:38.685 BPOAn0mc DEBUG [player] play-element built {"title":"s2e20 - The Big Chair","url":"https://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMTMyNzExOzE3Nzc3OTA1NjQmaD1NZnZTLWRpR2d4VDV5SFV5NEk1TTlRJmU9MTc3Nzg3Njk2NA/1132711.m3u8?loc=nl","q":1080,"voiceIdx":1,"voice":"02.3684451","voicesAvailable":2,"player":"tizen","subs":0,"subsAvailable":0}
+06:45:38.687 BPOAn0mc DEBUG [player] play-element built {"title":"s2e21 - Stuck","url":"https://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMTMzODM5OzE3Nzc3OTA1NjQmaD0teTg3RHZhMFloMWRqbF9RNExFd1BBJmU9MTc3Nzg3Njk2NA/1133839.m3u8?loc=nl","q":1080,"voiceIdx":1,"voice":"02.3690082","voicesAvailable":2,"player":"tizen","subs":0,"subsAvailable":0}
+06:45:38.688 BPOAn0mc DEBUG [player] play-element built {"title":"s2e22 - Happy Birthday","url":"https://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMTMzODMwOzE3Nzc3OTA1NjQmaD0wRFBWRVMxVUFjWnUtYjBmcGlDT0VRJmU9MTc3Nzg3Njk2NA/1133830.m3u8?loc=nl","q":1080,"voiceIdx":1,"voice":"02.3690037","voicesAvailable":2,"player":"tizen","subs":0,"subsAvailable":0}
+06:45:38.690 BPOAn0mc DEBUG [voice] context resolved for item {"season":2,"episode":1,"voiceIdx":3,"label":"04.3472789"}
+06:45:38.692 BPOAn0mc DEBUG [voice] remembered for episode {"hash":"47704697","key":"eng|Оригинал||aac"}
+06:45:38.694 BPOAn0mc INFO  [player] launching {"url":"https://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMDk0ODY5OzE3Nzc3OTA1NjQmaD1ZZWc3UUJXRmlYYVFUdmVUeFR2MWFBJmU9MTc3Nzg3Njk2NA/1094869.m3u8?loc=nl","playlist":22,"title":"Док s2e01 - Её сердце"}
+06:45:38.696 BPOAn0mc INFO  [lampa-evt] Player/create
+06:45:38.708 BPOAn0mc INFO  [lampa-evt] Player/start
+06:45:38.789 BPOAn0mc INFO  [lampa-evt] Player/ready
+06:45:38.861 BPOAn0mc INFO  [player-ui] next-episode-name override active {"label":"04.3472789"}
+06:45:39.016 BPOAn0mc INFO  [lampa-evt] PlayerVideo/translate
+06:45:39.018 BPOAn0mc INFO  [lampa-evt] PlayerVideo/translate
+06:45:39.043 BPOAn0mc INFO  [lampa-evt] PlayerVideo/play
+06:45:41.248 BPOAn0mc INFO  [lampa-evt] PlayerVideo/canplay
+06:45:41.250 BPOAn0mc DEBUG [voice] apply via canplay {"idx":3,"label":"04.3472789","key":"eng|Оригинал||aac"}
+06:45:41.346 BPOAn0mc INFO  [voice] switched via avplay {"idx":3,"nativeIdx":4,"total":5}
+06:45:41.351 BPOAn0mc INFO  [lampa-evt] PlayerVideo/loadeddata
+06:45:41.372 BPOAn0mc INFO  [lampa-evt] PlayerVideo/tracks
+06:45:41.374 BPOAn0mc INFO  [lampa-evt] PlayerVideo/subs
+06:45:41.388 BPOAn0mc INFO  [lampa-evt] PlayerVideo/pause
+06:45:41.634 BPOAn0mc INFO  [lampa-evt] PlayerVideo/play
+06:45:48.281 BPOAn0mc INFO  [phase-b] voice onSelect {"idx":2,"key":"ukr|Многоголосый||aac"}
+06:45:48.407 BPOAn0mc INFO  [voice] switched via avplay {"idx":2,"nativeIdx":3,"total":5}
+06:45:48.409 BPOAn0mc INFO  [phase-b] switch result {"idx":2,"ok":true}
+06:45:48.411 BPOAn0mc INFO  [phase-b] external voice change {"key":"ukr|Многоголосый||aac","label":"03.3472786"}
+06:46:03.615 BPOAn0mc INFO  [lampa-evt] Player/destroy
+06:46:12.377 BPOAn0mc INFO  [lampa-evt] activity/start
+06:46:12.380 BPOAn0mc INFO  [lampa-evt] activity/archive
+06:46:12.682 BPOAn0mc DEBUG [source] destroy
+06:46:12.685 BPOAn0mc INFO  [lampa-evt] activity/destroy
+06:46:14.300 BPOAn0mc INFO  [launch] open activity {"id":255055,"title":"Док","orig":"Doc"}
+06:46:14.316 BPOAn0mc INFO  [lampa-evt] activity/init
+06:46:14.318 BPOAn0mc INFO  [lampa-evt] activity/create
+06:46:14.332 BPOAn0mc INFO  [component] find query=Док
+06:46:14.334 BPOAn0mc INFO  [source] searchByTitle {"query":"Док","year":2025,"orig":"Doc","rus":"Док","imdb":"tt26748321","imdbNum":26748321,"type":"serial"}
+06:46:14.336 BPOAn0mc DEBUG [api] GET /items/search {"q":"Док","field":"title","perpage":50,"type":"serial"}
+06:46:14.348 BPOAn0mc INFO  [lampa-evt] activity/start
+06:46:14.946 BPOAn0mc DEBUG [api] GET /items/search ok
+06:46:14.948 BPOAn0mc INFO  [source] search ok {"count":50}
+06:46:14.950 BPOAn0mc DEBUG [source] top candidates [{"id":52093,"title":"Доктор Стоун / Dr. Stone","year":2019,"type":"serial","imdb":9679542},{"id":99451,"title":"Закон и порядок Торонто: Преступный умысел / Law & Order Toronto: Criminal Intent","year":2024,"type":"serial","imdb":27954448},{"id":37015,"title":"Закон и порядок. Специальный корпус / Law & Order: Special Victims Unit","year":1999,"type":"serial","imdb":203259},{"id":116377,"title":"Закон и порядок / Law & Order","year":1990,"type":"serial","imdb":98844},{"id":107962,"title":"Док / Doc","year":2025,"type":"serial","imdb":26748321}]
+06:46:14.953 BPOAn0mc INFO  [source] matched by imdb {"id":107962,"imdb":26748321}
+06:46:14.954 BPOAn0mc INFO  [source] matched card {"id":107962,"title":"Док / Doc","year":2025,"type":"serial"}
+06:46:14.956 BPOAn0mc INFO  [source] find() id=107962
+06:46:14.958 BPOAn0mc DEBUG [api] GET /items/107962 null
+06:46:15.224 BPOAn0mc DEBUG [api] GET /items/107962 ok
+06:46:15.226 BPOAn0mc INFO  [source] item loaded {"id":107962,"type":"serial","seasons":2,"videos":0}
+06:46:15.228 BPOAn0mc DEBUG [source] sample audio entry [0] {"id":3249265,"index":1,"codec":"aac","channels":6,"lang":"rus","type":{"id":2,"title":"Многоголосый","short_title":"MVO"},"author":{"id":1621,"title":"TVShows","short_title":""}}
+06:46:15.230 BPOAn0mc DEBUG [source] sample audio entry [1] {"id":3249268,"index":2,"codec":"aac","channels":2,"lang":"rus","type":{"id":2,"title":"Многоголосый","short_title":"MVO"},"author":null}
+06:46:15.233 BPOAn0mc DEBUG [source] extracted serial {"seasons":2,"totalEpisodes":32,"voicesPerSeason":[6,7]}
+06:46:15.239 BPOAn0mc DEBUG [source] append items {"count":22}
+06:46:23.299 BPOAn0mc DEBUG [source] filter change {"type":"voice","index":1}
+06:46:23.327 BPOAn0mc INFO  [voice] user picked {"season":1,"name":"02.3472783","key":"rus|Многоголосый||aac"}
+06:46:23.339 BPOAn0mc DEBUG [source] append items {"count":22}

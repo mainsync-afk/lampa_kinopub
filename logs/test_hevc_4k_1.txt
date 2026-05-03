@@ -1,0 +1,95 @@
+Шаг 1: включить HEVC и перетестировать
+
+В kinopub web UI на странице устройств → клик на «Lampa (Samsung TV)» → редактировать настройки
+Поставь галку «Поддержка HEVC» → Сохранить
+Жди 1 минуту
+Полностью перезапусти Lampa на ТВ (close & launch заново, не back)
+Открой ту же серию «Река Мадисон» / «За день до прощания» (для чистоты сравнения)
+Запусти на встроенном плеере Lampa
+Сразу после первой попытки — ничего больше не трогай (не меняй качество, не перематывай) — просто посмотри, играет или валится
+Подожди минуту просто играющего видео — проверим стабильность
+Пришли лог
+
+Что я ожидаю:
+
+Если HEVC решило проблему → в логе PlayerVideo/loadeddata сразу после PlayerVideo/play БЕЗ строки fallback, видео играет HLS4 нативно
+Если не решило → тот же error/fallback как сейчас → значит причина не в HEVC, идём в фазу A (косметика fallback) и в Шаг 2 (Mixed playlist)
+
+
+откат на hls-2
+
+
+03:58:17.251 1bSKBHLT INFO  [boot] kp.js v1.0.9 starting {"session":"1bSKBHLT","app":318,"ua":"Mozilla/5.0 (SMART-TV; LINUX; Tizen 9.0) AppleWebKit/537.36 (KHTML, like Gecko) 120.0.6099.5/9.0 TV Safari/537.36"}
+03:58:17.261 1bSKBHLT DEBUG [api] GET /user null
+03:58:17.266 1bSKBHLT INFO  [identity] sending /device/notify {"title":"Lampa (Samsung TV)","hardware":"Samsung Tizen 9.0","software":"kp.js 1.0.9 / Lampa 318","_platform":"tizen"}
+03:58:17.269 1bSKBHLT DEBUG [api] POST /device/notify {"title":"Lampa (Samsung TV)","hardware":"Samsung Tizen 9.0","software":"kp.js 1.0.9 / Lampa 318"}
+03:58:17.275 1bSKBHLT DEBUG [console] StorageWorker online_choice_kpapi start follow
+03:58:17.279 1bSKBHLT INFO  [boot] kp.js initialized
+03:58:17.282 1bSKBHLT DEBUG [console] Extensions include: https://mainsync-afk.github.io/lampa_kinopub/kp.js
+03:58:17.392 1bSKBHLT DEBUG [console] Plugins update plugin cache: https://mainsync-afk.github.io/lampa_kinopub/kp.js
+03:58:17.473 1bSKBHLT INFO  [lampa-evt] app/start
+03:58:17.623 1bSKBHLT DEBUG [console] Tizen start pick
+03:58:17.648 1bSKBHLT DEBUG [console] Tizen current id 0SG81L944v.Lampa
+03:58:17.652 1bSKBHLT DEBUG [console] LoadingProgress status: Tizen init
+03:58:17.679 1bSKBHLT DEBUG [console] LoadingProgress status: Player init
+03:58:17.745 1bSKBHLT DEBUG [console] App user agent: Mozilla/5.0 (SMART-TV; LINUX; Tizen 9.0) AppleWebKit/537.36 (KHTML, like Gecko) 120.0.6099.5/9.0 TV Safari/537.36
+03:58:17.756 1bSKBHLT DEBUG [console] App platform: tizen
+03:58:17.809 1bSKBHLT DEBUG [console] Script create: http://lampa.mx/vender/hls/hls.js
+03:58:17.897 1bSKBHLT INFO  [lampa-evt] app/ready
+03:58:18.132 1bSKBHLT DEBUG [console] Script include: http://lampa.mx/vender/hls/hls.js
+03:58:18.164 1bSKBHLT INFO  [lampa-evt] activity/init
+03:58:18.174 1bSKBHLT INFO  [lampa-evt] activity/create
+03:58:18.207 1bSKBHLT INFO  [lampa-evt] activity/start
+03:58:18.219 1bSKBHLT DEBUG [api] POST /device/notify ok
+03:58:18.221 1bSKBHLT INFO  [identity] notify ok {"status":200}
+03:58:18.225 1bSKBHLT DEBUG [api] GET /user ok
+03:58:18.227 1bSKBHLT INFO  [auth] profile ok {"name":"eugenestraw","subscribed":{"active":true,"end_time":1792246646,"days":168.4}}
+03:58:18.463 1bSKBHLT DEBUG [console] Tizen set sections 2
+03:58:31.926 1bSKBHLT INFO  [lampa-evt] activity/init
+03:58:31.929 1bSKBHLT INFO  [lampa-evt] activity/create
+03:58:31.945 1bSKBHLT INFO  [lampa-evt] activity/start
+03:58:34.024 1bSKBHLT INFO  [lampa-evt] activity/init
+03:58:34.037 1bSKBHLT INFO  [lampa-evt] activity/create
+03:58:34.055 1bSKBHLT INFO  [lampa-evt] activity/start
+03:58:37.523 1bSKBHLT INFO  [launch] open activity {"id":225891,"title":"Река Мадисон","orig":"The Madison"}
+03:58:37.541 1bSKBHLT INFO  [lampa-evt] activity/init
+03:58:37.543 1bSKBHLT INFO  [lampa-evt] activity/create
+03:58:37.568 1bSKBHLT INFO  [component] find query=Река Мадисон
+03:58:37.570 1bSKBHLT INFO  [source] searchByTitle {"query":"Река Мадисон","year":2026,"orig":"The Madison","rus":"Река Мадисон","imdb":"tt33204276","imdbNum":33204276,"type":"serial"}
+03:58:37.572 1bSKBHLT DEBUG [api] GET /items/search {"q":"Река Мадисон","field":"title","perpage":50,"type":"serial"}
+03:58:37.584 1bSKBHLT INFO  [lampa-evt] activity/start
+03:58:37.902 1bSKBHLT DEBUG [api] GET /items/search ok
+03:58:37.904 1bSKBHLT INFO  [source] search ok {"count":1}
+03:58:37.906 1bSKBHLT DEBUG [source] top candidates [{"id":121408,"title":"Река Мадисон / The Madison","year":2026,"type":"serial","imdb":33204276}]
+03:58:37.908 1bSKBHLT INFO  [source] matched by imdb {"id":121408,"imdb":33204276}
+03:58:37.910 1bSKBHLT INFO  [source] matched card {"id":121408,"title":"Река Мадисон / The Madison","year":2026,"type":"serial"}
+03:58:37.912 1bSKBHLT INFO  [source] find() id=121408
+03:58:37.914 1bSKBHLT DEBUG [api] GET /items/121408 null
+03:58:38.125 1bSKBHLT DEBUG [api] GET /items/121408 ok
+03:58:38.127 1bSKBHLT INFO  [source] item loaded {"id":121408,"type":"serial","seasons":1,"videos":0}
+03:58:38.133 1bSKBHLT DEBUG [source] extracted serial {"seasons":1,"totalEpisodes":6,"voices":5}
+03:58:38.143 1bSKBHLT DEBUG [source] append items {"count":6}
+03:58:41.609 1bSKBHLT DEBUG [player] play-element built {"title":"За день до прощания","url":"https://digital-cdn.net/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMTI5MjM0OzE3Nzc2OTQzMTkmaD1OMG41Y0ZKRnRXY190RTZKWWVXVGJnJmU9MTc3Nzc4MDcxOQ/1129234.m3u8?loc=ru","q":2160,"voices":8,"subs":0,"subsAvailable":0}
+03:58:41.611 1bSKBHLT DEBUG [player] play-element built {"title":"Пилот","url":"https://digital-cdn.net/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMTI4MTA2OzE3Nzc2OTQzMTkmaD1nWjZNOUhtTzhja1JPYV80TXV2dk5nJmU9MTc3Nzc4MDcxOQ/1128106.m3u8?loc=ru","q":2160,"voices":12,"subs":0,"subsAvailable":2}
+03:58:41.612 1bSKBHLT DEBUG [player] play-element built {"title":"Пусть земля меня укроет","url":"https://digital-cdn.net/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMTI4MTA5OzE3Nzc2OTQzMTkmaD1oYzBKN2tBa3VJSkVNREdTSWhTTnVnJmU9MTc3Nzc4MDcxOQ/1128109.m3u8?loc=ru","q":2160,"voices":8,"subs":0,"subsAvailable":0}
+03:58:41.614 1bSKBHLT DEBUG [player] play-element built {"title":"Свободное падение","url":"https://digital-cdn.net/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMTI4MTEyOzE3Nzc2OTQzMTkmaD16TjBORlZ4eEphWWJ0alEtUUZYM0x3JmU9MTc3Nzc4MDcxOQ/1128112.m3u8?loc=ru","q":2160,"voices":8,"subs":0,"subsAvailable":0}
+03:58:41.616 1bSKBHLT DEBUG [player] play-element built {"title":"За день до прощания","url":"https://digital-cdn.net/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMTI5MjM0OzE3Nzc2OTQzMTkmaD1OMG41Y0ZKRnRXY190RTZKWWVXVGJnJmU9MTc3Nzc4MDcxOQ/1129234.m3u8?loc=ru","q":2160,"voices":8,"subs":0,"subsAvailable":0}
+03:58:41.617 1bSKBHLT DEBUG [player] play-element built {"title":"Старый бар, новая мечта","url":"https://digital-cdn.net/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMTI5MjM3OzE3Nzc2OTQzMTkmaD05REc1Nl9RMkVKSi1TYThDNF9SLVZnJmU9MTc3Nzc4MDcxOQ/1129237.m3u8?loc=ru","q":2160,"voices":8,"subs":0,"subsAvailable":0}
+03:58:41.618 1bSKBHLT DEBUG [player] play-element built {"title":"Решение","url":"https://digital-cdn.net/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMTI5MjQwOzE3Nzc2OTQzMTkmaD13RjB5bl9RMjQzQXRrVm16VnNicFBBJmU9MTc3Nzc4MDcxOQ/1129240.m3u8?loc=ru","q":2160,"voices":8,"subs":0,"subsAvailable":0}
+03:58:41.620 1bSKBHLT INFO  [player] launching {"url":"https://digital-cdn.net/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMTI5MjM0OzE3Nzc2OTQzMTkmaD1OMG41Y0ZKRnRXY190RTZKWWVXVGJnJmU9MTc3Nzc4MDcxOQ/1129234.m3u8?loc=ru","playlist":6}
+03:58:41.622 1bSKBHLT INFO  [lampa-evt] Player/create
+03:58:41.638 1bSKBHLT INFO  [lampa-evt] Player/start
+03:58:41.828 1bSKBHLT INFO  [lampa-evt] Player/ready
+03:58:42.548 1bSKBHLT INFO  [lampa-evt] PlayerVideo/translate
+03:58:42.550 1bSKBHLT INFO  [lampa-evt] PlayerVideo/translate
+03:58:42.567 1bSKBHLT INFO  [lampa-evt] PlayerVideo/play
+03:58:42.886 1bSKBHLT INFO  [lampa-evt] PlayerVideo/error {"error":"Видео не найдено или повреждено","fatal":true}
+03:58:42.889 1bSKBHLT WARN  [player] falling back to hls2 {"url":"https://digital-cdn.net/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMTI5MjM0OzE3Nzc2OTQzMTkmaD1OMG41Y0ZKRnRXY190RTZKWWVXVGJnJmU9MTc3Nzc4MDcxOQ/1129234.m3u8?loc=ru","q":2160}
+03:58:42.913 1bSKBHLT INFO  [lampa-evt] PlayerVideo/play
+03:58:45.728 1bSKBHLT INFO  [lampa-evt] PlayerVideo/loadeddata
+03:58:45.747 1bSKBHLT INFO  [lampa-evt] PlayerVideo/canplay
+03:58:47.582 1bSKBHLT INFO  [lampa-evt] PlayerVideo/pause
+03:58:47.586 1bSKBHLT INFO  [lampa-evt] PlayerVideo/play
+03:58:47.670 1bSKBHLT INFO  [lampa-evt] PlayerVideo/canplay
+03:58:48.444 1bSKBHLT INFO  [lampa-evt] PlayerVideo/canplay
+03:59:46.568 1bSKBHLT INFO  [lampa-evt] Player/destroy

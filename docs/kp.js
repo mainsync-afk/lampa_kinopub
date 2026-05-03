@@ -23,7 +23,8 @@
    *  CONSTANTS                                                   *
    * ============================================================ */
 
-  var PLUGIN_VERSION  = '1.0.29-data-test';
+  var PLUGIN_VERSION  = '1.0.30';
+  // Public manifest-proxy URL — set near KP_PROXY_URL declaration below.
   var COMPONENT_NAME  = 'online_kp';
   var BALANSER        = 'kpapi';
 
@@ -35,16 +36,37 @@
   // our hooks. Flag kept for future diagnostic use; default false in production.
   var KP_BARE_MODE = false;
 
-  // ── DIAGNOSTIC: BLOB-MANIFEST TEST MODE ───────────────────────────────
-  // When true, plugin fetches HLS4 master itself, builds a REDUCED master
-  // (1 audio per group + all 4 video stream-inf, no subtitles/iframe),
-  // wraps it in blob: and data: URLs, and feeds blob URL to Lampa.Player.
-  // Goal: verify if Tizen AVPlayer accepts blob: scheme for HLS manifests.
-  // If yes → unblocks v1.0.30 (in-player voice switch via manifest-rewrite).
-  // If no → fallback to data: URL or HTTP proxy via log-server.
-  // ALSO forces format → 'hls4' regardless of user setting (we need the
-  // multi-audio master for this experiment).
-  var KP_BLOB_TEST = true;
+  // ── BLOB-TEST mode (legacy) — kept for diagnostics, default false. ────
+  // v1.0.29-blob-test/data-test confirmed Tizen AVPlayer rejects both blob:
+  // and data:application/vnd.apple.mpegurl URI schemes for HLS masters.
+  // Replaced by KP_PROXY_MODE which routes through public manifest-proxy.
+  var KP_BLOB_TEST = false;
+
+  // ── HLS4 MANIFEST PROXY (production solution from v1.0.30) ─────────────
+  // Plugin pings KP_PROXY_URL/health on startup; if reachable, switches
+  // into proxy mode (forces HLS4, routes master.m3u8 through proxy).
+  // Otherwise falls back to v1.0.28 behaviour (HLS2 stable but voice
+  // picker decorative).
+  //
+  // Why this is needed: kinopub HLS4 master has 12 audio renditions × 4
+  // quality groups + 7 subtitles. Tizen 9.0 native AVPlayer hangs on
+  // master parse at 4K (state=PLAYING but no frames; black screen with
+  // infinite loading). The proxy fetches that master, builds a reduced
+  // version with 1 audio + 1 video stream-inf, returns it. Player sees
+  // same demux load as HLS2 single-audio = stable. URLs INSIDE the
+  // reduced master point at kinopub CDN, so video/audio segments are
+  // still fetched directly — proxy only handles the master itself.
+  //
+  // Public proxy on Eugene's VPS (mirror of lampac architecture):
+  //   GET https://kinopub.fastcdn.pics/manifest-proxy?master=<encoded>&voice=<N>
+  // Source: github.com/mainsync-afk/lampa_kinopub /proxy-server/
+  var KP_PROXY_URL = 'https://kinopub.fastcdn.pics';
+
+  // Set by checkProxyAvailability() at startup; gates voice switching.
+  // null  — not yet checked
+  // true  — health endpoint responded, proxy in use
+  // false — unreachable, fall back to HLS2-only mode
+  var kpProxyAvailable = null;
 
   // OAuth credentials of the public xbmc/Kodi-style client used by
   // virtually every unofficial kinopub client. Documented in many
@@ -705,6 +727,53 @@
   }
 
   /**
+   * Ping the manifest-proxy /health endpoint. Sets kpProxyAvailable on
+   * completion. Idempotent. 3-second timeout — if proxy is down or DNS
+   * is broken or device is offline, plugin transparently falls back to
+   * HLS2-only mode (v1.0.28 behaviour) without blocking startup.
+   */
+  function checkProxyAvailability() {
+    var url = KP_PROXY_URL.replace(/\/+$/, '') + '/health';
+    try {
+      var xhr = new XMLHttpRequest();
+      xhr.open('GET', url, true);
+      xhr.timeout = 3000;
+      xhr.onload = function () {
+        if (xhr.status >= 200 && xhr.status < 300) {
+          kpProxyAvailable = true;
+          var info = '';
+          try {
+            var j = JSON.parse(xhr.responseText || '{}');
+            info = (j.service || '') + ' v' + (j.version || '?');
+          } catch (e) {}
+          Logger.info('proxy', 'available', { url: KP_PROXY_URL, info: info });
+        } else {
+          kpProxyAvailable = false;
+          Logger.warn('proxy', 'health non-2xx, fallback to HLS2', { status: xhr.status });
+        }
+      };
+      xhr.onerror   = function () { kpProxyAvailable = false; Logger.warn('proxy', 'unreachable, fallback to HLS2'); };
+      xhr.ontimeout = function () { kpProxyAvailable = false; Logger.warn('proxy', 'timeout, fallback to HLS2'); };
+      xhr.send();
+    } catch (e) {
+      kpProxyAvailable = false;
+      Logger.warn('proxy', 'check failed', String(e));
+    }
+  }
+
+  /**
+   * Build the proxy URL for a kinopub HLS4 master + chosen voice index.
+   * Returns null if proxy is not available.
+   */
+  function proxyUrlFor(masterUrl, voiceIndex) {
+    if (!kpProxyAvailable || !masterUrl) return null;
+    var base = KP_PROXY_URL.replace(/\/+$/, '');
+    return base + '/manifest-proxy?master=' +
+           encodeURIComponent(masterUrl) +
+           '&voice=' + voiceIndex;
+  }
+
+  /**
    * BLOB-TEST: Parse a kinopub HLS4 master.m3u8 into structured pieces.
    * Returns { audioGroups: { groupId: [{name,lang,deflt,uri,attrs}] },
    *           subtitlesGroups: { groupId: [...] },
@@ -1083,7 +1152,12 @@
    */
   function preferredFormat() {
     if (KP_BLOB_TEST) {
-      // Force HLS4 — we need the multi-audio master for blob-test reduction.
+      // Legacy diagnostic — see KP_BLOB_TEST flag.
+      return 'hls4';
+    }
+    if (kpProxyAvailable === true) {
+      // Proxy is up — request HLS4 from kinopub. Proxy will reduce it
+      // to a single-audio master before player sees it.
       return 'hls4';
     }
     if (formatOverride) return formatOverride;
@@ -2302,34 +2376,45 @@
           // setSelectTrack/hls.audioTrack (Phase B on HLS2) without restart.
           dumpStreamManifest(play.url);
 
-          if (KP_BLOB_TEST) {
-            // BLOB-TEST: fetch master ourselves, build reduced (1 audio per
-            // group + all video stream-infs, no subs/iframe), wrap in blob:.
-            // Voice index is 1-based per kinopub naming convention ("01.", "02.", ...).
+          if (kpProxyAvailable === true) {
+            // Proxy is reachable — route the kinopub HLS4 master through it.
+            // Proxy returns a reduced master (1 audio + best video stream-inf)
+            // that Tizen AVPlayer demuxes in 2 tracks, no multi-audio crash.
             var clickedVoiceIdx = (play && typeof play._voiceIdx === 'number') ? play._voiceIdx : -1;
             var voiceOneBased = (clickedVoiceIdx >= 0) ? (clickedVoiceIdx + 1) : 1;
             var originalUrl = play.url;
-            fetchAndReduceMaster(originalUrl, voiceOneBased, function (blobUrl, dataUrl, reduced) {
-              // CRITICAL: Lampa.Player.play() overrides data.url with
-              // getUrlQuality(data.quality, false) when data.quality has
-              // multiple entries (Lampa source line 26523). So we must clear
-              // play.quality (or it sends the original kinopub URL to AVPlayer
-              // and our blob/data URL is never opened). For the test we drop
-              // ABR support entirely — single resolution (the picked one).
+            var proxyUrl = proxyUrlFor(originalUrl, voiceOneBased);
+            // CRITICAL: Lampa.Player.play() overrides data.url with
+            // getUrlQuality(data.quality, false) when quality dict has more
+            // than one entry. Drop quality so our proxy URL survives.
+            delete play.quality;
+            play.url = proxyUrl;
+            Logger.info('proxy', 'launching via manifest-proxy', {
+              voice: voiceOneBased,
+              proxyHost: KP_PROXY_URL,
+              originalHost: (function(){ try { return new URL(originalUrl).host; } catch(e){ return '?'; } })()
+            });
+            Lampa.Player.play(play);
+            Lampa.Player.playlist(playlist);
+            if (item.mark) item.mark();
+            return;
+          }
+
+          if (KP_BLOB_TEST) {
+            // (Legacy diagnostic — see KP_BLOB_TEST flag above.)
+            var clickedVoiceIdxBT = (play && typeof play._voiceIdx === 'number') ? play._voiceIdx : -1;
+            var voiceOneBasedBT = (clickedVoiceIdxBT >= 0) ? (clickedVoiceIdxBT + 1) : 1;
+            var originalUrlBT = play.url;
+            fetchAndReduceMaster(originalUrlBT, voiceOneBasedBT, function (blobUrl, dataUrl) {
               delete play.quality;
-              // v1.0.29-data-test: prefer data: URL over blob:. Previous test
-              // showed blob:file:///UUID never reached canplay on Tizen — most
-              // likely AVPlayer can't fetch blob: scheme natively. data: URL
-              // embeds content directly and doesn't need network fetch.
               if (dataUrl) {
                 play.url = dataUrl;
                 Logger.info('blob-test', 'launching with data URL', { length: dataUrl.length });
               } else if (blobUrl) {
                 play.url = blobUrl;
-                Logger.info('blob-test', 'launching with blob URL (data unavailable)', { blob: blobUrl });
+                Logger.info('blob-test', 'launching with blob URL', { blob: blobUrl });
               } else {
-                Logger.warn('blob-test', 'no data/blob URL — falling back to original kinopub URL');
-                play.url = originalUrl;
+                play.url = originalUrlBT;
               }
               Lampa.Player.play(play);
               Lampa.Player.playlist(playlist);
@@ -3553,6 +3638,12 @@
     } catch (err) {
       Logger.warn('video-elem', 'delegate error handler failed', String(err));
     }
+
+    // Probe public manifest-proxy. If reachable, kpProxyAvailable=true and
+    // future launches will route HLS4 master through it (gives stable 4K +
+    // working voice switch). If unreachable (proxy down, no internet, etc),
+    // plugin transparently falls back to v1.0.28 HLS2-only mode.
+    checkProxyAvailability();
 
     Logger.info('boot', 'kp.js initialized');
   }

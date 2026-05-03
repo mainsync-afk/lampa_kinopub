@@ -1,0 +1,144 @@
+08:22:10.727 3C1YSngn INFO  [boot] kp.js v1.0.16 starting {"session":"3C1YSngn","app":318,"ua":"Mozilla/5.0 (SMART-TV; LINUX; Tizen 9.0) AppleWebKit/537.36 (KHTML, like Gecko) 120.0.6099.5/9.0 TV Safari/537.36"}
+08:22:10.758 3C1YSngn DEBUG [api] GET /user null
+08:22:10.765 3C1YSngn INFO  [identity] sending /device/notify {"title":"Lampa (Samsung TV)","hardware":"Samsung Tizen 9.0","software":"kp.js 1.0.16 / Lampa 318","_platform":"tizen"}
+08:22:10.767 3C1YSngn DEBUG [api] POST /device/notify {"title":"Lampa (Samsung TV)","hardware":"Samsung Tizen 9.0","software":"kp.js 1.0.16 / Lampa 318"}
+08:22:10.773 3C1YSngn DEBUG [console] StorageWorker online_choice_kpapi start follow
+08:22:10.778 3C1YSngn INFO  [boot] kp.js initialized
+08:22:10.781 3C1YSngn DEBUG [console] Extensions include: https://mainsync-afk.github.io/lampa_kinopub/kp.js
+08:22:10.919 3C1YSngn DEBUG [console] Plugins update plugin cache: https://mainsync-afk.github.io/lampa_kinopub/kp.js
+08:22:11.200 3C1YSngn INFO  [lampa-evt] app/start
+08:22:11.354 3C1YSngn DEBUG [console] Tizen start pick
+08:22:11.381 3C1YSngn DEBUG [console] Tizen current id 0SG81L944v.Lampa
+08:22:11.385 3C1YSngn DEBUG [console] LoadingProgress status: Tizen init
+08:22:11.409 3C1YSngn DEBUG [console] LoadingProgress status: Player init
+08:22:11.473 3C1YSngn DEBUG [console] App user agent: Mozilla/5.0 (SMART-TV; LINUX; Tizen 9.0) AppleWebKit/537.36 (KHTML, like Gecko) 120.0.6099.5/9.0 TV Safari/537.36
+08:22:11.484 3C1YSngn DEBUG [console] App platform: tizen
+08:22:11.535 3C1YSngn DEBUG [console] Script create: http://lampa.mx/vender/hls/hls.js
+08:22:11.622 3C1YSngn INFO  [lampa-evt] app/ready
+08:22:11.714 3C1YSngn DEBUG [api] POST /device/notify ok
+08:22:11.716 3C1YSngn INFO  [identity] notify ok {"status":200}
+08:22:11.725 3C1YSngn DEBUG [api] GET /user ok
+08:22:11.726 3C1YSngn INFO  [auth] profile ok {"name":"eugenestraw","subscribed":{"active":true,"end_time":1792246646,"days":168.2}}
+08:22:11.879 3C1YSngn INFO  [lampa-evt] activity/init
+08:22:11.888 3C1YSngn INFO  [lampa-evt] activity/create
+08:22:11.923 3C1YSngn INFO  [lampa-evt] activity/start
+08:22:11.973 3C1YSngn DEBUG [console] Script include: http://lampa.mx/vender/hls/hls.js
+08:22:12.191 3C1YSngn DEBUG [console] Tizen set sections 2
+08:22:15.986 3C1YSngn INFO  [lampa-evt] activity/init
+08:22:15.989 3C1YSngn INFO  [lampa-evt] activity/create
+08:22:16.005 3C1YSngn INFO  [lampa-evt] activity/start
+08:22:17.023 3C1YSngn INFO  [lampa-evt] activity/init
+08:22:17.034 3C1YSngn INFO  [lampa-evt] activity/create
+08:22:17.050 3C1YSngn INFO  [lampa-evt] activity/start
+08:22:22.002 3C1YSngn INFO  [launch] open activity {"id":124364,"title":"Извне","orig":"FROM"}
+08:22:22.020 3C1YSngn INFO  [lampa-evt] activity/init
+08:22:22.022 3C1YSngn INFO  [lampa-evt] activity/create
+08:22:22.045 3C1YSngn INFO  [component] find query=Извне
+08:22:22.047 3C1YSngn INFO  [source] searchByTitle {"query":"Извне","year":2022,"orig":"FROM","rus":"Извне","imdb":"tt9813792","imdbNum":9813792,"type":"serial"}
+08:22:22.049 3C1YSngn DEBUG [api] GET /items/search {"q":"Извне","field":"title","perpage":50,"type":"serial"}
+08:22:22.062 3C1YSngn INFO  [lampa-evt] activity/start
+08:22:22.424 3C1YSngn DEBUG [api] GET /items/search ok
+08:22:22.426 3C1YSngn INFO  [source] search ok {"count":1}
+08:22:22.429 3C1YSngn DEBUG [source] top candidates [{"id":77917,"title":"Извне / From","year":2022,"type":"serial","imdb":9813792}]
+08:22:22.431 3C1YSngn INFO  [source] matched by imdb {"id":77917,"imdb":9813792}
+08:22:22.433 3C1YSngn INFO  [source] matched card {"id":77917,"title":"Извне / From","year":2022,"type":"serial"}
+08:22:22.435 3C1YSngn INFO  [source] find() id=77917
+08:22:22.437 3C1YSngn DEBUG [api] GET /items/77917 null
+08:22:22.672 3C1YSngn DEBUG [api] GET /items/77917 ok
+08:22:22.675 3C1YSngn INFO  [source] item loaded {"id":77917,"type":"serial","seasons":4,"videos":0}
+08:22:22.677 3C1YSngn DEBUG [source] sample audio entry [0] {"id":2384146,"index":1,"codec":"aac","channels":2,"lang":"rus","type":{"id":2,"title":"Многоголосый","short_title":"MVO"},"author":{"id":10,"title":"LostFilm","short_title":null}}
+08:22:22.679 3C1YSngn DEBUG [source] sample audio entry [1] {"id":2384149,"index":2,"codec":"aac","channels":6,"lang":"rus","type":{"id":2,"title":"Многоголосый","short_title":"MVO"},"author":{"id":11,"title":"AlexFilm","short_title":null}}
+08:22:22.687 3C1YSngn DEBUG [source] extracted serial {"seasons":4,"totalEpisodes":32,"voicesPerSeason":[4,7,9,8]}
+08:22:22.695 3C1YSngn INFO  [format] auto resolved {"player":"tizen","format":"hls4"}
+08:22:22.700 3C1YSngn DEBUG [source] append items {"count":10}
+08:22:31.837 3C1YSngn INFO  [lampa-evt] activity/start
+08:22:31.840 3C1YSngn INFO  [lampa-evt] activity/archive
+08:22:32.134 3C1YSngn DEBUG [source] destroy
+08:22:32.136 3C1YSngn INFO  [lampa-evt] activity/destroy
+08:22:32.347 3C1YSngn INFO  [lampa-evt] activity/start
+08:22:32.349 3C1YSngn INFO  [lampa-evt] activity/archive
+08:22:32.531 3C1YSngn INFO  [lampa-evt] activity/destroy
+08:22:42.762 3C1YSngn INFO  [lampa-evt] activity/init
+08:22:42.771 3C1YSngn INFO  [lampa-evt] activity/create
+08:22:42.785 3C1YSngn INFO  [lampa-evt] activity/start
+08:22:46.101 3C1YSngn INFO  [launch] open activity {"id":124364,"title":"Извне","orig":"FROM"}
+08:22:46.116 3C1YSngn INFO  [lampa-evt] activity/init
+08:22:46.117 3C1YSngn INFO  [lampa-evt] activity/create
+08:22:46.136 3C1YSngn INFO  [component] find query=Извне
+08:22:46.138 3C1YSngn INFO  [source] searchByTitle {"query":"Извне","year":2022,"orig":"FROM","rus":"Извне","imdb":"tt9813792","imdbNum":9813792,"type":"serial"}
+08:22:46.139 3C1YSngn DEBUG [api] GET /items/search {"q":"Извне","field":"title","perpage":50,"type":"serial"}
+08:22:46.153 3C1YSngn INFO  [lampa-evt] activity/start
+08:22:46.459 3C1YSngn DEBUG [api] GET /items/search ok
+08:22:46.461 3C1YSngn INFO  [source] search ok {"count":1}
+08:22:46.462 3C1YSngn DEBUG [source] top candidates [{"id":77917,"title":"Извне / From","year":2022,"type":"serial","imdb":9813792}]
+08:22:46.464 3C1YSngn INFO  [source] matched by imdb {"id":77917,"imdb":9813792}
+08:22:46.466 3C1YSngn INFO  [source] matched card {"id":77917,"title":"Извне / From","year":2022,"type":"serial"}
+08:22:46.468 3C1YSngn INFO  [source] find() id=77917
+08:22:46.469 3C1YSngn DEBUG [api] GET /items/77917 null
+08:22:46.724 3C1YSngn DEBUG [api] GET /items/77917 ok
+08:22:46.726 3C1YSngn INFO  [source] item loaded {"id":77917,"type":"serial","seasons":4,"videos":0}
+08:22:46.728 3C1YSngn DEBUG [source] sample audio entry [0] {"id":2384146,"index":1,"codec":"aac","channels":2,"lang":"rus","type":{"id":2,"title":"Многоголосый","short_title":"MVO"},"author":{"id":10,"title":"LostFilm","short_title":null}}
+08:22:46.729 3C1YSngn DEBUG [source] sample audio entry [1] {"id":2384149,"index":2,"codec":"aac","channels":6,"lang":"rus","type":{"id":2,"title":"Многоголосый","short_title":"MVO"},"author":{"id":11,"title":"AlexFilm","short_title":null}}
+08:22:46.733 3C1YSngn DEBUG [source] extracted serial {"seasons":4,"totalEpisodes":32,"voicesPerSeason":[4,7,9,8]}
+08:22:46.739 3C1YSngn DEBUG [source] append items {"count":10}
+08:23:15.603 3C1YSngn DEBUG [source] filter change {"type":"voice","index":5}
+08:23:15.605 3C1YSngn INFO  [voice] user picked {"name":"Многоголосый AlexFilm [RUS] (AC3)","key":"rus|Многоголосый|AlexFilm|ac3"}
+08:23:15.612 3C1YSngn DEBUG [source] append items {"count":10}
+08:23:18.146 3C1YSngn DEBUG [player] play-element built {"title":"Предел","url":"http://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs5NDE1MjE7MTc3NzcxMDE2NyZoPUpUQ3VxUzQ5Wjd0VmptbG10Z19YZFEmZT0xNzc3Nzk2NTY3/941521.m3u8?loc=ru","q":1080,"voiceIdx":0,"voice":"Многоголосый AlexFilm [RUS] (AAC)","voicesAvailable":6,"player":"tizen","subs":0,"subsAvailable":0}
+08:23:18.148 3C1YSngn DEBUG [player] play-element built {"title":"Чужаки в чужом краю","url":"http://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs5Mzc5OTk7MTc3NzcxMDE2NyZoPU84ckxRM1FnaXdyb3Frd1pLeHd5SHcmZT0xNzc3Nzk2NTY3/937999.m3u8?loc=ru","q":1080,"voiceIdx":5,"voice":"Многоголосый AlexFilm [RUS] (AC3)","voicesAvailable":6,"player":"tizen","subs":0,"subsAvailable":0}
+08:23:18.150 3C1YSngn DEBUG [player] play-element built {"title":"Доброта чужих людей","url":"http://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs5NDAyNjc7MTc3NzcxMDE2NyZoPTl1ZEZWSUJ1Yi0yRTBZNGVvOEhGWkEmZT0xNzc3Nzk2NTY3/940267.m3u8?loc=ru","q":1080,"voiceIdx":0,"voice":"Многоголосый AlexFilm [RUS] (AAC)","voicesAvailable":6,"player":"tizen","subs":0,"subsAvailable":0}
+08:23:18.151 3C1YSngn DEBUG [player] play-element built {"title":"Предел","url":"http://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs5NDE1MjE7MTc3NzcxMDE2NyZoPUpUQ3VxUzQ5Wjd0VmptbG10Z19YZFEmZT0xNzc3Nzk2NTY3/941521.m3u8?loc=ru","q":1080,"voiceIdx":0,"voice":"Многоголосый AlexFilm [RUS] (AAC)","voicesAvailable":6,"player":"tizen","subs":0,"subsAvailable":0}
+08:23:18.153 3C1YSngn DEBUG [player] play-element built {"title":"Этот путь пройден","url":"http://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs5NDI4NTk7MTc3NzcxMDE2NyZoPVp6Tkltd2lwSnFwVS1tajFwR1VVSncmZT0xNzc3Nzk2NTY3/942859.m3u8?loc=ru","q":1080,"voiceIdx":0,"voice":"Многоголосый AlexFilm [RUS] (AAC)","voicesAvailable":6,"player":"tizen","subs":0,"subsAvailable":0}
+08:23:18.155 3C1YSngn DEBUG [player] play-element built {"title":"Колыбельная","url":"http://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs5NDQxNTI7MTc3NzcxMDE2NyZoPUhzT0NRaUpEb1BKdW9XeHVfUHlQdFEmZT0xNzc3Nzk2NTY3/944152.m3u8?loc=ru","q":1080,"voiceIdx":0,"voice":"Многоголосый AlexFilm [RUS] (AAC)","voicesAvailable":6,"player":"tizen","subs":0,"subsAvailable":0}
+08:23:18.156 3C1YSngn DEBUG [player] play-element built {"title":"Па-де-де","url":"http://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs5NDYzNTE7MTc3NzcxMDE2NyZoPW04cS1fdDM4VFlWMFJ0NTFZVmZtcUEmZT0xNzc3Nzk2NTY3/946351.m3u8?loc=ru","q":1080,"voiceIdx":0,"voice":"Многоголосый AlexFilm [RUS] (AAC)","voicesAvailable":6,"player":"tizen","subs":0,"subsAvailable":0}
+08:23:18.158 3C1YSngn DEBUG [player] play-element built {"title":"Чрево зверя","url":"http://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs5NDcxNjE7MTc3NzcxMDE2NyZoPUpTN3VFYWlGRkw3VnFPQWY3M1RTU1EmZT0xNzc3Nzk2NTY3/947161.m3u8?loc=ru","q":1080,"voiceIdx":0,"voice":"Многоголосый AlexFilm [RUS] (AAC)","voicesAvailable":6,"player":"tizen","subs":0,"subsAvailable":0}
+08:23:18.159 3C1YSngn DEBUG [player] play-element built {"title":"Не видеть лес за деревьями","url":"http://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs5NDgyMjY7MTc3NzcxMDE2NyZoPWphM3FaQzM3QzhDbTZVY3FRSVdaV2cmZT0xNzc3Nzk2NTY3/948226.m3u8?loc=ru","q":1080,"voiceIdx":0,"voice":"Многоголосый AlexFilm [RUS] (AAC)","voicesAvailable":6,"player":"tizen","subs":0,"subsAvailable":0}
+08:23:18.161 3C1YSngn DEBUG [player] play-element built {"title":"Волшебный огненный шар","url":"http://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs5NTAyNDU7MTc3NzcxMDE2NyZoPUNFQ3RJeXFNX2VaVFlPOGViN2ZoR3cmZT0xNzc3Nzk2NTY3/950245.m3u8?loc=ru","q":1080,"voiceIdx":0,"voice":"Многоголосый AlexFilm [RUS] (AAC)","voicesAvailable":6,"player":"tizen","subs":0,"subsAvailable":0}
+08:23:18.162 3C1YSngn DEBUG [player] play-element built {"title":"Однажды в сказке…","url":"http://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs5NTEzMTk7MTc3NzcxMDE2NyZoPWlENmgxY2dvdFNBdzBFd3I3N0o3YUEmZT0xNzc3Nzk2NTY3/951319.m3u8?loc=ru","q":1080,"voiceIdx":0,"voice":"Многоголосый AlexFilm [RUS] (AAC)","voicesAvailable":6,"player":"tizen","subs":0,"subsAvailable":0}
+08:23:18.164 3C1YSngn INFO  [player] launching {"url":"http://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs5NDE1MjE7MTc3NzcxMDE2NyZoPUpUQ3VxUzQ5Wjd0VmptbG10Z19YZFEmZT0xNzc3Nzk2NTY3/941521.m3u8?loc=ru","playlist":10}
+08:23:18.166 3C1YSngn INFO  [lampa-evt] Player/create
+08:23:18.181 3C1YSngn INFO  [lampa-evt] Player/start
+08:23:18.449 3C1YSngn INFO  [lampa-evt] Player/ready
+08:23:19.154 3C1YSngn INFO  [lampa-evt] PlayerVideo/translate
+08:23:19.156 3C1YSngn INFO  [lampa-evt] PlayerVideo/translate
+08:23:19.265 3C1YSngn INFO  [lampa-evt] PlayerVideo/play
+08:23:22.524 3C1YSngn INFO  [lampa-evt] PlayerVideo/canplay
+08:23:22.528 3C1YSngn DEBUG [voice] apply via canplay {"idx":0,"label":"Многоголосый AlexFilm [RUS] (AAC)","key":"rus|Многоголосый|AlexFilm|ac3"}
+08:23:22.540 3C1YSngn INFO  [voice] switched via avplay {"idx":0,"nativeIdx":1,"total":6}
+08:23:22.547 3C1YSngn INFO  [lampa-evt] PlayerVideo/loadeddata
+08:23:22.588 3C1YSngn INFO  [lampa-evt] PlayerVideo/tracks
+08:23:22.595 3C1YSngn INFO  [lampa-evt] PlayerVideo/subs
+08:23:22.618 3C1YSngn INFO  [lampa-evt] PlayerVideo/pause
+08:23:22.869 3C1YSngn INFO  [lampa-evt] PlayerVideo/play
+08:23:30.399 3C1YSngn INFO  [lampa-evt] Player/destroy
+08:23:34.800 3C1YSngn DEBUG [source] filter change {"type":"voice","index":4}
+08:23:34.826 3C1YSngn INFO  [voice] user picked {"name":"Оригинал [ENG] (AAC)","key":"eng|Оригинал||aac"}
+08:23:34.833 3C1YSngn DEBUG [source] append items {"count":10}
+08:23:36.204 3C1YSngn DEBUG [player] play-element built {"title":"Предел","url":"http://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs5NDE1MjE7MTc3NzcxMDE2NyZoPUpUQ3VxUzQ5Wjd0VmptbG10Z19YZFEmZT0xNzc3Nzk2NTY3/941521.m3u8?loc=ru","q":1080,"voiceIdx":4,"voice":"Оригинал [ENG] (AAC)","voicesAvailable":6,"player":"tizen","subs":0,"subsAvailable":0}
+08:23:36.205 3C1YSngn DEBUG [player] play-element built {"title":"Чужаки в чужом краю","url":"http://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs5Mzc5OTk7MTc3NzcxMDE2NyZoPU84ckxRM1FnaXdyb3Frd1pLeHd5SHcmZT0xNzc3Nzk2NTY3/937999.m3u8?loc=ru","q":1080,"voiceIdx":4,"voice":"Оригинал [ENG] (AAC)","voicesAvailable":6,"player":"tizen","subs":0,"subsAvailable":0}
+08:23:36.207 3C1YSngn DEBUG [player] play-element built {"title":"Доброта чужих людей","url":"http://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs5NDAyNjc7MTc3NzcxMDE2NyZoPTl1ZEZWSUJ1Yi0yRTBZNGVvOEhGWkEmZT0xNzc3Nzk2NTY3/940267.m3u8?loc=ru","q":1080,"voiceIdx":4,"voice":"Оригинал [ENG] (AAC)","voicesAvailable":6,"player":"tizen","subs":0,"subsAvailable":0}
+08:23:36.208 3C1YSngn DEBUG [player] play-element built {"title":"Предел","url":"http://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs5NDE1MjE7MTc3NzcxMDE2NyZoPUpUQ3VxUzQ5Wjd0VmptbG10Z19YZFEmZT0xNzc3Nzk2NTY3/941521.m3u8?loc=ru","q":1080,"voiceIdx":4,"voice":"Оригинал [ENG] (AAC)","voicesAvailable":6,"player":"tizen","subs":0,"subsAvailable":0}
+08:23:36.210 3C1YSngn DEBUG [player] play-element built {"title":"Этот путь пройден","url":"http://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs5NDI4NTk7MTc3NzcxMDE2NyZoPVp6Tkltd2lwSnFwVS1tajFwR1VVSncmZT0xNzc3Nzk2NTY3/942859.m3u8?loc=ru","q":1080,"voiceIdx":4,"voice":"Оригинал [ENG] (AAC)","voicesAvailable":6,"player":"tizen","subs":0,"subsAvailable":0}
+08:23:36.211 3C1YSngn DEBUG [player] play-element built {"title":"Колыбельная","url":"http://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs5NDQxNTI7MTc3NzcxMDE2NyZoPUhzT0NRaUpEb1BKdW9XeHVfUHlQdFEmZT0xNzc3Nzk2NTY3/944152.m3u8?loc=ru","q":1080,"voiceIdx":4,"voice":"Оригинал [ENG] (AAC)","voicesAvailable":6,"player":"tizen","subs":0,"subsAvailable":0}
+08:23:36.212 3C1YSngn DEBUG [player] play-element built {"title":"Па-де-де","url":"http://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs5NDYzNTE7MTc3NzcxMDE2NyZoPW04cS1fdDM4VFlWMFJ0NTFZVmZtcUEmZT0xNzc3Nzk2NTY3/946351.m3u8?loc=ru","q":1080,"voiceIdx":4,"voice":"Оригинал [ENG] (AAC)","voicesAvailable":6,"player":"tizen","subs":0,"subsAvailable":0}
+08:23:36.214 3C1YSngn DEBUG [player] play-element built {"title":"Чрево зверя","url":"http://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs5NDcxNjE7MTc3NzcxMDE2NyZoPUpTN3VFYWlGRkw3VnFPQWY3M1RTU1EmZT0xNzc3Nzk2NTY3/947161.m3u8?loc=ru","q":1080,"voiceIdx":4,"voice":"Оригинал [ENG] (AAC)","voicesAvailable":6,"player":"tizen","subs":0,"subsAvailable":0}
+08:23:36.215 3C1YSngn DEBUG [player] play-element built {"title":"Не видеть лес за деревьями","url":"http://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs5NDgyMjY7MTc3NzcxMDE2NyZoPWphM3FaQzM3QzhDbTZVY3FRSVdaV2cmZT0xNzc3Nzk2NTY3/948226.m3u8?loc=ru","q":1080,"voiceIdx":4,"voice":"Оригинал [ENG] (AAC)","voicesAvailable":6,"player":"tizen","subs":0,"subsAvailable":0}
+08:23:36.217 3C1YSngn DEBUG [player] play-element built {"title":"Волшебный огненный шар","url":"http://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs5NTAyNDU7MTc3NzcxMDE2NyZoPUNFQ3RJeXFNX2VaVFlPOGViN2ZoR3cmZT0xNzc3Nzk2NTY3/950245.m3u8?loc=ru","q":1080,"voiceIdx":4,"voice":"Оригинал [ENG] (AAC)","voicesAvailable":6,"player":"tizen","subs":0,"subsAvailable":0}
+08:23:36.218 3C1YSngn DEBUG [player] play-element built {"title":"Однажды в сказке…","url":"http://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs5NTEzMTk7MTc3NzcxMDE2NyZoPWlENmgxY2dvdFNBdzBFd3I3N0o3YUEmZT0xNzc3Nzk2NTY3/951319.m3u8?loc=ru","q":1080,"voiceIdx":4,"voice":"Оригинал [ENG] (AAC)","voicesAvailable":6,"player":"tizen","subs":0,"subsAvailable":0}
+08:23:36.219 3C1YSngn INFO  [player] launching {"url":"http://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs5NDE1MjE7MTc3NzcxMDE2NyZoPUpUQ3VxUzQ5Wjd0VmptbG10Z19YZFEmZT0xNzc3Nzk2NTY3/941521.m3u8?loc=ru","playlist":10}
+08:23:36.221 3C1YSngn INFO  [lampa-evt] Player/create
+08:23:36.231 3C1YSngn INFO  [lampa-evt] Player/start
+08:23:36.294 3C1YSngn INFO  [lampa-evt] Player/ready
+08:23:36.500 3C1YSngn INFO  [lampa-evt] PlayerVideo/translate
+08:23:36.501 3C1YSngn INFO  [lampa-evt] PlayerVideo/translate
+08:23:36.521 3C1YSngn INFO  [lampa-evt] PlayerVideo/play
+08:23:38.369 3C1YSngn INFO  [lampa-evt] PlayerVideo/canplay
+08:23:38.371 3C1YSngn DEBUG [voice] apply via canplay {"idx":4,"label":"Оригинал [ENG] (AAC)","key":"eng|Оригинал||aac"}
+08:23:38.454 3C1YSngn INFO  [voice] switched via avplay {"idx":4,"nativeIdx":5,"total":6}
+08:23:38.459 3C1YSngn INFO  [lampa-evt] PlayerVideo/loadeddata
+08:23:38.478 3C1YSngn INFO  [lampa-evt] PlayerVideo/tracks
+08:23:38.480 3C1YSngn INFO  [lampa-evt] PlayerVideo/subs
+08:23:38.496 3C1YSngn INFO  [lampa-evt] PlayerVideo/pause
+08:23:38.724 3C1YSngn INFO  [lampa-evt] PlayerVideo/play
+08:23:48.571 3C1YSngn INFO  [lampa-evt] Player/destroy
+

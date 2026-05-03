@@ -1,0 +1,372 @@
+02:20:17.543 NS0RKwou INFO  [boot] kp.js v1.0.6 starting {"session":"NS0RKwou","app":318,"ua":"Mozilla/5.0 (SMART-TV; LINUX; Tizen 9.0) AppleWebKit/537.36 (KHTML, like Gecko) 120.0.6099.5/9.0 TV Safari/537.36"}
+02:20:17.553 NS0RKwou DEBUG [api] GET /user null
+02:20:17.561 NS0RKwou INFO  [boot] kp.js initialized
+02:20:18.459 NS0RKwou DEBUG [api] GET /user ok
+02:20:18.462 NS0RKwou INFO  [auth] profile ok {"name":"eugenestraw","subscribed":{"active":true,"end_time":1792246646,"days":168.5}}
+02:20:46.262 NS0RKwou INFO  [launch] open activity {"id":225891,"title":"Река Мадисон","orig":"The Madison"}
+02:20:46.302 NS0RKwou INFO  [component] find query=Река Мадисон
+02:20:46.304 NS0RKwou INFO  [source] searchByTitle {"query":"Река Мадисон","year":2026,"orig":"The Madison","rus":"Река Мадисон","imdb":"tt33204276","imdbNum":33204276,"type":"serial"}
+02:20:46.306 NS0RKwou DEBUG [api] GET /items/search {"q":"Река Мадисон","field":"title","perpage":50,"type":"serial"}
+02:20:46.770 NS0RKwou DEBUG [api] GET /items/search ok
+02:20:46.773 NS0RKwou INFO  [source] search ok {"count":1}
+02:20:46.775 NS0RKwou DEBUG [source] top candidates [{"id":121408,"title":"Река Мадисон / The Madison","year":2026,"type":"serial","imdb":33204276}]
+02:20:46.777 NS0RKwou INFO  [source] matched by imdb {"id":121408,"imdb":33204276}
+02:20:46.779 NS0RKwou INFO  [source] matched card {"id":121408,"title":"Река Мадисон / The Madison","year":2026,"type":"serial"}
+02:20:46.781 NS0RKwou INFO  [source] find() id=121408
+02:20:46.784 NS0RKwou DEBUG [api] GET /items/121408 null
+02:20:47.009 NS0RKwou DEBUG [api] GET /items/121408 ok
+02:20:47.012 NS0RKwou INFO  [source] item loaded {"id":121408,"type":"serial","seasons":1,"videos":0}
+02:20:47.017 NS0RKwou DEBUG [source] extracted serial {"seasons":1,"totalEpisodes":6,"voices":5}
+02:20:47.026 NS0RKwou DEBUG [source] append items {"count":6}
+02:20:53.387 NS0RKwou DEBUG [player] play-element built {"title":"За день до прощания","url":"https://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMTI5MjM0OzE3Nzc2ODg0NDcmaD1mZDhQR2RKVmJEdXVXcC01TVhKcnpRJmU9MTc3Nzc3NDg0Nw/1129234.m3u8?loc=ru","q":2160,"subs":0,"subsAvailable":0}
+02:20:53.389 NS0RKwou DEBUG [player] play-element built {"title":"Пилот","url":"https://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMTI4MTA2OzE3Nzc2ODg0NDcmaD1rZzZCR2NmaXFPUWpPRmFzQTAtRmhnJmU9MTc3Nzc3NDg0Nw/1128106.m3u8?loc=ru","q":2160,"subs":0,"subsAvailable":2}
+02:20:53.391 NS0RKwou DEBUG [player] play-element built {"title":"Пусть земля меня укроет","url":"https://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMTI4MTA5OzE3Nzc2ODg0NDcmaD0tQmNzNzlCeDk3VXpXZG9JckNEWWd3JmU9MTc3Nzc3NDg0Nw/1128109.m3u8?loc=ru","q":2160,"subs":0,"subsAvailable":0}
+02:20:53.392 NS0RKwou DEBUG [player] play-element built {"title":"Свободное падение","url":"https://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMTI4MTEyOzE3Nzc2ODg0NDcmaD1aZWt6Nmx1VnJmTmRkTl9seUo0X01RJmU9MTc3Nzc3NDg0Nw/1128112.m3u8?loc=ru","q":2160,"subs":0,"subsAvailable":0}
+02:20:53.394 NS0RKwou DEBUG [player] play-element built {"title":"За день до прощания","url":"https://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMTI5MjM0OzE3Nzc2ODg0NDcmaD1mZDhQR2RKVmJEdXVXcC01TVhKcnpRJmU9MTc3Nzc3NDg0Nw/1129234.m3u8?loc=ru","q":2160,"subs":0,"subsAvailable":0}
+02:20:53.395 NS0RKwou DEBUG [player] play-element built {"title":"Старый бар, новая мечта","url":"https://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMTI5MjM3OzE3Nzc2ODg0NDcmaD1WcE80Q0p3c1VpQmxfZlNTTDdiMHlnJmU9MTc3Nzc3NDg0Nw/1129237.m3u8?loc=ru","q":2160,"subs":0,"subsAvailable":0}
+02:20:53.396 NS0RKwou DEBUG [player] play-element built {"title":"Решение","url":"https://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMTI5MjQwOzE3Nzc2ODg0NDcmaD1PdjBNb1Jqci1pcUYzOHFMcjhlbjRBJmU9MTc3Nzc3NDg0Nw/1129240.m3u8?loc=ru","q":2160,"subs":0,"subsAvailable":0}
+02:20:53.398 NS0RKwou INFO  [player] launching {"url":"https://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMTI5MjM0OzE3Nzc2ODg0NDcmaD1mZDhQR2RKVmJEdXVXcC01TVhKcnpRJmU9MTc3Nzc3NDg0Nw/1129234.m3u8?loc=ru","playlist":6}
+02:21:45.184 NS0RKwou DEBUG [player] play-element built {"title":"Старый бар, новая мечта","url":"https://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMTI5MjM3OzE3Nzc2ODg0NDcmaD1WcE80Q0p3c1VpQmxfZlNTTDdiMHlnJmU9MTc3Nzc3NDg0Nw/1129237.m3u8?loc=ru","q":2160,"subs":0,"subsAvailable":0}
+02:21:45.186 NS0RKwou DEBUG [player] play-element built {"title":"Пилот","url":"https://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMTI4MTA2OzE3Nzc2ODg0NDcmaD1rZzZCR2NmaXFPUWpPRmFzQTAtRmhnJmU9MTc3Nzc3NDg0Nw/1128106.m3u8?loc=ru","q":2160,"subs":0,"subsAvailable":2}
+02:21:45.187 NS0RKwou DEBUG [player] play-element built {"title":"Пусть земля меня укроет","url":"https://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMTI4MTA5OzE3Nzc2ODg0NDcmaD0tQmNzNzlCeDk3VXpXZG9JckNEWWd3JmU9MTc3Nzc3NDg0Nw/1128109.m3u8?loc=ru","q":2160,"subs":0,"subsAvailable":0}
+02:21:45.189 NS0RKwou DEBUG [player] play-element built {"title":"Свободное падение","url":"https://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMTI4MTEyOzE3Nzc2ODg0NDcmaD1aZWt6Nmx1VnJmTmRkTl9seUo0X01RJmU9MTc3Nzc3NDg0Nw/1128112.m3u8?loc=ru","q":2160,"subs":0,"subsAvailable":0}
+02:21:45.190 NS0RKwou DEBUG [player] play-element built {"title":"За день до прощания","url":"https://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMTI5MjM0OzE3Nzc2ODg0NDcmaD1mZDhQR2RKVmJEdXVXcC01TVhKcnpRJmU9MTc3Nzc3NDg0Nw/1129234.m3u8?loc=ru","q":2160,"subs":0,"subsAvailable":0}
+02:21:45.192 NS0RKwou DEBUG [player] play-element built {"title":"Старый бар, новая мечта","url":"https://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMTI5MjM3OzE3Nzc2ODg0NDcmaD1WcE80Q0p3c1VpQmxfZlNTTDdiMHlnJmU9MTc3Nzc3NDg0Nw/1129237.m3u8?loc=ru","q":2160,"subs":0,"subsAvailable":0}
+02:21:45.193 NS0RKwou DEBUG [player] play-element built {"title":"Решение","url":"https://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMTI5MjQwOzE3Nzc2ODg0NDcmaD1PdjBNb1Jqci1pcUYzOHFMcjhlbjRBJmU9MTc3Nzc3NDg0Nw/1129240.m3u8?loc=ru","q":2160,"subs":0,"subsAvailable":0}
+02:21:45.195 NS0RKwou INFO  [player] launching {"url":"https://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMTI5MjM3OzE3Nzc2ODg0NDcmaD1WcE80Q0p3c1VpQmxfZlNTTDdiMHlnJmU9MTc3Nzc3NDg0Nw/1129237.m3u8?loc=ru","playlist":6}
+02:22:28.352 NS0RKwou DEBUG [source] destroy
+02:22:33.780 NS0RKwou INFO  [launch] open activity {"id":124364,"title":"Извне","orig":"FROM"}
+02:22:33.813 NS0RKwou INFO  [component] find query=Извне
+02:22:33.815 NS0RKwou INFO  [source] searchByTitle {"query":"Извне","year":2022,"orig":"FROM","rus":"Извне","imdb":"tt9813792","imdbNum":9813792,"type":"serial"}
+02:22:33.816 NS0RKwou DEBUG [api] GET /items/search {"q":"Извне","field":"title","perpage":50,"type":"serial"}
+02:22:34.207 NS0RKwou DEBUG [api] GET /items/search ok
+02:22:34.208 NS0RKwou INFO  [source] search ok {"count":1}
+02:22:34.210 NS0RKwou DEBUG [source] top candidates [{"id":77917,"title":"Извне / From","year":2022,"type":"serial","imdb":9813792}]
+02:22:34.211 NS0RKwou INFO  [source] matched by imdb {"id":77917,"imdb":9813792}
+02:22:34.213 NS0RKwou INFO  [source] matched card {"id":77917,"title":"Извне / From","year":2022,"type":"serial"}
+02:22:34.214 NS0RKwou INFO  [source] find() id=77917
+02:22:34.215 NS0RKwou DEBUG [api] GET /items/77917 null
+02:22:34.455 NS0RKwou DEBUG [api] GET /items/77917 ok
+02:22:34.456 NS0RKwou INFO  [source] item loaded {"id":77917,"type":"serial","seasons":4,"videos":0}
+02:22:34.460 NS0RKwou DEBUG [source] extracted serial {"seasons":4,"totalEpisodes":32,"voices":5}
+02:22:34.465 NS0RKwou DEBUG [source] append items {"count":10}
+02:22:36.243 NS0RKwou DEBUG [player] play-element built {"title":"Долгий день уходит в ночь","url":"https://cdn2site.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs4NTE0MTM7MTc3NzY4ODU1NSZoPTdzVHZBT1Zlc2lLWEI2cWxILVFzYXcmZT0xNzc3Nzc0OTU1/851413.m3u8?loc=ru","q":1080,"subs":0,"subsAvailable":2}
+02:22:36.245 NS0RKwou DEBUG [player] play-element built {"title":"Долгий день уходит в ночь","url":"https://cdn2site.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs4NTE0MTM7MTc3NzY4ODU1NSZoPTdzVHZBT1Zlc2lLWEI2cWxILVFzYXcmZT0xNzc3Nzc0OTU1/851413.m3u8?loc=ru","q":1080,"subs":0,"subsAvailable":2}
+02:22:36.247 NS0RKwou DEBUG [player] play-element built {"title":"Как обстоят дела сейчас","url":"https://cdn2site.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs4NTE3NzA7MTc3NzY4ODU1NSZoPXlFeFBIOVVyRkVXaGdpR0VnNjY3T0EmZT0xNzc3Nzc0OTU1/851770.m3u8?loc=ru","q":1080,"subs":0,"subsAvailable":1}
+02:22:36.248 NS0RKwou DEBUG [player] play-element built {"title":"Выбор дня","url":"https://cdn2site.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs4NTE3OTc7MTc3NzY4ODU1NSZoPW5mMkpaTHR2b25DWVQzdE5YRTZEeWcmZT0xNzc3Nzc0OTU1/851797.m3u8?loc=ru","q":1080,"subs":0,"subsAvailable":0}
+02:22:36.250 NS0RKwou DEBUG [player] play-element built {"title":"Скала и дальний путь","url":"https://cdn2site.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs4NTIxNTc7MTc3NzY4ODU1NSZoPXZaS0w4ekFfNk0tdzhXU0pqS1BFRWcmZT0xNzc3Nzc0OTU1/852157.m3u8?loc=ru","q":1080,"subs":0,"subsAvailable":0}
+02:22:36.251 NS0RKwou DEBUG [player] play-element built {"title":"Силуэты","url":"https://cdn2site.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs4NTMxNDQ7MTc3NzY4ODU1NSZoPVJ0WEN3alI3ZVZ4aDlOQlIzalBfeFEmZT0xNzc3Nzc0OTU1/853144.m3u8?loc=ru","q":1080,"subs":0,"subsAvailable":0}
+02:22:36.252 NS0RKwou DEBUG [player] play-element built {"title":"Книга 74","url":"https://cdn2site.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs4NTM5ODc7MTc3NzY4ODU1NSZoPXVnNEktb1NJZ01uX3hkWm1adGR3QkEmZT0xNzc3Nzc0OTU1/853987.m3u8?loc=ru","q":1080,"subs":0,"subsAvailable":0}
+02:22:36.254 NS0RKwou DEBUG [player] play-element built {"title":"Все хорошее","url":"https://cdn2site.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs4NTU1MTE7MTc3NzY4ODU1NSZoPW5NQTFvQVEzTVhfSEF3cVIxZ216ZHcmZT0xNzc3Nzc0OTU1/855511.m3u8?loc=ru","q":1080,"subs":0,"subsAvailable":0}
+02:22:36.255 NS0RKwou DEBUG [player] play-element built {"title":"Разбитые окна, открытые двери","url":"https://cdn2site.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs4NTY0ODA7MTc3NzY4ODU1NSZoPW5TSDBHdWRocDlWNGNoWjQzbFlKc0EmZT0xNzc3Nzc0OTU1/856480.m3u8?loc=ru","q":1080,"subs":0,"subsAvailable":0}
+02:22:36.256 NS0RKwou DEBUG [player] play-element built {"title":"В лес","url":"https://cdn2site.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs4NTc3MDE7MTc3NzY4ODU1NSZoPU9WelVIVU1BUmxMT093UEJ0azVzWHcmZT0xNzc3Nzc0OTU1/857701.m3u8?loc=ru","q":1080,"subs":0,"subsAvailable":0}
+02:22:36.258 NS0RKwou DEBUG [player] play-element built {"title":"О, в какие места мы пойдем!","url":"https://cdn2site.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs4NjAwMzI7MTc3NzY4ODU1NSZoPVJNYkVjQUN5b1ZfWnN3ZTBvVXBXRncmZT0xNzc3Nzc0OTU1/860032.m3u8?loc=ru","q":1080,"subs":0,"subsAvailable":0}
+02:22:36.259 NS0RKwou INFO  [player] launching {"url":"https://cdn2site.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs4NTE0MTM7MTc3NzY4ODU1NSZoPTdzVHZBT1Zlc2lLWEI2cWxILVFzYXcmZT0xNzc3Nzc0OTU1/851413.m3u8?loc=ru","playlist":10}
+02:23:30.158 NS0RKwou DEBUG [source] destroy
+02:23:35.940 NS0RKwou INFO  [launch] open activity {"id":76479,"title":"Пацаны","orig":"The Boys"}
+02:23:35.975 NS0RKwou INFO  [component] find query=Пацаны
+02:23:35.977 NS0RKwou INFO  [source] searchByTitle {"query":"Пацаны","year":2019,"orig":"The Boys","rus":"Пацаны","imdb":"tt1190634","imdbNum":1190634,"type":"serial"}
+02:23:35.978 NS0RKwou DEBUG [api] GET /items/search {"q":"Пацаны","field":"title","perpage":50,"type":"serial"}
+02:23:36.372 NS0RKwou DEBUG [api] GET /items/search ok
+02:23:36.373 NS0RKwou INFO  [source] search ok {"count":3}
+02:23:36.375 NS0RKwou DEBUG [source] top candidates [{"id":52759,"title":"Пацаны / The Boys","year":2019,"type":"serial","imdb":1190634},{"id":14004,"title":"Реальные пацаны","year":2010,"type":"serial","imdb":1837341},{"id":8964,"title":"Реальные пацаны / Blue Mountain State","year":2010,"type":"serial","imdb":1344204}]
+02:23:36.377 NS0RKwou INFO  [source] matched by imdb {"id":52759,"imdb":1190634}
+02:23:36.378 NS0RKwou INFO  [source] matched card {"id":52759,"title":"Пацаны / The Boys","year":2019,"type":"serial"}
+02:23:36.380 NS0RKwou INFO  [source] find() id=52759
+02:23:36.381 NS0RKwou DEBUG [api] GET /items/52759 null
+02:23:36.681 NS0RKwou DEBUG [api] GET /items/52759 ok
+02:23:36.683 NS0RKwou INFO  [source] item loaded {"id":52759,"type":"serial","seasons":5,"videos":0}
+02:23:36.686 NS0RKwou DEBUG [source] extracted serial {"seasons":5,"totalEpisodes":37,"voices":8}
+02:23:36.691 NS0RKwou DEBUG [source] append items {"count":8}
+02:23:38.662 NS0RKwou DEBUG [player] play-element built {"title":"Самка человека","url":"https://digital-cdn.net/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs2NjkzODg7MTc3NzY4ODYxNyZoPS1HUnA2eXZWaUs0ajQxVk40QUhNTncmZT0xNzc3Nzc1MDE3/669388.m3u8?loc=ru","q":2160,"subs":0,"subsAvailable":0}
+02:23:38.664 NS0RKwou DEBUG [player] play-element built {"title":"Такая игра","url":"https://digital-cdn.net/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs2NjY2NDY7MTc3NzY4ODYxNyZoPTRrSjNRdmxYM001bDgxTlZncVZ2SkEmZT0xNzc3Nzc1MDE3/666646.m3u8?loc=ru","q":2160,"subs":0,"subsAvailable":2}
+02:23:38.666 NS0RKwou DEBUG [player] play-element built {"title":"Вишенка","url":"https://digital-cdn.net/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs2Njc1Mjg7MTc3NzY4ODYxNyZoPVdJcFROSlQzVHVROVcwYlBBT093MFEmZT0xNzc3Nzc1MDE3/667528.m3u8?loc=ru","q":2160,"subs":0,"subsAvailable":0}
+02:23:38.667 NS0RKwou DEBUG [player] play-element built {"title":"Получи!","url":"https://digital-cdn.net/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs2NjgyNjY7MTc3NzY4ODYxNyZoPXRTengxbURjS0d6ZkJ0NjRFS1p5V2cmZT0xNzc3Nzc1MDE3/668266.m3u8?loc=ru","q":2160,"subs":0,"subsAvailable":0}
+02:23:38.668 NS0RKwou DEBUG [player] play-element built {"title":"Самка человека","url":"https://digital-cdn.net/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs2NjkzODg7MTc3NzY4ODYxNyZoPS1HUnA2eXZWaUs0ajQxVk40QUhNTncmZT0xNzc3Nzc1MDE3/669388.m3u8?loc=ru","q":2160,"subs":0,"subsAvailable":0}
+02:23:38.670 NS0RKwou DEBUG [player] play-element built {"title":"Полезно для души","url":"https://digital-cdn.net/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs2NzA5ODQ7MTc3NzY4ODYxNyZoPUpLN3dJcEpPUlg1OHkxS3Myd1ZQaWcmZT0xNzc3Nzc1MDE3/670984.m3u8?loc=ru","q":2160,"subs":0,"subsAvailable":0}
+02:23:38.671 NS0RKwou DEBUG [player] play-element built {"title":"Невинные","url":"https://digital-cdn.net/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs2NzIzMDE7MTc3NzY4ODYxNyZoPVhwMXl1NEdkb0xxMENaWDQwX3dOeWcmZT0xNzc3Nzc1MDE3/672301.m3u8?loc=ru","q":2160,"subs":0,"subsAvailable":0}
+02:23:38.672 NS0RKwou DEBUG [player] play-element built {"title":"Общество самосохранения","url":"https://digital-cdn.net/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs2NzI4NTA7MTc3NzY4ODYxNyZoPTBZY0lsQkJPbWpDZGJwbTcxUWpUcWcmZT0xNzc3Nzc1MDE3/672850.m3u8?loc=ru","q":2160,"subs":0,"subsAvailable":0}
+02:23:38.674 NS0RKwou DEBUG [player] play-element built {"title":"Ты меня нашёл","url":"https://digital-cdn.net/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs2NzMwMDY7MTc3NzY4ODYxNyZoPVFNS3l2d092SjhkZXNteUk0ZWVINHcmZT0xNzc3Nzc1MDE3/673006.m3u8?loc=ru","q":2160,"subs":0,"subsAvailable":0}
+02:23:38.675 NS0RKwou INFO  [player] launching {"url":"https://digital-cdn.net/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs2NjkzODg7MTc3NzY4ODYxNyZoPS1HUnA2eXZWaUs0ajQxVk40QUhNTncmZT0xNzc3Nzc1MDE3/669388.m3u8?loc=ru","playlist":8}
+02:23:47.478 NS0RKwou DEBUG [source] destroy
+02:23:52.179 NS0RKwou INFO  [launch] open activity {"id":79744,"title":"Новичок","orig":"The Rookie"}
+02:23:52.213 NS0RKwou INFO  [component] find query=Новичок
+02:23:52.214 NS0RKwou INFO  [source] searchByTitle {"query":"Новичок","year":2018,"orig":"The Rookie","rus":"Новичок","imdb":"tt7587890","imdbNum":7587890,"type":"serial"}
+02:23:52.216 NS0RKwou DEBUG [api] GET /items/search {"q":"Новичок","field":"title","perpage":50,"type":"serial"}
+02:23:52.512 NS0RKwou DEBUG [api] GET /items/search ok
+02:23:52.514 NS0RKwou INFO  [source] search ok {"count":38}
+02:23:52.515 NS0RKwou DEBUG [source] top candidates [{"id":39247,"title":"Новичок / The Rookie","year":2018,"type":"serial","imdb":7587890},{"id":105004,"title":"Молодёжка. Новая смена","year":2024,"type":"serial","imdb":30870221},{"id":121333,"title":"Новая земля","year":2026,"type":"serial","imdb":37185860},{"id":75382,"title":"Декстер: Новая кровь / Dexter: New Blood","year":2021,"type":"serial","imdb":14164730},{"id":112999,"title":"Стать сильнее! Новая сага / Tsuyokute New Saga","year":2025,"type":"serial","imdb":33050376}]
+02:23:52.517 NS0RKwou INFO  [source] matched by imdb {"id":39247,"imdb":7587890}
+02:23:52.519 NS0RKwou INFO  [source] matched card {"id":39247,"title":"Новичок / The Rookie","year":2018,"type":"serial"}
+02:23:52.520 NS0RKwou INFO  [source] find() id=39247
+02:23:52.522 NS0RKwou DEBUG [api] GET /items/39247 null
+02:23:52.832 NS0RKwou DEBUG [api] GET /items/39247 ok
+02:23:52.834 NS0RKwou INFO  [source] item loaded {"id":39247,"type":"serial","seasons":8,"videos":0}
+02:23:52.838 NS0RKwou DEBUG [source] extracted serial {"seasons":8,"totalEpisodes":143,"voices":8}
+02:23:52.846 NS0RKwou DEBUG [source] append items {"count":20}
+02:23:53.962 NS0RKwou DEBUG [player] play-element built {"title":"Ударный курс","url":"https://cdn2site.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs1NTkzMTI7MTc3NzY4ODYzMyZoPXhpMllmOEdhcE5ERTRkV2h4azFJOUEmZT0xNzc3Nzc1MDMz/559312.m3u8?loc=ru","q":1080,"subs":0,"subsAvailable":0}
+02:23:53.964 NS0RKwou DEBUG [player] play-element built {"title":"Пилот","url":"https://cdn2site.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs1NTUzMzE7MTc3NzY4ODYzMyZoPVZmMjhyZU9sZVZ5eFN3XzBGdUlhT1EmZT0xNzc3Nzc1MDMz/555331.m3u8?loc=ru","q":1080,"subs":0,"subsAvailable":0}
+02:23:53.965 NS0RKwou DEBUG [player] play-element built {"title":"Ударный курс","url":"https://cdn2site.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs1NTkzMTI7MTc3NzY4ODYzMyZoPXhpMllmOEdhcE5ERTRkV2h4azFJOUEmZT0xNzc3Nzc1MDMz/559312.m3u8?loc=ru","q":1080,"subs":0,"subsAvailable":0}
+02:23:53.967 NS0RKwou DEBUG [player] play-element built {"title":"Хороший, плохой, злой","url":"https://cdn2site.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs1NjIwMDA7MTc3NzY4ODYzMyZoPTBvRDczWlJ6elNvTWE2RzRtTnFnQVEmZT0xNzc3Nzc1MDMz/562000.m3u8?loc=ru","q":1080,"subs":0,"subsAvailable":0}
+02:23:53.968 NS0RKwou DEBUG [player] play-element built {"title":"Перемены","url":"https://cdn2site.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs1Njg1NDk7MTc3NzY4ODYzMyZoPWJBMkZQZzM5cmtkMmY0MWdaZ3F0NkEmZT0xNzc3Nzc1MDMz/568549.m3u8?loc=ru","q":1080,"subs":0,"subsAvailable":0}
+02:23:53.970 NS0RKwou DEBUG [player] play-element built {"title":"Облава","url":"https://cdn2site.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs1NzA4NzE7MTc3NzY4ODYzMyZoPUFmTS1mY3FvSmlobWlRdFlPcGFwU0EmZT0xNzc3Nzc1MDMz/570871.m3u8?loc=ru","q":1080,"subs":0,"subsAvailable":0}
+02:23:53.971 NS0RKwou DEBUG [player] play-element built {"title":"Хоук","url":"https://cdn2site.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs1NzQwMDk7MTc3NzY4ODYzMyZoPTBYN3k5QnRUUEJ0dGc1WTRBUXlrU1EmZT0xNzc3Nzc1MDMz/574009.m3u8?loc=ru","q":1080,"subs":0,"subsAvailable":0}
+02:23:53.972 NS0RKwou DEBUG [player] play-element built {"title":"Пассажир","url":"https://cdn2site.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs1Nzk2OTE7MTc3NzY4ODYzMyZoPTlsOTBNamdiTW9nb0FWMFJqSjM4N1EmZT0xNzc3Nzc1MDMz/579691.m3u8?loc=ru","q":1080,"subs":0,"subsAvailable":0}
+02:23:53.974 NS0RKwou DEBUG [player] play-element built {"title":"Время смерти","url":"https://cdn2site.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs1Nzk2OTQ7MTc3NzY4ODYzMyZoPWk2RkhEd1R0dGl4a0NybjhsbDdCYUEmZT0xNzc3Nzc1MDMz/579694.m3u8?loc=ru","q":1080,"subs":0,"subsAvailable":0}
+02:23:53.975 NS0RKwou DEBUG [player] play-element built {"title":"Перестрелка","url":"https://cdn2site.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs1ODk2ODE7MTc3NzY4ODYzMyZoPTZHVWI4aFFldU9EQ2FpeUZTRnFpRGcmZT0xNzc3Nzc1MDMz/589681.m3u8?loc=ru","q":1080,"subs":0,"subsAvailable":0}
+02:23:53.976 NS0RKwou DEBUG [player] play-element built {"title":"Плоть и кровь","url":"https://cdn2site.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs1OTE5NzA7MTc3NzY4ODYzMyZoPURxZ1M3VU41SkM2eUduNXhWM0QyZ3cmZT0xNzc3Nzc1MDMz/591970.m3u8?loc=ru","q":1080,"subs":0,"subsAvailable":0}
+02:23:53.978 NS0RKwou DEBUG [player] play-element built {"title":"Редвуд","url":"https://cdn2site.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs1OTQ2NzM7MTc3NzY4ODYzMyZoPVJkLWgxTHZDNkxsNFlzNVVkd1RiVUEmZT0xNzc3Nzc1MDMz/594673.m3u8?loc=ru","q":1080,"subs":0,"subsAvailable":0}
+02:23:53.979 NS0RKwou DEBUG [player] play-element built {"title":"Разбитое сердце","url":"https://cdn2site.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs2MDUyOTM7MTc3NzY4ODYzMyZoPW51VmNyaDJZc3BUcDJoU3g1MUd3NncmZT0xNzc3Nzc1MDMz/605293.m3u8?loc=ru","q":1080,"subs":0,"subsAvailable":0}
+02:23:53.980 NS0RKwou DEBUG [player] play-element built {"title":"Проворовавшиеся","url":"https://cdn2site.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs2MDg0MDE7MTc3NzY4ODYzMyZoPVYxTXFXMXRHRWp2LUJ1MkNWVWRqR2cmZT0xNzc3Nzc1MDMz/608401.m3u8?loc=ru","q":1080,"subs":0,"subsAvailable":0}
+02:23:53.981 NS0RKwou DEBUG [player] play-element built {"title":"День в штатском","url":"https://cdn2site.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs2MTA3MjY7MTc3NzY4ODYzMyZoPVFsLUVSQmFDSmtfcTBiMnJ1OVlYRlEmZT0xNzc3Nzc1MDMz/610726.m3u8?loc=ru","q":1080,"subs":0,"subsAvailable":0}
+02:23:53.983 NS0RKwou DEBUG [player] play-element built {"title":"Облава","url":"https://cdn2site.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs2MTM3Nzc7MTc3NzY4ODYzMyZoPUpiTG5DRlhURnF5UkNqNkRtazRFakEmZT0xNzc3Nzc1MDMz/613777.m3u8?loc=ru","q":1080,"subs":0,"subsAvailable":0}
+02:23:53.984 NS0RKwou DEBUG [player] play-element built {"title":"Заказ","url":"https://cdn2site.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs2MTg2MDE7MTc3NzY4ODYzMyZoPUJzTWhZcVRmeDVmZXFtN2luek50QlEmZT0xNzc3Nzc1MDMz/618601.m3u8?loc=ru","q":1080,"subs":0,"subsAvailable":0}
+02:23:53.985 NS0RKwou DEBUG [player] play-element built {"title":"Встряска","url":"https://cdn2site.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs2MjA1NjY7MTc3NzY4ODYzMyZoPXZwLWFlZFVRRVp4ZmNNVWFhUlI3V3cmZT0xNzc3Nzc1MDMz/620566.m3u8?loc=ru","q":1080,"subs":0,"subsAvailable":2}
+02:23:53.986 NS0RKwou DEBUG [player] play-element built {"title":"На домашнем фронте","url":"https://cdn2site.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs2MjQyNTA7MTc3NzY4ODYzMyZoPWVJdHpscnhwMDE0ZUgwTEVxbTBLUEEmZT0xNzc3Nzc1MDMz/624250.m3u8?loc=ru","q":1080,"subs":0,"subsAvailable":0}
+02:23:53.988 NS0RKwou DEBUG [player] play-element built {"title":"Контрольный лист","url":"https://cdn2site.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs2MjYwMDU7MTc3NzY4ODYzMyZoPWVyanIyVy12MmRsQzUwXzlSaDh5WEEmZT0xNzc3Nzc1MDMz/626005.m3u8?loc=ru","q":1080,"subs":0,"subsAvailable":0}
+02:23:53.989 NS0RKwou DEBUG [player] play-element built {"title":"Свободное падение","url":"https://cdn2site.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs2Mjk0Njc7MTc3NzY4ODYzMyZoPUJnMGc1T3U3SHN0WjBxOGI5S3lxNlEmZT0xNzc3Nzc1MDMz/629467.m3u8?loc=ru","q":1080,"subs":0,"subsAvailable":0}
+02:23:53.991 NS0RKwou INFO  [player] launching {"url":"https://cdn2site.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs1NTkzMTI7MTc3NzY4ODYzMyZoPXhpMllmOEdhcE5ERTRkV2h4azFJOUEmZT0xNzc3Nzc1MDMz/559312.m3u8?loc=ru","playlist":20}
+02:24:13.658 NS0RKwou DEBUG [source] destroy
+02:24:56.739 NS0RKwou INFO  [launch] open activity {"id":124364,"title":"Извне","orig":"FROM"}
+02:24:56.771 NS0RKwou INFO  [component] find query=Извне
+02:24:56.772 NS0RKwou INFO  [source] searchByTitle {"query":"Извне","year":2022,"orig":"FROM","rus":"Извне","imdb":"tt9813792","imdbNum":9813792,"type":"serial"}
+02:24:56.774 NS0RKwou DEBUG [api] GET /items/search {"q":"Извне","field":"title","perpage":50,"type":"serial"}
+02:24:57.155 NS0RKwou DEBUG [api] GET /items/search ok
+02:24:57.156 NS0RKwou INFO  [source] search ok {"count":1}
+02:24:57.158 NS0RKwou DEBUG [source] top candidates [{"id":77917,"title":"Извне / From","year":2022,"type":"serial","imdb":9813792}]
+02:24:57.160 NS0RKwou INFO  [source] matched by imdb {"id":77917,"imdb":9813792}
+02:24:57.161 NS0RKwou INFO  [source] matched card {"id":77917,"title":"Извне / From","year":2022,"type":"serial"}
+02:24:57.163 NS0RKwou INFO  [source] find() id=77917
+02:24:57.165 NS0RKwou DEBUG [api] GET /items/77917 null
+02:24:57.429 NS0RKwou DEBUG [api] GET /items/77917 ok
+02:24:57.431 NS0RKwou INFO  [source] item loaded {"id":77917,"type":"serial","seasons":4,"videos":0}
+02:24:57.434 NS0RKwou DEBUG [source] extracted serial {"seasons":4,"totalEpisodes":32,"voices":5}
+02:24:57.438 NS0RKwou DEBUG [source] append items {"count":10}
+02:24:58.902 NS0RKwou DEBUG [player] play-element built {"title":"Как обстоят дела сейчас","url":"https://digital-cdn.net/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs4NTE3NzA7MTc3NzY4ODY5OCZoPTMtcHFpdExsWFJ2NGJ2RDdDZ0MtNmcmZT0xNzc3Nzc1MDk4/851770.m3u8?loc=ru","q":1080,"subs":0,"subsAvailable":1}
+02:24:58.904 NS0RKwou DEBUG [player] play-element built {"title":"Долгий день уходит в ночь","url":"https://digital-cdn.net/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs4NTE0MTM7MTc3NzY4ODY5OCZoPVhjRE5vbjNHTnlxelJVem1qRGlCOWcmZT0xNzc3Nzc1MDk4/851413.m3u8?loc=ru","q":1080,"subs":0,"subsAvailable":2}
+02:24:58.905 NS0RKwou DEBUG [player] play-element built {"title":"Как обстоят дела сейчас","url":"https://digital-cdn.net/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs4NTE3NzA7MTc3NzY4ODY5OCZoPTMtcHFpdExsWFJ2NGJ2RDdDZ0MtNmcmZT0xNzc3Nzc1MDk4/851770.m3u8?loc=ru","q":1080,"subs":0,"subsAvailable":1}
+02:24:58.906 NS0RKwou DEBUG [player] play-element built {"title":"Выбор дня","url":"https://digital-cdn.net/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs4NTE3OTc7MTc3NzY4ODY5OCZoPWlIRHZLamhGNWZHZWh5WVZWOTZBSXcmZT0xNzc3Nzc1MDk4/851797.m3u8?loc=ru","q":1080,"subs":0,"subsAvailable":0}
+02:24:58.908 NS0RKwou DEBUG [player] play-element built {"title":"Скала и дальний путь","url":"https://digital-cdn.net/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs4NTIxNTc7MTc3NzY4ODY5OCZoPW1XaVJRUjdXNGNCdHMtUkQ2X1ktOXcmZT0xNzc3Nzc1MDk4/852157.m3u8?loc=ru","q":1080,"subs":0,"subsAvailable":0}
+02:24:58.909 NS0RKwou DEBUG [player] play-element built {"title":"Силуэты","url":"https://digital-cdn.net/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs4NTMxNDQ7MTc3NzY4ODY5OCZoPWgzQzJpX0VoLTk5aUxyQXI5NW9wbWcmZT0xNzc3Nzc1MDk4/853144.m3u8?loc=ru","q":1080,"subs":0,"subsAvailable":0}
+02:24:58.910 NS0RKwou DEBUG [player] play-element built {"title":"Книга 74","url":"https://digital-cdn.net/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs4NTM5ODc7MTc3NzY4ODY5OCZoPWQ5UlVBdFNEOENpdVJ6MjNKRzU5ZmcmZT0xNzc3Nzc1MDk4/853987.m3u8?loc=ru","q":1080,"subs":0,"subsAvailable":0}
+02:24:58.912 NS0RKwou DEBUG [player] play-element built {"title":"Все хорошее","url":"https://digital-cdn.net/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs4NTU1MTE7MTc3NzY4ODY5OCZoPWZUNnJ2M200OG8tcVAwaHNHRjBDMUEmZT0xNzc3Nzc1MDk4/855511.m3u8?loc=ru","q":1080,"subs":0,"subsAvailable":0}
+02:24:58.913 NS0RKwou DEBUG [player] play-element built {"title":"Разбитые окна, открытые двери","url":"https://digital-cdn.net/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs4NTY0ODA7MTc3NzY4ODY5OCZoPVdaUFAtNHp5SHNRdzNKU05XNWFMd0EmZT0xNzc3Nzc1MDk4/856480.m3u8?loc=ru","q":1080,"subs":0,"subsAvailable":0}
+02:24:58.914 NS0RKwou DEBUG [player] play-element built {"title":"В лес","url":"https://digital-cdn.net/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs4NTc3MDE7MTc3NzY4ODY5OCZoPU1nelZRaGI5elZCbnBoQVdNcURqdWcmZT0xNzc3Nzc1MDk4/857701.m3u8?loc=ru","q":1080,"subs":0,"subsAvailable":0}
+02:24:58.916 NS0RKwou DEBUG [player] play-element built {"title":"О, в какие места мы пойдем!","url":"https://digital-cdn.net/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs4NjAwMzI7MTc3NzY4ODY5OCZoPVRFbFc0Tmg3Zlh3eGtTeXpydXdXQlEmZT0xNzc3Nzc1MDk4/860032.m3u8?loc=ru","q":1080,"subs":0,"subsAvailable":0}
+02:24:58.917 NS0RKwou INFO  [player] launching {"url":"https://digital-cdn.net/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs4NTE3NzA7MTc3NzY4ODY5OCZoPTMtcHFpdExsWFJ2NGJ2RDdDZ0MtNmcmZT0xNzc3Nzc1MDk4/851770.m3u8?loc=ru","playlist":10}
+02:25:09.325 NS0RKwou DEBUG [source] destroy
+02:25:13.998 NS0RKwou INFO  [launch] open activity {"id":225891,"title":"Река Мадисон","orig":"The Madison"}
+02:25:14.056 NS0RKwou INFO  [component] find query=Река Мадисон
+02:25:14.058 NS0RKwou INFO  [source] searchByTitle {"query":"Река Мадисон","year":2026,"orig":"The Madison","rus":"Река Мадисон","imdb":"tt33204276","imdbNum":33204276,"type":"serial"}
+02:25:14.059 NS0RKwou DEBUG [api] GET /items/search {"q":"Река Мадисон","field":"title","perpage":50,"type":"serial"}
+02:25:14.387 NS0RKwou DEBUG [api] GET /items/search ok
+02:25:14.389 NS0RKwou INFO  [source] search ok {"count":1}
+02:25:14.390 NS0RKwou DEBUG [source] top candidates [{"id":121408,"title":"Река Мадисон / The Madison","year":2026,"type":"serial","imdb":33204276}]
+02:25:14.392 NS0RKwou INFO  [source] matched by imdb {"id":121408,"imdb":33204276}
+02:25:14.394 NS0RKwou INFO  [source] matched card {"id":121408,"title":"Река Мадисон / The Madison","year":2026,"type":"serial"}
+02:25:14.396 NS0RKwou INFO  [source] find() id=121408
+02:25:14.397 NS0RKwou DEBUG [api] GET /items/121408 null
+02:25:14.617 NS0RKwou DEBUG [api] GET /items/121408 ok
+02:25:14.619 NS0RKwou INFO  [source] item loaded {"id":121408,"type":"serial","seasons":1,"videos":0}
+02:25:14.621 NS0RKwou DEBUG [source] extracted serial {"seasons":1,"totalEpisodes":6,"voices":5}
+02:25:14.626 NS0RKwou DEBUG [source] append items {"count":6}
+02:25:16.182 NS0RKwou DEBUG [player] play-element built {"title":"Решение","url":"https://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMTI5MjQwOzE3Nzc2ODg3MTUmaD1ac3dfVWxQOUR5NV9MZjRiZEdEY1lnJmU9MTc3Nzc3NTExNQ/1129240.m3u8?loc=ru","q":2160,"subs":0,"subsAvailable":0}
+02:25:16.184 NS0RKwou DEBUG [player] play-element built {"title":"Пилот","url":"https://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMTI4MTA2OzE3Nzc2ODg3MTUmaD1zd09qYklFeTE5WDJoRGFseGM4Tnd3JmU9MTc3Nzc3NTExNQ/1128106.m3u8?loc=ru","q":2160,"subs":0,"subsAvailable":2}
+02:25:16.185 NS0RKwou DEBUG [player] play-element built {"title":"Пусть земля меня укроет","url":"https://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMTI4MTA5OzE3Nzc2ODg3MTUmaD02dmZqdC0xYkZYMm5Xa3JZQjdieFpRJmU9MTc3Nzc3NTExNQ/1128109.m3u8?loc=ru","q":2160,"subs":0,"subsAvailable":0}
+02:25:16.187 NS0RKwou DEBUG [player] play-element built {"title":"Свободное падение","url":"https://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMTI4MTEyOzE3Nzc2ODg3MTUmaD1tQmxpZkcwZm02SndoQkRPY3Z6ekt3JmU9MTc3Nzc3NTExNQ/1128112.m3u8?loc=ru","q":2160,"subs":0,"subsAvailable":0}
+02:25:16.188 NS0RKwou DEBUG [player] play-element built {"title":"За день до прощания","url":"https://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMTI5MjM0OzE3Nzc2ODg3MTUmaD1LMXh4MHlPLVB1SlFsb21YWW8xa3NRJmU9MTc3Nzc3NTExNQ/1129234.m3u8?loc=ru","q":2160,"subs":0,"subsAvailable":0}
+02:25:16.189 NS0RKwou DEBUG [player] play-element built {"title":"Старый бар, новая мечта","url":"https://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMTI5MjM3OzE3Nzc2ODg3MTUmaD1rYlhSVnpCYkEwYWcwSWxDSHVjWUVnJmU9MTc3Nzc3NTExNQ/1129237.m3u8?loc=ru","q":2160,"subs":0,"subsAvailable":0}
+02:25:16.191 NS0RKwou DEBUG [player] play-element built {"title":"Решение","url":"https://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMTI5MjQwOzE3Nzc2ODg3MTUmaD1ac3dfVWxQOUR5NV9MZjRiZEdEY1lnJmU9MTc3Nzc3NTExNQ/1129240.m3u8?loc=ru","q":2160,"subs":0,"subsAvailable":0}
+02:25:16.192 NS0RKwou INFO  [player] launching {"url":"https://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMTI5MjQwOzE3Nzc2ODg3MTUmaD1ac3dfVWxQOUR5NV9MZjRiZEdEY1lnJmU9MTc3Nzc3NTExNQ/1129240.m3u8?loc=ru","playlist":6}
+02:25:23.271 NS0RKwou DEBUG [source] destroy
+02:25:27.378 NS0RKwou INFO  [launch] open activity {"id":241609,"title":"Друзья и соседи","orig":"Your Friends & Neighbors"}
+02:25:27.413 NS0RKwou INFO  [component] find query=Друзья и соседи
+02:25:27.414 NS0RKwou INFO  [source] searchByTitle {"query":"Друзья и соседи","year":2025,"orig":"Your Friends & Neighbors","rus":"Друзья и соседи","imdb":"tt30459041","imdbNum":30459041,"type":"serial"}
+02:25:27.416 NS0RKwou DEBUG [api] GET /items/search {"q":"Друзья и соседи","field":"title","perpage":50,"type":"serial"}
+02:25:27.772 NS0RKwou DEBUG [api] GET /items/search ok
+02:25:27.774 NS0RKwou INFO  [source] search ok {"count":1}
+02:25:27.775 NS0RKwou DEBUG [source] top candidates [{"id":110440,"title":"Друзья и соседи / Your Friends & Neighbors","year":2025,"type":"serial","imdb":30459041}]
+02:25:27.777 NS0RKwou INFO  [source] matched by imdb {"id":110440,"imdb":30459041}
+02:25:27.779 NS0RKwou INFO  [source] matched card {"id":110440,"title":"Друзья и соседи / Your Friends & Neighbors","year":2025,"type":"serial"}
+02:25:27.781 NS0RKwou INFO  [source] find() id=110440
+02:25:27.782 NS0RKwou DEBUG [api] GET /items/110440 null
+02:25:27.994 NS0RKwou DEBUG [api] GET /items/110440 ok
+02:25:27.996 NS0RKwou INFO  [source] item loaded {"id":110440,"type":"serial","seasons":2,"videos":0}
+02:25:27.999 NS0RKwou DEBUG [source] extracted serial {"seasons":2,"totalEpisodes":13,"voices":6}
+02:25:28.004 NS0RKwou DEBUG [source] append items {"count":9}
+02:25:29.181 NS0RKwou DEBUG [player] play-element built {"title":"Вот как бывает","url":"https://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMDY5NTg1OzE3Nzc2ODg3MjgmaD16WTB0Y0NMTkNoenNlbkI0TWdSR2VnJmU9MTc3Nzc3NTEyOA/1069585.m3u8?loc=ru","q":2160,"subs":0,"subsAvailable":36}
+02:25:29.183 NS0RKwou DEBUG [player] play-element built {"title":"Вот как бывает","url":"https://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMDY5NTg1OzE3Nzc2ODg3MjgmaD16WTB0Y0NMTkNoenNlbkI0TWdSR2VnJmU9MTc3Nzc3NTEyOA/1069585.m3u8?loc=ru","q":2160,"subs":0,"subsAvailable":36}
+02:25:29.185 NS0RKwou DEBUG [player] play-element built {"title":"Ровно","url":"https://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMDY5NTg4OzE3Nzc2ODg3MjgmaD1rZGx0akc4QTJkYi1xekgzTG9xSFFRJmU9MTc3Nzc3NTEyOA/1069588.m3u8?loc=ru","q":2160,"subs":0,"subsAvailable":1}
+02:25:29.186 NS0RKwou DEBUG [player] play-element built {"title":"Теоретический герпес","url":"https://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMDcwNzUyOzE3Nzc2ODg3MjgmaD1WRi15cExBdVFMbU8tRDVBckRXT0tBJmU9MTc3Nzc3NTEyOA/1070752.m3u8?loc=ru","q":2160,"subs":0,"subsAvailable":0}
+02:25:29.188 NS0RKwou DEBUG [player] play-element built {"title":"Настоящие драконы","url":"https://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMDcyMzg0OzE3Nzc2ODg3MjgmaD11bFNheDFrVk5EWG1MNmJnazAyMElnJmU9MTc3Nzc3NTEyOA/1072384.m3u8?loc=ru","q":2160,"subs":0,"subsAvailable":0}
+02:25:29.189 NS0RKwou DEBUG [player] play-element built {"title":"У туриста есть яйца","url":"https://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMDczMjk2OzE3Nzc2ODg3MjgmaD1JLTRaY0ZCSENfaW9aUW1HTFZzX21nJmU9MTc3Nzc3NTEyOA/1073296.m3u8?loc=ru","q":1080,"subs":0,"subsAvailable":0}
+02:25:29.191 NS0RKwou DEBUG [player] play-element built {"title":"То, что ты потерял по пути","url":"https://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMDc1NjE1OzE3Nzc2ODg3MjgmaD0yZmlLNTdKbldiSFpBZkhkeUttc0V3JmU9MTc3Nzc3NTEyOA/1075615.m3u8?loc=ru","q":1080,"subs":0,"subsAvailable":0}
+02:25:29.192 NS0RKwou DEBUG [player] play-element built {"title":"Первый честный поступок","url":"https://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMDc2NTg0OzE3Nzc2ODg3MjgmaD1IaHdxaWVkX0xGTHFIQ0NjZXh2bzVRJmU9MTc3Nzc3NTEyOA/1076584.m3u8?loc=ru","q":1080,"subs":0,"subsAvailable":0}
+02:25:29.194 NS0RKwou DEBUG [player] play-element built {"title":"Когда мы стали такими?","url":"https://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMDc3Nzk5OzE3Nzc2ODg3MjgmaD0ydlJmdW4xNldsZ2pxZ2NNN2VTN1NnJmU9MTc3Nzc3NTEyOA/1077799.m3u8?loc=ru","q":2160,"subs":0,"subsAvailable":0}
+02:25:29.195 NS0RKwou DEBUG [player] play-element built {"title":"Всё становится символом и иронией","url":"https://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMDc5MTM3OzE3Nzc2ODg3MjgmaD1ObzhTWXNsX1ZJX1FZa0tQQUlEdjBnJmU9MTc3Nzc3NTEyOA/1079137.m3u8?loc=ru","q":2160,"subs":0,"subsAvailable":0}
+02:25:29.196 NS0RKwou INFO  [player] launching {"url":"https://cdn2cdn.com/hls4/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMDY5NTg1OzE3Nzc2ODg3MjgmaD16WTB0Y0NMTkNoenNlbkI0TWdSR2VnJmU9MTc3Nzc3NTEyOA/1069585.m3u8?loc=ru","playlist":9}
+02:26:43.747 NS0RKwou DEBUG [source] destroy
+02:26:48.778 NS0RKwou INFO  [launch] open activity {"id":225891,"title":"Река Мадисон","orig":"The Madison"}
+02:26:48.812 NS0RKwou INFO  [component] find query=Река Мадисон
+02:26:48.814 NS0RKwou INFO  [source] searchByTitle {"query":"Река Мадисон","year":2026,"orig":"The Madison","rus":"Река Мадисон","imdb":"tt33204276","imdbNum":33204276,"type":"serial"}
+02:26:48.815 NS0RKwou DEBUG [api] GET /items/search {"q":"Река Мадисон","field":"title","perpage":50,"type":"serial"}
+02:26:49.182 NS0RKwou DEBUG [api] GET /items/search ok
+02:26:49.184 NS0RKwou INFO  [source] search ok {"count":1}
+02:26:49.186 NS0RKwou DEBUG [source] top candidates [{"id":121408,"title":"Река Мадисон / The Madison","year":2026,"type":"serial","imdb":33204276}]
+02:26:49.189 NS0RKwou INFO  [source] matched by imdb {"id":121408,"imdb":33204276}
+02:26:49.191 NS0RKwou INFO  [source] matched card {"id":121408,"title":"Река Мадисон / The Madison","year":2026,"type":"serial"}
+02:26:49.193 NS0RKwou INFO  [source] find() id=121408
+02:26:49.194 NS0RKwou DEBUG [api] GET /items/121408 null
+02:26:49.414 NS0RKwou DEBUG [api] GET /items/121408 ok
+02:26:49.416 NS0RKwou INFO  [source] item loaded {"id":121408,"type":"serial","seasons":1,"videos":0}
+02:26:49.418 NS0RKwou DEBUG [source] extracted serial {"seasons":1,"totalEpisodes":6,"voices":5}
+02:26:49.422 NS0RKwou DEBUG [source] append items {"count":6}
+02:26:50.921 NS0RKwou DEBUG [player] play-element built {"title":"Решение","url":"https://cdn2site.com/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMTI5MjQwOzE3Nzc2ODg4MTAmaD12dEZLV0ZBYzZLQ0V1ZU1NN1lxVEt3JmU9MTc3Nzc3NTIxMA/1129240.m3u8?loc=ru","q":2160,"subs":0,"subsAvailable":0}
+02:26:50.922 NS0RKwou DEBUG [player] play-element built {"title":"Пилот","url":"https://cdn2site.com/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMTI4MTA2OzE3Nzc2ODg4MTAmaD1kRlhqRmQxc1pzOWpxdDk0TmZ3dmZBJmU9MTc3Nzc3NTIxMA/1128106.m3u8?loc=ru","q":2160,"subs":0,"subsAvailable":2}
+02:26:50.924 NS0RKwou DEBUG [player] play-element built {"title":"Пусть земля меня укроет","url":"https://cdn2site.com/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMTI4MTA5OzE3Nzc2ODg4MTAmaD1mVDRFcWFYNkt4WlEzbUdwSVU3VHRBJmU9MTc3Nzc3NTIxMA/1128109.m3u8?loc=ru","q":2160,"subs":0,"subsAvailable":0}
+02:26:50.925 NS0RKwou DEBUG [player] play-element built {"title":"Свободное падение","url":"https://cdn2site.com/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMTI4MTEyOzE3Nzc2ODg4MTAmaD1pZGNZQzRhaWZFNVVJbFlvNDJXZDd3JmU9MTc3Nzc3NTIxMA/1128112.m3u8?loc=ru","q":2160,"subs":0,"subsAvailable":0}
+02:26:50.927 NS0RKwou DEBUG [player] play-element built {"title":"За день до прощания","url":"https://cdn2site.com/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMTI5MjM0OzE3Nzc2ODg4MTAmaD04M0s0VnFCMlVWMnd4VGlTZ1JYdF9nJmU9MTc3Nzc3NTIxMA/1129234.m3u8?loc=ru","q":2160,"subs":0,"subsAvailable":0}
+02:26:50.929 NS0RKwou DEBUG [player] play-element built {"title":"Старый бар, новая мечта","url":"https://cdn2site.com/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMTI5MjM3OzE3Nzc2ODg4MTAmaD1QM1NPOHUzajJIRTRQUzFjTlhjcFB3JmU9MTc3Nzc3NTIxMA/1129237.m3u8?loc=ru","q":2160,"subs":0,"subsAvailable":0}
+02:26:50.930 NS0RKwou DEBUG [player] play-element built {"title":"Решение","url":"https://cdn2site.com/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMTI5MjQwOzE3Nzc2ODg4MTAmaD12dEZLV0ZBYzZLQ0V1ZU1NN1lxVEt3JmU9MTc3Nzc3NTIxMA/1129240.m3u8?loc=ru","q":2160,"subs":0,"subsAvailable":0}
+02:26:50.932 NS0RKwou INFO  [player] launching {"url":"https://cdn2site.com/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMTI5MjQwOzE3Nzc2ODg4MTAmaD12dEZLV0ZBYzZLQ0V1ZU1NN1lxVEt3JmU9MTc3Nzc3NTIxMA/1129240.m3u8?loc=ru","playlist":6}
+02:27:08.850 NS0RKwou DEBUG [source] destroy
+02:27:13.458 NS0RKwou INFO  [launch] open activity {"id":241609,"title":"Друзья и соседи","orig":"Your Friends & Neighbors"}
+02:27:13.493 NS0RKwou INFO  [component] find query=Друзья и соседи
+02:27:13.495 NS0RKwou INFO  [source] searchByTitle {"query":"Друзья и соседи","year":2025,"orig":"Your Friends & Neighbors","rus":"Друзья и соседи","imdb":"tt30459041","imdbNum":30459041,"type":"serial"}
+02:27:13.497 NS0RKwou DEBUG [api] GET /items/search {"q":"Друзья и соседи","field":"title","perpage":50,"type":"serial"}
+02:27:13.812 NS0RKwou DEBUG [api] GET /items/search ok
+02:27:13.814 NS0RKwou INFO  [source] search ok {"count":1}
+02:27:13.815 NS0RKwou DEBUG [source] top candidates [{"id":110440,"title":"Друзья и соседи / Your Friends & Neighbors","year":2025,"type":"serial","imdb":30459041}]
+02:27:13.817 NS0RKwou INFO  [source] matched by imdb {"id":110440,"imdb":30459041}
+02:27:13.819 NS0RKwou INFO  [source] matched card {"id":110440,"title":"Друзья и соседи / Your Friends & Neighbors","year":2025,"type":"serial"}
+02:27:13.821 NS0RKwou INFO  [source] find() id=110440
+02:27:13.822 NS0RKwou DEBUG [api] GET /items/110440 null
+02:27:14.032 NS0RKwou DEBUG [api] GET /items/110440 ok
+02:27:14.034 NS0RKwou INFO  [source] item loaded {"id":110440,"type":"serial","seasons":2,"videos":0}
+02:27:14.036 NS0RKwou DEBUG [source] extracted serial {"seasons":2,"totalEpisodes":13,"voices":6}
+02:27:14.041 NS0RKwou DEBUG [source] append items {"count":9}
+02:27:15.623 NS0RKwou DEBUG [player] play-element built {"title":"Вот как бывает","url":"https://cdn2cdn.com/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMDY5NTg1OzE3Nzc2ODg4MzQmaD1ZNm9CTkpHNjM4RWtwdWdnM0R1NzNRJmU9MTc3Nzc3NTIzNA/1069585.m3u8?loc=ru","q":2160,"subs":0,"subsAvailable":36}
+02:27:15.625 NS0RKwou DEBUG [player] play-element built {"title":"Вот как бывает","url":"https://cdn2cdn.com/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMDY5NTg1OzE3Nzc2ODg4MzQmaD1ZNm9CTkpHNjM4RWtwdWdnM0R1NzNRJmU9MTc3Nzc3NTIzNA/1069585.m3u8?loc=ru","q":2160,"subs":0,"subsAvailable":36}
+02:27:15.627 NS0RKwou DEBUG [player] play-element built {"title":"Ровно","url":"https://cdn2cdn.com/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMDY5NTg4OzE3Nzc2ODg4MzQmaD10eGVKdTJDRWVHNEVEdE85MXR0eFJnJmU9MTc3Nzc3NTIzNA/1069588.m3u8?loc=ru","q":2160,"subs":0,"subsAvailable":1}
+02:27:15.628 NS0RKwou DEBUG [player] play-element built {"title":"Теоретический герпес","url":"https://cdn2cdn.com/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMDcwNzUyOzE3Nzc2ODg4MzQmaD1jak9faFBKMlMxV2NyOVZKQXdteExRJmU9MTc3Nzc3NTIzNA/1070752.m3u8?loc=ru","q":2160,"subs":0,"subsAvailable":0}
+02:27:15.630 NS0RKwou DEBUG [player] play-element built {"title":"Настоящие драконы","url":"https://cdn2cdn.com/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMDcyMzg0OzE3Nzc2ODg4MzQmaD1EUExZYXZYS1hsU0J6UWU1WVhOcWJnJmU9MTc3Nzc3NTIzNA/1072384.m3u8?loc=ru","q":2160,"subs":0,"subsAvailable":0}
+02:27:15.632 NS0RKwou DEBUG [player] play-element built {"title":"У туриста есть яйца","url":"https://cdn2cdn.com/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMDczMjk2OzE3Nzc2ODg4MzQmaD1lLXNZdkUyNXBsemlJLVJJY0FEdWRRJmU9MTc3Nzc3NTIzNA/1073296.m3u8?loc=ru","q":1080,"subs":0,"subsAvailable":0}
+02:27:15.633 NS0RKwou DEBUG [player] play-element built {"title":"То, что ты потерял по пути","url":"https://cdn2cdn.com/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMDc1NjE1OzE3Nzc2ODg4MzQmaD1FdnNrSDRTSFlzdlh1ZXk5T2VTRzhBJmU9MTc3Nzc3NTIzNA/1075615.m3u8?loc=ru","q":1080,"subs":0,"subsAvailable":0}
+02:27:15.635 NS0RKwou DEBUG [player] play-element built {"title":"Первый честный поступок","url":"https://cdn2cdn.com/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMDc2NTg0OzE3Nzc2ODg4MzQmaD1fRFhadVZrZTVTb1Q2aElsVE9OeVhRJmU9MTc3Nzc3NTIzNA/1076584.m3u8?loc=ru","q":1080,"subs":0,"subsAvailable":0}
+02:27:15.636 NS0RKwou DEBUG [player] play-element built {"title":"Когда мы стали такими?","url":"https://cdn2cdn.com/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMDc3Nzk5OzE3Nzc2ODg4MzQmaD04WnhyekhFbVEyYzRaZk01aVNXVGxnJmU9MTc3Nzc3NTIzNA/1077799.m3u8?loc=ru","q":2160,"subs":0,"subsAvailable":0}
+02:27:15.638 NS0RKwou DEBUG [player] play-element built {"title":"Всё становится символом и иронией","url":"https://cdn2cdn.com/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMDc5MTM3OzE3Nzc2ODg4MzQmaD02bkZ2cFd3Si1BUm8zM0VzelNsTFdBJmU9MTc3Nzc3NTIzNA/1079137.m3u8?loc=ru","q":2160,"subs":0,"subsAvailable":0}
+02:27:15.639 NS0RKwou INFO  [player] launching {"url":"https://cdn2cdn.com/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMDY5NTg1OzE3Nzc2ODg4MzQmaD1ZNm9CTkpHNjM4RWtwdWdnM0R1NzNRJmU9MTc3Nzc3NTIzNA/1069585.m3u8?loc=ru","playlist":9}
+02:27:37.208 NS0RKwou DEBUG [source] destroy
+02:27:42.057 NS0RKwou INFO  [launch] open activity {"id":76479,"title":"Пацаны","orig":"The Boys"}
+02:27:42.091 NS0RKwou INFO  [component] find query=Пацаны
+02:27:42.092 NS0RKwou INFO  [source] searchByTitle {"query":"Пацаны","year":2019,"orig":"The Boys","rus":"Пацаны","imdb":"tt1190634","imdbNum":1190634,"type":"serial"}
+02:27:42.094 NS0RKwou DEBUG [api] GET /items/search {"q":"Пацаны","field":"title","perpage":50,"type":"serial"}
+02:27:42.473 NS0RKwou DEBUG [api] GET /items/search ok
+02:27:42.475 NS0RKwou INFO  [source] search ok {"count":3}
+02:27:42.477 NS0RKwou DEBUG [source] top candidates [{"id":52759,"title":"Пацаны / The Boys","year":2019,"type":"serial","imdb":1190634},{"id":14004,"title":"Реальные пацаны","year":2010,"type":"serial","imdb":1837341},{"id":8964,"title":"Реальные пацаны / Blue Mountain State","year":2010,"type":"serial","imdb":1344204}]
+02:27:42.479 NS0RKwou INFO  [source] matched by imdb {"id":52759,"imdb":1190634}
+02:27:42.481 NS0RKwou INFO  [source] matched card {"id":52759,"title":"Пацаны / The Boys","year":2019,"type":"serial"}
+02:27:42.482 NS0RKwou INFO  [source] find() id=52759
+02:27:42.485 NS0RKwou DEBUG [api] GET /items/52759 null
+02:27:42.787 NS0RKwou DEBUG [api] GET /items/52759 ok
+02:27:42.789 NS0RKwou INFO  [source] item loaded {"id":52759,"type":"serial","seasons":5,"videos":0}
+02:27:42.797 NS0RKwou DEBUG [source] extracted serial {"seasons":5,"totalEpisodes":37,"voices":8}
+02:27:42.801 NS0RKwou DEBUG [source] append items {"count":8}
+02:27:44.180 NS0RKwou DEBUG [player] play-element built {"title":"Полезно для души","url":"https://cdn2cdn.com/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs2NzA5ODQ7MTc3NzY4ODg2MyZoPWpVX0tNQVpBU3NXRG9kaHh3eGNic2cmZT0xNzc3Nzc1MjYz/670984.m3u8?loc=ru","q":2160,"subs":0,"subsAvailable":0}
+02:27:44.182 NS0RKwou DEBUG [player] play-element built {"title":"Такая игра","url":"https://cdn2cdn.com/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs2NjY2NDY7MTc3NzY4ODg2MyZoPWU0aUFUTXRBcHd5bFNJVWJCaUlORlEmZT0xNzc3Nzc1MjYz/666646.m3u8?loc=ru","q":2160,"subs":0,"subsAvailable":2}
+02:27:44.183 NS0RKwou DEBUG [player] play-element built {"title":"Вишенка","url":"https://cdn2cdn.com/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs2Njc1Mjg7MTc3NzY4ODg2MyZoPWo4QVUzd093UTc0a09uSFk4cVc4bkEmZT0xNzc3Nzc1MjYz/667528.m3u8?loc=ru","q":2160,"subs":0,"subsAvailable":0}
+02:27:44.185 NS0RKwou DEBUG [player] play-element built {"title":"Получи!","url":"https://cdn2cdn.com/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs2NjgyNjY7MTc3NzY4ODg2MyZoPU9HVC16TGsxSURQUTRoZGlZcUI0SlEmZT0xNzc3Nzc1MjYz/668266.m3u8?loc=ru","q":2160,"subs":0,"subsAvailable":0}
+02:27:44.186 NS0RKwou DEBUG [player] play-element built {"title":"Самка человека","url":"https://cdn2cdn.com/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs2NjkzODg7MTc3NzY4ODg2MyZoPUN6eHdqY09GczQyNU1XNlA1WnI3VXcmZT0xNzc3Nzc1MjYz/669388.m3u8?loc=ru","q":2160,"subs":0,"subsAvailable":0}
+02:27:44.187 NS0RKwou DEBUG [player] play-element built {"title":"Полезно для души","url":"https://cdn2cdn.com/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs2NzA5ODQ7MTc3NzY4ODg2MyZoPWpVX0tNQVpBU3NXRG9kaHh3eGNic2cmZT0xNzc3Nzc1MjYz/670984.m3u8?loc=ru","q":2160,"subs":0,"subsAvailable":0}
+02:27:44.189 NS0RKwou DEBUG [player] play-element built {"title":"Невинные","url":"https://cdn2cdn.com/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs2NzIzMDE7MTc3NzY4ODg2MyZoPXJkSUlqVHJ4VGtrQ2lQYV84MU5hTlEmZT0xNzc3Nzc1MjYz/672301.m3u8?loc=ru","q":2160,"subs":0,"subsAvailable":0}
+02:27:44.190 NS0RKwou DEBUG [player] play-element built {"title":"Общество самосохранения","url":"https://cdn2cdn.com/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs2NzI4NTA7MTc3NzY4ODg2MyZoPWJLVHlvRGRjVnF6U2tFd1kyZ0N5U2cmZT0xNzc3Nzc1MjYz/672850.m3u8?loc=ru","q":2160,"subs":0,"subsAvailable":0}
+02:27:44.191 NS0RKwou DEBUG [player] play-element built {"title":"Ты меня нашёл","url":"https://cdn2cdn.com/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs2NzMwMDY7MTc3NzY4ODg2MyZoPWhOOFJ6WlBMeG5VQXB4dENNcmxmN2cmZT0xNzc3Nzc1MjYz/673006.m3u8?loc=ru","q":2160,"subs":0,"subsAvailable":0}
+02:27:44.193 NS0RKwou INFO  [player] launching {"url":"https://cdn2cdn.com/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs2NzA5ODQ7MTc3NzY4ODg2MyZoPWpVX0tNQVpBU3NXRG9kaHh3eGNic2cmZT0xNzc3Nzc1MjYz/670984.m3u8?loc=ru","playlist":8}
+02:27:50.500 NS0RKwou DEBUG [player] play-element built {"title":"Самка человека","url":"https://cdn2cdn.com/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs2NjkzODg7MTc3NzY4ODg2MyZoPUN6eHdqY09GczQyNU1XNlA1WnI3VXcmZT0xNzc3Nzc1MjYz/669388.m3u8?loc=ru","q":2160,"subs":0,"subsAvailable":0}
+02:27:50.502 NS0RKwou DEBUG [player] play-element built {"title":"Такая игра","url":"https://cdn2cdn.com/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs2NjY2NDY7MTc3NzY4ODg2MyZoPWU0aUFUTXRBcHd5bFNJVWJCaUlORlEmZT0xNzc3Nzc1MjYz/666646.m3u8?loc=ru","q":2160,"subs":0,"subsAvailable":2}
+02:27:50.504 NS0RKwou DEBUG [player] play-element built {"title":"Вишенка","url":"https://cdn2cdn.com/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs2Njc1Mjg7MTc3NzY4ODg2MyZoPWo4QVUzd093UTc0a09uSFk4cVc4bkEmZT0xNzc3Nzc1MjYz/667528.m3u8?loc=ru","q":2160,"subs":0,"subsAvailable":0}
+02:27:50.505 NS0RKwou DEBUG [player] play-element built {"title":"Получи!","url":"https://cdn2cdn.com/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs2NjgyNjY7MTc3NzY4ODg2MyZoPU9HVC16TGsxSURQUTRoZGlZcUI0SlEmZT0xNzc3Nzc1MjYz/668266.m3u8?loc=ru","q":2160,"subs":0,"subsAvailable":0}
+02:27:50.506 NS0RKwou DEBUG [player] play-element built {"title":"Самка человека","url":"https://cdn2cdn.com/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs2NjkzODg7MTc3NzY4ODg2MyZoPUN6eHdqY09GczQyNU1XNlA1WnI3VXcmZT0xNzc3Nzc1MjYz/669388.m3u8?loc=ru","q":2160,"subs":0,"subsAvailable":0}
+02:27:50.507 NS0RKwou DEBUG [player] play-element built {"title":"Полезно для души","url":"https://cdn2cdn.com/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs2NzA5ODQ7MTc3NzY4ODg2MyZoPWpVX0tNQVpBU3NXRG9kaHh3eGNic2cmZT0xNzc3Nzc1MjYz/670984.m3u8?loc=ru","q":2160,"subs":0,"subsAvailable":0}
+02:27:50.509 NS0RKwou DEBUG [player] play-element built {"title":"Невинные","url":"https://cdn2cdn.com/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs2NzIzMDE7MTc3NzY4ODg2MyZoPXJkSUlqVHJ4VGtrQ2lQYV84MU5hTlEmZT0xNzc3Nzc1MjYz/672301.m3u8?loc=ru","q":2160,"subs":0,"subsAvailable":0}
+02:27:50.510 NS0RKwou DEBUG [player] play-element built {"title":"Общество самосохранения","url":"https://cdn2cdn.com/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs2NzI4NTA7MTc3NzY4ODg2MyZoPWJLVHlvRGRjVnF6U2tFd1kyZ0N5U2cmZT0xNzc3Nzc1MjYz/672850.m3u8?loc=ru","q":2160,"subs":0,"subsAvailable":0}
+02:27:50.511 NS0RKwou DEBUG [player] play-element built {"title":"Ты меня нашёл","url":"https://cdn2cdn.com/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs2NzMwMDY7MTc3NzY4ODg2MyZoPWhOOFJ6WlBMeG5VQXB4dENNcmxmN2cmZT0xNzc3Nzc1MjYz/673006.m3u8?loc=ru","q":2160,"subs":0,"subsAvailable":0}
+02:27:50.513 NS0RKwou INFO  [player] launching {"url":"https://cdn2cdn.com/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs2NjkzODg7MTc3NzY4ODg2MyZoPUN6eHdqY09GczQyNU1XNlA1WnI3VXcmZT0xNzc3Nzc1MjYz/669388.m3u8?loc=ru","playlist":8}
+02:28:03.075 NS0RKwou DEBUG [source] destroy
+02:28:41.636 NS0RKwou INFO  [launch] open activity {"id":124364,"title":"Извне","orig":"FROM"}
+02:28:41.669 NS0RKwou INFO  [component] find query=Извне
+02:28:41.670 NS0RKwou INFO  [source] searchByTitle {"query":"Извне","year":2022,"orig":"FROM","rus":"Извне","imdb":"tt9813792","imdbNum":9813792,"type":"serial"}
+02:28:41.672 NS0RKwou DEBUG [api] GET /items/search {"q":"Извне","field":"title","perpage":50,"type":"serial"}
+02:28:42.130 NS0RKwou DEBUG [api] GET /items/search ok
+02:28:42.131 NS0RKwou INFO  [source] search ok {"count":1}
+02:28:42.133 NS0RKwou DEBUG [source] top candidates [{"id":77917,"title":"Извне / From","year":2022,"type":"serial","imdb":9813792}]
+02:28:42.135 NS0RKwou INFO  [source] matched by imdb {"id":77917,"imdb":9813792}
+02:28:42.137 NS0RKwou INFO  [source] matched card {"id":77917,"title":"Извне / From","year":2022,"type":"serial"}
+02:28:42.138 NS0RKwou INFO  [source] find() id=77917
+02:28:42.140 NS0RKwou DEBUG [api] GET /items/77917 null
+02:28:42.394 NS0RKwou DEBUG [api] GET /items/77917 ok
+02:28:42.395 NS0RKwou INFO  [source] item loaded {"id":77917,"type":"serial","seasons":4,"videos":0}
+02:28:42.398 NS0RKwou DEBUG [source] extracted serial {"seasons":4,"totalEpisodes":32,"voices":5}
+02:28:42.402 NS0RKwou DEBUG [source] append items {"count":10}
+02:28:47.022 NS0RKwou DEBUG [player] play-element built {"title":"Как обстоят дела сейчас","url":"https://cdn2site.com/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs4NTE3NzA7MTc3NzY4ODkyMyZoPTBxZnhqUFRsMUEyYlk1TVhtN1R3SEEmZT0xNzc3Nzc1MzIz/851770.m3u8?loc=ru","q":1080,"subs":0,"subsAvailable":1}
+02:28:47.049 NS0RKwou DEBUG [player] play-element built {"title":"Долгий день уходит в ночь","url":"https://cdn2site.com/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs4NTE0MTM7MTc3NzY4ODkyMyZoPVlUQVY2Xy05b3U0aUxFelNPcWozaEEmZT0xNzc3Nzc1MzIz/851413.m3u8?loc=ru","q":1080,"subs":0,"subsAvailable":2}
+02:28:47.051 NS0RKwou DEBUG [player] play-element built {"title":"Как обстоят дела сейчас","url":"https://cdn2site.com/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs4NTE3NzA7MTc3NzY4ODkyMyZoPTBxZnhqUFRsMUEyYlk1TVhtN1R3SEEmZT0xNzc3Nzc1MzIz/851770.m3u8?loc=ru","q":1080,"subs":0,"subsAvailable":1}
+02:28:47.053 NS0RKwou DEBUG [player] play-element built {"title":"Выбор дня","url":"https://cdn2site.com/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs4NTE3OTc7MTc3NzY4ODkyMyZoPWdPVXk1M183RHdvSXZPUWJyVkxTQ2cmZT0xNzc3Nzc1MzIz/851797.m3u8?loc=ru","q":1080,"subs":0,"subsAvailable":0}
+02:28:47.055 NS0RKwou DEBUG [player] play-element built {"title":"Скала и дальний путь","url":"https://cdn2site.com/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs4NTIxNTc7MTc3NzY4ODkyMyZoPUk1STFKYUhHa3JiNTIzX2dRWTNDancmZT0xNzc3Nzc1MzIz/852157.m3u8?loc=ru","q":1080,"subs":0,"subsAvailable":0}
+02:28:47.057 NS0RKwou DEBUG [player] play-element built {"title":"Силуэты","url":"https://cdn2site.com/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs4NTMxNDQ7MTc3NzY4ODkyMyZoPVFiaXBtLTZsS045QlVSVmFWRzQ5a2cmZT0xNzc3Nzc1MzIz/853144.m3u8?loc=ru","q":1080,"subs":0,"subsAvailable":0}
+02:28:47.058 NS0RKwou DEBUG [player] play-element built {"title":"Книга 74","url":"https://cdn2site.com/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs4NTM5ODc7MTc3NzY4ODkyMyZoPVVxR0ozcDMwcWx3clFwV0U1QXQzR2cmZT0xNzc3Nzc1MzIz/853987.m3u8?loc=ru","q":1080,"subs":0,"subsAvailable":0}
+02:28:47.060 NS0RKwou DEBUG [player] play-element built {"title":"Все хорошее","url":"https://cdn2site.com/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs4NTU1MTE7MTc3NzY4ODkyMyZoPU1rS2UyX2NTMVhNbVQzTFJoMmdFR0EmZT0xNzc3Nzc1MzIz/855511.m3u8?loc=ru","q":1080,"subs":0,"subsAvailable":0}
+02:28:47.061 NS0RKwou DEBUG [player] play-element built {"title":"Разбитые окна, открытые двери","url":"https://cdn2site.com/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs4NTY0ODA7MTc3NzY4ODkyMyZoPTRacDRoeTNTVWhRZXFHRjlmRWFFZ2cmZT0xNzc3Nzc1MzIz/856480.m3u8?loc=ru","q":1080,"subs":0,"subsAvailable":0}
+02:28:47.063 NS0RKwou DEBUG [player] play-element built {"title":"В лес","url":"https://cdn2site.com/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs4NTc3MDE7MTc3NzY4ODkyMyZoPTZKbE5IM2pQaW1fMDBza25EdGxWWWcmZT0xNzc3Nzc1MzIz/857701.m3u8?loc=ru","q":1080,"subs":0,"subsAvailable":0}
+02:28:47.064 NS0RKwou DEBUG [player] play-element built {"title":"О, в какие места мы пойдем!","url":"https://cdn2site.com/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs4NjAwMzI7MTc3NzY4ODkyMyZoPV9vTjVoMzExdnM2NTFHZlpfYkdVbFEmZT0xNzc3Nzc1MzIz/860032.m3u8?loc=ru","q":1080,"subs":0,"subsAvailable":0}
+02:28:47.066 NS0RKwou INFO  [player] launching {"url":"https://cdn2site.com/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs4NTE3NzA7MTc3NzY4ODkyMyZoPTBxZnhqUFRsMUEyYlk1TVhtN1R3SEEmZT0xNzc3Nzc1MzIz/851770.m3u8?loc=ru","playlist":10}
+02:29:19.809 NS0RKwou DEBUG [source] destroy
+02:29:24.316 NS0RKwou INFO  [launch] open activity {"id":225891,"title":"Река Мадисон","orig":"The Madison"}
+02:29:24.349 NS0RKwou INFO  [component] find query=Река Мадисон
+02:29:24.350 NS0RKwou INFO  [source] searchByTitle {"query":"Река Мадисон","year":2026,"orig":"The Madison","rus":"Река Мадисон","imdb":"tt33204276","imdbNum":33204276,"type":"serial"}
+02:29:24.352 NS0RKwou DEBUG [api] GET /items/search {"q":"Река Мадисон","field":"title","perpage":50,"type":"serial"}
+02:29:24.790 NS0RKwou DEBUG [api] GET /items/search ok
+02:29:24.792 NS0RKwou INFO  [source] search ok {"count":1}
+02:29:24.794 NS0RKwou DEBUG [source] top candidates [{"id":121408,"title":"Река Мадисон / The Madison","year":2026,"type":"serial","imdb":33204276}]
+02:29:24.796 NS0RKwou INFO  [source] matched by imdb {"id":121408,"imdb":33204276}
+02:29:24.798 NS0RKwou INFO  [source] matched card {"id":121408,"title":"Река Мадисон / The Madison","year":2026,"type":"serial"}
+02:29:24.799 NS0RKwou INFO  [source] find() id=121408
+02:29:24.801 NS0RKwou DEBUG [api] GET /items/121408 null
+02:29:25.006 NS0RKwou DEBUG [api] GET /items/121408 ok
+02:29:25.008 NS0RKwou INFO  [source] item loaded {"id":121408,"type":"serial","seasons":1,"videos":0}
+02:29:25.010 NS0RKwou DEBUG [source] extracted serial {"seasons":1,"totalEpisodes":6,"voices":5}
+02:29:25.015 NS0RKwou DEBUG [source] append items {"count":6}
+02:29:26.639 NS0RKwou DEBUG [player] play-element built {"title":"Решение","url":"https://cdn2site.com/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMTI5MjQwOzE3Nzc2ODg5NjUmaD1OOWlQOWV4SGtJMFJieVJmaFMwYTV3JmU9MTc3Nzc3NTM2NQ/1129240.m3u8?loc=ru","q":2160,"subs":0,"subsAvailable":0}
+02:29:26.641 NS0RKwou DEBUG [player] play-element built {"title":"Пилот","url":"https://cdn2site.com/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMTI4MTA2OzE3Nzc2ODg5NjUmaD03OEdGOHFiTGdqOGE1SnN3Rnl3X21nJmU9MTc3Nzc3NTM2NQ/1128106.m3u8?loc=ru","q":2160,"subs":0,"subsAvailable":2}
+02:29:26.642 NS0RKwou DEBUG [player] play-element built {"title":"Пусть земля меня укроет","url":"https://cdn2site.com/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMTI4MTA5OzE3Nzc2ODg5NjUmaD1NQ1lPdFloMFdyS01GWDF4czYzbTJRJmU9MTc3Nzc3NTM2NQ/1128109.m3u8?loc=ru","q":2160,"subs":0,"subsAvailable":0}
+02:29:26.643 NS0RKwou DEBUG [player] play-element built {"title":"Свободное падение","url":"https://cdn2site.com/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMTI4MTEyOzE3Nzc2ODg5NjUmaD1XMUJIQ1pucGFJWEpZc1h4NW1NeGR3JmU9MTc3Nzc3NTM2NQ/1128112.m3u8?loc=ru","q":2160,"subs":0,"subsAvailable":0}
+02:29:26.645 NS0RKwou DEBUG [player] play-element built {"title":"За день до прощания","url":"https://cdn2site.com/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMTI5MjM0OzE3Nzc2ODg5NjUmaD1oZG9DcXJlMzIwM2MzU2hNSV9ybzJ3JmU9MTc3Nzc3NTM2NQ/1129234.m3u8?loc=ru","q":2160,"subs":0,"subsAvailable":0}
+02:29:26.646 NS0RKwou DEBUG [player] play-element built {"title":"Старый бар, новая мечта","url":"https://cdn2site.com/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMTI5MjM3OzE3Nzc2ODg5NjUmaD1kNmc4S3c0R3Jma3BMbmVlcm53bjFnJmU9MTc3Nzc3NTM2NQ/1129237.m3u8?loc=ru","q":2160,"subs":0,"subsAvailable":0}
+02:29:26.648 NS0RKwou DEBUG [player] play-element built {"title":"Решение","url":"https://cdn2site.com/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMTI5MjQwOzE3Nzc2ODg5NjUmaD1OOWlQOWV4SGtJMFJieVJmaFMwYTV3JmU9MTc3Nzc3NTM2NQ/1129240.m3u8?loc=ru","q":2160,"subs":0,"subsAvailable":0}
+02:29:26.650 NS0RKwou INFO  [player] launching {"url":"https://cdn2site.com/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTsxMTI5MjQwOzE3Nzc2ODg5NjUmaD1OOWlQOWV4SGtJMFJieVJmaFMwYTV3JmU9MTc3Nzc3NTM2NQ/1129240.m3u8?loc=ru","playlist":6}
+02:29:39.933 NS0RKwou DEBUG [source] destroy
+02:29:44.916 NS0RKwou INFO  [launch] open activity {"id":76479,"title":"Пацаны","orig":"The Boys"}
+02:29:44.950 NS0RKwou INFO  [component] find query=Пацаны
+02:29:44.952 NS0RKwou INFO  [source] searchByTitle {"query":"Пацаны","year":2019,"orig":"The Boys","rus":"Пацаны","imdb":"tt1190634","imdbNum":1190634,"type":"serial"}
+02:29:44.953 NS0RKwou DEBUG [api] GET /items/search {"q":"Пацаны","field":"title","perpage":50,"type":"serial"}
+02:29:45.396 NS0RKwou DEBUG [api] GET /items/search ok
+02:29:45.397 NS0RKwou INFO  [source] search ok {"count":3}
+02:29:45.399 NS0RKwou DEBUG [source] top candidates [{"id":52759,"title":"Пацаны / The Boys","year":2019,"type":"serial","imdb":1190634},{"id":14004,"title":"Реальные пацаны","year":2010,"type":"serial","imdb":1837341},{"id":8964,"title":"Реальные пацаны / Blue Mountain State","year":2010,"type":"serial","imdb":1344204}]
+02:29:45.401 NS0RKwou INFO  [source] matched by imdb {"id":52759,"imdb":1190634}
+02:29:45.402 NS0RKwou INFO  [source] matched card {"id":52759,"title":"Пацаны / The Boys","year":2019,"type":"serial"}
+02:29:45.404 NS0RKwou INFO  [source] find() id=52759
+02:29:45.406 NS0RKwou DEBUG [api] GET /items/52759 null
+02:29:45.750 NS0RKwou DEBUG [api] GET /items/52759 ok
+02:29:45.752 NS0RKwou INFO  [source] item loaded {"id":52759,"type":"serial","seasons":5,"videos":0}
+02:29:45.764 NS0RKwou DEBUG [source] extracted serial {"seasons":5,"totalEpisodes":37,"voices":8}
+02:29:45.768 NS0RKwou DEBUG [source] append items {"count":8}
+02:29:46.758 NS0RKwou DEBUG [player] play-element built {"title":"Самка человека","url":"https://cdn2site.com/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs2NjkzODg7MTc3NzY4ODk4NiZoPTVFQlNPMmtSSHRLN0tkdTdMNTNyYmcmZT0xNzc3Nzc1Mzg2/669388.m3u8?loc=ru","q":2160,"subs":0,"subsAvailable":0}
+02:29:46.760 NS0RKwou DEBUG [player] play-element built {"title":"Такая игра","url":"https://cdn2site.com/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs2NjY2NDY7MTc3NzY4ODk4NiZoPTk4SFpIRmVCOXdCUFJ6dmVDYjVWVWcmZT0xNzc3Nzc1Mzg2/666646.m3u8?loc=ru","q":2160,"subs":0,"subsAvailable":2}
+02:29:46.762 NS0RKwou DEBUG [player] play-element built {"title":"Вишенка","url":"https://cdn2site.com/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs2Njc1Mjg7MTc3NzY4ODk4NiZoPU1NNlpyeUVVMUhBbDU2eGJEN0JGNWcmZT0xNzc3Nzc1Mzg2/667528.m3u8?loc=ru","q":2160,"subs":0,"subsAvailable":0}
+02:29:46.763 NS0RKwou DEBUG [player] play-element built {"title":"Получи!","url":"https://cdn2site.com/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs2NjgyNjY7MTc3NzY4ODk4NiZoPTRzdzhBck1zRjFhdWI0VzZSU1NlRGcmZT0xNzc3Nzc1Mzg2/668266.m3u8?loc=ru","q":2160,"subs":0,"subsAvailable":0}
+02:29:46.764 NS0RKwou DEBUG [player] play-element built {"title":"Самка человека","url":"https://cdn2site.com/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs2NjkzODg7MTc3NzY4ODk4NiZoPTVFQlNPMmtSSHRLN0tkdTdMNTNyYmcmZT0xNzc3Nzc1Mzg2/669388.m3u8?loc=ru","q":2160,"subs":0,"subsAvailable":0}
+02:29:46.766 NS0RKwou DEBUG [player] play-element built {"title":"Полезно для души","url":"https://cdn2site.com/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs2NzA5ODQ7MTc3NzY4ODk4NiZoPXpyTmdpTzlmZm15cW1BUkgyejAxRXcmZT0xNzc3Nzc1Mzg2/670984.m3u8?loc=ru","q":2160,"subs":0,"subsAvailable":0}
+02:29:46.767 NS0RKwou DEBUG [player] play-element built {"title":"Невинные","url":"https://cdn2site.com/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs2NzIzMDE7MTc3NzY4ODk4NiZoPVV6TjlTZlA0Z3RnQW5YTllnZ3JNWncmZT0xNzc3Nzc1Mzg2/672301.m3u8?loc=ru","q":2160,"subs":0,"subsAvailable":0}
+02:29:46.769 NS0RKwou DEBUG [player] play-element built {"title":"Общество самосохранения","url":"https://cdn2site.com/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs2NzI4NTA7MTc3NzY4ODk4NiZoPUh2dFhXczJwUnZoOERneTd1QVh0d2cmZT0xNzc3Nzc1Mzg2/672850.m3u8?loc=ru","q":2160,"subs":0,"subsAvailable":0}
+02:29:46.770 NS0RKwou DEBUG [player] play-element built {"title":"Ты меня нашёл","url":"https://cdn2site.com/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs2NzMwMDY7MTc3NzY4ODk4NiZoPVkzWHhiZDBscVE0V0JhbjFFVENiMGcmZT0xNzc3Nzc1Mzg2/673006.m3u8?loc=ru","q":2160,"subs":0,"subsAvailable":0}
+02:29:46.771 NS0RKwou INFO  [player] launching {"url":"https://cdn2site.com/hls2/aWQ9MzA4NTI3MDs0MjI1NDc5Mzs0NDY3NTEyNTs2NjkzODg7MTc3NzY4ODk4NiZoPTVFQlNPMmtSSHRLN0tkdTdMNTNyYmcmZT0xNzc3Nzc1Mzg2/669388.m3u8?loc=ru","playlist":8}

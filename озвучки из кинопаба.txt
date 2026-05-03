@@ -1,0 +1,51 @@
+Конкретно по полям, которые мы видели в логах от kinopub. Каждая дорожка в audios[] массиве эпизода/видео — объект такого вида:
+json{
+  "id": 2384146,
+  "index": 1,
+  "codec": "aac",
+  "channels": 2,
+  "lang": "rus",
+  "type": {
+    "id": 2,
+    "title": "Многоголосый",
+    "short_title": "MVO"
+  },
+  "author": {
+    "id": 10,
+    "title": "LostFilm",
+    "short_title": null
+  }
+}
+Поля по смыслу
+ПолеЗначениеПримерidГлобальный ID аудиотрека в БД kinopub (уникальный для этого варианта дубляжа на этом эпизоде)2384146indexПозиция внутри стрима (1-based, начинается с 1!). Это «порядковый номер» дорожки которую AVPlayer/hls.js видят в master.m3u81, 2, 3...codecАудио-кодек"aac", "ac3", "eac3"channelsЧисло каналов2 (стерео), 6 (5.1)langISO-код языка (3-buch)"rus", "eng", "ukr"typeТип озвучки (объект с id/title/short_title){id: 2, title: "Многоголосый", short_title: "MVO"}authorСтудия (объект с id/title/short_title) или null если нет конкретной студии (например, для Оригинала){id: 10, title: "LostFilm", short_title: null}
+Что значит type
+Видел значения:
+
+"Многоголосый" (MVO) — multiple voices, не lip-sync
+"Двухголосый" (DVO) — 2 voices
+"Одноголосый" (AVO) — 1 voice (filtered у нас на карточках)
+"Дубляж" — full lip-sync replacement
+"Оригинал" — original audio of the film
+"Авторский" — author/director's voice (filtered)
+"Профессиональный" — pro-grade
+
+Что значит author
+
+Студии: LostFilm, AlexFilm, TVShows, Кубик в Кубе, NewStudio, LE-Production, Red Head Sound, Foxlight, Selena, Fox Crime, 1W и др.
+Может быть null или объект отсутствует (для Оригинала — нет «студии», это голос исходного актёра).
+
+Как одна и та же озвучка раздваивается
+«AlexFilm Многоголосый [RUS]» в kinopub присутствует до 3 раз:
+json{ "index": 2, "codec": "aac", "channels": 2, ...AlexFilm }     // AAC stereo 2.0
+{ "index": 3, "codec": "aac", "channels": 6, ...AlexFilm }     // AAC surround 5.1  
+{ "index": 4, "codec": "ac3", "channels": 6, ...AlexFilm }     // AC3 surround 5.1
+— разные index, разные варианты одной озвучки для разных систем декодирования. Звуковая дорожка в стриме — отдельная для каждой.
+Как мы это используем
+
+voiceKey(a) = lang|type|author|codec — стабильный ID для filter'а / storage. AC3 и AAC не сливаются.
+chipKey(a) = lang|type|author — для bedge-чипов на карточках, чтобы AAC/AC3 одной студии = один чип
+Позиция в массиве audios[i] в kinopub-ответе используется для applyVoiceTrack(i) — мы говорим AVPlayer'у: «возьми i-й по счёту audio-трек». AVPlayer внутри сам мапит на audio.index HLS-стрима.
+
+В логе ты видел:
+[voice] switched via avplay {idx: 0, nativeIdx: 1, total: 4}
+— Здесь idx=0 это позиция в нашем массиве (первая отфильтрованная), nativeIdx=1 это .index который AVPlayer reports (1-based).
