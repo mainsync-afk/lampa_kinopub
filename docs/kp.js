@@ -23,7 +23,7 @@
    *  CONSTANTS                                                   *
    * ============================================================ */
 
-  var PLUGIN_VERSION  = '1.0.29-blob-test';
+  var PLUGIN_VERSION  = '1.0.29-blob-test2';
   var COMPONENT_NAME  = 'online_kp';
   var BALANSER        = 'kpapi';
 
@@ -2287,6 +2287,17 @@
             var voiceOneBased = (clickedVoiceIdx >= 0) ? (clickedVoiceIdx + 1) : 1;
             var originalUrl = play.url;
             fetchAndReduceMaster(originalUrl, voiceOneBased, function (blobUrl, dataUrl, reduced) {
+              // CRITICAL: Lampa.Player.play() overrides data.url with
+              // getUrlQuality(data.quality, false) when data.quality has
+              // multiple entries (Lampa source line 26523). So we must clear
+              // play.quality (or it sends the original kinopub URL to AVPlayer
+              // and our blob/data URL is never opened). For the test we drop
+              // ABR support entirely — single resolution (the picked one).
+              delete play.quality;
+              // Also clear the playlist[] play elements' quality dicts and
+              // override their .url to blob, otherwise next-episode in playlist
+              // would also fall back to kinopub master. Skip for now — this
+              // is just a probe; we don't need cross-episode swap to work.
               if (blobUrl) {
                 play.url = blobUrl;
                 Logger.info('blob-test', 'launching with blob URL', { blob: blobUrl });
