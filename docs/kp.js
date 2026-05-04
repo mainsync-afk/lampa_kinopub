@@ -23,7 +23,7 @@
    *  CONSTANTS                                                   *
    * ============================================================ */
 
-  var PLUGIN_VERSION  = '1.0.51';
+  var PLUGIN_VERSION  = '1.0.52';
   // Public manifest-proxy URL — set near KP_PROXY_URL declaration below.
   var COMPONENT_NAME  = 'online_kp';
   var BALANSER        = 'kpapi';
@@ -3547,7 +3547,13 @@
       // bigger font doesn't bloat the bar.
       ".filter--search > svg{display:none}" +
       ".filter--filter > span{display:none}" +
-      ".filter--search,.filter--filter{font-size:1.5em}" +
+      // v1.0.52: scale the inner text alongside the button (Lampa CSS sets
+      // an absolute font-size on the inner div which doesn't inherit by
+      // default), and flex-center contents inside both buttons so text sits
+      // visually in the middle once height grew with the larger font.
+      ".filter--search,.filter--filter{font-size:1.5em;" +
+        "display:inline-flex;align-items:center;justify-content:center}" +
+      ".filter--search > *,.filter--filter > *{font-size:inherit;line-height:inherit}" +
       ".filter--filter{min-width:14em}" +
       "</style>");
     $('body').append(Lampa.Template.get('online_prestige_css', {}, true));
