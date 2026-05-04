@@ -23,7 +23,7 @@
    *  CONSTANTS                                                   *
    * ============================================================ */
 
-  var PLUGIN_VERSION  = '1.0.65';
+  var PLUGIN_VERSION  = '1.0.66';
   // Public manifest-proxy URL — set near KP_PROXY_URL declaration below.
   var COMPONENT_NAME  = 'online_kp';
   var BALANSER        = 'kpapi';
@@ -67,6 +67,14 @@
   // true  — health endpoint responded, proxy in use
   // false — unreachable, fall back to HLS2-only mode
   var kpProxyAvailable = null;
+
+  // v1.0.66: voice-sync state. kpUserId is the kinopub username (extracted
+  // from /v1/user response); used as namespace key in VPS voice-sync store.
+  // No auth — personal use only. Pull on full/complite, push debounced on
+  // every voice change. Fail-soft: if VPS unreachable, plugin works locally.
+  var kpUserId = null;
+  var kpVoiceSyncDebounce = {};   // { showId: timeoutId }
+  var KP_VOICE_SYNC_DEBOUNCE_MS = 2000;
 
   // OAuth credentials of the public xbmc/Kodi-style client used by
   // virtually every unofficial kinopub client. Documented in many
@@ -809,6 +817,172 @@
     }
   }
 
+  /* ──────────────────────────────────────────────────────────────────── *
+   *  v1.0.66 — Voice-sync (cross-device snapshot of voice prefs).        *
+   *  Backend: same VPS as manifest-proxy, endpoints /voice-sync/<u>/<s>. *
+   *  Storage: per (kinopub username, TMDB show id). No auth.             *
+   *  Snapshot shape: {                                                   *
+   *    show_id, voices_by_season: { "<season>": voice_key },             *
+   *    episodes: { "<season>e<episode>": voice_key },                    *
+   *    ts, device                                                         *
+   *  }                                                                    *
+   * ──────────────────────────────────────────────────────────────────── */
+
+  function kpVoiceSyncReady() {
+    return kpProxyAvailable === true && !!kpUserId;
+  }
+
+  function kpVoiceSyncBaseUrl() {
+    return KP_PROXY_URL.replace(/\/+$/, '') + '/voice-sync/' + encodeURIComponent(kpUserId);
+  }
+
+  /**
+   * Fetch snapshot for one show from VPS. Calls cb({ ok, snapshot|null }).
+   * Snapshot is null when 404 (no record yet). Network errors → ok:false.
+   */
+  function kpVoiceSyncPull(showId, cb) {
+    if (!kpVoiceSyncReady()) { cb({ ok: false, error: 'not_ready' }); return; }
+    var url = kpVoiceSyncBaseUrl() + '/' + encodeURIComponent(showId);
+    try {
+      var xhr = new XMLHttpRequest();
+      xhr.open('GET', url, true);
+      xhr.timeout = 4000;
+      xhr.onload = function () {
+        if (xhr.status === 404) { cb({ ok: true, snapshot: null }); return; }
+        if (xhr.status < 200 || xhr.status >= 300) { cb({ ok: false, status: xhr.status }); return; }
+        try {
+          var snap = JSON.parse(xhr.responseText || 'null');
+          cb({ ok: true, snapshot: snap });
+        } catch (e) { cb({ ok: false, error: 'parse' }); }
+      };
+      xhr.onerror = xhr.ontimeout = function () { cb({ ok: false, error: 'network' }); };
+      xhr.send();
+    } catch (e) { cb({ ok: false, error: String(e) }); }
+  }
+
+  /**
+   * PUT snapshot to VPS (debounced per show_id). Caller calls this on every
+   * voice change — actual network request fires after KP_VOICE_SYNC_DEBOUNCE_MS
+   * of quiet. The latest snapshot for show wins (we always read fresh from
+   * Storage when timeout fires).
+   */
+  function kpVoiceSyncPushDebounced(showId, getSnapshotFn) {
+    if (!kpVoiceSyncReady()) return;
+    if (!showId) return;
+    if (kpVoiceSyncDebounce[showId]) clearTimeout(kpVoiceSyncDebounce[showId]);
+    kpVoiceSyncDebounce[showId] = setTimeout(function () {
+      delete kpVoiceSyncDebounce[showId];
+      var snap;
+      try { snap = getSnapshotFn(); }
+      catch (e) { Logger.warn('voicesync', 'snapshot build failed', String(e)); return; }
+      if (!snap) return;
+      snap.ts = Date.now();
+      try { snap.device = (Lampa.Platform.get && Lampa.Platform.get()) || 'unknown'; } catch (e) {}
+      var url = kpVoiceSyncBaseUrl() + '/' + encodeURIComponent(showId);
+      try {
+        var xhr = new XMLHttpRequest();
+        xhr.open('PUT', url, true);
+        xhr.timeout = 4000;
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.onload = function () {
+          if (xhr.status >= 200 && xhr.status < 300) {
+            Logger.debug('voicesync', 'push ok', { show: showId, ts: snap.ts });
+          } else {
+            Logger.warn('voicesync', 'push non-2xx', { show: showId, status: xhr.status });
+          }
+        };
+        xhr.onerror = xhr.ontimeout = function () {
+          Logger.warn('voicesync', 'push failed', { show: showId });
+        };
+        xhr.send(JSON.stringify(snap));
+      } catch (e) { Logger.warn('voicesync', 'push throw', String(e)); }
+    }, KP_VOICE_SYNC_DEBOUNCE_MS);
+  }
+
+  /**
+   * Build the current snapshot for a show from Lampa.Storage. Returns null
+   * if no choice exists yet. show_id = TMDB id (matches choice key).
+   */
+  function kpVoiceSyncBuildSnapshot(showId) {
+    if (!showId) return null;
+    var data = Lampa.Storage.cache('online_choice_kpapi', 3000, {});
+    var choice = data[showId];
+    if (!choice) return null;
+    var snap = {
+      show_id: showId,
+      voice_key: choice.voice_key || '',
+      voices_by_season: choice.voices_by_season || {},
+      episodes: {}
+    };
+    // Pull per-episode voice memory (limited to entries that look like THIS show).
+    // We don't have a strict show→hash mapping, so we include the whole
+    // kp_episode_voice map — the receiving device will only use entries
+    // whose hash matches its own (season, episode, original_title) calc.
+    try {
+      var em = Lampa.Storage.cache('kp_episode_voice', 5000, {});
+      snap.episodes = em || {};
+    } catch (e) {}
+    return snap;
+  }
+
+  /**
+   * Apply a remote snapshot to local Lampa.Storage. Merges (doesn't wipe
+   * other shows' data) — only writes voice_key + voices_by_season for the
+   * given show, plus extends kp_episode_voice with snapshot's entries.
+   */
+  function kpVoiceSyncApplySnapshot(showId, snap) {
+    if (!snap || !showId) return;
+    try {
+      var data = Lampa.Storage.cache('online_choice_kpapi', 3000, {});
+      if (!data[showId]) data[showId] = {};
+      var c = data[showId];
+      if (snap.voice_key)        c.voice_key = snap.voice_key;
+      if (snap.voices_by_season) c.voices_by_season = snap.voices_by_season;
+      Lampa.Storage.set('online_choice_kpapi', data);
+    } catch (e) { Logger.warn('voicesync', 'apply choice failed', String(e)); }
+    try {
+      if (snap.episodes && typeof snap.episodes === 'object') {
+        var em = Lampa.Storage.cache('kp_episode_voice', 5000, {});
+        Object.keys(snap.episodes).forEach(function (h) { em[h] = snap.episodes[h]; });
+        Lampa.Storage.set('kp_episode_voice', em);
+      }
+    } catch (e) { Logger.warn('voicesync', 'apply episodes failed', String(e)); }
+    Logger.info('voicesync', 'snapshot applied', {
+      show: showId,
+      season_voices: Object.keys(snap.voices_by_season || {}).length,
+      episodes: Object.keys(snap.episodes || {}).length
+    });
+  }
+
+  /**
+   * Hook called when Lampa fires `full/complite` for a movie/show card.
+   * Triggers async pull from VPS and applies the snapshot to Storage so
+   * that when the user enters our kinopub source, the right voice is
+   * already pre-selected.
+   */
+  function kpVoiceSyncOnFull(movieId) {
+    if (!kpVoiceSyncReady()) return;
+    if (!movieId) return;
+    kpVoiceSyncPull(movieId, function (resp) {
+      if (resp.ok && resp.snapshot) {
+        kpVoiceSyncApplySnapshot(movieId, resp.snapshot);
+      }
+    });
+  }
+
+  /**
+   * Trigger a debounced push for the given show — call this from any code
+   * path that mutates voice prefs (filter sidebar pick, soft-swap pick,
+   * episode-voice persistence). Snapshot is rebuilt fresh from Storage at
+   * the moment the timeout fires.
+   */
+  function kpVoiceSyncOnChange(showId) {
+    if (!kpVoiceSyncReady()) return;
+    kpVoiceSyncPushDebounced(showId, function () {
+      return kpVoiceSyncBuildSnapshot(showId);
+    });
+  }
+
   /**
    * Build the proxy URL for a kinopub HLS4 master + chosen voice index.
    * Returns null if proxy is not available.
@@ -846,7 +1020,7 @@
    *
    * Closes over (label, key, url, element, choice, voiceoversRef).
    */
-  function buildVoiceSwapCallback(label, key, url, element, choice, voiceoversRef) {
+  function buildVoiceSwapCallback(label, key, url, element, choice, voiceoversRef, showId) {
     return function (item) {
       var swapUrl = (item && item.url) || url;
       Logger.info('voice', 'in-player switch', {
@@ -874,6 +1048,10 @@
           Lampa.Storage.set('kp_episode_voice', watchedMap);
         }
       } catch (e) { Logger.warn('voice', 'episode-voice persist failed', String(e)); }
+
+      // v1.0.66: push voice-sync to VPS (debounced) — covers both choice +
+      // per-episode change since both happen here on in-player swap.
+      try { if (showId) kpVoiceSyncOnChange(showId); } catch (vse) {}
 
       // ── Update the in-DOM next-episode-name label (we own this) ────────
       try { currentVoiceLabel = label; } catch (e) {}
@@ -2213,6 +2391,8 @@
           }
         }
         Logger.info('voice', 'user picked', { season: choice.season, name: choice.voice_name, key: choice.voice_key });
+        // v1.0.66: push voice-sync to VPS (debounced)
+        try { kpVoiceSyncOnChange(object.movie.id); } catch (e) {}
       }
       component.reset();
       buildFilter();
@@ -2607,8 +2787,10 @@
               };
             });
             // Second pass: attach onSelect closing over the array reference.
+            // v1.0.66: pass object.movie.id so the callback can push voice-sync.
+            var _kpShowId = (object && object.movie && object.movie.id) || null;
             vovers.forEach(function (vo) {
-              vo.onSelect = buildVoiceSwapCallback(vo._label, vo._key, vo.url, element, choice, vovers);
+              vo.onSelect = buildVoiceSwapCallback(vo._label, vo._key, vo.url, element, choice, vovers, _kpShowId);
               delete vo._label; delete vo._key;
             });
             play.voiceovers = vovers;
@@ -4060,6 +4242,14 @@
 
     Lampa.Listener.follow('full', function (e) {
       if (e.type !== 'complite') return;
+      // v1.0.66: pre-fetch voice-sync snapshot from VPS so Storage is
+      // populated BEFORE user clicks the kinopub button. If the user
+      // clicks immediately and the request hasn't completed, that's OK —
+      // first launch uses local default, on next entry pre-load is fresh.
+      try {
+        var mid = e.data && e.data.movie && e.data.movie.id;
+        if (mid) kpVoiceSyncOnFull(mid);
+      } catch (vse) {}
       try {
         var btn = $(Lampa.Lang.translate(button));
         btn.on('hover:enter', function () {
@@ -4085,6 +4275,11 @@
       var bg = new Lampa.Reguest();
       KP.profile(bg, function (j) {
         Logger.info('auth', 'profile ok', j && j.user && { name: j.user.username, subscribed: j.user.subscription });
+        // v1.0.66: capture user identity for voice-sync namespace
+        if (j && j.user && j.user.username) {
+          kpUserId = String(j.user.username).toLowerCase().replace(/[^a-z0-9_.\-]/g, '');
+          Logger.info('voicesync', 'user namespace ready', { userId: kpUserId });
+        }
       }, function () {
         Logger.warn('auth', 'profile check failed');
       });
