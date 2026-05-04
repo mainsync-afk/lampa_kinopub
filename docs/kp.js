@@ -23,7 +23,7 @@
    *  CONSTANTS                                                   *
    * ============================================================ */
 
-  var PLUGIN_VERSION  = '1.0.57';
+  var PLUGIN_VERSION  = '1.0.58';
   // Public manifest-proxy URL — set near KP_PROXY_URL declaration below.
   var COMPONENT_NAME  = 'online_kp';
   var BALANSER        = 'kpapi';
@@ -2904,10 +2904,10 @@
       files.appendFiles(scroll.render());
       files.appendHead(filter.render());
 
-      // v1.0.57: inline-style backstop for filter bar styling. Lampa stock
-      // CSS keeps winning specificity for margin-left and the focus outline
-      // even with class-chain !important rules (verified via DevTools
-      // computed panel). Setting style via element.style.setProperty(...,
+      // v1.0.57-58: inline-style backstop for filter bar styling. Lampa
+      // stock CSS keeps winning specificity for margin-left and the focus
+      // outline even with class-chain !important rules (verified via
+      // DevTools computed panel). Setting style via setProperty(...,
       // 'important') beats any external CSS rule unconditionally.
       try {
         var $btns = filter.render().find('.simple-button.filter--search,.simple-button.filter--filter');
@@ -2926,6 +2926,13 @@
         // Inter-button gap (right margin only on the search button)
         filter.render().find('.simple-button.filter--search').each(function () {
           this.style.setProperty('margin-right', '0.4em', 'important');
+        });
+        // v1.0.58: back button — invisible icon-only, but Lampa gives it
+        // margin-right: 1em which leaves a visible gap before the search
+        // button. Hide it entirely (Lampa's main back navigation handles
+        // the navigation use case anyway).
+        filter.render().find('.simple-button.filter--back').each(function () {
+          this.style.setProperty('display', 'none', 'important');
         });
         // Focus state: kill outline, add tight box-shadow + uniform scale
         $btns.on('hover:focus focus', function () {
