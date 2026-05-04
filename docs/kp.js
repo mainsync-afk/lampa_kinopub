@@ -23,7 +23,7 @@
    *  CONSTANTS                                                   *
    * ============================================================ */
 
-  var PLUGIN_VERSION  = '1.0.56';
+  var PLUGIN_VERSION  = '1.0.57';
   // Public manifest-proxy URL — set near KP_PROXY_URL declaration below.
   var COMPONENT_NAME  = 'online_kp';
   var BALANSER        = 'kpapi';
@@ -2903,6 +2903,42 @@
       filter.render().find('.filter--sort').remove();
       files.appendFiles(scroll.render());
       files.appendHead(filter.render());
+
+      // v1.0.57: inline-style backstop for filter bar styling. Lampa stock
+      // CSS keeps winning specificity for margin-left and the focus outline
+      // even with class-chain !important rules (verified via DevTools
+      // computed panel). Setting style via element.style.setProperty(...,
+      // 'important') beats any external CSS rule unconditionally.
+      try {
+        var $btns = filter.render().find('.simple-button.filter--search,.simple-button.filter--filter');
+        $btns.each(function () {
+          var el = this;
+          el.style.setProperty('margin', '0', 'important');
+          el.style.setProperty('padding', '0.4em 1em', 'important');
+          el.style.setProperty('font-size', '1.2em', 'important');
+          el.style.setProperty('display', 'inline-flex', 'important');
+          el.style.setProperty('align-items', 'center', 'important');
+          el.style.setProperty('justify-content', 'center', 'important');
+          el.style.setProperty('border-radius', '0.4em', 'important');
+          el.style.setProperty('outline', 'none', 'important');
+          el.style.setProperty('transform-origin', 'center center', 'important');
+        });
+        // Inter-button gap (right margin only on the search button)
+        filter.render().find('.simple-button.filter--search').each(function () {
+          this.style.setProperty('margin-right', '0.4em', 'important');
+        });
+        // Focus state: kill outline, add tight box-shadow + uniform scale
+        $btns.on('hover:focus focus', function () {
+          this.style.setProperty('outline', 'none', 'important');
+          this.style.setProperty('box-shadow', '0 0 0 0.12em #fff', 'important');
+          this.style.setProperty('transform', 'scale(1.06)', 'important');
+        });
+        $btns.on('hover:blur blur', function () {
+          this.style.setProperty('outline', 'none', 'important');
+          this.style.setProperty('box-shadow', 'none', 'important');
+          this.style.setProperty('transform', 'none', 'important');
+        });
+      } catch (e) { Logger.warn('filter-style', 'inline override failed', String(e)); }
       scroll.body().addClass('torrent-list');
       scroll.minus(files.render().find('.explorer__files-head'));
       this.search();
