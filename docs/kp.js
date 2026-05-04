@@ -23,7 +23,7 @@
    *  CONSTANTS                                                   *
    * ============================================================ */
 
-  var PLUGIN_VERSION  = '1.0.55';
+  var PLUGIN_VERSION  = '1.0.56';
   // Public manifest-proxy URL — set near KP_PROXY_URL declaration below.
   var COMPONENT_NAME  = 'online_kp';
   var BALANSER        = 'kpapi';
@@ -3540,31 +3540,40 @@
       // increase min-width and lift the inner div's overflow so text fits.
       ".filter--filter{min-width:24em}" +
       ".filter--filter > div{max-width:none;overflow:visible;white-space:nowrap;text-overflow:clip}" +
-      // — v1.0.51-55: minimalist top filter bar ──────────────────────────
-      // Hide the search-icon SVG (button keeps the show name "Извне" only)
-      // and the "Фильтр" word span (button keeps just the chosen text).
-      // v1.0.55: pin padding & margins on both states so focus only swaps
-      // colors (no growth via padding); slight uniform scale on focus;
-      // wipe any inherited margin on the row container.
-      ".filter--search > svg{display:none}" +
-      ".filter--filter > span{display:none}" +
-      ".filter--search,.filter--filter{font-size:1.2em !important;" +
-        "display:inline-flex !important;align-items:center !important;justify-content:center !important;" +
-        "padding:.4em 1em !important;margin:0 .4em 0 0 !important;" +
+      // — v1.0.51-56: minimalist top filter bar ──────────────────────────
+      // Class chain selectors needed: Lampa stylesheet uses
+      // `.simple-button.simple-button--filter` (specificity 0,2,0) plus
+      // !important — must match or exceed that to override.
+      ".filter--search > svg{display:none !important}" +
+      ".filter--filter > span{display:none !important}" +
+      ".simple-button.simple-button--filter.filter--search," +
+      ".simple-button.simple-button--filter.filter--filter{" +
+        "font-size:1.2em !important;" +
+        "display:inline-flex !important;" +
+        "align-items:center !important;" +
+        "justify-content:center !important;" +
+        "padding:.4em 1em !important;" +
+        "margin:0 !important;" +
         "border-radius:.4em !important;" +
-        "transform-origin:center center !important}" +
-      ".filter--search *,.filter--filter *{font-size:inherit !important;line-height:inherit !important}" +
-      ".filter--filter{min-width:14em}" +
-      // Focus state: keep padding identical, kill Lampa's ::after halo,
-      // grow the chip uniformly via transform:scale (slight, all sides).
-      ".filter--search.focus,.filter--filter.focus{padding:.4em 1em !important;" +
+        "transform-origin:center center !important;" +
+        "outline:none !important}" +
+      // Inter-button gap (right-margin only on first; second has no margin)
+      ".simple-button.simple-button--filter.filter--search{margin-right:.4em !important}" +
+      ".simple-button.simple-button--filter.filter--search *," +
+      ".simple-button.simple-button--filter.filter--filter *{" +
+        "font-size:inherit !important;line-height:inherit !important}" +
+      ".simple-button.simple-button--filter.filter--filter{min-width:14em}" +
+      // Focus: kill Lampa outline + scale 1.06 only (padding stays put)
+      ".simple-button.simple-button--filter.filter--search.focus," +
+      ".simple-button.simple-button--filter.filter--filter.focus{" +
+        "padding:.4em 1em !important;" +
+        "outline:none !important;" +
+        "box-shadow:0 0 0 .12em #fff !important;" +
         "transform:scale(1.06) !important}" +
-      ".filter--search.focus::after,.filter--filter.focus::after{display:none !important}" +
-      // Row container — kill leading padding & any per-child margin Lampa
-      // adds; rely solely on margin-right:.4em from the buttons themselves.
-      ".torrent-filter,.torrent-filter > .scroll__body,.torrent-filter > .scroll__content," +
-      ".filter,.filter > .scroll__body{padding-left:0 !important;margin-left:0 !important}" +
-      ".filter > div > div:first-child{margin-left:0 !important}" +
+      ".simple-button.simple-button--filter.filter--search.focus::after," +
+      ".simple-button.simple-button--filter.filter--filter.focus::after{display:none !important}" +
+      // Back button (filter--back) — also reset margin in case it leaks gap
+      ".simple-button.filter--back{margin:0 .4em 0 0 !important}" +
       "</style>");
     $('body').append(Lampa.Template.get('online_prestige_css', {}, true));
   }
