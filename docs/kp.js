@@ -23,7 +23,7 @@
    *  CONSTANTS                                                   *
    * ============================================================ */
 
-  var PLUGIN_VERSION  = '1.0.48';
+  var PLUGIN_VERSION  = '1.0.49';
   // Public manifest-proxy URL — set near KP_PROXY_URL declaration below.
   var COMPONENT_NAME  = 'online_kp';
   var BALANSER        = 'kpapi';
@@ -1576,7 +1576,15 @@
   function voiceChipsHtml(audios, activeKey, watchedKey, hasProgress) {
     if (!audios || !audios.length) return '';
 
-    // Pass 1: build visible chips deduped by chipKey.
+    // chipKey for codec-twin dedup is the first 3 fields of voiceKey
+    // ("lang|type|author"). voiceKey is "lang|type|author|codec|index".
+    function chipKeyFromVoiceKey(vk) {
+      return String(vk || '').split('|').slice(0, 3).join('|');
+    }
+
+    // Pass 1: build visible chips deduped by chipKey. Active/watched flags
+    // are set in Pass 2/3 at chipKey-level so codec-twins (same voice in
+    // different codec/index) merge into one colored chip.
     var byChip = {};
     var order  = [];
     audios.forEach(function (a) {
@@ -1586,39 +1594,46 @@
         byChip[k] = { audio: a, isActive: false, isWatched: false, isForced: false };
         order.push(k);
       }
-      var vk = voiceKey(a);
-      if (vk === activeKey)  byChip[k].isActive  = true;
-      if (vk === watchedKey) byChip[k].isWatched = true;
     });
 
-    // Pass 2: v1.0.48 — force-add a "missing-active" chip ONLY when the
-    // active voice is GENUINELY absent from this episode's audios (e.g. e1
-    // has LF but e2 doesn't). If the voice exists but is filtered by
-    // isVoiceVisible('card') — that's intentional, no chip added.
+    // Pass 2: mark watched chip — match at chipKey level so a chip stays
+    // marked even when the user watched a codec-twin variant.
+    if (watchedKey) {
+      var wck = chipKeyFromVoiceKey(watchedKey);
+      if (byChip[wck]) byChip[wck].isWatched = true;
+    }
+
+    // Pass 3: v1.0.49 — active voice handling at chipKey level, so green
+    // marker survives codec/index drift across episodes.
+    //   - Visible chip with same chipKey  → mark green active
+    //   - Voice present in audios but filtered out (e.g. Orig hidden on
+    //     cards) → do nothing (no red chip; filtered ≠ missing)
+    //   - Voice not in audios at all      → force-add red "missing" chip
     if (activeKey) {
-      var presentInEpisode = false;
-      for (var ai = 0; ai < audios.length; ai++) {
-        if (voiceKey(audios[ai]) === activeKey) { presentInEpisode = true; break; }
-      }
-      if (!presentInEpisode) {
-        // Synthesize a fake audio entry from the voiceKey ("lang|type|author|codec|index").
-        // voiceChipText / chipKey only need lang + type.title + author.title + codec.
-        var parts = String(activeKey).split('|');
-        var fakeAudio = {
-          lang:   parts[0] || '',
-          type:   { title: parts[1] || '', short_title: '' },
-          author: { title: parts[2] || '' },
-          codec:  parts[3] || ''
-        };
-        var fk = chipKey(fakeAudio);
-        if (!byChip[fk]) {
-          byChip[fk] = { audio: fakeAudio, isActive: true, isWatched: false, isForced: true };
-          order.push(fk);
+      var ack = chipKeyFromVoiceKey(activeKey);
+      if (byChip[ack]) {
+        byChip[ack].isActive = true;
+      } else {
+        // Check whether the voice exists in episode (regardless of card filter).
+        var presentInEpisode = false;
+        for (var ai = 0; ai < audios.length; ai++) {
+          if (chipKey(audios[ai]) === ack) { presentInEpisode = true; break; }
+        }
+        if (!presentInEpisode) {
+          var parts = String(activeKey).split('|');
+          var fakeAudio = {
+            lang:   parts[0] || '',
+            type:   { title: parts[1] || '', short_title: '' },
+            author: { title: parts[2] || '' },
+            codec:  parts[3] || ''
+          };
+          byChip[ack] = { audio: fakeAudio, isActive: true, isWatched: false, isForced: true };
+          order.push(ack);
         }
       }
     }
 
-    // Pass 3: v1.0.47 — sort so colored chips (active / watched / forced)
+    // Pass 4: v1.0.47 — sort so colored chips (active / watched / forced)
     // come first, default chips after. Stable for like-priority entries.
     function chipIndicatorClass(entry) {
       if (entry.isForced)                       return 'is-active-missing';
