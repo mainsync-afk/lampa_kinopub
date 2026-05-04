@@ -23,7 +23,7 @@
    *  CONSTANTS                                                   *
    * ============================================================ */
 
-  var PLUGIN_VERSION  = '1.0.46';
+  var PLUGIN_VERSION  = '1.0.47';
   // Public manifest-proxy URL — set near KP_PROXY_URL declaration below.
   var COMPONENT_NAME  = 'online_kp';
   var BALANSER        = 'kpapi';
@@ -1551,26 +1551,83 @@
    * key. Card-level visibility filter applied (Оригинал/Одноголосый/Авторский
    * hidden on cards but visible in sidebar).
    */
+  /**
+   * v1.0.47: Air date formatter for episode info row.
+   *   year === current  →  "d.mm"     (year omitted)
+   *   year !== current  →  "d.mm.yyyy"
+   * Day not zero-padded; month zero-padded to 2 digits; year 4 digits.
+   * Falls back to original string on parse failure.
+   */
+  function formatAirDate(s) {
+    if (!s) return '';
+    var dt = new Date(s);
+    if (isNaN(dt.getTime())) return String(s);
+    var d = dt.getDate();
+    var m = dt.getMonth() + 1;
+    var y = dt.getFullYear();
+    var mm = m < 10 ? '0' + m : '' + m;
+    var nowYear = new Date().getFullYear();
+    return (y === nowYear) ? (d + '.' + mm) : (d + '.' + mm + '.' + y);
+  }
+
   function voiceChipsHtml(audios, activeKey, watchedKey, hasProgress) {
     if (!audios || !audios.length) return '';
+
+    // Pass 1: build visible chips deduped by chipKey.
     var byChip = {};
     var order  = [];
     audios.forEach(function (a) {
       if (!isVoiceVisible(a, 'card')) return;
       var k = chipKey(a);
       if (!byChip[k]) {
-        byChip[k] = { audio: a, isActive: false, isWatched: false };
+        byChip[k] = { audio: a, isActive: false, isWatched: false, isForced: false };
         order.push(k);
       }
       var vk = voiceKey(a);
       if (vk === activeKey)  byChip[k].isActive  = true;
       if (vk === watchedKey) byChip[k].isWatched = true;
     });
+
+    // Pass 2: v1.0.47 — if the active voice isn't represented by any visible
+    // chip (e.g. user picked an Orig / non-rus track that's filtered from the
+    // card), force-add it as a "missing-active" chip in pale red so the card
+    // always shows what's actually selected.
+    var anyActive = order.some(function (k) { return byChip[k].isActive; });
+    if (activeKey && !anyActive) {
+      var activeAudio = null;
+      for (var ai = 0; ai < audios.length; ai++) {
+        if (voiceKey(audios[ai]) === activeKey) { activeAudio = audios[ai]; break; }
+      }
+      if (activeAudio) {
+        var fk = chipKey(activeAudio);
+        if (!byChip[fk]) {
+          byChip[fk] = { audio: activeAudio, isActive: true, isWatched: false, isForced: true };
+          order.push(fk);
+        } else {
+          byChip[fk].isActive = true;
+        }
+      }
+    }
+
+    // Pass 3: v1.0.47 — sort so colored chips (active / watched / forced)
+    // come first, default chips after. Stable for like-priority entries.
+    function chipIndicatorClass(entry) {
+      if (entry.isForced)                       return 'is-active-missing';
+      if (hasProgress  && entry.isWatched)      return 'is-watched';
+      if (!hasProgress && entry.isActive)       return 'is-active';
+      return '';
+    }
+    order.sort(function (ka, kb) {
+      var ac = chipIndicatorClass(byChip[ka]) ? 0 : 1;
+      var bc = chipIndicatorClass(byChip[kb]) ? 0 : 1;
+      return ac - bc;
+    });
+
     return order.map(function (k) {
       var entry = byChip[k];
       var classes = ['kp-voice-chip'];
-      if (hasProgress && entry.isWatched)        classes.push('is-watched');
-      else if (!hasProgress && entry.isActive)   classes.push('is-active');
+      var ind = chipIndicatorClass(entry);
+      if (ind) classes.push(ind);
       return '<span class="' + classes.join(' ') + '">' + voiceChipText(entry.audio) + '</span>';
     }).join('');
   }
@@ -3041,9 +3098,9 @@
             if (episode.vote_average) info.push(Lampa.Template.get('online_prestige_rate', {
               rate: parseFloat(episode.vote_average + '').toFixed(1)
             }, true));
-            if (episode.air_date && fully) info.push(Lampa.Utils.parseTime(episode.air_date).full);
+            if (episode.air_date && fully) info.push(formatAirDate(episode.air_date));
           } else if (object.movie.release_date && fully) {
-            info.push(Lampa.Utils.parseTime(object.movie.release_date).full);
+            info.push(formatAirDate(object.movie.release_date));
           }
           if (!serial && object.movie.tagline) info.push(object.movie.tagline);
           if (element.info) info.push(element.info);
@@ -3409,15 +3466,15 @@
       ".online-empty__templates .online-empty-template:nth-child(2){opacity:.5}" +
       ".online-empty__templates .online-empty-template:nth-child(3){opacity:.2}" +
       // — voice chips inline in footer (kp.js v1.0.20) ————————————
-      // Footer was originally `space-between` — override to `flex-start` so
-      // info / voices / quality line up left-to-right with voices flush
-      // against quality on the right.
+      // v1.0.47: info gets a fixed flex-basis so the voices block always
+      // starts at the same horizontal position regardless of date length.
+      // Voices block aligned flush-left, quality flush-right.
       ".online-prestige__footer{justify-content:flex-start}" +
-      ".online-prestige__info{flex:1 1 auto;min-width:0;overflow:hidden}" +
-      ".kp-voices{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:.3em;" +
-        "margin:0 .8em 0 .5em;flex-shrink:1;line-height:1.2}" +
+      ".online-prestige__info{flex:0 0 60%;max-width:60%;min-width:0;overflow:hidden}" +
+      ".kp-voices{display:flex;flex-wrap:wrap;justify-content:flex-start;gap:.3em;" +
+        "margin:0 .8em 0 .5em;flex:1 1 auto;line-height:1.2}" +
       ".kp-voices:empty{display:none}" +
-      ".online-prestige__quality{flex-shrink:0;padding-left:0}" +
+      ".online-prestige__quality{flex-shrink:0;padding-left:0;margin-left:auto}" +
       ".kp-voice-chip{display:inline-block;padding:.2em .55em;background:rgba(255,255,255,0.10);" +
         "border-radius:.3em;border:1px solid transparent;font-size:.78em;white-space:nowrap;" +
         "color:rgba(255,255,255,0.85)}" +
@@ -3425,13 +3482,18 @@
       // Soft green fill — "this is what plays if you click".
       ".kp-voice-chip.is-active{background:rgba(110,200,110,0.28);" +
         "border-color:rgba(110,200,110,0.6);color:#e6ffe6;font-weight:600}" +
+      // v1.0.47: is-active-missing = forced chip for the active voice when
+      // it's not naturally in the visible list (e.g. user picked Orig/non-rus
+      // and card-level filter hid it). Pale red, parallels the green active.
+      ".kp-voice-chip.is-active-missing{background:rgba(220,110,110,0.28);" +
+        "border-color:rgba(220,110,110,0.6);color:#ffe6e6;font-weight:600}" +
       // is-watched = remembered voice for an in-progress / completed episode.
-      // v1.0.46: solid medium-gray pill with dark text — same visual weight
-      // as the green is-active chip, just in a neutral palette so the eye
-      // can spot watched/active at a glance.
-      ".kp-voice-chip.is-watched{background:#b0b0b0;" +
-        "border-color:#b0b0b0;" +
-        "color:#1a1a1a;font-weight:500}" +
+      // v1.0.47: match the filter button (.simple-button.filter--filter) look —
+      // soft white translucent pill with light text — so watched stands quiet
+      // next to the bright is-active green. Style follows the green/red shape.
+      ".kp-voice-chip.is-watched{background:rgba(255,255,255,0.22);" +
+        "border-color:rgba(255,255,255,0.40);" +
+        "color:#fff;font-weight:600}" +
       // — v1.0.42: widen "Filter" button on the season page ~3× ─────────
       // Default Lampa filter-button is sized for short chosen text; with
       // longer "Сезон: Сезон N" labels it gets visibly truncated. We
