@@ -23,7 +23,7 @@
    *  CONSTANTS                                                   *
    * ============================================================ */
 
-  var PLUGIN_VERSION  = '1.0.53';
+  var PLUGIN_VERSION  = '1.0.54';
   // Public manifest-proxy URL — set near KP_PROXY_URL declaration below.
   var COMPONENT_NAME  = 'online_kp';
   var BALANSER        = 'kpapi';
@@ -3540,18 +3540,26 @@
       // increase min-width and lift the inner div's overflow so text fits.
       ".filter--filter{min-width:24em}" +
       ".filter--filter > div{max-width:none;overflow:visible;white-space:nowrap;text-overflow:clip}" +
-      // — v1.0.51: minimalist top filter bar ─────────────────────────────
+      // — v1.0.51-54: minimalist top filter bar ──────────────────────────
       // Hide the search-icon SVG (button keeps the show name "Извне" only)
       // and the "Фильтр" word span (button keeps just the chosen text).
-      // v1.0.53: enforce font-size 1.5em on the buttons AND all their
-      // descendants with !important — Lampa stylesheet pins absolute em
-      // sizes deeper in the button tree which won't inherit otherwise.
+      // v1.0.54: scaled down to 1.2em (80% of 1.5em); tighter focus halo;
+      // reduced inter-button gap; no leading padding on the bar.
       ".filter--search > svg{display:none}" +
       ".filter--filter > span{display:none}" +
-      ".filter--search,.filter--filter{font-size:1.5em !important;" +
+      ".filter--search,.filter--filter{font-size:1.2em !important;" +
         "display:inline-flex !important;align-items:center !important;justify-content:center !important}" +
       ".filter--search *,.filter--filter *{font-size:inherit !important;line-height:inherit !important}" +
       ".filter--filter{min-width:14em}" +
+      // Tight focus halo — replace Lampa's wide ::after outline with a
+      // small box-shadow that hugs the button border.
+      ".filter--search.focus::after,.filter--filter.focus::after{display:none !important}" +
+      ".filter--search.focus,.filter--filter.focus{box-shadow:0 0 0 .12em #fff !important}" +
+      // Compact spacing — remove leading row padding, tighten gaps between
+      // adjacent buttons in the filter line container (Lampa adds .torrent-filter).
+      ".torrent-filter{padding-left:0 !important}" +
+      ".torrent-filter > *{margin-left:0 !important}" +
+      ".torrent-filter > * + *{margin-left:.4em !important}" +
       "</style>");
     $('body').append(Lampa.Template.get('online_prestige_css', {}, true));
   }
