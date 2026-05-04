@@ -23,7 +23,7 @@
    *  CONSTANTS                                                   *
    * ============================================================ */
 
-  var PLUGIN_VERSION  = '1.0.47';
+  var PLUGIN_VERSION  = '1.0.48';
   // Public manifest-proxy URL — set near KP_PROXY_URL declaration below.
   var COMPONENT_NAME  = 'online_kp';
   var BALANSER        = 'kpapi';
@@ -1552,22 +1552,25 @@
    * hidden on cards but visible in sidebar).
    */
   /**
-   * v1.0.47: Air date formatter for episode info row.
-   *   year === current  →  "d.mm"     (year omitted)
+   * v1.0.48: Air date formatter for episode info row.
+   *   year === current  →  Lampa native "16 апреля"  (parseTime(...).full)
    *   year !== current  →  "d.mm.yyyy"
-   * Day not zero-padded; month zero-padded to 2 digits; year 4 digits.
    * Falls back to original string on parse failure.
    */
   function formatAirDate(s) {
     if (!s) return '';
     var dt = new Date(s);
     if (isNaN(dt.getTime())) return String(s);
+    var y = dt.getFullYear();
+    var nowYear = new Date().getFullYear();
+    if (y === nowYear) {
+      try { return Lampa.Utils.parseTime(s).full; }
+      catch (e) { return String(s); }
+    }
     var d = dt.getDate();
     var m = dt.getMonth() + 1;
-    var y = dt.getFullYear();
     var mm = m < 10 ? '0' + m : '' + m;
-    var nowYear = new Date().getFullYear();
-    return (y === nowYear) ? (d + '.' + mm) : (d + '.' + mm + '.' + y);
+    return d + '.' + mm + '.' + y;
   }
 
   function voiceChipsHtml(audios, activeKey, watchedKey, hasProgress) {
@@ -1588,23 +1591,29 @@
       if (vk === watchedKey) byChip[k].isWatched = true;
     });
 
-    // Pass 2: v1.0.47 — if the active voice isn't represented by any visible
-    // chip (e.g. user picked an Orig / non-rus track that's filtered from the
-    // card), force-add it as a "missing-active" chip in pale red so the card
-    // always shows what's actually selected.
-    var anyActive = order.some(function (k) { return byChip[k].isActive; });
-    if (activeKey && !anyActive) {
-      var activeAudio = null;
+    // Pass 2: v1.0.48 — force-add a "missing-active" chip ONLY when the
+    // active voice is GENUINELY absent from this episode's audios (e.g. e1
+    // has LF but e2 doesn't). If the voice exists but is filtered by
+    // isVoiceVisible('card') — that's intentional, no chip added.
+    if (activeKey) {
+      var presentInEpisode = false;
       for (var ai = 0; ai < audios.length; ai++) {
-        if (voiceKey(audios[ai]) === activeKey) { activeAudio = audios[ai]; break; }
+        if (voiceKey(audios[ai]) === activeKey) { presentInEpisode = true; break; }
       }
-      if (activeAudio) {
-        var fk = chipKey(activeAudio);
+      if (!presentInEpisode) {
+        // Synthesize a fake audio entry from the voiceKey ("lang|type|author|codec|index").
+        // voiceChipText / chipKey only need lang + type.title + author.title + codec.
+        var parts = String(activeKey).split('|');
+        var fakeAudio = {
+          lang:   parts[0] || '',
+          type:   { title: parts[1] || '', short_title: '' },
+          author: { title: parts[2] || '' },
+          codec:  parts[3] || ''
+        };
+        var fk = chipKey(fakeAudio);
         if (!byChip[fk]) {
-          byChip[fk] = { audio: activeAudio, isActive: true, isWatched: false, isForced: true };
+          byChip[fk] = { audio: fakeAudio, isActive: true, isWatched: false, isForced: true };
           order.push(fk);
-        } else {
-          byChip[fk].isActive = true;
         }
       }
     }
@@ -3098,9 +3107,14 @@
             if (episode.vote_average) info.push(Lampa.Template.get('online_prestige_rate', {
               rate: parseFloat(episode.vote_average + '').toFixed(1)
             }, true));
-            if (episode.air_date && fully) info.push(formatAirDate(episode.air_date));
+            // v1.0.48: wrap date in .kp-date so CSS can hold a stable column
+            // width across episodes — chips block always starts at the same
+            // x-offset regardless of how long any individual date renders.
+            if (episode.air_date && fully) {
+              info.push('<span class="kp-date">' + formatAirDate(episode.air_date) + '</span>');
+            }
           } else if (object.movie.release_date && fully) {
-            info.push(formatAirDate(object.movie.release_date));
+            info.push('<span class="kp-date">' + formatAirDate(object.movie.release_date) + '</span>');
           }
           if (!serial && object.movie.tagline) info.push(object.movie.tagline);
           if (element.info) info.push(element.info);
@@ -3466,13 +3480,16 @@
       ".online-empty__templates .online-empty-template:nth-child(2){opacity:.5}" +
       ".online-empty__templates .online-empty-template:nth-child(3){opacity:.2}" +
       // — voice chips inline in footer (kp.js v1.0.20) ————————————
-      // v1.0.47: info gets a fixed flex-basis so the voices block always
-      // starts at the same horizontal position regardless of date length.
-      // Voices block aligned flush-left, quality flush-right.
+      // v1.0.48: info shrinks to its content width; .kp-date inside info
+      // gets a min-width that fits the longest reasonable date in either
+      // language ("31 Сентября" — 11 chars; "31.12.2024" — 10 chars), so
+      // chips block always starts at the same x-position across episodes.
+      // Quality flush-right via margin-left:auto.
       ".online-prestige__footer{justify-content:flex-start}" +
-      ".online-prestige__info{flex:0 0 60%;max-width:60%;min-width:0;overflow:hidden}" +
+      ".online-prestige__info{flex:0 1 auto;min-width:0;overflow:hidden}" +
+      ".kp-date{display:inline-block;min-width:5.5em}" +
       ".kp-voices{display:flex;flex-wrap:wrap;justify-content:flex-start;gap:.3em;" +
-        "margin:0 .8em 0 .5em;flex:1 1 auto;line-height:1.2}" +
+        "margin:0 .8em 0 .8em;flex:1 1 auto;line-height:1.2}" +
       ".kp-voices:empty{display:none}" +
       ".online-prestige__quality{flex-shrink:0;padding-left:0;margin-left:auto}" +
       ".kp-voice-chip{display:inline-block;padding:.2em .55em;background:rgba(255,255,255,0.10);" +
