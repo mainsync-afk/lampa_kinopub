@@ -23,7 +23,7 @@
    *  CONSTANTS                                                   *
    * ============================================================ */
 
-  var PLUGIN_VERSION  = '1.0.58';
+  var PLUGIN_VERSION  = '1.0.59';
   // Public manifest-proxy URL — set near KP_PROXY_URL declaration below.
   var COMPONENT_NAME  = 'online_kp';
   var BALANSER        = 'kpapi';
@@ -2904,15 +2904,15 @@
       files.appendFiles(scroll.render());
       files.appendHead(filter.render());
 
-      // v1.0.57-58: inline-style backstop for filter bar styling. Lampa
-      // stock CSS keeps winning specificity for margin-left and the focus
-      // outline even with class-chain !important rules (verified via
-      // DevTools computed panel). Setting style via setProperty(...,
-      // 'important') beats any external CSS rule unconditionally.
+      // v1.0.59: inline-style backstop with MutationObserver re-apply.
+      // Lampa changes the button's inline style/class on focus events
+      // (adds bigger padding, switches bg, etc.) — overwriting our once-only
+      // setProperty calls. Watching for attribute mutations and re-applying
+      // is the only reliable way to keep our styles pinned across state
+      // transitions.
       try {
-        var $btns = filter.render().find('.simple-button.filter--search,.simple-button.filter--filter');
-        $btns.each(function () {
-          var el = this;
+        function kpApplyBtnStyles(el) {
+          var isFocus = el.classList.contains('focus');
           el.style.setProperty('margin', '0', 'important');
           el.style.setProperty('padding', '0.4em 1em', 'important');
           el.style.setProperty('font-size', '1.2em', 'important');
@@ -2921,29 +2921,47 @@
           el.style.setProperty('justify-content', 'center', 'important');
           el.style.setProperty('border-radius', '0.4em', 'important');
           el.style.setProperty('outline', 'none', 'important');
+          el.style.setProperty('height', 'auto', 'important');
           el.style.setProperty('transform-origin', 'center center', 'important');
+          if (el.classList.contains('filter--search')) {
+            el.style.setProperty('margin-right', '0.4em', 'important');
+          }
+          if (isFocus) {
+            el.style.setProperty('box-shadow', '0 0 0 0.12em #fff', 'important');
+            el.style.setProperty('transform', 'scale(1.06)', 'important');
+          } else {
+            el.style.setProperty('box-shadow', 'none', 'important');
+            el.style.setProperty('transform', 'none', 'important');
+          }
+        }
+        var $btns = filter.render().find('.simple-button.filter--search,.simple-button.filter--filter');
+        $btns.each(function () {
+          var el = this;
+          kpApplyBtnStyles(el);
+          // Re-apply on any class/style mutation (Lampa flips .focus and
+          // may rewrite inline padding/margin during transitions).
+          var obs = new MutationObserver(function () {
+            obs.disconnect();
+            kpApplyBtnStyles(el);
+            obs.observe(el, { attributes: true, attributeFilter: ['class', 'style'] });
+          });
+          obs.observe(el, { attributes: true, attributeFilter: ['class', 'style'] });
         });
-        // Inter-button gap (right margin only on the search button)
-        filter.render().find('.simple-button.filter--search').each(function () {
-          this.style.setProperty('margin-right', '0.4em', 'important');
-        });
-        // v1.0.58: back button — invisible icon-only, but Lampa gives it
-        // margin-right: 1em which leaves a visible gap before the search
-        // button. Hide it entirely (Lampa's main back navigation handles
-        // the navigation use case anyway).
+        // Hide invisible back button (it leaves leading gap from its 1em margin)
         filter.render().find('.simple-button.filter--back').each(function () {
           this.style.setProperty('display', 'none', 'important');
         });
-        // Focus state: kill outline, add tight box-shadow + uniform scale
-        $btns.on('hover:focus focus', function () {
-          this.style.setProperty('outline', 'none', 'important');
-          this.style.setProperty('box-shadow', '0 0 0 0.12em #fff', 'important');
-          this.style.setProperty('transform', 'scale(1.06)', 'important');
-        });
-        $btns.on('hover:blur blur', function () {
-          this.style.setProperty('outline', 'none', 'important');
-          this.style.setProperty('box-shadow', 'none', 'important');
-          this.style.setProperty('transform', 'none', 'important');
+        // Strip leading padding/margin from all ancestors up to .explorer
+        // (Lampa decorates the row container with padding-left that pushes
+        // the first button ~80px from the left edge).
+        var $row = filter.render();
+        var ancestors = [$row[0]];
+        $row.parentsUntil('.explorer__files').each(function () { ancestors.push(this); });
+        $row.parents('.explorer__files-head, .scroll__body, .scroll__content').each(function () { ancestors.push(this); });
+        ancestors.forEach(function (el) {
+          if (!el || !el.style) return;
+          el.style.setProperty('padding-left', '0', 'important');
+          el.style.setProperty('gap', '0', 'important');
         });
       } catch (e) { Logger.warn('filter-style', 'inline override failed', String(e)); }
       scroll.body().addClass('torrent-list');
