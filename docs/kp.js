@@ -23,7 +23,7 @@
    *  CONSTANTS                                                   *
    * ============================================================ */
 
-  var PLUGIN_VERSION  = '1.0.64';
+  var PLUGIN_VERSION  = '1.0.65';
   // Public manifest-proxy URL — set near KP_PROXY_URL declaration below.
   var COMPONENT_NAME  = 'online_kp';
   var BALANSER        = 'kpapi';
@@ -2916,6 +2916,7 @@
           el.style.setProperty('margin', '0', 'important');
           el.style.setProperty('padding', '0.3em 1em', 'important');
           el.style.setProperty('font-size', '1.2em', 'important');
+          el.style.setProperty('min-width', '0', 'important');
           el.style.setProperty('display', 'inline-flex', 'important');
           el.style.setProperty('align-items', 'center', 'important');
           el.style.setProperty('justify-content', 'center', 'important');
@@ -3639,7 +3640,10 @@
       ".simple-button.simple-button--filter.filter--search *," +
       ".simple-button.simple-button--filter.filter--filter *{" +
         "font-size:inherit !important;line-height:inherit !important}" +
-      ".simple-button.simple-button--filter.filter--filter{min-width:14em}" +
+      // v1.0.65: removed min-width on filter--filter — was making the
+      // button visually wider than its content+padding, leaving more
+      // space-around-text than the search button (which had no min-width).
+      // Both buttons now size purely by content + padding (1em horizontal).
       // Focus: kill Lampa outline + scale 1.06 only (padding stays put)
       ".simple-button.simple-button--filter.filter--search.focus," +
       ".simple-button.simple-button--filter.filter--filter.focus{" +
