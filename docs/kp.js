@@ -23,7 +23,7 @@
    *  CONSTANTS                                                   *
    * ============================================================ */
 
-  var PLUGIN_VERSION  = '1.0.52';
+  var PLUGIN_VERSION  = '1.0.53';
   // Public manifest-proxy URL — set near KP_PROXY_URL declaration below.
   var COMPONENT_NAME  = 'online_kp';
   var BALANSER        = 'kpapi';
@@ -3543,17 +3543,14 @@
       // — v1.0.51: minimalist top filter bar ─────────────────────────────
       // Hide the search-icon SVG (button keeps the show name "Извне" only)
       // and the "Фильтр" word span (button keeps just the chosen text).
-      // Bump font-size 1.5× across both buttons; trim min-width so the
-      // bigger font doesn't bloat the bar.
+      // v1.0.53: enforce font-size 1.5em on the buttons AND all their
+      // descendants with !important — Lampa stylesheet pins absolute em
+      // sizes deeper in the button tree which won't inherit otherwise.
       ".filter--search > svg{display:none}" +
       ".filter--filter > span{display:none}" +
-      // v1.0.52: scale the inner text alongside the button (Lampa CSS sets
-      // an absolute font-size on the inner div which doesn't inherit by
-      // default), and flex-center contents inside both buttons so text sits
-      // visually in the middle once height grew with the larger font.
-      ".filter--search,.filter--filter{font-size:1.5em;" +
-        "display:inline-flex;align-items:center;justify-content:center}" +
-      ".filter--search > *,.filter--filter > *{font-size:inherit;line-height:inherit}" +
+      ".filter--search,.filter--filter{font-size:1.5em !important;" +
+        "display:inline-flex !important;align-items:center !important;justify-content:center !important}" +
+      ".filter--search *,.filter--filter *{font-size:inherit !important;line-height:inherit !important}" +
       ".filter--filter{min-width:14em}" +
       "</style>");
     $('body').append(Lampa.Template.get('online_prestige_css', {}, true));
