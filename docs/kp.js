@@ -23,7 +23,7 @@
    *  CONSTANTS                                                   *
    * ============================================================ */
 
-  var PLUGIN_VERSION  = '1.0.62';
+  var PLUGIN_VERSION  = '1.0.63';
   // Public manifest-proxy URL — set near KP_PROXY_URL declaration below.
   var COMPONENT_NAME  = 'online_kp';
   var BALANSER        = 'kpapi';
@@ -2927,7 +2927,11 @@
             el.style.setProperty('margin-right', '0.4em', 'important');
           }
           if (isFocus) {
-            // Focused: Lampa default white bg + slight scale + thin halo.
+            // v1.0.63: explicit white bg — without it, the gray bg from a
+            // previous unfocused render lingers (we never cleared it on
+            // transition), giving a thin-halo-around-gray look instead of
+            // a clean white pill.
+            el.style.setProperty('background', '#fff', 'important');
             el.style.setProperty('box-shadow', '0 0 0 0.12em #fff', 'important');
             el.style.setProperty('transform', 'scale(1.04)', 'important');
           } else {
@@ -2938,13 +2942,19 @@
             el.style.setProperty('box-shadow', 'none', 'important');
             el.style.setProperty('transform', 'none', 'important');
           }
-          // v1.0.61: kill inner element styling — Lampa adds padding +
+          // v1.0.61-63: kill inner element styling — Lampa adds padding +
           // semi-transparent bg to the text-holding child <div>, which
-          // creates a visible "inner pill" inside our button.
+          // creates a visible "inner pill" inside our button. Also force
+          // hide any svg (the search-button loupe) — its CSS display:none
+          // rule loses to Lampa's specificity on some platforms.
           var children = el.children;
           for (var i = 0; i < children.length; i++) {
             var c = children[i];
             if (!c || !c.style) continue;
+            if (c.tagName && c.tagName.toLowerCase() === 'svg') {
+              c.style.setProperty('display', 'none', 'important');
+              continue;
+            }
             c.style.setProperty('padding', '0', 'important');
             c.style.setProperty('margin', '0', 'important');
             c.style.setProperty('background', 'transparent', 'important');
