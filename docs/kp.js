@@ -23,7 +23,7 @@
    *  CONSTANTS                                                   *
    * ============================================================ */
 
-  var PLUGIN_VERSION  = '1.0.50';
+  var PLUGIN_VERSION  = '1.0.51';
   // Public manifest-proxy URL — set near KP_PROXY_URL declaration below.
   var COMPONENT_NAME  = 'online_kp';
   var BALANSER        = 'kpapi';
@@ -3032,23 +3032,24 @@
 
     this.selected = function (filter_items) {
       var need = this.getChoice(), select = [];
-      // v1.0.42: only the current season is in the sidebar (voice handled
-      // in-player). v1.0.43: show CURRENT VOICE in the chosen text so the
-      // top filter button reflects which voice is active even though it's
-      // no longer in the sidebar items.
+      // v1.0.51: minimalist filter button label — "Сезон 2 | MVO - LostFilm"
+      //   - No "Сезон: " / "Перевод: " prefixes (icon-style implicit)
+      //   - Voice strips leading "NN - " index prefix from the sidebar label
+      //   - Two parts joined by " | "
       if (filter_items.season && filter_items.season.length >= 1) {
-        select.push(filter_translate.season + ': ' + filter_items.season[need.season]);
+        select.push(filter_items.season[need.season]);
       }
       if (filter_items.voice && filter_items.voice.length >= 1 && need.voice >= 0 && need.voice < filter_items.voice.length) {
-        select.push(filter_translate.voice + ': ' + filter_items.voice[need.voice]);
+        var v = filter_items.voice[need.voice] || '';
+        v = v.replace(/^\d{1,2}\s*-\s*/, ''); // strip "03 - " prefix
+        select.push(v);
       }
       filter.chosen('filter', select);
       filter.chosen('sort', [balanser]);
-      // v1.0.42: override Lampa's 25-char shortText truncation in the filter
-      // button so longer chosen text fits. Set the DOM html directly with
-      // full text; CSS widens the button so it visually accommodates.
+      // v1.0.42: bypass Lampa's 25-char shortText truncation by writing the
+      // full chosen text directly into the inner div of the filter button.
       try {
-        var full = select.join(', ');
+        var full = select.join(' | ');
         filter.render().find('.filter--filter > div').html(full || '').toggleClass('hide', !full);
       } catch (e) {}
     };
@@ -3539,6 +3540,15 @@
       // increase min-width and lift the inner div's overflow so text fits.
       ".filter--filter{min-width:24em}" +
       ".filter--filter > div{max-width:none;overflow:visible;white-space:nowrap;text-overflow:clip}" +
+      // — v1.0.51: minimalist top filter bar ─────────────────────────────
+      // Hide the search-icon SVG (button keeps the show name "Извне" only)
+      // and the "Фильтр" word span (button keeps just the chosen text).
+      // Bump font-size 1.5× across both buttons; trim min-width so the
+      // bigger font doesn't bloat the bar.
+      ".filter--search > svg{display:none}" +
+      ".filter--filter > span{display:none}" +
+      ".filter--search,.filter--filter{font-size:1.5em}" +
+      ".filter--filter{min-width:14em}" +
       "</style>");
     $('body').append(Lampa.Template.get('online_prestige_css', {}, true));
   }
