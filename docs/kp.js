@@ -23,7 +23,7 @@
    *  CONSTANTS                                                   *
    * ============================================================ */
 
-  var PLUGIN_VERSION  = '1.0.60';
+  var PLUGIN_VERSION  = '1.0.61';
   // Public manifest-proxy URL — set near KP_PROXY_URL declaration below.
   var COMPONENT_NAME  = 'online_kp';
   var BALANSER        = 'kpapi';
@@ -2904,11 +2904,12 @@
       files.appendFiles(scroll.render());
       files.appendHead(filter.render());
 
-      // v1.0.60: inline-style backstop with MutationObserver re-apply.
-      // Padding tightened to 0.5em horizontal so the visible pill hugs the
-      // text closer (was 1em which gave a wide halo). Parent-row padding
-      // overrides removed — they broke the column layout (chips shifted
-      // off-screen left in v1.0.59).
+      // v1.0.61: inline-style backstop with MutationObserver re-apply.
+      // Lampa wraps the button text in an inner <div> that has its own
+      // padding + semi-transparent white bg. With outer button having its
+      // own bg/padding, focused state visually shows "pill within a pill".
+      // Strip the inner div's own padding/margin/background so the OUTER
+      // button is the only visible pill.
       try {
         function kpApplyBtnStyles(el) {
           var isFocus = el.classList.contains('focus');
@@ -2932,19 +2933,32 @@
             el.style.setProperty('box-shadow', 'none', 'important');
             el.style.setProperty('transform', 'none', 'important');
           }
+          // v1.0.61: kill inner element styling — Lampa adds padding +
+          // semi-transparent bg to the text-holding child <div>, which
+          // creates a visible "inner pill" inside our button.
+          var children = el.children;
+          for (var i = 0; i < children.length; i++) {
+            var c = children[i];
+            if (!c || !c.style) continue;
+            c.style.setProperty('padding', '0', 'important');
+            c.style.setProperty('margin', '0', 'important');
+            c.style.setProperty('background', 'transparent', 'important');
+            c.style.setProperty('border', 'none', 'important');
+            c.style.setProperty('box-shadow', 'none', 'important');
+          }
         }
         var $btns = filter.render().find('.simple-button.filter--search,.simple-button.filter--filter');
         $btns.each(function () {
           var el = this;
           kpApplyBtnStyles(el);
-          // Re-apply on any class/style mutation (Lampa flips .focus and
-          // may rewrite inline padding/margin during transitions).
+          // Re-apply on any class/style mutation on the button OR its
+          // children (Lampa may toggle inner div styling on focus too).
           var obs = new MutationObserver(function () {
             obs.disconnect();
             kpApplyBtnStyles(el);
-            obs.observe(el, { attributes: true, attributeFilter: ['class', 'style'] });
+            obs.observe(el, { attributes: true, attributeFilter: ['class', 'style'], subtree: true });
           });
-          obs.observe(el, { attributes: true, attributeFilter: ['class', 'style'] });
+          obs.observe(el, { attributes: true, attributeFilter: ['class', 'style'], subtree: true });
         });
         // Hide invisible back button (it leaves leading gap from its 1em margin)
         filter.render().find('.simple-button.filter--back').each(function () {
