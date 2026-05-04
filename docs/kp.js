@@ -23,7 +23,7 @@
    *  CONSTANTS                                                   *
    * ============================================================ */
 
-  var PLUGIN_VERSION  = '1.0.61';
+  var PLUGIN_VERSION  = '1.0.62';
   // Public manifest-proxy URL — set near KP_PROXY_URL declaration below.
   var COMPONENT_NAME  = 'online_kp';
   var BALANSER        = 'kpapi';
@@ -2927,9 +2927,14 @@
             el.style.setProperty('margin-right', '0.4em', 'important');
           }
           if (isFocus) {
+            // Focused: Lampa default white bg + slight scale + thin halo.
             el.style.setProperty('box-shadow', '0 0 0 0.12em #fff', 'important');
             el.style.setProperty('transform', 'scale(1.04)', 'important');
           } else {
+            // v1.0.62: explicit subtle gray fill for unfocused — Lampa's
+            // default ".explorer__files .torrent-filter .simple-button:not(.focus) {
+            // background: rgba(0,0,0,0.07) }" is barely visible on dark theme.
+            el.style.setProperty('background', 'rgba(255,255,255,0.12)', 'important');
             el.style.setProperty('box-shadow', 'none', 'important');
             el.style.setProperty('transform', 'none', 'important');
           }
