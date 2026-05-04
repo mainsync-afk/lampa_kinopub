@@ -23,7 +23,7 @@
    *  CONSTANTS                                                   *
    * ============================================================ */
 
-  var PLUGIN_VERSION  = '1.0.59';
+  var PLUGIN_VERSION  = '1.0.60';
   // Public manifest-proxy URL — set near KP_PROXY_URL declaration below.
   var COMPONENT_NAME  = 'online_kp';
   var BALANSER        = 'kpapi';
@@ -2904,17 +2904,16 @@
       files.appendFiles(scroll.render());
       files.appendHead(filter.render());
 
-      // v1.0.59: inline-style backstop with MutationObserver re-apply.
-      // Lampa changes the button's inline style/class on focus events
-      // (adds bigger padding, switches bg, etc.) — overwriting our once-only
-      // setProperty calls. Watching for attribute mutations and re-applying
-      // is the only reliable way to keep our styles pinned across state
-      // transitions.
+      // v1.0.60: inline-style backstop with MutationObserver re-apply.
+      // Padding tightened to 0.5em horizontal so the visible pill hugs the
+      // text closer (was 1em which gave a wide halo). Parent-row padding
+      // overrides removed — they broke the column layout (chips shifted
+      // off-screen left in v1.0.59).
       try {
         function kpApplyBtnStyles(el) {
           var isFocus = el.classList.contains('focus');
           el.style.setProperty('margin', '0', 'important');
-          el.style.setProperty('padding', '0.4em 1em', 'important');
+          el.style.setProperty('padding', '0.3em 0.6em', 'important');
           el.style.setProperty('font-size', '1.2em', 'important');
           el.style.setProperty('display', 'inline-flex', 'important');
           el.style.setProperty('align-items', 'center', 'important');
@@ -2928,7 +2927,7 @@
           }
           if (isFocus) {
             el.style.setProperty('box-shadow', '0 0 0 0.12em #fff', 'important');
-            el.style.setProperty('transform', 'scale(1.06)', 'important');
+            el.style.setProperty('transform', 'scale(1.04)', 'important');
           } else {
             el.style.setProperty('box-shadow', 'none', 'important');
             el.style.setProperty('transform', 'none', 'important');
@@ -2950,18 +2949,6 @@
         // Hide invisible back button (it leaves leading gap from its 1em margin)
         filter.render().find('.simple-button.filter--back').each(function () {
           this.style.setProperty('display', 'none', 'important');
-        });
-        // Strip leading padding/margin from all ancestors up to .explorer
-        // (Lampa decorates the row container with padding-left that pushes
-        // the first button ~80px from the left edge).
-        var $row = filter.render();
-        var ancestors = [$row[0]];
-        $row.parentsUntil('.explorer__files').each(function () { ancestors.push(this); });
-        $row.parents('.explorer__files-head, .scroll__body, .scroll__content').each(function () { ancestors.push(this); });
-        ancestors.forEach(function (el) {
-          if (!el || !el.style) return;
-          el.style.setProperty('padding-left', '0', 'important');
-          el.style.setProperty('gap', '0', 'important');
         });
       } catch (e) { Logger.warn('filter-style', 'inline override failed', String(e)); }
       scroll.body().addClass('torrent-list');
