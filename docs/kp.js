@@ -23,7 +23,7 @@
    *  CONSTANTS                                                   *
    * ============================================================ */
 
-  var PLUGIN_VERSION  = '1.0.49';
+  var PLUGIN_VERSION  = '1.0.50';
   // Public manifest-proxy URL — set near KP_PROXY_URL declaration below.
   var COMPONENT_NAME  = 'online_kp';
   var BALANSER        = 'kpapi';
@@ -1609,26 +1609,33 @@
     //   - Voice present in audios but filtered out (e.g. Orig hidden on
     //     cards) → do nothing (no red chip; filtered ≠ missing)
     //   - Voice not in audios at all      → force-add red "missing" chip
+    //
+    // v1.0.50: skip the red force-add entirely on episodes that already
+    // show a gray "watched" chip. Per Eugene's spec, a watched episode's
+    // gray chip is the frozen indicator — no green/red overlays change it
+    // until that episode is replayed with a different voice.
     if (activeKey) {
       var ack = chipKeyFromVoiceKey(activeKey);
       if (byChip[ack]) {
         byChip[ack].isActive = true;
       } else {
-        // Check whether the voice exists in episode (regardless of card filter).
-        var presentInEpisode = false;
-        for (var ai = 0; ai < audios.length; ai++) {
-          if (chipKey(audios[ai]) === ack) { presentInEpisode = true; break; }
-        }
-        if (!presentInEpisode) {
-          var parts = String(activeKey).split('|');
-          var fakeAudio = {
-            lang:   parts[0] || '',
-            type:   { title: parts[1] || '', short_title: '' },
-            author: { title: parts[2] || '' },
-            codec:  parts[3] || ''
-          };
-          byChip[ack] = { audio: fakeAudio, isActive: true, isWatched: false, isForced: true };
-          order.push(ack);
+        var hasGrayChip = hasProgress && order.some(function (k) { return byChip[k].isWatched; });
+        if (!hasGrayChip) {
+          var presentInEpisode = false;
+          for (var ai = 0; ai < audios.length; ai++) {
+            if (chipKey(audios[ai]) === ack) { presentInEpisode = true; break; }
+          }
+          if (!presentInEpisode) {
+            var parts = String(activeKey).split('|');
+            var fakeAudio = {
+              lang:   parts[0] || '',
+              type:   { title: parts[1] || '', short_title: '' },
+              author: { title: parts[2] || '' },
+              codec:  parts[3] || ''
+            };
+            byChip[ack] = { audio: fakeAudio, isActive: true, isWatched: false, isForced: true };
+            order.push(ack);
+          }
         }
       }
     }
