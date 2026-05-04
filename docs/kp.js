@@ -23,7 +23,7 @@
    *  CONSTANTS                                                   *
    * ============================================================ */
 
-  var PLUGIN_VERSION  = '1.0.63';
+  var PLUGIN_VERSION  = '1.0.64';
   // Public manifest-proxy URL — set near KP_PROXY_URL declaration below.
   var COMPONENT_NAME  = 'online_kp';
   var BALANSER        = 'kpapi';
@@ -2914,7 +2914,7 @@
         function kpApplyBtnStyles(el) {
           var isFocus = el.classList.contains('focus');
           el.style.setProperty('margin', '0', 'important');
-          el.style.setProperty('padding', '0.3em 0.6em', 'important');
+          el.style.setProperty('padding', '0.3em 1em', 'important');
           el.style.setProperty('font-size', '1.2em', 'important');
           el.style.setProperty('display', 'inline-flex', 'important');
           el.style.setProperty('align-items', 'center', 'important');
@@ -2924,7 +2924,7 @@
           el.style.setProperty('height', 'auto', 'important');
           el.style.setProperty('transform-origin', 'center center', 'important');
           if (el.classList.contains('filter--search')) {
-            el.style.setProperty('margin-right', '0.4em', 'important');
+            el.style.setProperty('margin-right', '0.8em', 'important');
           }
           if (isFocus) {
             // v1.0.63: explicit white bg — without it, the gray bg from a
