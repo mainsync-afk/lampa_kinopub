@@ -34,7 +34,7 @@ const PORT     = parseInt(process.env.PORT     || '3000', 10);
 const HOST     = process.env.HOST     || '0.0.0.0';
 const CACHE_TTL_MS = parseInt(process.env.CACHE_TTL_MS || '60000', 10);
 const FETCH_TIMEOUT_MS = parseInt(process.env.FETCH_TIMEOUT_MS || '10000', 10);
-const VERSION  = '1.0.0';
+const VERSION  = '1.0.1';
 const STARTED  = Date.now();
 
 const ALLOWED_HOSTS = [
@@ -42,6 +42,9 @@ const ALLOWED_HOSTS = [
   'cdn2cdn.com',
   'cdn2site.com',
   'digital-cdn.net',
+  // 2026-06: kinopub started serving masters from this hostname.
+  // service-kp.com covers any subdomain (api.service-kp.com etc.).
+  'service-kp.com',
   // Variant playlists + segments host (referenced from inside masters).
   // Plugin doesn't proxy these (player fetches direct), but listing here
   // for completeness in case kinopub returns a master URL on this host.
