@@ -23,7 +23,7 @@
    *  CONSTANTS                                                   *
    * ============================================================ */
 
-  var PLUGIN_VERSION  = '1.0.68';
+  var PLUGIN_VERSION  = '1.0.69';
   // Public manifest-proxy URL — set near KP_PROXY_URL declaration below.
   var COMPONENT_NAME  = 'online_kp';
   var BALANSER        = 'kpapi';
@@ -2938,6 +2938,19 @@
               originalHost: (function(){ try { return new URL(originalUrl).host; } catch(e){ return '?'; } })(),
               qualities: play.quality ? Object.keys(play.quality) : []
             });
+            // v1.0.69 diag: dump distinct kinopub master URLs per quality
+            // — if kinopub returns the SAME URL for all qualities, the
+            // picker can't actually switch resolution. We need to know.
+            try {
+              if (stream.quality && typeof stream.quality === 'object') {
+                var qDump = {};
+                Object.keys(stream.quality).forEach(function (qk) {
+                  var u = stream.quality[qk];
+                  qDump[qk] = typeof u === 'string' ? u.slice(0, 100) : String(u);
+                });
+                Logger.debug('quality', 'kp master URLs per quality', qDump);
+              }
+            } catch (qe) {}
 
             // ── v1.0.38: Wrap EVERY playlist entry, not just the clicked one ──
             // Lampa next/prev episode navigation in player picks the next
@@ -4401,6 +4414,23 @@
           avplayDumped = true;
           dumpAvplayTracks('canplay');
         });
+        // v1.0.69 diag: hook PlayerPanel.listener('quality') to confirm
+        // whether Lampa's native quality picker is actually firing the
+        // soft-swap event on user click. If we see this log line on click,
+        // Lampa is doing its job — our setup is wrong somehow. If we DON'T
+        // see it, the picker isn't dispatching at all.
+        try {
+          if (Lampa.PlayerPanel && Lampa.PlayerPanel.listener) {
+            Lampa.PlayerPanel.listener.follow('quality', function (e) {
+              Logger.info('quality', 'PlayerPanel.quality event fired', {
+                name: e && e.name,
+                url: e && (e.url || '').slice(0, 80)
+              });
+            });
+          } else {
+            Logger.warn('quality', 'Lampa.PlayerPanel.listener not available');
+          }
+        } catch (qe) { Logger.warn('quality', 'panel hook failed', String(qe)); }
         Lampa.PlayerVideo.listener.follow('tracks', function () {
           if (avplayDumped) return;
           avplayDumped = true;
