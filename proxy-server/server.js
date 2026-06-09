@@ -38,7 +38,7 @@ const CACHE_TTL_MS = parseInt(process.env.CACHE_TTL_MS || '60000', 10);
 const FETCH_TIMEOUT_MS = parseInt(process.env.FETCH_TIMEOUT_MS || '10000', 10);
 const VOICE_SYNC_DIR = process.env.VOICE_SYNC_DIR || '/var/data/voice-sync';
 const VOICE_SYNC_MAX_BYTES = parseInt(process.env.VOICE_SYNC_MAX_BYTES || '65536', 10);
-const VERSION  = '1.1.1';
+const VERSION  = '1.1.2';
 const STARTED  = Date.now();
 
 try { fs.mkdirSync(VOICE_SYNC_DIR, { recursive: true }); } catch (e) {
@@ -175,14 +175,29 @@ function parseHls4Master(text) {
  * NAME of the chosen audio (e.g. "04. Многоголосый. NewStudio (RUS)") so
  * the caller can log it for diagnostics.
  */
-function buildReducedMaster(parsed, voiceIndex) {
+function buildReducedMaster(parsed, voiceIndex, qualityHeight) {
   const out = ['#EXTM3U', '#EXT-X-VERSION:4', '#EXT-X-INDEPENDENT-SEGMENTS'];
 
+  // v1.1.2: optional qualityHeight (e.g. 2160, 1080, 720, 480). When set,
+  // pick the STREAM-INF whose RESOLUTION ends with that height. Otherwise
+  // fall back to highest-bandwidth variant.
   let bestStreamInf = null;
-  parsed.streamInfs.forEach(s => {
-    if (!s.videoUri) return;
-    if (!bestStreamInf || s.bandwidth > bestStreamInf.bandwidth) bestStreamInf = s;
-  });
+  if (qualityHeight) {
+    parsed.streamInfs.forEach(s => {
+      if (!s.videoUri || !s.resolution) return;
+      // resolution looks like "3840x2160" — match height after 'x'
+      const m = /x(\d+)$/.exec(s.resolution);
+      if (m && parseInt(m[1], 10) === qualityHeight) {
+        bestStreamInf = s;
+      }
+    });
+  }
+  if (!bestStreamInf) {
+    parsed.streamInfs.forEach(s => {
+      if (!s.videoUri) return;
+      if (!bestStreamInf || s.bandwidth > bestStreamInf.bandwidth) bestStreamInf = s;
+    });
+  }
   if (!bestStreamInf) return { text: out.join('\n') + '\n', pickedName: null };
 
   const groupId = bestStreamInf.audioGroup;
@@ -285,6 +300,12 @@ async function handleManifestProxy(req, res) {
   const master = u.searchParams.get('master');
   const voiceRaw = u.searchParams.get('voice') || '1';
   const voice = Math.min(Math.max(parseInt(voiceRaw, 10) || 1, 1), 99);
+  // v1.1.2: optional quality= param (height: 2160, 1080, 720, 480).
+  // When provided, proxy picks the matching video stream-inf instead of
+  // always returning best. Cache key includes it so different qualities
+  // hit different cache entries.
+  const qualityRaw = u.searchParams.get('quality');
+  const quality = qualityRaw ? parseInt(qualityRaw, 10) : 0;
 
   if (!master) {
     logLine(req, 400, 'no master');
@@ -312,7 +333,7 @@ async function handleManifestProxy(req, res) {
     });
   }
 
-  const cacheKey = master + '|v=' + voice;
+  const cacheKey = master + '|v=' + voice + '|q=' + quality;
   const cached = cacheGet(cacheKey);
   if (cached) {
     cacheHits++;
@@ -332,10 +353,10 @@ async function handleManifestProxy(req, res) {
     const text = await httpsGet(master, FETCH_TIMEOUT_MS);
     const parsed = parseHls4Master(text);
     const audioGroupCount = Object.keys(parsed.audioGroups).length;
-    const result = buildReducedMaster(parsed, voice);
+    const result = buildReducedMaster(parsed, voice, quality);
     const reduced = result.text;
     cacheSet(cacheKey, reduced);
-    logLine(req, 200, `voice=${voice} picked="${result.pickedName || '?'}" groups=${audioGroupCount} reduced=${reduced.length}`);
+    logLine(req, 200, `voice=${voice} q=${quality || 'best'} picked="${result.pickedName || '?'}" groups=${audioGroupCount} reduced=${reduced.length}`);
     res.writeHead(200, {
       'Content-Type': 'application/vnd.apple.mpegurl; charset=utf-8',
       'Cache-Control': 'no-store',

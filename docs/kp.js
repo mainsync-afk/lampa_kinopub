@@ -23,7 +23,7 @@
    *  CONSTANTS                                                   *
    * ============================================================ */
 
-  var PLUGIN_VERSION  = '1.0.69';
+  var PLUGIN_VERSION  = '1.0.70';
   // Public manifest-proxy URL — set near KP_PROXY_URL declaration below.
   var COMPONENT_NAME  = 'online_kp';
   var BALANSER        = 'kpapi';
@@ -971,12 +971,14 @@
    * Build the proxy URL for a kinopub HLS4 master + chosen voice index.
    * Returns null if proxy is not available.
    */
-  function proxyUrlFor(masterUrl, voiceIndex) {
+  function proxyUrlFor(masterUrl, voiceIndex, qualityHeight) {
     if (!kpProxyAvailable || !masterUrl) return null;
     var base = KP_PROXY_URL.replace(/\/+$/, '');
-    return base + '/manifest-proxy?master=' +
-           encodeURIComponent(masterUrl) +
-           '&voice=' + voiceIndex;
+    var url = base + '/manifest-proxy?master=' +
+              encodeURIComponent(masterUrl) +
+              '&voice=' + voiceIndex;
+    if (qualityHeight) url += '&quality=' + qualityHeight;
+    return url;
   }
 
   /**
@@ -2908,21 +2910,35 @@
                   ? clickedAudio.index
                   : (clickedVoiceIdx >= 0 ? (clickedVoiceIdx + 1) : 1);
             var originalUrl = play.url;
-            var proxyUrl = proxyUrlFor(originalUrl, voiceOneBased);
+            // v1.0.70: identify which quality is the current play.url
+            // (best/preferred). Pass it as &quality=N so proxy reduces to
+            // matching stream-inf (not always best). kinopub serves the
+            // SAME master for all qualities — proxy needs the hint to
+            // know which video variant to keep.
+            var currentQualityNum = 0;
+            try {
+              if (play.quality && typeof play.quality === 'object') {
+                Object.keys(play.quality).forEach(function (qk) {
+                  if (play.quality[qk] === originalUrl) {
+                    var n = parseInt(String(qk).replace(/[^0-9]/g, ''), 10);
+                    if (n) currentQualityNum = n;
+                  }
+                });
+              }
+            } catch (e) {}
+            var proxyUrl = proxyUrlFor(originalUrl, voiceOneBased, currentQualityNum);
             // v1.0.67: bring back Lampa native quality picker. Each entry
-            // in play.quality dict gets transformed to its own proxy URL
-            // (same voice, different master URL = different quality). Lampa
-            // calls getUrlQuality(play.quality, prefQuality) internally and
-            // sets play.url to the entry matching user's pref. When the
-            // user picks a different quality in player_panel, Lampa does
-            // its own destroy + url(newUrl, true) — same soft-swap pattern
-            // as our voice switch, no extra glue needed.
+            // in play.quality dict gets transformed to its own proxy URL.
+            // v1.0.70: also encode &quality=N per entry so each proxy URL
+            // reduces to the matching video stream-inf (kinopub serves the
+            // SAME master regardless of which file URL is requested).
             if (play.quality && typeof play.quality === 'object') {
               var qProxy = {};
               Object.keys(play.quality).forEach(function (qk) {
                 var qOrig = play.quality[qk];
                 if (typeof qOrig !== 'string') return;
-                var pUrl = proxyUrlFor(qOrig, voiceOneBased);
+                var qNum = parseInt(String(qk).replace(/[^0-9]/g, ''), 10) || 0;
+                var pUrl = proxyUrlFor(qOrig, voiceOneBased, qNum);
                 if (pUrl) qProxy[qk] = pUrl;
               });
               if (Object.keys(qProxy).length) {
@@ -2938,19 +2954,6 @@
               originalHost: (function(){ try { return new URL(originalUrl).host; } catch(e){ return '?'; } })(),
               qualities: play.quality ? Object.keys(play.quality) : []
             });
-            // v1.0.69 diag: dump distinct kinopub master URLs per quality
-            // — if kinopub returns the SAME URL for all qualities, the
-            // picker can't actually switch resolution. We need to know.
-            try {
-              if (stream.quality && typeof stream.quality === 'object') {
-                var qDump = {};
-                Object.keys(stream.quality).forEach(function (qk) {
-                  var u = stream.quality[qk];
-                  qDump[qk] = typeof u === 'string' ? u.slice(0, 100) : String(u);
-                });
-                Logger.debug('quality', 'kp master URLs per quality', qDump);
-              }
-            } catch (qe) {}
 
             // ── v1.0.38: Wrap EVERY playlist entry, not just the clicked one ──
             // Lampa next/prev episode navigation in player picks the next
@@ -2987,16 +2990,29 @@
                     pleVoiceOneBased = clickedAudio.index;
                   }
                 }
-                var pleProxyUrl = proxyUrlFor(ple.url, pleVoiceOneBased);
+                // v1.0.70: identify current quality of ple.url like in clicked path
+                var pleCurQ = 0;
+                try {
+                  if (ple.quality && typeof ple.quality === 'object') {
+                    Object.keys(ple.quality).forEach(function (qk) {
+                      if (ple.quality[qk] === ple.url) {
+                        var n = parseInt(String(qk).replace(/[^0-9]/g, ''), 10);
+                        if (n) pleCurQ = n;
+                      }
+                    });
+                  }
+                } catch (e) {}
+                var pleProxyUrl = proxyUrlFor(ple.url, pleVoiceOneBased, pleCurQ);
                 if (pleProxyUrl) {
-                  // v1.0.67: also transform per-episode quality dict so Lampa's
-                  // quality picker works during playlist navigation.
+                  // v1.0.67/70: also transform per-episode quality dict
+                  // with per-entry quality= so picker actually switches.
                   if (ple.quality && typeof ple.quality === 'object') {
                     var pleQProxy = {};
                     Object.keys(ple.quality).forEach(function (qk) {
                       var qOrig = ple.quality[qk];
                       if (typeof qOrig !== 'string') return;
-                      var pUrl = proxyUrlFor(qOrig, pleVoiceOneBased);
+                      var qN = parseInt(String(qk).replace(/[^0-9]/g, ''), 10) || 0;
+                      var pUrl = proxyUrlFor(qOrig, pleVoiceOneBased, qN);
                       if (pUrl) pleQProxy[qk] = pUrl;
                     });
                     if (Object.keys(pleQProxy).length) ple.quality = pleQProxy;
