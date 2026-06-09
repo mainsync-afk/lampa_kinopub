@@ -38,7 +38,7 @@ const CACHE_TTL_MS = parseInt(process.env.CACHE_TTL_MS || '60000', 10);
 const FETCH_TIMEOUT_MS = parseInt(process.env.FETCH_TIMEOUT_MS || '10000', 10);
 const VOICE_SYNC_DIR = process.env.VOICE_SYNC_DIR || '/var/data/voice-sync';
 const VOICE_SYNC_MAX_BYTES = parseInt(process.env.VOICE_SYNC_MAX_BYTES || '65536', 10);
-const VERSION  = '1.1.3';
+const VERSION  = '1.1.5';
 const STARTED  = Date.now();
 
 try { fs.mkdirSync(VOICE_SYNC_DIR, { recursive: true }); } catch (e) {
@@ -178,16 +178,22 @@ function parseHls4Master(text) {
 function buildReducedMaster(parsed, voiceIndex, qualityHeight) {
   const out = ['#EXTM3U', '#EXT-X-VERSION:4', '#EXT-X-INDEPENDENT-SEGMENTS'];
 
-  // v1.1.2: optional qualityHeight (e.g. 2160, 1080, 720, 480). When set,
-  // pick the STREAM-INF whose RESOLUTION ends with that height. Otherwise
-  // fall back to highest-bandwidth variant.
+  // v1.1.4: When qualityHeight is provided, prefer exact match. If no exact
+  // match exists (kinopub's master may only expose 2 variants like 2160+720),
+  // pick the stream-inf whose height is CLOSEST to the requested value
+  // instead of falling all the way back to "best". This way a 480p pick lands
+  // on 720p (closer) rather than 2160p.
   let bestStreamInf = null;
   if (qualityHeight) {
+    let closestDelta = Infinity;
     parsed.streamInfs.forEach(s => {
       if (!s.videoUri || !s.resolution) return;
-      // resolution looks like "3840x2160" — match height after 'x'
       const m = /x(\d+)$/.exec(s.resolution);
-      if (m && parseInt(m[1], 10) === qualityHeight) {
+      if (!m) return;
+      const h = parseInt(m[1], 10);
+      const d = Math.abs(h - qualityHeight);
+      if (d < closestDelta) {
+        closestDelta = d;
         bestStreamInf = s;
       }
     });
@@ -375,6 +381,52 @@ async function handleManifestProxy(req, res) {
   }
 }
 
+/* ──────────────────────────────────────────────────────────────────── *
+ *  /variants — returns real STREAM-INF list from kinopub master.        *
+ *  Plugin calls this BEFORE Lampa.Player.play() so play.quality dict    *
+ *  contains only labels that actually exist in the master.              *
+ * ──────────────────────────────────────────────────────────────────── */
+
+async function handleVariants(req, res) {
+  const u = new URL(req.url, 'http://x');
+  const master = u.searchParams.get('master');
+  if (!master) {
+    logLine(req, 400, 'no master');
+    return sendJson(res, 400, { ok: false, error: 'master query param required' });
+  }
+  let parsedUrl;
+  try { parsedUrl = new URL(master); }
+  catch { logLine(req, 400, 'bad master URL'); return sendJson(res, 400, { ok: false, error: 'invalid master URL' }); }
+  if (parsedUrl.protocol !== 'https:' && parsedUrl.protocol !== 'http:') {
+    logLine(req, 400, 'bad scheme');
+    return sendJson(res, 400, { ok: false, error: 'only http/https master URLs allowed' });
+  }
+  if (!isSafeHost(parsedUrl.hostname)) {
+    logLine(req, 403, 'unsafe host=' + parsedUrl.hostname);
+    return sendJson(res, 403, { ok: false, error: 'unsafe host' });
+  }
+  try {
+    const text = await httpsGet(master, FETCH_TIMEOUT_MS);
+    const parsed = parseHls4Master(text);
+    const variants = parsed.streamInfs.map(s => {
+      const m = /^(\d+)x(\d+)$/.exec(s.resolution || '');
+      return {
+        width:      m ? parseInt(m[1], 10) : 0,
+        height:     m ? parseInt(m[2], 10) : 0,
+        bandwidth:  s.bandwidth || 0,
+        resolution: s.resolution || '',
+        codecs:     s.codecs || ''
+      };
+    }).filter(v => v.height > 0)
+      .sort((a, b) => b.height - a.height);
+    logLine(req, 200, `variants=${variants.length} (${variants.map(v => v.height + 'p').join(',')})`);
+    return sendJson(res, 200, { ok: true, variants });
+  } catch (e) {
+    logLine(req, 502, 'upstream: ' + (e.message || e));
+    return sendJson(res, 502, { ok: false, error: String(e.message || e) });
+  }
+}
+
 function handleHealth(req, res) {
   let voiceSyncCount = 0;
   try {
@@ -555,6 +607,7 @@ const server = http.createServer((req, res) => {
 
   if (reqPath === '/health'         && req.method === 'GET') return handleHealth(req, res);
   if (reqPath === '/manifest-proxy' && req.method === 'GET') return handleManifestProxy(req, res);
+  if (reqPath === '/variants'       && req.method === 'GET') return handleVariants(req, res);
 
   // /voice-sync/<user> | /voice-sync/<user>/<show>
   const vsMatch = reqPath.match(/^\/voice-sync\/([^\/]+)(?:\/([^\/]+))?$/);

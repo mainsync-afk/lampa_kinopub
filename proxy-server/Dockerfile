@@ -10,8 +10,6 @@ COPY server.js ./
 
 EXPOSE 3000
 
-# Run as non-root for safety.
-RUN addgroup -S app && adduser -S -G app app && chown -R app:app /app
-USER app
-
+# Personal-use container: run as root so it can mkdir /var/data/voice-sync
+# in the bind-mounted host volume without UID/GID gymnastics.
 CMD ["node", "server.js"]
