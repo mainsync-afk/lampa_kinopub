@@ -23,7 +23,7 @@
    *  CONSTANTS                                                   *
    * ============================================================ */
 
-  var PLUGIN_VERSION  = '1.0.66';
+  var PLUGIN_VERSION  = '1.0.67';
   // Public manifest-proxy URL — set near KP_PROXY_URL declaration below.
   var COMPONENT_NAME  = 'online_kp';
   var BALANSER        = 'kpapi';
@@ -2881,15 +2881,34 @@
                   : (clickedVoiceIdx >= 0 ? (clickedVoiceIdx + 1) : 1);
             var originalUrl = play.url;
             var proxyUrl = proxyUrlFor(originalUrl, voiceOneBased);
-            // CRITICAL: Lampa.Player.play() overrides data.url with
-            // getUrlQuality(data.quality, false) when quality dict has more
-            // than one entry. Drop quality so our proxy URL survives.
-            delete play.quality;
+            // v1.0.67: bring back Lampa native quality picker. Each entry
+            // in play.quality dict gets transformed to its own proxy URL
+            // (same voice, different master URL = different quality). Lampa
+            // calls getUrlQuality(play.quality, prefQuality) internally and
+            // sets play.url to the entry matching user's pref. When the
+            // user picks a different quality in player_panel, Lampa does
+            // its own destroy + url(newUrl, true) — same soft-swap pattern
+            // as our voice switch, no extra glue needed.
+            if (play.quality && typeof play.quality === 'object') {
+              var qProxy = {};
+              Object.keys(play.quality).forEach(function (qk) {
+                var qOrig = play.quality[qk];
+                if (typeof qOrig !== 'string') return;
+                var pUrl = proxyUrlFor(qOrig, voiceOneBased);
+                if (pUrl) qProxy[qk] = pUrl;
+              });
+              if (Object.keys(qProxy).length) {
+                play.quality = qProxy;
+              } else {
+                delete play.quality;
+              }
+            }
             play.url = proxyUrl;
             Logger.info('proxy', 'launching via manifest-proxy', {
               voice: voiceOneBased,
               proxyHost: KP_PROXY_URL,
-              originalHost: (function(){ try { return new URL(originalUrl).host; } catch(e){ return '?'; } })()
+              originalHost: (function(){ try { return new URL(originalUrl).host; } catch(e){ return '?'; } })(),
+              qualities: play.quality ? Object.keys(play.quality) : []
             });
 
             // ── v1.0.38: Wrap EVERY playlist entry, not just the clicked one ──
@@ -2929,7 +2948,19 @@
                 }
                 var pleProxyUrl = proxyUrlFor(ple.url, pleVoiceOneBased);
                 if (pleProxyUrl) {
-                  delete ple.quality;
+                  // v1.0.67: also transform per-episode quality dict so Lampa's
+                  // quality picker works during playlist navigation.
+                  if (ple.quality && typeof ple.quality === 'object') {
+                    var pleQProxy = {};
+                    Object.keys(ple.quality).forEach(function (qk) {
+                      var qOrig = ple.quality[qk];
+                      if (typeof qOrig !== 'string') return;
+                      var pUrl = proxyUrlFor(qOrig, pleVoiceOneBased);
+                      if (pUrl) pleQProxy[qk] = pUrl;
+                    });
+                    if (Object.keys(pleQProxy).length) ple.quality = pleQProxy;
+                    else delete ple.quality;
+                  }
                   ple.url = pleProxyUrl;
                 }
               }
