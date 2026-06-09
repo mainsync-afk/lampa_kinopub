@@ -23,7 +23,7 @@
    *  CONSTANTS                                                   *
    * ============================================================ */
 
-  var PLUGIN_VERSION  = '1.0.67';
+  var PLUGIN_VERSION  = '1.0.68';
   // Public manifest-proxy URL — set near KP_PROXY_URL declaration below.
   var COMPONENT_NAME  = 'online_kp';
   var BALANSER        = 'kpapi';
@@ -784,16 +784,25 @@
 
   /**
    * Ping the manifest-proxy /health endpoint. Sets kpProxyAvailable on
-   * completion. Idempotent. 3-second timeout — if proxy is down or DNS
-   * is broken or device is offline, plugin transparently falls back to
-   * HLS2-only mode (v1.0.28 behaviour) without blocking startup.
+   * completion. Idempotent.
+   *
+   * v1.0.68: increased timeout 3s → 10s (CF cold-start sometimes exceeds
+   * 3s), and on first-attempt failure auto-retries every 30s up to a few
+   * times. Without this, a transient blip at boot permanently flipped
+   * plugin into HLS2 fallback (= no voice picker, no quality picker).
+   *
+   * Plugin remains functional during retry — falls back to HLS2 if proxy
+   * isn't yet confirmed; switches to HLS4+proxy as soon as ping succeeds.
+   * If user opens a card while still in HLS2 mode, they get the legacy
+   * behaviour and can re-enter after kpProxyAvailable flips to true.
    */
-  function checkProxyAvailability() {
+  function checkProxyAvailability(attempt) {
+    attempt = attempt || 1;
     var url = KP_PROXY_URL.replace(/\/+$/, '') + '/health';
     try {
       var xhr = new XMLHttpRequest();
       xhr.open('GET', url, true);
-      xhr.timeout = 3000;
+      xhr.timeout = 10000;
       xhr.onload = function () {
         if (xhr.status >= 200 && xhr.status < 300) {
           kpProxyAvailable = true;
@@ -802,19 +811,38 @@
             var j = JSON.parse(xhr.responseText || '{}');
             info = (j.service || '') + ' v' + (j.version || '?');
           } catch (e) {}
-          Logger.info('proxy', 'available', { url: KP_PROXY_URL, info: info });
+          Logger.info('proxy', 'available', { url: KP_PROXY_URL, info: info, attempt: attempt });
         } else {
           kpProxyAvailable = false;
-          Logger.warn('proxy', 'health non-2xx, fallback to HLS2', { status: xhr.status });
+          Logger.warn('proxy', 'health non-2xx, fallback to HLS2', { status: xhr.status, attempt: attempt });
+          scheduleProxyRetry(attempt);
         }
       };
-      xhr.onerror   = function () { kpProxyAvailable = false; Logger.warn('proxy', 'unreachable, fallback to HLS2'); };
-      xhr.ontimeout = function () { kpProxyAvailable = false; Logger.warn('proxy', 'timeout, fallback to HLS2'); };
+      xhr.onerror   = function () {
+        kpProxyAvailable = false;
+        Logger.warn('proxy', 'unreachable, fallback to HLS2', { attempt: attempt });
+        scheduleProxyRetry(attempt);
+      };
+      xhr.ontimeout = function () {
+        kpProxyAvailable = false;
+        Logger.warn('proxy', 'timeout, fallback to HLS2', { attempt: attempt });
+        scheduleProxyRetry(attempt);
+      };
       xhr.send();
     } catch (e) {
       kpProxyAvailable = false;
-      Logger.warn('proxy', 'check failed', String(e));
+      Logger.warn('proxy', 'check failed', { err: String(e), attempt: attempt });
+      scheduleProxyRetry(attempt);
     }
+  }
+
+  function scheduleProxyRetry(prev) {
+    if (prev >= 6) return; // give up after ~5 retries (30s intervals)
+    setTimeout(function () {
+      // Don't retry if proxy meanwhile became available (e.g. another caller)
+      if (kpProxyAvailable === true) return;
+      checkProxyAvailability(prev + 1);
+    }, 30000);
   }
 
   /* ──────────────────────────────────────────────────────────────────── *
