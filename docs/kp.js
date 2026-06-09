@@ -23,7 +23,7 @@
    *  CONSTANTS                                                   *
    * ============================================================ */
 
-  var PLUGIN_VERSION  = '1.0.70';
+  var PLUGIN_VERSION  = '1.0.71';
   // Public manifest-proxy URL — set near KP_PROXY_URL declaration below.
   var COMPONENT_NAME  = 'online_kp';
   var BALANSER        = 'kpapi';
@@ -4421,38 +4421,46 @@
             });
           });
 
-        // v1.0.29-diag: always log AVPlayer track info on canplay.
-        // Need to compare HLS2 vs HLS4 enumerated tracks to know whether
-        // setSelectTrack can switch among kinopub's 12 audio renditions.
-        var avplayDumped = false;
+        // v1.0.71-diag: dump AVPlayer tracks on EVERY canplay so we can see
+        // whether soft-swap actually changed Width/Height/Bit_rate after a
+        // quality pick. Limit to first N to avoid spam, but enough to cover
+        // a few swap experiments.
+        var avplayDumpCount = 0;
+        var AVPLAY_DUMP_LIMIT = 20;
+        function maybeDumpAvplay(reason) {
+          if (avplayDumpCount >= AVPLAY_DUMP_LIMIT) return;
+          avplayDumpCount += 1;
+          dumpAvplayTracks(reason + '#' + avplayDumpCount);
+        }
         Lampa.PlayerVideo.listener.follow('canplay', function () {
-          if (avplayDumped) return;
-          avplayDumped = true;
-          dumpAvplayTracks('canplay');
+          maybeDumpAvplay('canplay');
+        });
+        Lampa.PlayerVideo.listener.follow('tracks', function () {
+          maybeDumpAvplay('tracks-event');
         });
         // v1.0.69 diag: hook PlayerPanel.listener('quality') to confirm
         // whether Lampa's native quality picker is actually firing the
-        // soft-swap event on user click. If we see this log line on click,
-        // Lampa is doing its job — our setup is wrong somehow. If we DON'T
-        // see it, the picker isn't dispatching at all.
+        // soft-swap event on user click. v1.0.71: log query-string params
+        // separately so we can verify &quality=N is making it to the URL.
         try {
           if (Lampa.PlayerPanel && Lampa.PlayerPanel.listener) {
             Lampa.PlayerPanel.listener.follow('quality', function (e) {
+              var url = (e && e.url) || '';
+              var qMatch = /[?&]quality=([^&]+)/.exec(url);
+              var vMatch = /[?&]voice=([^&]+)/.exec(url);
               Logger.info('quality', 'PlayerPanel.quality event fired', {
                 name: e && e.name,
-                url: e && (e.url || '').slice(0, 80)
+                q_param: qMatch ? qMatch[1] : null,
+                v_param: vMatch ? vMatch[1] : null,
+                urlLen: url.length,
+                urlTail: url.slice(-120)
               });
             });
           } else {
             Logger.warn('quality', 'Lampa.PlayerPanel.listener not available');
           }
         } catch (qe) { Logger.warn('quality', 'panel hook failed', String(qe)); }
-        Lampa.PlayerVideo.listener.follow('tracks', function () {
-          if (avplayDumped) return;
-          avplayDumped = true;
-          dumpAvplayTracks('tracks-event');
-        });
-        Lampa.Player.listener.follow('destroy', function () { avplayDumped = false; });
+        Lampa.Player.listener.follow('destroy', function () { avplayDumpCount = 0; });
 
         if (!KP_BARE_MODE) {
           // Voice track switching — fired when audio backend has read tracks

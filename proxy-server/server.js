@@ -38,7 +38,7 @@ const CACHE_TTL_MS = parseInt(process.env.CACHE_TTL_MS || '60000', 10);
 const FETCH_TIMEOUT_MS = parseInt(process.env.FETCH_TIMEOUT_MS || '10000', 10);
 const VOICE_SYNC_DIR = process.env.VOICE_SYNC_DIR || '/var/data/voice-sync';
 const VOICE_SYNC_MAX_BYTES = parseInt(process.env.VOICE_SYNC_MAX_BYTES || '65536', 10);
-const VERSION  = '1.1.2';
+const VERSION  = '1.1.3';
 const STARTED  = Date.now();
 
 try { fs.mkdirSync(VOICE_SYNC_DIR, { recursive: true }); } catch (e) {
@@ -353,10 +353,15 @@ async function handleManifestProxy(req, res) {
     const text = await httpsGet(master, FETCH_TIMEOUT_MS);
     const parsed = parseHls4Master(text);
     const audioGroupCount = Object.keys(parsed.audioGroups).length;
+    // v1.1.3 diag: log what stream-infs the upstream master actually contains.
+    // If kinopub serves just one stream-inf, no per-quality switching is
+    // possible at the master level — we'll need a different strategy.
+    const streamInfSummary = parsed.streamInfs.map(s =>
+      `${s.resolution || '?'}@${s.bandwidth || 0}`).join(',');
     const result = buildReducedMaster(parsed, voice, quality);
     const reduced = result.text;
     cacheSet(cacheKey, reduced);
-    logLine(req, 200, `voice=${voice} q=${quality || 'best'} picked="${result.pickedName || '?'}" groups=${audioGroupCount} reduced=${reduced.length}`);
+    logLine(req, 200, `voice=${voice} q=${quality || 'best'} picked="${result.pickedName || '?'}" groups=${audioGroupCount} variants=[${streamInfSummary}] reduced=${reduced.length}`);
     res.writeHead(200, {
       'Content-Type': 'application/vnd.apple.mpegurl; charset=utf-8',
       'Cache-Control': 'no-store',
