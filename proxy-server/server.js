@@ -38,7 +38,7 @@ const CACHE_TTL_MS = parseInt(process.env.CACHE_TTL_MS || '60000', 10);
 const FETCH_TIMEOUT_MS = parseInt(process.env.FETCH_TIMEOUT_MS || '10000', 10);
 const VOICE_SYNC_DIR = process.env.VOICE_SYNC_DIR || '/var/data/voice-sync';
 const VOICE_SYNC_MAX_BYTES = parseInt(process.env.VOICE_SYNC_MAX_BYTES || '65536', 10);
-const VERSION  = '1.1.5';
+const VERSION  = '1.1.6';
 const STARTED  = Date.now();
 
 try { fs.mkdirSync(VOICE_SYNC_DIR, { recursive: true }); } catch (e) {
@@ -175,35 +175,17 @@ function parseHls4Master(text) {
  * NAME of the chosen audio (e.g. "04. Многоголосый. NewStudio (RUS)") so
  * the caller can log it for diagnostics.
  */
-function buildReducedMaster(parsed, voiceIndex, qualityHeight) {
+function buildReducedMaster(parsed, voiceIndex) {
   const out = ['#EXTM3U', '#EXT-X-VERSION:4', '#EXT-X-INDEPENDENT-SEGMENTS'];
 
-  // v1.1.4: When qualityHeight is provided, prefer exact match. If no exact
-  // match exists (kinopub's master may only expose 2 variants like 2160+720),
-  // pick the stream-inf whose height is CLOSEST to the requested value
-  // instead of falling all the way back to "best". This way a 480p pick lands
-  // on 720p (closer) rather than 2160p.
+  // v1.1.6 rollback: always pick highest-bandwidth video stream-inf.
+  // Quality picker was rolled back at the plugin level (see memory note
+  // [[project-kp-quality-picker]] for the design when we return to it).
   let bestStreamInf = null;
-  if (qualityHeight) {
-    let closestDelta = Infinity;
-    parsed.streamInfs.forEach(s => {
-      if (!s.videoUri || !s.resolution) return;
-      const m = /x(\d+)$/.exec(s.resolution);
-      if (!m) return;
-      const h = parseInt(m[1], 10);
-      const d = Math.abs(h - qualityHeight);
-      if (d < closestDelta) {
-        closestDelta = d;
-        bestStreamInf = s;
-      }
-    });
-  }
-  if (!bestStreamInf) {
-    parsed.streamInfs.forEach(s => {
-      if (!s.videoUri) return;
-      if (!bestStreamInf || s.bandwidth > bestStreamInf.bandwidth) bestStreamInf = s;
-    });
-  }
+  parsed.streamInfs.forEach(s => {
+    if (!s.videoUri) return;
+    if (!bestStreamInf || s.bandwidth > bestStreamInf.bandwidth) bestStreamInf = s;
+  });
   if (!bestStreamInf) return { text: out.join('\n') + '\n', pickedName: null };
 
   const groupId = bestStreamInf.audioGroup;
@@ -306,12 +288,6 @@ async function handleManifestProxy(req, res) {
   const master = u.searchParams.get('master');
   const voiceRaw = u.searchParams.get('voice') || '1';
   const voice = Math.min(Math.max(parseInt(voiceRaw, 10) || 1, 1), 99);
-  // v1.1.2: optional quality= param (height: 2160, 1080, 720, 480).
-  // When provided, proxy picks the matching video stream-inf instead of
-  // always returning best. Cache key includes it so different qualities
-  // hit different cache entries.
-  const qualityRaw = u.searchParams.get('quality');
-  const quality = qualityRaw ? parseInt(qualityRaw, 10) : 0;
 
   if (!master) {
     logLine(req, 400, 'no master');
@@ -339,7 +315,7 @@ async function handleManifestProxy(req, res) {
     });
   }
 
-  const cacheKey = master + '|v=' + voice + '|q=' + quality;
+  const cacheKey = master + '|v=' + voice;
   const cached = cacheGet(cacheKey);
   if (cached) {
     cacheHits++;
@@ -359,15 +335,10 @@ async function handleManifestProxy(req, res) {
     const text = await httpsGet(master, FETCH_TIMEOUT_MS);
     const parsed = parseHls4Master(text);
     const audioGroupCount = Object.keys(parsed.audioGroups).length;
-    // v1.1.3 diag: log what stream-infs the upstream master actually contains.
-    // If kinopub serves just one stream-inf, no per-quality switching is
-    // possible at the master level — we'll need a different strategy.
-    const streamInfSummary = parsed.streamInfs.map(s =>
-      `${s.resolution || '?'}@${s.bandwidth || 0}`).join(',');
-    const result = buildReducedMaster(parsed, voice, quality);
+    const result = buildReducedMaster(parsed, voice);
     const reduced = result.text;
     cacheSet(cacheKey, reduced);
-    logLine(req, 200, `voice=${voice} q=${quality || 'best'} picked="${result.pickedName || '?'}" groups=${audioGroupCount} variants=[${streamInfSummary}] reduced=${reduced.length}`);
+    logLine(req, 200, `voice=${voice} picked="${result.pickedName || '?'}" groups=${audioGroupCount} reduced=${reduced.length}`);
     res.writeHead(200, {
       'Content-Type': 'application/vnd.apple.mpegurl; charset=utf-8',
       'Cache-Control': 'no-store',
@@ -375,52 +346,6 @@ async function handleManifestProxy(req, res) {
       'X-Cache': 'MISS'
     });
     res.end(reduced);
-  } catch (e) {
-    logLine(req, 502, 'upstream: ' + (e.message || e));
-    return sendJson(res, 502, { ok: false, error: String(e.message || e) });
-  }
-}
-
-/* ──────────────────────────────────────────────────────────────────── *
- *  /variants — returns real STREAM-INF list from kinopub master.        *
- *  Plugin calls this BEFORE Lampa.Player.play() so play.quality dict    *
- *  contains only labels that actually exist in the master.              *
- * ──────────────────────────────────────────────────────────────────── */
-
-async function handleVariants(req, res) {
-  const u = new URL(req.url, 'http://x');
-  const master = u.searchParams.get('master');
-  if (!master) {
-    logLine(req, 400, 'no master');
-    return sendJson(res, 400, { ok: false, error: 'master query param required' });
-  }
-  let parsedUrl;
-  try { parsedUrl = new URL(master); }
-  catch { logLine(req, 400, 'bad master URL'); return sendJson(res, 400, { ok: false, error: 'invalid master URL' }); }
-  if (parsedUrl.protocol !== 'https:' && parsedUrl.protocol !== 'http:') {
-    logLine(req, 400, 'bad scheme');
-    return sendJson(res, 400, { ok: false, error: 'only http/https master URLs allowed' });
-  }
-  if (!isSafeHost(parsedUrl.hostname)) {
-    logLine(req, 403, 'unsafe host=' + parsedUrl.hostname);
-    return sendJson(res, 403, { ok: false, error: 'unsafe host' });
-  }
-  try {
-    const text = await httpsGet(master, FETCH_TIMEOUT_MS);
-    const parsed = parseHls4Master(text);
-    const variants = parsed.streamInfs.map(s => {
-      const m = /^(\d+)x(\d+)$/.exec(s.resolution || '');
-      return {
-        width:      m ? parseInt(m[1], 10) : 0,
-        height:     m ? parseInt(m[2], 10) : 0,
-        bandwidth:  s.bandwidth || 0,
-        resolution: s.resolution || '',
-        codecs:     s.codecs || ''
-      };
-    }).filter(v => v.height > 0)
-      .sort((a, b) => b.height - a.height);
-    logLine(req, 200, `variants=${variants.length} (${variants.map(v => v.height + 'p').join(',')})`);
-    return sendJson(res, 200, { ok: true, variants });
   } catch (e) {
     logLine(req, 502, 'upstream: ' + (e.message || e));
     return sendJson(res, 502, { ok: false, error: String(e.message || e) });
@@ -607,7 +532,6 @@ const server = http.createServer((req, res) => {
 
   if (reqPath === '/health'         && req.method === 'GET') return handleHealth(req, res);
   if (reqPath === '/manifest-proxy' && req.method === 'GET') return handleManifestProxy(req, res);
-  if (reqPath === '/variants'       && req.method === 'GET') return handleVariants(req, res);
 
   // /voice-sync/<user> | /voice-sync/<user>/<show>
   const vsMatch = reqPath.match(/^\/voice-sync\/([^\/]+)(?:\/([^\/]+))?$/);

@@ -23,7 +23,7 @@
    *  CONSTANTS                                                   *
    * ============================================================ */
 
-  var PLUGIN_VERSION  = '1.0.72';
+  var PLUGIN_VERSION  = '1.0.73';
   // Public manifest-proxy URL — set near KP_PROXY_URL declaration below.
   var COMPONENT_NAME  = 'online_kp';
   var BALANSER        = 'kpapi';
@@ -971,66 +971,16 @@
    * Build the proxy URL for a kinopub HLS4 master + chosen voice index.
    * Returns null if proxy is not available.
    */
-  function proxyUrlFor(masterUrl, voiceIndex, qualityHeight) {
+  // v1.0.73 rollback: quality picker removed. proxyUrlFor signature is
+  // back to (master, voice) — no &quality= param sent. Plugin doesn't set
+  // play.quality, so Lampa's native picker stays empty / disabled. To
+  // bring it back, see [[project-kp-quality-picker]] memory note.
+  function proxyUrlFor(masterUrl, voiceIndex) {
     if (!kpProxyAvailable || !masterUrl) return null;
     var base = KP_PROXY_URL.replace(/\/+$/, '');
-    var url = base + '/manifest-proxy?master=' +
-              encodeURIComponent(masterUrl) +
-              '&voice=' + voiceIndex;
-    if (qualityHeight) url += '&quality=' + qualityHeight;
-    return url;
-  }
-
-  // v1.0.72: map AVPlayer-reported height to standard quality label.
-  // Buckets are intentionally wide so kinopub's anamorphic widescreen
-  // SD (e.g. 720x406) still lands in "480p".
-  function kpQualityLabel(h) {
-    if (h >= 1800) return '2160p';
-    if (h >= 1200) return '1440p';
-    if (h >= 900)  return '1080p';
-    if (h >= 600)  return '720p';
-    if (h >= 400)  return '480p';
-    if (h >= 280)  return '360p';
-    return '240p';
-  }
-
-  // v1.0.72: pre-fetch real STREAM-INF list from proxy so play.quality dict
-  // contains only labels that actually exist in kinopub's master. Callback
-  // gets array of {width,height,bandwidth,resolution,codecs} sorted by
-  // height desc, OR null on error/timeout — caller should fall through to
-  // legacy behavior (full API-derived quality dict + server-side closest
-  // match).
-  function kpFetchVariants(masterUrl, cb) {
-    try {
-      if (kpProxyAvailable !== true || !KP_PROXY_URL || !masterUrl) return cb(null);
-      var base = KP_PROXY_URL.replace(/\/+$/, '');
-      var url = base + '/variants?master=' + encodeURIComponent(masterUrl);
-      var xhr = new XMLHttpRequest();
-      xhr.open('GET', url, true);
-      xhr.timeout = 4000;
-      var done = false;
-      var finish = function (vars) { if (done) return; done = true; cb(vars); };
-      xhr.onload = function () {
-        try {
-          var r = JSON.parse(xhr.responseText || '{}');
-          if (r && r.ok && Array.isArray(r.variants) && r.variants.length) {
-            Logger.info('proxy', 'variants fetched', {
-              count: r.variants.length,
-              heights: r.variants.map(function (v) { return v.height; })
-            });
-            return finish(r.variants);
-          }
-          Logger.warn('proxy', 'variants empty/error', { status: xhr.status });
-        } catch (e) { Logger.warn('proxy', 'variants parse error', String(e)); }
-        finish(null);
-      };
-      xhr.onerror   = function () { Logger.warn('proxy', 'variants xhr error');   finish(null); };
-      xhr.ontimeout = function () { Logger.warn('proxy', 'variants xhr timeout'); finish(null); };
-      xhr.send();
-    } catch (e) {
-      Logger.warn('proxy', 'variants xhr threw', String(e));
-      cb(null);
-    }
+    return base + '/manifest-proxy?master=' +
+           encodeURIComponent(masterUrl) +
+           '&voice=' + voiceIndex;
   }
 
   /**
@@ -2963,73 +2913,19 @@
                   : (clickedVoiceIdx >= 0 ? (clickedVoiceIdx + 1) : 1);
             var originalUrl = play.url;
 
-            // v1.0.72: pre-fetch real STREAM-INF list from proxy so the
-            // quality picker only offers labels that actually exist in
-            // kinopub's master (kinopub's /v1/items advertises 2160/1080/
-            // 720/480 but the HLS4 master may carry fewer — e.g. just
-            // 2160+1080+720+406 widescreen-SD). On error/timeout we fall
-            // back to the legacy behavior with closest-height resolution
-            // on the server side.
-            kpFetchVariants(originalUrl, function (variants) {
-              var proxyUrl;
-              if (variants && variants.length) {
-                // Build play.quality from REAL variants. Keys are bucketed
-                // by kpQualityLabel (e.g. 720x406 → "480p"). Collisions get
-                // a " (X.X Mbps)" suffix so labels remain unique.
-                var newQuality = {};
-                variants.forEach(function (v) {
-                  var label = kpQualityLabel(v.height);
-                  if (newQuality[label]) {
-                    var mbps = v.bandwidth ? (v.bandwidth / 1e6).toFixed(1) : '?';
-                    label = label + ' (' + mbps + ' Mbps)';
-                  }
-                  newQuality[label] = proxyUrlFor(originalUrl, voiceOneBased, v.height);
-                });
-                play.quality = newQuality;
-                // variants[] is sorted by height desc — best is index 0
-                proxyUrl = newQuality[Object.keys(newQuality)[0]];
-                Logger.info('proxy', 'launching via manifest-proxy (variants)', {
-                  voice: voiceOneBased,
-                  proxyHost: KP_PROXY_URL,
-                  originalHost: (function(){ try { return new URL(originalUrl).host; } catch(e){ return '?'; } })(),
-                  qualities: Object.keys(newQuality),
-                  bestHeight: variants[0].height
-                });
-              } else {
-                // FALLBACK: legacy — keep API-derived dict, server picks
-                // closest-height stream-inf if requested quality missing.
-                var currentQualityNum = 0;
-                try {
-                  if (play.quality && typeof play.quality === 'object') {
-                    Object.keys(play.quality).forEach(function (qk) {
-                      if (play.quality[qk] === originalUrl) {
-                        var n = parseInt(String(qk).replace(/[^0-9]/g, ''), 10);
-                        if (n) currentQualityNum = n;
-                      }
-                    });
-                  }
-                } catch (e) {}
-                proxyUrl = proxyUrlFor(originalUrl, voiceOneBased, currentQualityNum);
-                if (play.quality && typeof play.quality === 'object') {
-                  var qProxy = {};
-                  Object.keys(play.quality).forEach(function (qk) {
-                    var qOrig = play.quality[qk];
-                    if (typeof qOrig !== 'string') return;
-                    var qNum = parseInt(String(qk).replace(/[^0-9]/g, ''), 10) || 0;
-                    var pUrl = proxyUrlFor(qOrig, voiceOneBased, qNum);
-                    if (pUrl) qProxy[qk] = pUrl;
-                  });
-                  if (Object.keys(qProxy).length) play.quality = qProxy;
-                  else delete play.quality;
-                }
-                Logger.info('proxy', 'launching via manifest-proxy (fallback)', {
-                  voice: voiceOneBased,
-                  proxyHost: KP_PROXY_URL,
-                  originalHost: (function(){ try { return new URL(originalUrl).host; } catch(e){ return '?'; } })(),
-                  qualities: play.quality ? Object.keys(play.quality) : []
-                });
-              }
-              play.url = proxyUrl;
+            // v1.0.73 rollback: no quality picker — just route through
+            // proxy with voice index. play.quality is removed so Lampa
+            // shows no picker (kinopub serves the same master for all
+            // qualities anyway). To bring back picker, see memory
+            // note [[project-kp-quality-picker]].
+            var proxyUrl = proxyUrlFor(originalUrl, voiceOneBased);
+            delete play.quality;
+            play.url = proxyUrl;
+            Logger.info('proxy', 'launching via manifest-proxy', {
+              voice: voiceOneBased,
+              proxyHost: KP_PROXY_URL,
+              originalHost: (function(){ try { return new URL(originalUrl).host; } catch(e){ return '?'; } })()
+            });
 
             // ── v1.0.38: Wrap EVERY playlist entry, not just the clicked one ──
             // Lampa next/prev episode navigation in player picks the next
@@ -3066,34 +2962,10 @@
                     pleVoiceOneBased = clickedAudio.index;
                   }
                 }
-                // v1.0.70: identify current quality of ple.url like in clicked path
-                var pleCurQ = 0;
-                try {
-                  if (ple.quality && typeof ple.quality === 'object') {
-                    Object.keys(ple.quality).forEach(function (qk) {
-                      if (ple.quality[qk] === ple.url) {
-                        var n = parseInt(String(qk).replace(/[^0-9]/g, ''), 10);
-                        if (n) pleCurQ = n;
-                      }
-                    });
-                  }
-                } catch (e) {}
-                var pleProxyUrl = proxyUrlFor(ple.url, pleVoiceOneBased, pleCurQ);
+                // v1.0.73 rollback: drop quality picker for playlist items too.
+                var pleProxyUrl = proxyUrlFor(ple.url, pleVoiceOneBased);
                 if (pleProxyUrl) {
-                  // v1.0.67/70: also transform per-episode quality dict
-                  // with per-entry quality= so picker actually switches.
-                  if (ple.quality && typeof ple.quality === 'object') {
-                    var pleQProxy = {};
-                    Object.keys(ple.quality).forEach(function (qk) {
-                      var qOrig = ple.quality[qk];
-                      if (typeof qOrig !== 'string') return;
-                      var qN = parseInt(String(qk).replace(/[^0-9]/g, ''), 10) || 0;
-                      var pUrl = proxyUrlFor(qOrig, pleVoiceOneBased, qN);
-                      if (pUrl) pleQProxy[qk] = pUrl;
-                    });
-                    if (Object.keys(pleQProxy).length) ple.quality = pleQProxy;
-                    else delete ple.quality;
-                  }
+                  delete ple.quality;
                   ple.url = pleProxyUrl;
                 }
               }
@@ -3105,7 +2977,6 @@
             Lampa.Player.play(play);
             Lampa.Player.playlist(playlist);
             if (item.mark) item.mark();
-            }); // close kpFetchVariants callback
             return;
           }
 
@@ -4498,46 +4369,21 @@
             });
           });
 
-        // v1.0.71-diag: dump AVPlayer tracks on EVERY canplay so we can see
-        // whether soft-swap actually changed Width/Height/Bit_rate after a
-        // quality pick. Limit to first N to avoid spam, but enough to cover
-        // a few swap experiments.
-        var avplayDumpCount = 0;
-        var AVPLAY_DUMP_LIMIT = 20;
-        function maybeDumpAvplay(reason) {
-          if (avplayDumpCount >= AVPLAY_DUMP_LIMIT) return;
-          avplayDumpCount += 1;
-          dumpAvplayTracks(reason + '#' + avplayDumpCount);
-        }
+        // v1.0.29-diag: always log AVPlayer track info on canplay.
+        // Need to compare HLS2 vs HLS4 enumerated tracks to know whether
+        // setSelectTrack can switch among kinopub's 12 audio renditions.
+        var avplayDumped = false;
         Lampa.PlayerVideo.listener.follow('canplay', function () {
-          maybeDumpAvplay('canplay');
+          if (avplayDumped) return;
+          avplayDumped = true;
+          dumpAvplayTracks('canplay');
         });
         Lampa.PlayerVideo.listener.follow('tracks', function () {
-          maybeDumpAvplay('tracks-event');
+          if (avplayDumped) return;
+          avplayDumped = true;
+          dumpAvplayTracks('tracks-event');
         });
-        // v1.0.69 diag: hook PlayerPanel.listener('quality') to confirm
-        // whether Lampa's native quality picker is actually firing the
-        // soft-swap event on user click. v1.0.71: log query-string params
-        // separately so we can verify &quality=N is making it to the URL.
-        try {
-          if (Lampa.PlayerPanel && Lampa.PlayerPanel.listener) {
-            Lampa.PlayerPanel.listener.follow('quality', function (e) {
-              var url = (e && e.url) || '';
-              var qMatch = /[?&]quality=([^&]+)/.exec(url);
-              var vMatch = /[?&]voice=([^&]+)/.exec(url);
-              Logger.info('quality', 'PlayerPanel.quality event fired', {
-                name: e && e.name,
-                q_param: qMatch ? qMatch[1] : null,
-                v_param: vMatch ? vMatch[1] : null,
-                urlLen: url.length,
-                urlTail: url.slice(-120)
-              });
-            });
-          } else {
-            Logger.warn('quality', 'Lampa.PlayerPanel.listener not available');
-          }
-        } catch (qe) { Logger.warn('quality', 'panel hook failed', String(qe)); }
-        Lampa.Player.listener.follow('destroy', function () { avplayDumpCount = 0; });
+        Lampa.Player.listener.follow('destroy', function () { avplayDumped = false; });
 
         if (!KP_BARE_MODE) {
           // Voice track switching — fired when audio backend has read tracks
